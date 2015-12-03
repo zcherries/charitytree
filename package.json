@@ -1,0 +1,27 @@
+{
+  "name": "charitytree",
+  "version": "1.0.0",
+  "description": "Know what the money you donate is used for",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/charitycollective/charitytree.git"
+  },
+  "author": "charitycollective",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/charitycollective/charitytree/issues"
+  },
+  "homepage": "https://github.com/charitycollective/charitytree#readme",
+  "dependencies": {
+    "babel-preset-react": "^6.1.18",
+    "babelify": "^7.2.0",
+    "material-ui": "^0.13.4",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-tap-event-plugin": "^0.2.1"
+  }
+}
