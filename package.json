@@ -22,7 +22,7 @@
     "material-ui": "^0.13.4",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
-    "react-tap-event-plugin": "^0.2.1"
+    "react-tap-event-plugin": "^0.2.1",
     "express": "^4.13.3",
     "gridfs-stream": "^1.1.1",
     "mongoose": "^4.2.9"
