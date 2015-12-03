@@ -2,8 +2,8 @@
  * Created by Zach on 12/2/15.
  */
 "use strict";
-//const React = require('react');
-//const ReactDOM = require('react-dom');
+const React = require('react');
+const ReactDOM = require('react-dom');
 
 ReactDOM.render(
   <h1>Search Results</h1>,

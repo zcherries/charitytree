@@ -1,5 +1,5 @@
 node_modules/
-bower_components/
+client/bower_components/
 *.log
 
 # Created by https://www.gitignore.io/api/webstorm
@@ -65,3 +65,15 @@ public/data/.DS_Store
 .idea/workspace.xml
 
 *.iml
+
+.idea/libraries/Generated_files.xml
+
+.idea/libraries/Generated_files.xml
+
+.idea/misc.xml
+
+.idea/watcherTasks.xml
+
+.idea/watcherTasks.xml
+
+.idea/misc.xml
