@@ -1,19 +1,15 @@
-/**
- * Created by Zach on 12/2/15.
- */
 "use strict";
-const React = require('react');
-const ReactDOM = require('react-dom');
 
-var Search = React.createClass({
+const CategoryResults = React.createClass({
   render: function () {
-    return (<div>hello</div>);
+    return;
   }
 });
 
-
-
-ReactDOM.render(
-  <Search />,
-  document.getElementById('search')
-);
+const Search = exports.search = React.createClass({
+  render: function () {
+    return (<div>
+      <CategoryResults />
+    </div>);
+  }
+});
