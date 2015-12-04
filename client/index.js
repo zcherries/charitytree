@@ -1,3 +1,4 @@
+"use strict";
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Router = require('react-router').Router;
@@ -5,25 +6,27 @@ var Route = require('react-router').Route;
 var Link = require('react-router').Link;
 var IndexRoute = require('react-router').IndexRoute;
 import { createHistory, useBasename } from 'history'
-// import {Search} from './search/search.js';
+
+//local imports
 import {Browse} from './js/browsePage.js';
+var Search = require('./js/search.js');
 
 const history = useBasename(createHistory)({
   basename: '/'
 });
 
 const App = React.createClass({
-  render: function() {
-    return (
 
-    <div>
-      {this.props.children}
-    </div>
+  render: function () {
+    return (
+      <div>
+        {this.props.children}
+      </div>
     );
   }
 });
 
-var index = React.createClass({
+var Index = React.createClass({
   render: function() {
     return(
       <div>
@@ -79,10 +82,11 @@ var Footer = React.createClass({
 })
 
 ReactDOM.render((
-  <Router>
+  <Router history={history}>
     <Route path="/" component={App}>
-      <IndexRoute component={index} />
+      <IndexRoute component={Index} />
       <Route path="browse" component={Browse} />
+      <Route path="search" component={Search} />
     </Route>
   </Router>
 ), document.getElementById('app'));

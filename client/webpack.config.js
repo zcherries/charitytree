@@ -4,12 +4,13 @@ module.exports = {
     index: "./index.js"
   },
   output: {
-    path: path.join(__dirname, "js"),
-    filename: "[name].js"
+    path: path.join(__dirname, "js/dist"),
+    filename: "[name].dist.js"
   },
   module: {
     loaders: [
-      {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: {presets: ['react']}}
+      {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: {presets: ['react']}},
+      { test: /\.css$/, loader: 'style!css' }
     ]
   }
 };
