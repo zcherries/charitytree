@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "babel-node": "babel-node --stage 0 --ignore='foo|bar|baz'",
+    "start": "nodemon server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,11 +25,14 @@
     "gridfs-stream": "^1.1.1",
     "history": "^1.13.1",
     "material-ui": "^0.13.4",
+    "materialize-css": "^0.97.3",
     "mongoose": "^4.2.9",
     "path": "^0.12.7",
     "react": "^0.14.3",
+    "react-addons-css-transition-group": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-router": "^1.0.0",
+    "react-static-container": "^1.0.0",
     "react-tap-event-plugin": "^0.2.1"
   },
   "devDependencies": {
