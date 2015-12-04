@@ -6,7 +6,7 @@ var IP = '127.0.0.1', PORT = 8000;
 
 var app = express();
 
-app.use(express.static(__dirname + '/../' + 'client'));
+app.use(express.static(__dirname + '/../client'));
 
 app.get('/', function(req, res, next) {
   mongoose_models.donor.find({}, function(err, donors) {
