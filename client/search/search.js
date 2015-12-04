@@ -5,18 +5,15 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 
+var Search = React.createClass({
+  render: function () {
+    return (<div>hello</div>);
+  }
+});
+
+
+
 ReactDOM.render(
-  <h1>Search Results</h1>,
-  document.getElementById('container')
+  <Search />,
+  document.getElementById('search')
 );
-//const RaisedButton = require('material-ui/lib/raised-button');
-//let injectTapEventPlugin = require("react-tap-event-plugin");
-//injectTapEventPlugin();
-//
-//const MyAwesomeReactComponent = React.createClass({
-//  render() {
-//    return (
-//      <RaisedButton label="Default" />
-//  );
-//  },
-//});
