@@ -44,42 +44,189 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
-	var _react = __webpack_require__(1);
+	var _history = __webpack_require__(212);
 
-	var _react2 = _interopRequireDefault(_react);
+	var _browsePage = __webpack_require__(210);
 
-	var _reactDom = __webpack_require__(158);
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var Router = __webpack_require__(159).Router;
+	var Route = __webpack_require__(159).Route;
+	var Link = __webpack_require__(159).Link;
+	var IndexRoute = __webpack_require__(159).IndexRoute;
+	// import {Search} from './search/search.js';
 
-	var _reactDom2 = _interopRequireDefault(_reactDom);
+	var history = (0, _history.useBasename)(_history.createHistory)({
+	  basename: '/'
+	});
 
-	var _reactRouter = __webpack_require__(159);
-
-	var _search = __webpack_require__(210);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var App = _react2.default.createClass({
+	var App = React.createClass({
 	  displayName: 'App',
 
 	  render: function render() {
-	    var date = new Date();
-	    return _react2.default.createElement(
-	      'p',
+	    return React.createElement(
+	      'div',
 	      null,
-	      'Hello, ',
-	      _react2.default.createElement('input', { type: 'text', placeholder: 'Your name here' }),
-	      '! It is ',
-	      date.toTimeString()
+	      this.props.children
 	    );
 	  }
 	});
 
-	_reactDom2.default.render(_react2.default.createElement(
-	  _reactRouter.Router,
+	var index = React.createClass({
+	  displayName: 'index',
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'parallax-container' },
+	        React.createElement(
+	          'div',
+	          { className: 'parallax' },
+	          React.createElement('img', { src: 'http://www.muslimpress.com/wp-content/uploads/2015/09/45.jpg' })
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'section white' },
+	        React.createElement(
+	          'div',
+	          { className: 'row container' },
+	          React.createElement(
+	            'h2',
+	            { className: 'header' },
+	            'Parallax'
+	          ),
+	          React.createElement(
+	            'p',
+	            { className: 'grey-text text-darken-3 lighten-3' },
+	            'Parallax is an effect where the background content or image in this case, is moved at a different speed than the foreground content while scrolling.'
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'parallax-container' },
+	        React.createElement(
+	          'div',
+	          { className: 'parallax' },
+	          React.createElement('img', { src: 'http://117.240.88.108/rockys/wp-content/uploads/2012/05/charity-day.jpg' })
+	        )
+	      ),
+	      React.createElement(Footer, null)
+	    );
+	  }
+	});
+
+	var Footer = React.createClass({
+	  displayName: 'Footer',
+
+	  render: function render() {
+	    return React.createElement(
+	      'footer',
+	      { className: 'page-footer' },
+	      React.createElement(
+	        'div',
+	        { className: 'container' },
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'col l6 s12' },
+	            React.createElement(
+	              'h5',
+	              { className: 'white-text' },
+	              'Footer Content'
+	            ),
+	            React.createElement(
+	              'p',
+	              { className: 'grey-text text-lighten-4' },
+	              'You can use rows and columns here to organize your footer content.'
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'col l4 offset-l2 s12' },
+	            React.createElement(
+	              'h5',
+	              { className: 'white-text' },
+	              'Links'
+	            ),
+	            React.createElement(
+	              'ul',
+	              null,
+	              React.createElement(
+	                'li',
+	                null,
+	                React.createElement(
+	                  'a',
+	                  { className: 'grey-text text-lighten-3', href: 'search' },
+	                  'Search'
+	                )
+	              ),
+	              React.createElement(
+	                'li',
+	                null,
+	                React.createElement(
+	                  'a',
+	                  { className: 'grey-text text-lighten-3', href: '#!' },
+	                  'Link 2'
+	                )
+	              ),
+	              React.createElement(
+	                'li',
+	                null,
+	                React.createElement(
+	                  'a',
+	                  { className: 'grey-text text-lighten-3', href: '#!' },
+	                  'Link 3'
+	                )
+	              ),
+	              React.createElement(
+	                'li',
+	                null,
+	                React.createElement(
+	                  'a',
+	                  { className: 'grey-text text-lighten-3', href: '#!' },
+	                  'Link 4'
+	                )
+	              )
+	            )
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'footer-copyright' },
+	        React.createElement(
+	          'div',
+	          { className: 'container' },
+	          '© 2014 Copyright Text',
+	          React.createElement(
+	            'a',
+	            { className: 'grey-text text-lighten-4 right', href: '#!' },
+	            'More Links'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+	ReactDOM.render(React.createElement(
+	  Router,
 	  null,
-	  _react2.default.createElement(_reactRouter.Route, { path: '/', component: App })
+	  React.createElement(
+	    Route,
+	    { path: '/', component: App },
+	    React.createElement(IndexRoute, { component: index }),
+	    React.createElement(Route, { path: 'browse', component: _browsePage.Browse })
+	  )
 	), document.getElementById('app'));
 
 /***/ },
@@ -24479,29 +24626,534 @@
 
 /***/ },
 /* 210 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var CategoryResults = React.createClass({
-	  displayName: "CategoryResults",
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Badge = _react2.default.createClass({
+	  displayName: "Badge",
 
 	  render: function render() {
-	    return;
+	    return _react2.default.createElement(
+	      "button",
+	      { className: "btn btn-primary", type: "button" },
+	      this.props.title,
+	      " ",
+	      _react2.default.createElement(
+	        "span",
+	        { className: "badge" },
+	        this.props.number
+	      )
+	    );
 	  }
-	});
+	}); //display list of areas of focus
 
-	var Search = exports.search = React.createClass({
-	  displayName: "search",
+	var Thumbnail = _react2.default.createClass({
+	  displayName: "Thumbnail",
 
 	  render: function render() {
-	    return React.createElement(
+	    return _react2.default.createElement(
 	      "div",
-	      null,
-	      React.createElement(CategoryResults, null)
+	      { className: "col-sm-6 col-md-6" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "thumbnail" },
+	        _react2.default.createElement("img", { src: this.props.imageUrl }),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "caption" },
+	          _react2.default.createElement(
+	            "h3",
+	            null,
+	            this.props.header
+	          ),
+	          _react2.default.createElement(
+	            "p",
+	            null,
+	            this.props.description
+	          ),
+	          _react2.default.createElement(
+	            "p",
+	            null,
+	            _react2.default.createElement(Badge, { title: this.props.title, number: this.props.number })
+	          )
+	        )
+	      )
 	    );
 	  }
 	});
+
+	var Browse = exports.Browse = _react2.default.createClass({
+	  displayName: "Browse",
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      "div",
+	      null,
+	      "Welcome to the Browse Page"
+	    );
+	  }
+
+	  // function() {
+	  //   var list = this.props.thumbnailData.map(function(thumbnailProps) {
+	  //     return <Thumbnail {...thumbnailProps}/>
+	  //   })
+
+	  //   return <div>
+	  //     {list}
+	  //   </div>
+	  // }
+	});
+
+	var options = {
+	  thumbnailData: [{
+	    title: "See tutorials",
+	    number: 12,
+	    header: 'Learn React',
+	    description: 'React is cool and fantastic React is cool and fantastic React is cool and fantastic React is cool and fantastic',
+	    imageUrl: 'https://facebook.github.io/react/img/logo.svg'
+	  }, {
+	    title: "Show Courses",
+	    number: 25,
+	    header: 'Learn Gulp',
+	    description: 'Gulp is cool and fantastic Gulp is cool and fantastic Gulp is cool and fantastic React is cool and fantastic',
+	    imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
+	  }, {
+	    title: "hey",
+	    number: 99,
+	    header: 'Learn more gulp',
+	    description: 'Gulp is cool and fantastic Gulp is cool and fantastic Gulp is cool and fantastic React is cool and fantastic',
+	    imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
+	  }]
+	};
+
+	// var element = React.createElement(Browse, options);
+
+	// aof = {
+
+	// "Humanities and Historical Societies (19,541)",
+	// "arts"
+	// "Media (9,114)",
+	// "Museums (12,534)",
+	// "Performing Arts (31,272)",
+	// "Service and Other (37,704)"
+	// }
+
+/***/ },
+/* 211 */,
+/* 212 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _createBrowserHistory = __webpack_require__(213);
+
+	var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
+
+	exports.createHistory = _createBrowserHistory2['default'];
+
+	var _createHashHistory2 = __webpack_require__(162);
+
+	var _createHashHistory3 = _interopRequireDefault(_createHashHistory2);
+
+	exports.createHashHistory = _createHashHistory3['default'];
+
+	var _createMemoryHistory2 = __webpack_require__(208);
+
+	var _createMemoryHistory3 = _interopRequireDefault(_createMemoryHistory2);
+
+	exports.createMemoryHistory = _createMemoryHistory3['default'];
+
+	var _createLocation2 = __webpack_require__(175);
+
+	var _createLocation3 = _interopRequireDefault(_createLocation2);
+
+	exports.createLocation = _createLocation3['default'];
+
+	var _useBasename2 = __webpack_require__(209);
+
+	var _useBasename3 = _interopRequireDefault(_useBasename2);
+
+	exports.useBasename = _useBasename3['default'];
+
+	var _useBeforeUnload2 = __webpack_require__(214);
+
+	var _useBeforeUnload3 = _interopRequireDefault(_useBeforeUnload2);
+
+	exports.useBeforeUnload = _useBeforeUnload3['default'];
+
+	var _useQueries2 = __webpack_require__(186);
+
+	var _useQueries3 = _interopRequireDefault(_useQueries2);
+
+	exports.useQueries = _useQueries3['default'];
+
+	var _Actions2 = __webpack_require__(165);
+
+	var _Actions3 = _interopRequireDefault(_Actions2);
+
+	exports.Actions = _Actions3['default'];
+
+	// deprecated
+
+	var _enableBeforeUnload2 = __webpack_require__(215);
+
+	var _enableBeforeUnload3 = _interopRequireDefault(_enableBeforeUnload2);
+
+	exports.enableBeforeUnload = _enableBeforeUnload3['default'];
+
+	var _enableQueries2 = __webpack_require__(216);
+
+	var _enableQueries3 = _interopRequireDefault(_enableQueries2);
+
+	exports.enableQueries = _enableQueries3['default'];
+
+/***/ },
+/* 213 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _invariant = __webpack_require__(164);
+
+	var _invariant2 = _interopRequireDefault(_invariant);
+
+	var _Actions = __webpack_require__(165);
+
+	var _ExecutionEnvironment = __webpack_require__(166);
+
+	var _DOMUtils = __webpack_require__(167);
+
+	var _DOMStateStorage = __webpack_require__(168);
+
+	var _createDOMHistory = __webpack_require__(169);
+
+	var _createDOMHistory2 = _interopRequireDefault(_createDOMHistory);
+
+	/**
+	 * Creates and returns a history object that uses HTML5's history API
+	 * (pushState, replaceState, and the popstate event) to manage history.
+	 * This is the recommended method of managing history in browsers because
+	 * it provides the cleanest URLs.
+	 *
+	 * Note: In browsers that do not support the HTML5 history API full
+	 * page reloads will be used to preserve URLs.
+	 */
+	function createBrowserHistory() {
+	  var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	  !_ExecutionEnvironment.canUseDOM ? process.env.NODE_ENV !== 'production' ? _invariant2['default'](false, 'Browser history needs a DOM') : _invariant2['default'](false) : undefined;
+
+	  var forceRefresh = options.forceRefresh;
+
+	  var isSupported = _DOMUtils.supportsHistory();
+	  var useRefresh = !isSupported || forceRefresh;
+
+	  function getCurrentLocation(historyState) {
+	    historyState = historyState || window.history.state || {};
+
+	    var path = _DOMUtils.getWindowPath();
+	    var _historyState = historyState;
+	    var key = _historyState.key;
+
+	    var state = undefined;
+	    if (key) {
+	      state = _DOMStateStorage.readState(key);
+	    } else {
+	      state = null;
+	      key = history.createKey();
+
+	      if (isSupported) window.history.replaceState(_extends({}, historyState, { key: key }), null, path);
+	    }
+
+	    return history.createLocation(path, state, undefined, key);
+	  }
+
+	  function startPopStateListener(_ref) {
+	    var transitionTo = _ref.transitionTo;
+
+	    function popStateListener(event) {
+	      if (event.state === undefined) return; // Ignore extraneous popstate events in WebKit.
+
+	      transitionTo(getCurrentLocation(event.state));
+	    }
+
+	    _DOMUtils.addEventListener(window, 'popstate', popStateListener);
+
+	    return function () {
+	      _DOMUtils.removeEventListener(window, 'popstate', popStateListener);
+	    };
+	  }
+
+	  function finishTransition(location) {
+	    var basename = location.basename;
+	    var pathname = location.pathname;
+	    var search = location.search;
+	    var hash = location.hash;
+	    var state = location.state;
+	    var action = location.action;
+	    var key = location.key;
+
+	    if (action === _Actions.POP) return; // Nothing to do.
+
+	    _DOMStateStorage.saveState(key, state);
+
+	    var path = (basename || '') + pathname + search + hash;
+	    var historyState = {
+	      key: key
+	    };
+
+	    if (action === _Actions.PUSH) {
+	      if (useRefresh) {
+	        window.location.href = path;
+	        return false; // Prevent location update.
+	      } else {
+	          window.history.pushState(historyState, null, path);
+	        }
+	    } else {
+	      // REPLACE
+	      if (useRefresh) {
+	        window.location.replace(path);
+	        return false; // Prevent location update.
+	      } else {
+	          window.history.replaceState(historyState, null, path);
+	        }
+	    }
+	  }
+
+	  var history = _createDOMHistory2['default'](_extends({}, options, {
+	    getCurrentLocation: getCurrentLocation,
+	    finishTransition: finishTransition,
+	    saveState: _DOMStateStorage.saveState
+	  }));
+
+	  var listenerCount = 0,
+	      stopPopStateListener = undefined;
+
+	  function listenBefore(listener) {
+	    if (++listenerCount === 1) stopPopStateListener = startPopStateListener(history);
+
+	    var unlisten = history.listenBefore(listener);
+
+	    return function () {
+	      unlisten();
+
+	      if (--listenerCount === 0) stopPopStateListener();
+	    };
+	  }
+
+	  function listen(listener) {
+	    if (++listenerCount === 1) stopPopStateListener = startPopStateListener(history);
+
+	    var unlisten = history.listen(listener);
+
+	    return function () {
+	      unlisten();
+
+	      if (--listenerCount === 0) stopPopStateListener();
+	    };
+	  }
+
+	  // deprecated
+	  function registerTransitionHook(hook) {
+	    if (++listenerCount === 1) stopPopStateListener = startPopStateListener(history);
+
+	    history.registerTransitionHook(hook);
+	  }
+
+	  // deprecated
+	  function unregisterTransitionHook(hook) {
+	    history.unregisterTransitionHook(hook);
+
+	    if (--listenerCount === 0) stopPopStateListener();
+	  }
+
+	  return _extends({}, history, {
+	    listenBefore: listenBefore,
+	    listen: listen,
+	    registerTransitionHook: registerTransitionHook,
+	    unregisterTransitionHook: unregisterTransitionHook
+	  });
+	}
+
+	exports['default'] = createBrowserHistory;
+	module.exports = exports['default'];
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 214 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _warning = __webpack_require__(163);
+
+	var _warning2 = _interopRequireDefault(_warning);
+
+	var _ExecutionEnvironment = __webpack_require__(166);
+
+	var _DOMUtils = __webpack_require__(167);
+
+	var _deprecate = __webpack_require__(179);
+
+	var _deprecate2 = _interopRequireDefault(_deprecate);
+
+	function startBeforeUnloadListener(getBeforeUnloadPromptMessage) {
+	  function listener(event) {
+	    var message = getBeforeUnloadPromptMessage();
+
+	    if (typeof message === 'string') {
+	      (event || window.event).returnValue = message;
+	      return message;
+	    }
+	  }
+
+	  _DOMUtils.addEventListener(window, 'beforeunload', listener);
+
+	  return function () {
+	    _DOMUtils.removeEventListener(window, 'beforeunload', listener);
+	  };
+	}
+
+	/**
+	 * Returns a new createHistory function that can be used to create
+	 * history objects that know how to use the beforeunload event in web
+	 * browsers to cancel navigation.
+	 */
+	function useBeforeUnload(createHistory) {
+	  return function (options) {
+	    var history = createHistory(options);
+
+	    var stopBeforeUnloadListener = undefined;
+	    var beforeUnloadHooks = [];
+
+	    function getBeforeUnloadPromptMessage() {
+	      var message = undefined;
+
+	      for (var i = 0, len = beforeUnloadHooks.length; message == null && i < len; ++i) {
+	        message = beforeUnloadHooks[i].call();
+	      }return message;
+	    }
+
+	    function listenBeforeUnload(hook) {
+	      beforeUnloadHooks.push(hook);
+
+	      if (beforeUnloadHooks.length === 1) {
+	        if (_ExecutionEnvironment.canUseDOM) {
+	          stopBeforeUnloadListener = startBeforeUnloadListener(getBeforeUnloadPromptMessage);
+	        } else {
+	          process.env.NODE_ENV !== 'production' ? _warning2['default'](false, 'listenBeforeUnload only works in DOM environments') : undefined;
+	        }
+	      }
+
+	      return function () {
+	        beforeUnloadHooks = beforeUnloadHooks.filter(function (item) {
+	          return item !== hook;
+	        });
+
+	        if (beforeUnloadHooks.length === 0 && stopBeforeUnloadListener) {
+	          stopBeforeUnloadListener();
+	          stopBeforeUnloadListener = null;
+	        }
+	      };
+	    }
+
+	    // deprecated
+	    function registerBeforeUnloadHook(hook) {
+	      if (_ExecutionEnvironment.canUseDOM && beforeUnloadHooks.indexOf(hook) === -1) {
+	        beforeUnloadHooks.push(hook);
+
+	        if (beforeUnloadHooks.length === 1) stopBeforeUnloadListener = startBeforeUnloadListener(getBeforeUnloadPromptMessage);
+	      }
+	    }
+
+	    // deprecated
+	    function unregisterBeforeUnloadHook(hook) {
+	      if (beforeUnloadHooks.length > 0) {
+	        beforeUnloadHooks = beforeUnloadHooks.filter(function (item) {
+	          return item !== hook;
+	        });
+
+	        if (beforeUnloadHooks.length === 0) stopBeforeUnloadListener();
+	      }
+	    }
+
+	    return _extends({}, history, {
+	      listenBeforeUnload: listenBeforeUnload,
+
+	      registerBeforeUnloadHook: _deprecate2['default'](registerBeforeUnloadHook, 'registerBeforeUnloadHook is deprecated; use listenBeforeUnload instead'),
+	      unregisterBeforeUnloadHook: _deprecate2['default'](unregisterBeforeUnloadHook, 'unregisterBeforeUnloadHook is deprecated; use the callback returned from listenBeforeUnload instead')
+	    });
+	  };
+	}
+
+	exports['default'] = useBeforeUnload;
+	module.exports = exports['default'];
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 215 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _deprecate = __webpack_require__(179);
+
+	var _deprecate2 = _interopRequireDefault(_deprecate);
+
+	var _useBeforeUnload = __webpack_require__(214);
+
+	var _useBeforeUnload2 = _interopRequireDefault(_useBeforeUnload);
+
+	exports['default'] = _deprecate2['default'](_useBeforeUnload2['default'], 'enableBeforeUnload is deprecated, use useBeforeUnload instead');
+	module.exports = exports['default'];
+
+/***/ },
+/* 216 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _deprecate = __webpack_require__(179);
+
+	var _deprecate2 = _interopRequireDefault(_deprecate);
+
+	var _useQueries = __webpack_require__(186);
+
+	var _useQueries2 = _interopRequireDefault(_useQueries);
+
+	exports['default'] = _deprecate2['default'](_useQueries2['default'], 'enableQueries is deprecated, use useQueries instead');
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ]);
