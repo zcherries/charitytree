@@ -1,12 +1,16 @@
+var path = require("path");
 module.exports = {
-  entry: "./main.js",
+  entry: {
+    index: "./index.js",
+    search: "./search/search.js"
+  },
   output: {
-    path: __dirname,
-    filename: "bundle.js"
+    path: path.join(__dirname, "js"),
+    filename: "[name].js"
   },
   module: {
     loaders: [
-    {test: /\.jsx?$/, exclude: /(node_modules|bower_components)/, loader: 'babel', query: {presets: ['react', 'es2015']}}
+      {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: {presets: ['react']}}
     ]
   }
 };

@@ -16,19 +16,7 @@ var HelloWorld = React.createClass({
   }
 });
 
-
 ReactDOM.render(
   <HelloWorld date={new Date()} />,
   document.getElementById('container')
 );
-//const RaisedButton = require('material-ui/lib/raised-button');
-//let injectTapEventPlugin = require("react-tap-event-plugin");
-//injectTapEventPlugin();
-//
-//const MyAwesomeReactComponent = React.createClass({
-//  render() {
-//    return (
-//      <RaisedButton label="Default" />
-//  );
-//  },
-//});
