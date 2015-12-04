@@ -8,6 +8,7 @@ var IndexRoute = require('react-router').IndexRoute;
 import { createHistory, useBasename } from 'history'
 
 //local imports
+import {Browse} from './js/browsePage.js';
 var Search = require('./js/search.js');
 
 const history = useBasename(createHistory)({
@@ -15,6 +16,7 @@ const history = useBasename(createHistory)({
 });
 
 const App = React.createClass({
+
   render: function () {
     return (
       <div>
@@ -24,7 +26,7 @@ const App = React.createClass({
   }
 });
 
-const Home = React.createClass({
+var Index = React.createClass({
   render: function() {
     return(
       <div>
@@ -82,7 +84,8 @@ var Footer = React.createClass({
 ReactDOM.render((
   <Router history={history}>
     <Route path="/" component={App}>
-      <IndexRoute component={Home} />
+      <IndexRoute component={Index} />
+      <Route path="browse" component={Browse} />
       <Route path="search" component={Search} />
     </Route>
   </Router>
