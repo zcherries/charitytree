@@ -1,8 +1,5 @@
 var mongoose = require('mongoose');
 
-// var Schema = require('mongoose').Schema;
-// var model = require('mongoose').model;
-
 var Schema = mongoose.Schema, ObjectId = Schema.Types.ObjectId;
 
 var ProjectSchema = new Schema({
