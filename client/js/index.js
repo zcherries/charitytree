@@ -20,6 +20,7 @@ const App = React.createClass({
   render: function () {
     return (
       <div>
+      <Navbar />
         {this.props.children}
       </div>
     );
@@ -30,8 +31,6 @@ var Index = React.createClass({
   render: function() {
     return(
       <div>
-        {/*Navbar*/}
-        <Navbar />
 
         {/*Parallax*/}
         <div className="parallax-container">
