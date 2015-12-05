@@ -9,3 +9,5 @@ var AoFSchema = new Schema({
 });
 
 var AoF = mongoose.model('AoF', AoFSchema);
+
+module.exports = AoF;
