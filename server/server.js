@@ -1,9 +1,7 @@
 var express = require('express');
-var mongoose_models = require('./db/schemas');
-var db = require('./db/connection.js');
 var path = require('path');
-var org = require('./db/controllers');
-var connection = require('./db/connection.js');
+//var Model = require('./db/controllers');
+//var connection = require('./db/connection.js');
 
 var IP = '127.0.0.1', PORT = 8000;
 
@@ -26,4 +24,3 @@ app.get('/organizations', function(req, res, next) {
 });
 
 app.listen(PORT, IP);
-

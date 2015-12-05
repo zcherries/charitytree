@@ -1,11 +1,24 @@
 "use strict";
 var React = require('react');
+import {Navbar} from './navbar.js';
+
 
 var Search = exports.Search = React.createClass({
   render: function () {
-    console.log("Inside Search.render");
-    return (<div>
-      Hello, I love you won't you tell me your name.
-    </div>);
+    return (
+      <div>
+        <Navbar />
+        <div className="row">
+          <div className="col s5">
+            Categories
+          </div>
+
+          <div className="col s7">
+            Projects
+          </div>
+
+        </div>
+      </div>
+    );
   }
 });
