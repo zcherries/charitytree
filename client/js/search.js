@@ -7,7 +7,6 @@ var Search = exports.Search = React.createClass({
   render: function () {
     return (
       <div>
-        <Navbar />
         <div className="row">
           <div className="col s5">
             Organization by Categories Selected
@@ -27,7 +26,7 @@ var Search = exports.Search = React.createClass({
 var OrganizationResults = React.createClass({
   render: function () {
     return(
-      <div> 
+      <div>
         <div className="row">
           <div className="col s3">
             Search Tags
