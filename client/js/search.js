@@ -1,7 +1,7 @@
 "use strict";
 var React = require('react');
 
-var Search = module.exports = React.createClass({
+var Search = exports.Search = React.createClass({
   render: function () {
     console.log("Inside Search.render");
     return (<div>
