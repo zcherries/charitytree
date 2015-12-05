@@ -17,7 +17,7 @@ var DonorSchema = new Schema({
   password: {type: String, required: true },
   signup_date: Date,
   profile_img: { data: Buffer, contentType: String },
-  areas_of_focus: { type: [String], required: true },
+  areas_of_focus: [{ type: ObjectId, ref: 'AoF' }],
   sponsored_projects: [{ type: ObjectId, ref: 'Project' }],
   orgs_followed: [{ type: ObjectId, ref: 'Organization' }],
   endorsements: [endorsementSchema]
