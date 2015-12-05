@@ -1,22 +1,20 @@
 "use strict";
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Router = require('react-router').Router;
-var Route = require('react-router').Route;
-var Link = require('react-router').Link;
-var IndexRoute = require('react-router').IndexRoute;
-import { createHistory, useBasename } from 'history'
+import React from 'react'
+import { render } from 'react-dom'
+//var React = require('react');
+//var ReactDOM = require('react-dom');
+import { Router, Route, Link, IndexRoute } from 'react-router';
+import { createHistory, useBasename } from 'history';
 
 //local imports
 import {Browse} from './js/browsePage.js';
-var Search = require('./js/search.js');
+import {Search} from './js/search.js';
 
 const history = useBasename(createHistory)({
   basename: '/'
 });
 
 const App = React.createClass({
-
   render: function () {
     return (
       <div>
@@ -62,8 +60,8 @@ var Footer = React.createClass({
             <div className="col l4 offset-l2 s12">
               <h5 className="white-text">Links</h5>
               <ul>
-                <li><a className="grey-text text-lighten-3" href="search">Search</a></li>
-                <li><a className="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                <li><Link to="/search" className="grey-text text-lighten-3">Search</Link></li>
+                <li><Link to="/browse" className="grey-text text-lighten-3">Browse</Link></li>
                 <li><a className="grey-text text-lighten-3" href="#!">Link 3</a></li>
                 <li><a className="grey-text text-lighten-3" href="#!">Link 4</a></li>
               </ul>
@@ -81,7 +79,7 @@ var Footer = React.createClass({
   }
 })
 
-ReactDOM.render((
+render((
   <Router history={history}>
     <Route path="/" component={App}>
       <IndexRoute component={Index} />
