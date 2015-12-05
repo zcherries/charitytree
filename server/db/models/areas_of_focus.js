@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema, ObjectId = Schema.Types.ObjectId;
 
 var AoFSchema = new Schema({
-  name: String,
+  name: { type: String, required: true },
   tags: [String],
   count: { type: Number, default: 0 }
 });
