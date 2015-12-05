@@ -6,7 +6,7 @@ var OrganizationSchema = new Schema({
   name: { type: String, required: true, unique: true, trim: true },
   about: { type: String, required: true },
   signup_date: Date,
-  areas_of_focus: { type: [String], required: true },
+  areas_of_focus: [{ type: ObjectId, ref: 'AoF' }],
   profile_img: {
     data: Buffer,
     contentType: String
