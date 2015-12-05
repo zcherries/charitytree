@@ -16,8 +16,8 @@ var Footer = exports.Footer = React.createClass({
             <div className="col l4 offset-l2 s12">
               <h5 className="white-text">Links</h5>
               <ul>
-                <li><Link to="search" className="grey-text text-lighten-3">Search</Link></li>
-                <li><Link to="browse" className="grey-text text-lighten-3">Browse</Link></li>
+                <li><Link className="waves-effect waves-light" to="search" className="grey-text text-lighten-3">Search</Link></li>
+                <li><Link className="waves-effect waves-light" to="browse" className="grey-text text-lighten-3">Browse</Link></li>
                 <li><a className="grey-text text-lighten-3" href="#!">Link 3</a></li>
                 <li><a className="grey-text text-lighten-3" href="#!">Link 4</a></li>
               </ul>

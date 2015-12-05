@@ -11,8 +11,8 @@ var Navbar = exports.Navbar = React.createClass({
             <Link to="/" className="brand-logo">Charity Tree</Link>
             <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
             <ul className="right hide-on-med-and-down">
-              <li><Link to="/search">Search</Link></li>
-              <li><Link to="/browse">Browse</Link></li>
+              <li><Link className="waves-effect waves-light" to="/search">Search</Link></li>
+              <li><Link className="waves-effect waves-light" to="/browse">Browse</Link></li>
             </ul>
             <ul className="side-nav" id="mobile-demo">
               <li><a href="sass.html">Sass</a></li>
