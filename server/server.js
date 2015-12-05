@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
-//var Model = require('./db/controllers');
-//var connection = require('./db/connection.js');
+var Model = require('./db/controllers');
+var connection = require('./db/connection.js');
 
 var IP = '127.0.0.1', PORT = 8000;
 

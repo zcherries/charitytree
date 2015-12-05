@@ -46,6 +46,7 @@ var Index = React.createClass({
         <div className="parallax-container">
           <div className="parallax"><img src="http://117.240.88.108/rockys/wp-content/uploads/2012/05/charity-day.jpg" /></div>
         </div>
+
         {/*Footer*/}
         <Footer />
       </div>
