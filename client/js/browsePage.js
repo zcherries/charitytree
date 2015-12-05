@@ -1,6 +1,6 @@
 //display list of areas of focus
-
 import React from 'react';
+
 var Badge = React.createClass({
   render: function() {
     return <button className="btn btn-primary" type="button">
@@ -30,23 +30,19 @@ var Thumbnail = React.createClass({
 
 var Browse = exports.Browse = React.createClass({
   render: function() {
+  var self = this;
+    console.log(self.props)
+    var list = self.props.route.options.thumbnailData.map(function(thumbnailProps) {
+      return <Thumbnail {...thumbnailProps}/>
+    })
+
     return <div>
-    Welcome to the Browse Page
+      {list}
     </div>
   }
-
-  // function() {
-  //   var list = this.props.thumbnailData.map(function(thumbnailProps) {
-  //     return <Thumbnail {...thumbnailProps}/>
-  //   })
-
-  //   return <div>
-  //     {list}
-  //   </div>
-  // }
 })
 
-var options = {
+var Options = exports.Options = {
   thumbnailData: [{
     title: "See tutorials",
     number: 12,
@@ -70,19 +66,3 @@ var options = {
 
 
 // var element = React.createElement(Browse, options);
-
-
-
-
-
-
-
-// aof = {
-
-// "Humanities and Historical Societies (19,541)",
-// "arts"
-// "Media (9,114)",
-// "Museums (12,534)",
-// "Performing Arts (31,272)",
-// "Service and Other (37,704)"
-// }

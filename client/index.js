@@ -1,13 +1,13 @@
 "use strict";
-import React from 'react'
 import { render } from 'react-dom'
-//var React = require('react');
-//var ReactDOM = require('react-dom');
+var React = require('react');
+var ReactDOM = require('react-dom');
 import { Router, Route, Link, IndexRoute } from 'react-router';
 import { createHistory, useBasename } from 'history';
 
-//local imports
+/*local imports*/
 import {Browse} from './js/browsePage.js';
+import {Options} from './js/browsePage.js';
 import {Search} from './js/search.js';
 
 const history = useBasename(createHistory)({
@@ -79,11 +79,11 @@ var Footer = React.createClass({
   }
 })
 
-render((
+ReactDOM.render((
   <Router history={history}>
     <Route path="/" component={App}>
       <IndexRoute component={Index} />
-      <Route path="browse" component={Browse} />
+      <Route path="browse" component={Browse} options = {Options} />
       <Route path="search" component={Search} />
     </Route>
   </Router>
