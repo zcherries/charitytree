@@ -1,13 +1,11 @@
 "use strict";
 var React = require('react');
-import {Navbar} from './navbar.js';
 
 
 var Search = exports.Search = React.createClass({
   render: function () {
     return (
       <div>
-        <Navbar />
         <div className="row">
           <div className="col s5">
             Categories
@@ -27,7 +25,7 @@ var Search = exports.Search = React.createClass({
 var Category = React.createClass({
   render: function () {
     return(
-      <div> 
+      <div>
         <div className="row">
           <div className="col s5">
             Categories List
