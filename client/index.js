@@ -1,8 +1,8 @@
 "use strict";
 import React from 'react'
 import { render } from 'react-dom'
-//var React = require('react');
-//var ReactDOM = require('react-dom');
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import StaticContainer from 'react-static-container'
 import { Router, Route, Link, IndexRoute } from 'react-router';
 import { createHistory, useBasename } from 'history';
 
@@ -60,8 +60,8 @@ var Footer = React.createClass({
             <div className="col l4 offset-l2 s12">
               <h5 className="white-text">Links</h5>
               <ul>
-                <li><Link to="/search" className="grey-text text-lighten-3">Search</Link></li>
-                <li><Link to="/browse" className="grey-text text-lighten-3">Browse</Link></li>
+                <li><Link to="search" className="grey-text text-lighten-3">Search</Link></li>
+                <li><Link to="browse" className="grey-text text-lighten-3">Browse</Link></li>
                 <li><a className="grey-text text-lighten-3" href="#!">Link 3</a></li>
                 <li><a className="grey-text text-lighten-3" href="#!">Link 4</a></li>
               </ul>
