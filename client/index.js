@@ -1,13 +1,14 @@
 "use strict";
-import React from 'react'
-import { render } from 'react-dom'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import StaticContainer from 'react-static-container'
+import React from 'react';
+import { render } from 'react-dom';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import StaticContainer from 'react-static-container';
 import { Router, Route, Link, IndexRoute } from 'react-router';
 import { createHistory, useBasename } from 'history';
 
-//local imports
+/*local imports*/
 import {Browse} from './js/browsePage.js';
+import {Options} from './js/browsePage.js';
 import {Search} from './js/search.js';
 
 const history = useBasename(createHistory)({
@@ -83,7 +84,7 @@ render((
   <Router history={history}>
     <Route path="/" component={App}>
       <IndexRoute component={Index} />
-      <Route path="browse" component={Browse} />
+      <Route path="browse" component={Browse} options = {Options} />
       <Route path="search" component={Search} />
     </Route>
   </Router>

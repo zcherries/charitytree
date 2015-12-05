@@ -1,5 +1,6 @@
 node_modules/
 client/bower_components/
+client/client/bower_components/
 /bower_components/
 *.log
 
