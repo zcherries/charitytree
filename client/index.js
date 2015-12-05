@@ -80,7 +80,7 @@ var Footer = React.createClass({
   }
 })
 
-render((
+ReactDOM.render((
   <Router history={history}>
     <Route path="/" component={App}>
       <IndexRoute component={Index} />
