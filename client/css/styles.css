@@ -7,3 +7,55 @@ body {
 main {
   flex: 1 0 auto;
 }
+
+.input-field input[type=search] {
+  display: block;
+  line-height: inherit;
+  /*padding-left: 4rem;*/
+  width: calc(100% - 4rem);
+}
+.input-field {
+  position: relative;
+  min-width: 300px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+.input-field input[type=search] ~ .mdi-navigation-close {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  color: transparent;
+  cursor: pointer;
+  transition: .3s color;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+  color:    #FFF;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color:    #FFF;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color:    #FFF;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color:    #FFF;
+}
+
+.brand-logo {
+  margin-left: 10px;
+}
+
+.collection .collection-item.avatar .circle {
+  width: 200px;
+  height: 200px;
+  position: initial;
+  float: left;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  border-radius: 10%;
+}
+
+.collection .collection-item.avatar {
+  padding-left: 25px;
+}

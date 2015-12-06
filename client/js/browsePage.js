@@ -4,15 +4,15 @@ import React from 'react';
 var Browse = exports.Browse = React.createClass({
   render: function() {
   var self = this;
-    console.log(self.props)
+    console.log(self.props);
     var list = self.props.route.options.thumbnailData.map(function(thumbnailProps) {
       return <Thumbnail {...thumbnailProps}/>
-    })
+    });
     return <div>
       {list}
     </div>
   }
-})
+});
 
 /*var Badge = React.createClass({
   render: function() {
@@ -27,12 +27,12 @@ var Thumbnail = React.createClass({
   render: function() {
     return (<div>
           <div className="chip">
-            <img className = "image" src={this.props.imageUrl} />
+            <img className="image" src={this.props.imageUrl} />
             {this.props.header}
           </div>
     </div>)
   }
-})
+});
 
 
 
@@ -201,7 +201,7 @@ var Options = exports.Options = {
     description: 'Gulp is cool and fantastic Gulp is cool and fantastic Gulp is cool and fantastic React is cool and fantastic',
     imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
   }]
-}
+};
 
 
 // var element = React.createElement(Browse, options);
