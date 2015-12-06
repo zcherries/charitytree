@@ -4,18 +4,18 @@ var Controller = require('./db/controllers');
 var Model = require('./db/models');
 var connection = require('./db/connection.js');
 
- var fs = require('fs');
- var rl = require('readline').createInterface({
-   input: require('fs').createReadStream('./countriesoftheworld.txt')
- });
+// var fs = require('fs');
+// var rl = require('readline').createInterface({
+//   input: require('fs').createReadStream('../countriesoftheworld.txt')
+// });
 
- rl.on('line', function(line) {
-   Model.AoF.create({name: line}, function(err, country) {
-     // console.log('Line from file:', line)
-   });
- });
+// rl.on('line', function(line) {
+//   Model.AoF.create({name: line}, function(err, country) {
+//     // console.log('Line from file:', line)
+//   });
+// });
 
-var IP = '127.0.0.1', PORT = 4000;
+var IP = '127.0.0.1', PORT = 8000;
 
 var app = express();
 
