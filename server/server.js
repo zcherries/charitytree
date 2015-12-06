@@ -6,9 +6,9 @@ var connection = require('./db/connection.js');
 
 // var fs = require('fs');
 // var rl = require('readline').createInterface({
-//   input: require('fs').createReadStream('./countriesoftheworld.txt')
+//   input: require('fs').createReadStream('../countriesoftheworld.txt')
 // });
-//
+
 // rl.on('line', function(line) {
 //   Model.AoF.create({name: line}, function(err, country) {
 //     // console.log('Line from file:', line)

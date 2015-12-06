@@ -2,11 +2,33 @@
 import React from 'react';
 
 var Browse = exports.Browse = React.createClass({
+
+  loadAreasFromServer: function() {
+    $.ajax({
+      url: '/aofs',
+      method:'GET',
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        console.log(data);
+        this.setState({data: data.results});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadAreasFromServer();
+  },
   render: function() {
   var self = this;
     console.log(self.props)
-    var list = self.props.route.options.thumbnailData.map(function(thumbnailProps) {
-      return <Thumbnail {...thumbnailProps}/>
+    var list = this.state.data.map(function(thumbnailProps) {
+      return <Thumbnail header = {thumbnailProps.name} />
     })
     return <div>
       {list}
@@ -27,7 +49,7 @@ var Thumbnail = React.createClass({
   render: function() {
     return (<div>
           <div className="chip">
-            <img className = "image" src={this.props.imageUrl} />
+        {/*<img className = "image" src={this.props.imageUrl/>*/}
             {this.props.header}
           </div>
     </div>)

@@ -20,6 +20,7 @@ const App = React.createClass({
   render: function () {
     return (
       <div>
+    {/*Navbar was here*/}
       <Navbar />
         {this.props.children}
       </div>
