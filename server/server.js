@@ -3,11 +3,11 @@ var path = require('path');
 var Controller = require('./db/controllers');
 var Model = require('./db/models');
 var connection = require('./db/connection.js');
-var xray = require('x-ray');
-var x = new xray();
+// var xray = require('x-ray');
+// var x = new xray();
 // var promisify = require("promisify-node");
 var fs = require('fs');
-var IP = '127.0.0.1', PORT = 8000;
+var IP = '127.0.0.1', PORT = 4000;
 
 // var rl = require('readline').createInterface({
 //  input: require('fs').createReadStream('./areas_of_focus.txt')
