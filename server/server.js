@@ -15,7 +15,7 @@ var connection = require('./db/connection.js');
 //   });
 // });
 
-var IP = '127.0.0.1', PORT = 8000;
+var IP = '127.0.0.1', PORT = 4000;
 
 var app = express();
 
