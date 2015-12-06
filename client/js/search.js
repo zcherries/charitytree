@@ -1,6 +1,6 @@
 "use strict";
 var React = require('react');
-import {Navbar} from './navbar.js';
+
 import { Link } from 'react-router';
 
 var Search = exports.Search = React.createClass({
