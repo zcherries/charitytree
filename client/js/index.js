@@ -18,7 +18,10 @@ const history = useBasename(createHistory)({
 
 const App = React.createClass({
   getInitialState: function () {
-    return {searchText: ""};
+    return {
+      searchText: "",
+      searchResults: {text:"we have data"}
+    };
   },
 
   handleInput: function (searchText) {
@@ -37,7 +40,10 @@ const App = React.createClass({
       data: searchArr,
       success: function (data) {
         console.log("search results:",data);
-        this.setState({data: data.results});
+        this.setState({
+          searchText: this.state.searchText,
+          searchResults: data.results
+        });
         console.log("DB Search response data",data.results);
       }.bind(this),
       error: function (xhr, status, err) {
@@ -92,7 +98,9 @@ render((
     <Route path="/" component={App}>
       <IndexRoute component={Index} />
       <Route path="browse" component={Browse} options = {Options} />
-      <Route path="search" component={Search} />
+      <Route path="search" component={Search}
+             searchResults={this.state.searchResults}
+      />
     </Route>
   </Router>
 ), document.getElementById('app'));
