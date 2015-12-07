@@ -92,7 +92,7 @@ var Thumbnail = React.createClass({
 
 
   }
-})
+});
 
 /*          <div className="chip">
             <img className = "image" src={this.props.imageUrl} />
