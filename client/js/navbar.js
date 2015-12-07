@@ -3,8 +3,19 @@ var React = require('react');
 import { Link } from 'react-router';
 
 var Navbar = exports.Navbar = React.createClass({
+  handleChange: function () {
+    console.log("value",this.refs.searchInput.value);
+    this.props.onSearchInput(
+      this.refs.searchInput.value
+    );
+  },
+
+  handleSubmit: function () {
+    this.props.onSearchSubmit();
+  },
+
   render: function () {
-    return(
+    return (
       <div>
         <div className="navbar-fixed">
           <nav>
@@ -13,9 +24,16 @@ var Navbar = exports.Navbar = React.createClass({
               <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
               <ul className="right hide-on-med-and-down">
                 <li>
-                  <form>
+                  <form onSubmit={this.handleSubmit}>
                     <div className="input-field">
-                      <input id="search" type="search" placeholder="Search..." required />
+                      <input
+                        id="search"
+                        type="search"
+                        placeholder="Search..."
+                        ref="searchInput"
+                        value={this.props.searchText}
+                        onChange={this.handleChange}
+                        required />
                       <label htmlFor="search"><i className="material-icons grey-text text-lighten-3">search</i></label>
                       <i className="material-icons">close</i>
                     </div>
@@ -42,8 +60,7 @@ var Navbar = exports.Navbar = React.createClass({
             </div>
           </nav>
         </div>
-        {/*
-        <SearchBar />*/}
+        {/*<SearchBar />*/}
       </div>
     );
   }

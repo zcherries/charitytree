@@ -19,18 +19,21 @@ var Browse = exports.Browse = React.createClass({
       }.bind(this)
     });
   },
+
   getInitialState: function() {
     return {data: []};
   },
+
   componentDidMount: function() {
     this.loadAreasFromServer();
   },
+
   render: function() {
   var self = this;
-    console.log(self.props)
+    console.log(self.props);
     var list = this.state.data.map(function(thumbnailProps) {
       return <Thumbnail header = {thumbnailProps.name} />
-    })
+    });
     return <div>
       {list}
     </div>
@@ -48,7 +51,7 @@ var Browse = exports.Browse = React.createClass({
 
 var Thumbnail = React.createClass({
   render: function() {
-    return   (
+    return (
       <div>
         <div className="container">
           <div className="row">
