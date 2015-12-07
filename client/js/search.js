@@ -4,6 +4,7 @@ var React = require('react');
 import { Link } from 'react-router';
 
 var Search = exports.Search = React.createClass({
+
   render: function () {
     return (
       <div>

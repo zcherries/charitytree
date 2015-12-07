@@ -10,9 +10,9 @@ var fs = require('fs');
 var IP = '127.0.0.1', PORT = 4000;
 
 // var rl = require('readline').createInterface({
-//  input: require('fs').createReadStream('./areas_of_focus.txt')
+//  input: require('fs').createReadStream('../areas_of_focus.txt')
 // });
-//
+
 // rl.on('line', function(aof) {
 //   Model.AoF.findOne({name: aof}, function(err, match) {
 //     if (!match) {
@@ -43,6 +43,7 @@ app.use(express.static(__dirname + '/../client'));
 // });
 app.get('/aofs', function(req, res, next) {
   Controller.AoF.retrieve(req, res, next);
+  // Controller.AoF.delete(req, res, next, {}, {}, 'find');
 });
 
 app.get('/browse', function(req, res, next) {
