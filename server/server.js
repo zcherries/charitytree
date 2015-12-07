@@ -26,24 +26,18 @@ var IP = '127.0.0.1', PORT = 4000;
  //    }
  //  });
  //});
-
+var organizations = require('./resources/organizations.js')
 
 var app = express();
 app.use(express.static(__dirname + '/../client'));
 
-// var arrLinks = [];
-// app.get('/organizations', function(req, res, next) {
-//   x('http://www.unodc.org/ngo/list.jsp', 'tr td p', ['a@href'], [{
-//     href: '@href'
-//   }])(function(err, links) {
-//     arrLinks = links.map(function(link) {
-//       if (link != null)
-//         return link;
-//     });
-//     res.send(arrLinks);
-//   })
-//   // res.send('index.html')
-// });
+app.get('/organizations', function(req, res, next) {
+  // Controller.Organization.retrieve(req, res, next);
+  organizations.forEach(function(org) {
+    Controller.Organization.create(req, res, next, org);
+  });
+});
+
 app.get('/aofs', function(req, res, next) {
   Controller.AoF.retrieve(req, res, next);
   //This line deletes the database
