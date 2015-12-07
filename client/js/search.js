@@ -12,6 +12,7 @@ var Search = exports.Search = React.createClass({
             <h5 className="center-align">Projects</h5>
             <h6>Search Tags</h6>
             <div style={{minHeight: 32 + 'px'}}>
+              <pre>Search Results: {this.props.searchResults.text}</pre>
               <Tag />
             </div>
             <ProjectResults />
