@@ -23,8 +23,10 @@ module.exports = {
       if (err) handleError(req, res, "Controller create", err);
       if (!found) {
         Org.create(orgData, function(err, org) {
-          if (err) handleError(req, res, "Controller create", err);
-          res.send({ status: 201, results: org });
+          if (err)
+            handleError(req, res, "Controller create", err);
+          else
+            res.send({ status: 201, results: org });
         });
       } else {
           res.status(400).send({ status: 400, message: "We found an organization with this name." });
