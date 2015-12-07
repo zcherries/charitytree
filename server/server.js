@@ -3,26 +3,29 @@ var path = require('path');
 var Controller = require('./db/controllers');
 var Model = require('./db/models');
 var connection = require('./db/connection.js');
-var xray = require('x-ray');
-var x = new xray();
+//var xray = require('x-ray');
+//var x = new xray();
 // var promisify = require("promisify-node");
 var fs = require('fs');
-var IP = '127.0.0.1', PORT = 8000;
+var IP = '127.0.0.1', PORT = 4000;
 
-// var rl = require('readline').createInterface({
-//  input: require('fs').createReadStream('./areas_of_focus.txt')
-// });
-//
-// rl.on('line', function(aof) {
-//   Model.AoF.findOne({name: aof}, function(err, match) {
-//     if (!match) {
-//       console.log(aof)
-//       Model.AoF.create({name: aof}, function(err, line) {
-//         console.log('Line from file:', line);
-//       });
-//     }
-//   });
-// });
+
+ //var rl = require('readline').createInterface({
+ // //input: require('fs').createReadStream('./areas_of_focus.txt')
+ // input: require('fs').createReadStream('./countriesoftheworld.txt')
+ //
+ //});
+ //
+ //rl.on('line', function(aof) {
+ //  Model.AoF.findOne({name: aof}, function(err, match) {
+ //    if (!match) {
+ //      console.log(aof)
+ //      Model.AoF.create({name: aof}, function(err, line) {
+ //        console.log('Line from file:', line);
+ //      });
+ //    }
+ //  });
+ //});
 
 
 var app = express();
@@ -43,6 +46,9 @@ app.use(express.static(__dirname + '/../client'));
 // });
 app.get('/aofs', function(req, res, next) {
   Controller.AoF.retrieve(req, res, next);
+  //This line deletes the database
+  //Controller.AoF.delete(req, res, next, {}, {}, 'find');
+
 });
 
 app.get('/browse', function(req, res, next) {

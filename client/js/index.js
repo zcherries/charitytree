@@ -17,11 +17,44 @@ const history = useBasename(createHistory)({
 });
 
 const App = React.createClass({
+  getInitialState: function () {
+    return {searchText: ""};
+  },
+
+  handleInput: function (searchText) {
+    this.setState({
+      searchText: searchText
+    });
+  },
+
+  handleSearch: function () {
+    var searchArr = this.state.searchText.split(" ");
+    console.log("searchArr",searchArr);
+    $.ajax({
+      url: 'search',
+      method: 'POST',
+      dataType: 'json',
+      data: searchArr,
+      success: function (data) {
+        console.log("search results:",data);
+        this.setState({data: data.results});
+        console.log("DB Search response data",data.results);
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    })
+  },
+
   render: function () {
     return (
       <div>
     {/*Navbar was here*/}
-      <Navbar />
+      <Navbar
+        searchText={this.state.searchText}
+        onSearchInput={this.handleInput}
+        onSearchSubmit={this.handleSearch}
+      />
         {this.props.children}
       </div>
     );
