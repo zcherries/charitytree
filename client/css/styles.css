@@ -30,16 +30,16 @@ main {
 }
 
 ::-webkit-input-placeholder { /* WebKit browsers */
-  color:    #FFF;
+  color: black;
 }
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  color:    #FFF;
+  color: black;
 }
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-  color:    #FFF;
+  color: black;
 }
 :-ms-input-placeholder { /* Internet Explorer 10+ */
-  color:    #FFF;
+  color: black;
 }
 
 .brand-logo {
