@@ -17,6 +17,9 @@ const history = useBasename(createHistory)({
 });
 
 const App = React.createClass({
+
+  test: 'testing',
+
   getInitialState: function () {
     return {
       searchText: "",
@@ -44,6 +47,7 @@ const App = React.createClass({
           searchText: this.state.searchText,
           searchResults: data.results
         });
+
         console.log("DB Search response data",data.results);
       }.bind(this),
       error: function (xhr, status, err) {
@@ -61,7 +65,7 @@ const App = React.createClass({
         onSearchInput={this.handleInput}
         onSearchSubmit={this.handleSearch}
       />
-        {this.props.children}
+        {React.cloneElement(this.props.children, {searchResults: this.state.searchResults})}
       </div>
     );
   }
@@ -99,7 +103,6 @@ render((
       <IndexRoute component={Index} />
       <Route path="browse" component={Browse} options = {Options} />
       <Route path="search" component={Search}
-             searchResults={this.state.searchResults}
       />
     </Route>
   </Router>
