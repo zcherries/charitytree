@@ -11,17 +11,23 @@ var IP = '127.0.0.1', PORT = 4000;
 
 app.use(express.static(__dirname + '/../client'));
 
+// organizations.forEach(function(org) {
+//   var newOrg = new Model.Organization(org);
+//   newOrg.save(function(err, obj) {
+//     if (err) {
+//       console.error("Error: ", err)
+//     } else {
+//       console.log("New organization has been added")
+//     }
+//   });
+// });
+
 app.get('/organizations', function(req, res, next) {
-  // Controller.Organization.retrieve(req, res, next);
-  organizations.forEach(function(org) {
-    Controller.Organization.create(req, res, next, org);
-  });
+  Controller.Organization.retrieve(req, res, next);
 });
 
 app.get('/browse', function(req, res, next) {
   Controller.AoF.retrieve(req, res, next);
-  //This line deletes the database
-  // Controller.AoF.delete(req, res, next, {}, {}, 'find');
 });
 
 app.get('/search', function(req, res, next) {
