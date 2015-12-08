@@ -3,14 +3,15 @@ var React = require('react');
 import { Link } from 'react-router';
 
 var Navbar = exports.Navbar = React.createClass({
-  handleChange: function () {
-    console.log("value",this.refs.searchInput.value);
+  handleChange: function (e) {
+    //console.log("value",e.target.value);
     this.props.onSearchInput(
-      this.refs.searchInput.value
+      e.target.value
     );
   },
 
-  handleSubmit: function () {
+  handleSubmit: function (e) {
+    e.preventDefault();
     this.props.onSearchSubmit();
   },
 
@@ -21,7 +22,7 @@ var Navbar = exports.Navbar = React.createClass({
           <nav>
             <div className="nav-wrapper grey lighten-5">
               <Link to="/" className="brand-logo black-text">Charity Tree</Link>
-              <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
+              <a href="#" data-activates="mobile-demo" className="button-collapse black-text"><i className="material-icons">menu</i></a>
               <ul className="right hide-on-med-and-down">
                 <li>
                   <form onSubmit={this.handleSubmit}>
@@ -34,8 +35,8 @@ var Navbar = exports.Navbar = React.createClass({
                         value={this.props.searchText}
                         onChange={this.handleChange}
                         required />
-                      <label htmlFor="search"><i className="material-icons grey-text text-lighten-3 black-text">search</i></label>
-                      <i className="material-icons">close</i>
+                      <label htmlFor="search"><i className="material-icons black-text">search</i></label>
+                      <i className="material-icons black-text">close</i>
                     </div>
                   </form>
                 </li>
@@ -46,13 +47,21 @@ var Navbar = exports.Navbar = React.createClass({
               {/*Side Navigation*/}
               <ul className="side-nav" id="mobile-demo">
                 <li>
-                  <form>
-                    <div className="input-field">
-                      <input id="search" type="search" placeholder="Search..." required />
-                      <label htmlFor="search"><i className="material-icons grey-text text-darken-3">search</i></label>
+                  {/*
+                  <form onSubmit={this.handleSubmit}>
+                    <div className="input-field black-text">
+                      <input
+                        id="search"
+                        type="search"
+                        placeholder="Search..."
+                        ref="searchInput"
+                        value={this.props.searchText}
+                        onChange={this.handleChange}
+                        required />
+                      <label htmlFor="search"><i className="material-icons grey-text text-lighten-3 black-text">search</i></label>
                       <i className="material-icons">close</i>
                     </div>
-                  </form>
+                  </form>*/}
                 </li>
                 <li><Link className="waves-effect waves-light" to="/search">Advanced Search</Link></li>
                 <li><Link className="waves-effect waves-light" to="/browse">Browse Categories</Link></li>

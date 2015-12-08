@@ -6,7 +6,6 @@ import { createHistory, useBasename } from 'history';
 
 /*local imports*/
 import {Browse} from './browsePage.js';
-import {Options} from './browsePage.js';
 import {Footer} from './footer.js';
 import {Navbar} from './navbar.js';
 import {Search} from './search.js';
@@ -18,12 +17,10 @@ const history = useBasename(createHistory)({
 
 const App = React.createClass({
 
-  test: 'testing',
-
   getInitialState: function () {
     return {
       searchText: "",
-      searchResults: {text:"we have data"}
+      searchResults: {}
     };
   },
 
@@ -35,23 +32,21 @@ const App = React.createClass({
 
   handleSearch: function () {
     var searchArr = this.state.searchText.split(" ");
-    console.log("searchArr",searchArr);
+    console.log("handleSearch: searchArr",searchArr);
     $.ajax({
-      url: 'search',
-      method: 'POST',
+      url: "/post_search",
       dataType: 'json',
-      data: searchArr,
+      method: "Post",
+      data: {aofs: searchArr},
       success: function (data) {
-        console.log("search results:",data);
+        console.log("DB Search response data",data);
         this.setState({
           searchText: this.state.searchText,
           searchResults: data.results
         });
-
-        console.log("DB Search response data",data.results);
       }.bind(this),
       error: function (xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error(xhr, status, err.toString());
       }.bind(this)
     })
   },
@@ -59,12 +54,11 @@ const App = React.createClass({
   render: function () {
     return (
       <div>
-    {/*Navbar was here*/}
-      <Navbar
-        searchText={this.state.searchText}
-        onSearchInput={this.handleInput}
-        onSearchSubmit={this.handleSearch}
-      />
+        <Navbar
+          searchText={this.state.searchText}
+          onSearchInput={this.handleInput}
+          onSearchSubmit={this.handleSearch}
+        />
         {React.cloneElement(this.props.children, {searchResults: this.state.searchResults})}
       </div>
     );
@@ -135,7 +129,7 @@ render((
   <Router history={history}>
     <Route path="/" component={App}>
       <IndexRoute component={Index} />
-      <Route path="browse" component={Browse} options = {Options} />
+      <Route path="browse" component={Browse} />
       <Route path="search" component={Search}
       />
     </Route>
