@@ -66,3 +66,7 @@ main {
 .navbar-fixed {
   @extend .blue
 }
+.table-of-contents {
+  float: right;
+
+}
