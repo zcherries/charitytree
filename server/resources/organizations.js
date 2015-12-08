@@ -31,7 +31,7 @@ var organizations = module.exports = [
   },
   {
     name: "Amnesty International",
-    address: "",
+    address: "1 Easton Street, London, WC1X 0DW, UK",
     about: "Amnesty International is a global movement of more than 7 million people who take injustice personally. We are campaigning for a world where human rights are enjoyed by all.",
     signup_date: "12/06/2013",
     areas_of_focus: ["Armed Conflict", "Arms Control", "Corporate Accountability", "Death Penalty", "Detention", "Disappearnces",
