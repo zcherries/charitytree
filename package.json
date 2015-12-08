@@ -1,0 +1,43 @@
+{
+  "name": "charitytree",
+  "version": "1.0.0",
+  "description": "Know what the money you donate is used for",
+  "main": "index.js",
+  "scripts": {
+    "babel-node": "babel-node --stage 0 --ignore='foo|bar|baz'",
+    "start": "nodemon server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/charitycollective/charitytree.git"
+  },
+  "author": "charitycollective",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/charitycollective/charitytree/issues"
+  },
+  "homepage": "https://github.com/charitycollective/charitytree#readme",
+  "dependencies": {
+    "express": "^4.13.3",
+    "gridfs-stream": "^1.1.1",
+    "history": "^1.13.1",
+    "material-ui": "^0.13.4",
+    "materialize-css": "^0.97.3",
+    "mongoose": "^4.2.9",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "babel": "^6.1.18",
+    "babel-core": "^6.2.1",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18","react": "^0.14.3",
+    "react-addons-css-transition-group": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-router": "^1.0.0",
+    "react-static-container": "^1.0.0",
+    "react-tap-event-plugin": "^0.2.1",
+    "webpack": "^1.12.9"
+  }
+}
