@@ -78,16 +78,50 @@ var Index = React.createClass({
 
         {/*Parallax*/}
         <div className="parallax-container">
-          <div className="parallax"><img src="http://www.muslimpress.com/wp-content/uploads/2015/09/45.jpg" /></div>
-        </div>
-        <div className="section white">
-          <div className="row container">
-            <h2 className="header">Parallax</h2>
-            <p className="grey-text text-darken-3 lighten-3">Parallax is an effect where the background content or image in this case, is moved at a different speed than the foreground content while scrolling.</p>
+          <div className="parallax">
+            <img src="https://c1.staticflickr.com/5/4142/4931601202_92f9bb7152_b.jpg" />
+          </div>
+          <div className="caption center-align">
+            <h3>See the lives changed by your donation!</h3>
+            <h5 className="light grey-text text-lighten-3">Follow the impact of your money</h5>
           </div>
         </div>
+
+        <div className="section white">
+          <div className="row container">
+
+          </div>
+          <p className="grey-text text-darken-3 lighten-3">
+                    </p>
+            <div className="row">
+
+            <div className="col s4">
+            <i className="material-icons">flash_on</i>
+            Promo Content 1 goes here
+            Promo Content 1 goes here
+            Promo Content 1 goes here
+            Promo Content 1 goes here
+            Promo Content 1 goes here
+            Promo Content 1 goes here
+            Promo Content 1 goes here
+            Promo Content 1 goes here
+            Promo Content 1 goes here
+            </div>
+            <div className="col s4">
+            Promo Content 2 goes here
+            </div>
+            <div className="col s4">
+            Promo Content 3 goes here
+            </div>
+
+            </div>
+
+        </div>
+
         <div className="parallax-container">
-          <div className="parallax"><img src="http://117.240.88.108/rockys/wp-content/uploads/2012/05/charity-day.jpg" /></div>
+          <div className="parallax">
+            <img src="https://c2.staticflickr.com/6/5477/10570079866_b622f2a732_b.jpg" />
+          </div>
         </div>
 
         {/*Footer*/}
