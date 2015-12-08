@@ -39,11 +39,8 @@ app.get('/get_browse', function(req, res, next) {
 });
 
 app.post('/post_search', function(req, res, next) {
-  console.log("aofs",req.body.aofs);
   Model.Organization.find({ areas_of_focus: { $in: req.body.aofs } }, function(err, orgs) {
-    if (err) {
-      throw err;
-    }
+    if (err) { console.log(err); res.status(400).send('Could not retrieve data'); }
     else {
       var foundOrgs = orgs;
       Model.Project.find({ areas_of_focus: { $in: req.body.aofs } }, function(err, projects) {
@@ -53,7 +50,6 @@ app.post('/post_search', function(req, res, next) {
         }
       });
     }
-    //res.status(400).send('Could not retrieve data');
   });
 });
 
