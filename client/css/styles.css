@@ -59,3 +59,10 @@ main {
 .collection .collection-item.avatar {
   padding-left: 25px;
 }
+
+.parallax-container {
+      height: 500px;
+}
+.navbar-fixed {
+  @extend .blue
+}
