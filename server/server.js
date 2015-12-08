@@ -36,15 +36,15 @@ app.get('/organizations', function(req, res, next) {
   });
 });
 
-app.get('/aofs', function(req, res, next) {
+app.get('/browse', function(req, res, next) {
   Controller.AoF.retrieve(req, res, next);
   //This line deletes the database
   // Controller.AoF.delete(req, res, next, {}, {}, 'find');
 });
 
-app.get('/browse', function(req, res, next) {
-  Model.Organization.find({}).then(function(orgs) {
-    Model.Project.find({}).then(function(projects) {
+app.get('/search', function(req, res, next) {
+  Model.Organization.find({ areas_of_focus: { $in: req.body.aofs } }, { sort: 'signup_date' }).then(function(orgs) {
+    Model.Project.find({ areas_of_focus: { $in: req.body.aofs } }, { sort: 'start_date' }).then(function(projects) {
       res.send({ status: 200, results: { orgs: orgs, projects: projects } });
     });
   });
