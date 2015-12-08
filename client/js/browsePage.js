@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 var Browse = exports.Browse = React.createClass({
 
-  loadAreasFromServer: function() {
+/*  loadAreasFromServer: function() {
     $.ajax({
       url: '/aofs',
       method:'GET',
@@ -24,15 +24,87 @@ var Browse = exports.Browse = React.createClass({
   },
   componentDidMount: function() {
     this.loadAreasFromServer();
-  },
+  },*/
   render: function() {
-  var self = this;
+/*  var self = this;
     console.log(self.props)
     var list = this.state.data.map(function(thumbnailProps) {
       return <Thumbnail header = {thumbnailProps.name} />
-    })
+    })*/
     return <div>
-      {list}
+    <div className="container">
+      <div className="row">
+
+
+        <div className="col s3">
+          <div className="card">
+            <div className="card-image waves-effect waves-block waves-light">
+             <img className="activator" img className = "image" src="https://c2.staticflickr.com/6/5477/10570079866_b622f2a732_b.jpg" />
+             <span className="card-title">Animals</span>
+            </div>
+          </div>
+        </div>
+        <div className="col s3">
+          <div className="card">
+            <div className="card-image">
+             <img className="activator" img className = "image" src="https://c2.staticflickr.com/6/5477/10570079866_b622f2a732_b.jpg" />
+              <span className="card-title">Arts, Culture, Humanities</span>
+            </div>
+          </div>
+        </div>
+              <div className="col s12">
+          <div className="card">
+            <div className="card-image">
+             <img className="activator" img className = "image" src="https://c2.staticflickr.com/6/5477/10570079866_b622f2a732_b.jpg" />
+              <span className="card-title">Card Title</span>
+            </div>
+          </div>
+        </div>
+                <div className="col s12">
+          <div className="card">
+            <div className="card-image">
+             <img className="activator" img className = "image" src="https://c2.staticflickr.com/6/5477/10570079866_b622f2a732_b.jpg" />
+              <span className="card-title">Card Title</span>
+            </div>
+          </div>
+        </div>
+                <div className="col s12">
+          <div className="card">
+            <div className="card-image">
+             <img className="activator" img className = "image" src="https://c2.staticflickr.com/6/5477/10570079866_b622f2a732_b.jpg" />
+              <span className="card-title">Card Title</span>
+            </div>
+          </div>
+        </div>
+                <div className="col s12">
+          <div className="card">
+            <div className="card-image">
+             <img className="activator" img className = "image" src="https://c2.staticflickr.com/6/5477/10570079866_b622f2a732_b.jpg" />
+              <span className="card-title">Card Title</span>
+            </div>
+          </div>
+        </div>
+                <div className="col s6">
+          <div className="card">
+            <div className="card-image">
+             <img className="activator" img className = "image" src="https://c2.staticflickr.com/6/5477/10570079866_b622f2a732_b.jpg" />
+              <span className="card-title">Card Title</span>
+            </div>
+          </div>
+        </div>
+                <div className="col s6">
+          <div className="card small">
+            <div className="card-image">
+             <img className="activator" img className = "image" src="https://c2.staticflickr.com/6/5477/10570079866_b622f2a732_b.jpg" />
+              <span className="card-title">Card Title</span>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      </div>
+
     </div>
   }
 });
@@ -45,7 +117,7 @@ var Browse = exports.Browse = React.createClass({
   }
 });*/
 
-
+/*
 var Thumbnail = React.createClass({
   render: function() {
     return   (
@@ -70,7 +142,7 @@ var Thumbnail = React.createClass({
           </div>
         </div>
       </div>
-    );
+    );*/
 
 /*    (<div>
       <div className="row">
@@ -90,82 +162,12 @@ var Thumbnail = React.createClass({
       </div>)*/
 
 
-
+/*
   }
-});
+});*/
 
 /*          <div className="chip">
             <img className = "image" src={this.props.imageUrl} />
             {this.props.header}
           </div>*/
 
-
-var Options = exports.Options = {
-  thumbnailData: [{
-    title: "Animals",
-    number: 12,
-    header: 'Animals',
-    description: 'Animal Rights, Welfare, and Services (296) Wildlife Conservation (82) Zoos and Aquariums (72)',
-    imageUrl: 'https://pbs.twimg.com/profile_images/636592875418046464/392UXhOt_400x400.png'
-  },{
-    title: "Arts, Culture, Humanities",
-    number: 25,
-    header: 'Learn Gulp',
-    description: 'Gulp is cool and fantastic Gulp is cool and fantastic Gulp is cool and fantastic React is cool and fantastic',
-    imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
-  },{
-    title: "Community Development",
-    number: 99,
-    header: 'Learn more gulp',
-    description: 'Gulp is cool and fantastic Gulp is cool and fantastic Gulp is cool and fantastic React is cool and fantastic',
-    imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
-  },{
-    title: "Education",
-    number: 12,
-    header: 'Learn React',
-    description: 'React is cool and fantastic React is cool and fantastic React is cool and fantastic React is cool and fantastic',
-    imageUrl: 'https://pbs.twimg.com/profile_images/636592875418046464/392UXhOt_400x400.png'
-  },{
-    title: "Environment",
-    number: 25,
-    header: 'Learn Gulp',
-    description: 'Gulp is cool and fantastic Gulp is cool and fantastic Gulp is cool and fantastic React is cool and fantastic',
-    imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
-  },{
-    title: "Health",
-    number: 99,
-    header: 'Learn more gulp',
-    description: 'Gul,p is cool and fantastic Gulp is cool and fantastic Gulp is cool and fantastic React is cool and fantastic',
-    imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
-  },{
-    title: "Human Services",
-    number: 12,
-    header: 'Learn React',
-    description: 'React is cool and fantastic React is cool and fantastic React is cool and fantastic React is cool and fantastic',
-    imageUrl: 'https://pbs.twimg.com/profile_images/636592875418046464/392UXhOt_400x400.png'
-  },{
-    title: "Human and Civil Rights",
-    number: 25,
-    header: 'Learn Gulp',
-    description: 'Gulp is cool and fantastic Gulp is cool and fantastic Gulp is cool and fantastic React is cool and fantastic',
-    imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
-  },{
-    title: "International",
-    number: 99,
-    header: 'Learn more gulp',
-    description: 'Gulp is cool and fantastic Gulp is cool and fantastic Gulp is cool and fantastic React is cool and fantastic',
-    imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
-  },{
-    title: "Religion",
-    number: 12,
-    header: 'Learn React',
-    description: 'React is cool and fantastic React is cool and fantastic React is cool and fantastic React is cool and fantastic',
-    imageUrl: 'https://pbs.twimg.com/profile_images/636592875418046464/392UXhOt_400x400.png'
-  },{
-    title: "Research and Public Policy",
-    number: 25,
-    header: 'Learn Gulp',
-    description: 'Gulp is cool and fantastic Gulp is cool and fantastic Gulp is cool and fantastic React is cool and fantastic',
-    imageUrl: 'https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png'
-  }]
-};
