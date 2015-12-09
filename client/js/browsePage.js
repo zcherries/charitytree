@@ -36,12 +36,12 @@ var Browse = exports.Browse = React.createClass({
       <div>
 
         <div className="center flow-text">
-          <h1> Find causes you care about the most </h1>
+          <h3>Find causes you care about the most</h3>
         </div>
 
         <div className="row">
           <div className="col s12 m2 l2">
-            <div className="center-align pinned" style={{maxWidth: "16%"}}>
+            <div className="center-align pinned" style={{maxWidth: "16%", zIndex: "100"}}>
               <button className="btn waves-effect waves-light" type="submit" name="action">Submit Search
                 <i className="material-icons right">send</i>
               </button>
@@ -52,7 +52,7 @@ var Browse = exports.Browse = React.createClass({
               />
             </div>
           </div>
-          <div className="col s12 m8 push-m2 l8 push-l2">
+          <div className="col s9 push-s3 m8 push-m2 l8 push-l2">
             <div className="row">
 
               <div id="animals" className="col s12 m6 l6 section scrollspy">

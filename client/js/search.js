@@ -54,8 +54,8 @@ var Tag = exports.Tag = React.createClass({
           tagName={this.props.text}
           onClick={this.removeSelf}
         >
-          <span ref="tagText">{this.props.text}
-          <i className="material-icons">close</i></span>
+          <div ref="tagText">{this.props.text}
+          <i className="material-icons">close</i></div>
         </div>
     );
   }
