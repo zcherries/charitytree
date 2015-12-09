@@ -4,8 +4,8 @@ var React = require('react');
 import { Link } from 'react-router';
 
 var Search = exports.Search = React.createClass({
-
   render: function () {
+    console.log("Search Props: ", this.props);
     return (
       <div>
         <div className="row">
@@ -20,7 +20,7 @@ var Search = exports.Search = React.createClass({
           </div>
           <div className="col s12 m5 pull-m7">
             <h5 className="center-align">Organizations</h5>
-            <OrganizationResults />
+            <OrganizationResults searchResultOrgs={this.props.searchResults.orgs} />
           </div>
         </div>
       </div>
@@ -29,13 +29,19 @@ var Search = exports.Search = React.createClass({
 });
 
 var OrganizationResults = React.createClass({
+
   render: function () {
+    var org = this.props.searchResultOrgs.map(function(organization){
+      return (
+        <Organization org={organization}/>
+      )
+    })
     return(
       <div>
         <div>
           <h6>Organization Results</h6>
           <ul className="collection hoverable">
-            <Organization />
+            {org}
           </ul>
         </div>
       </div>
@@ -64,13 +70,13 @@ var Tag = exports.Tag = React.createClass({
 
 var Organization = React.createClass({
   render: function () {
-    return(
-      <div>
+    var img = this.props.org.profile_img ? 'data:image/jpeg;base64,' + window.btoa(this.props.org.profile_img.data.data.toString())
+        : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050007_0001.182123902_std.jpg"
+    return( <div>
         <li className="collection-item avatar">
-          <img src="http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050007_0001.182123902_std.jpg" alt="" className="circle" />
-          <span className="title right-align"><h4>World of Good Ethiopia</h4></span>
-          <p>World of Good is a small non-profit organization headquartered in Junction City, Oregon dedicated to our mission:  "To improve the health, education and quality of life of impoverished individuals around the world - most specifically, but not limited to children, seniors and individuals with disabilities.
-          </p>
+          <img src={img} alt="" className="image circle" />
+          <span className="title right-align"><h4>{this.props.org.name}</h4></span>
+          <p>{this.props.org.about}</p>
         </li>
       </div>
     );
@@ -112,4 +118,3 @@ var Project = React.createClass({
     );
   }
 });
-
