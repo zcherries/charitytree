@@ -70,17 +70,33 @@ var Browse = exports.Browse = React.createClass({
                       >
                         Rights
                       </div>
-                      <div className="hoverable" value="Animal Services">
+                      <div
+                        className="hoverable"
+                        title="Animal Services"
+                        onClick={this.addCriteria}
+                      >
                         Services
                       </div>
-                      <div className="hoverable" value="Animal Welfare">
+                      <div
+                        className="hoverable"
+                        title="Animal Welfare"
+                        onClick={this.addCriteria}
+                      >
                         Welfare
                       </div>
-                      <div className="hoverable" value="Animal Wildlife Conservation">
+                      <div
+                        className="hoverable"
+                        title="Wildlife Conservation"
+                        onClick={this.addCriteria}
+                      >
                         Wildlife Conservation
                       </div>
-                      <div className="hoverable" value="Animal Zoos Aquariums">
-                        Zoos and Aquariums
+                      <div
+                        className="hoverable"
+                        title="Zoos & Aquariums"
+                        onClick={this.addCriteria}
+                      >
+                        Zoos & Aquariums
                       </div>
                   </div>
                 </div>
@@ -94,12 +110,48 @@ var Browse = exports.Browse = React.createClass({
                   </div>
                   <div className="card-reveal">
                     <span className="card-title grey-text text-darken-4">Arts, Culture, Humanities<i className="material-icons right">close</i></span>
-                    <p>Libraries <br/>
-                      Historical Societies<br/>
-                      Landmark Preservation<br/>
-                      Museums<br/>
-                      Performing Arts<br/>
-                      Public Broadcasting and Media</p>
+                    <div
+                        className="hoverable"
+                        title="Libraries"
+                        onClick={this.addCriteria}
+                      >
+                        Libraries
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Historical Societies"
+                        onClick={this.addCriteria}
+                      >
+                        Historical Societies
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Landmark Preservation"
+                        onClick={this.addCriteria}
+                      >
+                        Landmark Preservation
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Museums"
+                        onClick={this.addCriteria}
+                      >
+                        Museums
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Performing Arts"
+                        onClick={this.addCriteria}
+                      >
+                        Performing Arts
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Public Broadcasting"
+                        onClick={this.addCriteria}
+                      >
+                        Public Broadcasting
+                      </div>
                   </div>
                 </div>
               </div>
@@ -111,9 +163,27 @@ var Browse = exports.Browse = React.createClass({
                   </div>
                   <div className="card-reveal">
                     <span className="card-title grey-text text-darken-4">Community Development<i className="material-icons right">close</i></span>
-                    <p>Fundraising<br/>
-                      Community Foundations
-                      Housing and Neighborhood Development</p>
+                     <div
+                        className="hoverable"
+                        title="Fundraising"
+                        onClick={this.addCriteria}
+                        >
+                        Fundraising
+                      </div>
+                       <div
+                        className="hoverable"
+                        title="Community Foundations"
+                        onClick={this.addCriteria}
+                        >
+                        Community Foundations
+                      </div>
+                       <div
+                        className="hoverable"
+                        title="Housing Development"
+                        onClick={this.addCriteria}
+                        >
+                        Housing Development
+                      </div>
                   </div>
                 </div>
               </div>
@@ -125,10 +195,34 @@ var Browse = exports.Browse = React.createClass({
                   </div>
                   <div className="card-reveal">
                     <span className="card-title grey-text text-darken-4">Education<i className="material-icons right">close</i></span>
-                    <p>Universities, Graduate Schools, and Technological Institutes
-                      Private Elementary and Secondary Schools
-                      Private Liberal Arts Colleges
-                      Other Education Programs and Services</p>
+                      <div
+                        className="hoverable"
+                        title="Universities & Institutes"
+                        onClick={this.addCriteria}
+                        >
+                        Universities & Technological Institutes
+                      </div>
+                       <div
+                        className="hoverable"
+                        title="Elementary"
+                        onClick={this.addCriteria}
+                        >
+                        Elementary Schools
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Secondary"
+                        onClick={this.addCriteria}
+                        >
+                        Secondary Schools
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Liberal Arts"
+                        onClick={this.addCriteria}
+                        >
+                        Liberal Arts Colleges
+                      </div>
                   </div>
                 </div>
               </div>
@@ -140,8 +234,34 @@ var Browse = exports.Browse = React.createClass({
                   </div>
                   <div className="card-reveal">
                     <span className="card-title grey-text text-darken-4">Environment<i className="material-icons right">close</i></span>
-                    <p>Environmental Protection and Conservation
-                      Botanical Gardens, Parks, and Nature Centers</p>
+                      <div
+                        className="hoverable"
+                        title="Environmental Protection"
+                        onClick={this.addCriteria}
+                        >
+                        Environmental Protection
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Conservation"
+                        onClick={this.addCriteria}
+                        >
+                        Conservation
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Botanical Gardens"
+                        onClick={this.addCriteria}
+                        >
+                        Botanical Gardens
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Parks & Nature"
+                        onClick={this.addCriteria}
+                        >
+                        Parks & Nature Centers
+                      </div>
                   </div>
                 </div>
               </div>
@@ -153,12 +273,76 @@ var Browse = exports.Browse = React.createClass({
                   </div>
                   <div className="card-reveal">
                     <span className="card-title grey-text text-darken-4">Health<i className="material-icons right">close</i></span>
-                    <p>Diseases, Disorders, and Disciplines
-                      Patient and Family Support
-                      Health Care Facilities and Programs
-                      Mental Health and Crisis Services
-                      Treatment and Prevention Services
-                      Medical Research</p>
+                     <div
+                        className="hoverable"
+                        title="Diseases"
+                        onClick={this.addCriteria}
+                        >
+                        Diseases
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Disorders"
+                        onClick={this.addCriteria}
+                        >
+                        Disorders
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Patient Support"
+                        onClick={this.addCriteria}
+                        >
+                        Patient Support
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Family Support"
+                        onClick={this.addCriteria}
+                        >
+                        Family Support
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Health Care"
+                        onClick={this.addCriteria}
+                        >
+                        Health Care Facilities and Programs
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Mental Health"
+                        onClick={this.addCriteria}
+                        >
+                        Mental Health
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Crisis Services"
+                        onClick={this.addCriteria}
+                        >
+                        Crisis Services
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Treatment"
+                        onClick={this.addCriteria}
+                        >
+                        Treatment
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Prevention"
+                        onClick={this.addCriteria}
+                        >
+                        Prevention
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Medical Research"
+                        onClick={this.addCriteria}
+                        >
+                        Medical Research
+                      </div>
                   </div>
                 </div>
               </div>
@@ -171,14 +355,83 @@ var Browse = exports.Browse = React.createClass({
                   </div>
                   <div className="card-reveal">
                     <span className="card-title grey-text text-darken-4">Human Services<i className="material-icons right">close</i></span>
-                    <p>Children's and Family Services
-                      Crime and Legal Related
-                      Youth Development, Shelter, and Crisis Services
-                      Food Banks, Food Pantries, and Food Distribution
-                      Multipurpose Human Service Organizations
-                      Public Safety, Disaster Preparedness, and Relief
-                      Homeless Services
-                      Social Services</p>
+                      <div
+                        className="hoverable"
+                        title="Children Services"
+                        onClick={this.addCriteria}
+                        >
+                        Children Services
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Family Services"
+                        onClick={this.addCriteria}
+                        >
+                        Family Services
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Crime and Legal"
+                        onClick={this.addCriteria}
+                        >
+                        Crime and Legal
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Youth Development"
+                        onClick={this.addCriteria}
+                        >
+                        Youth Development
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Shelter"
+                        onClick={this.addCriteria}
+                        >
+                        Shelter
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Crisis Services"
+                        onClick={this.addCriteria}
+                        >
+                        Crisis Services
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Food Banks"
+                        onClick={this.addCriteria}
+                        >
+                        Food Banks
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Food Distribution"
+                        onClick={this.addCriteria}
+                        >
+                        Food Distribution
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Disaster Preparedness"
+                        onClick={this.addCriteria}
+                        >
+                        Disaster Preparedness
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Homeless Services"
+                        onClick={this.addCriteria}
+                        >
+                        Homeless Services
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Social Services"
+                        onClick={this.addCriteria}
+                        >
+                        Social Services
+                      </div>
                   </div>
                 </div>
               </div>
@@ -191,7 +444,27 @@ var Browse = exports.Browse = React.createClass({
                   </div>
                   <div className="card-reveal">
                     <span className="card-title grey-text text-darken-4">Human and Civil Rights<i className="material-icons right">close</i></span>
-                    <p>Advocacy and Education</p>
+                    <div
+                        className="hoverable"
+                        title="Rights Advocacy"
+                        onClick={this.addCriteria}
+                        >
+                        Advocacy and Education
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Social Services"
+                        onClick={this.addCriteria}
+                        >
+                        Social Services
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Human Trafficking"
+                        onClick={this.addCriteria}
+                        >
+                        Human Trafficking
+                      </div>
                   </div>
                 </div>
               </div>
@@ -204,10 +477,34 @@ var Browse = exports.Browse = React.createClass({
                   </div>
                   <div className="card-reveal">
                     <span className="card-title grey-text text-darken-4">International<i className="material-icons right">close</i></span>
-                    <p>Development and Relief Services
-                      International Peace, Security, and Affairs
-                      Humanitarian Relief Supplies
-                      Foreign Charity Support Organizations</p>
+                                          <div
+                        className="hoverable"
+                        title="Development & Relief"
+                        onClick={this.addCriteria}
+                        >
+                        Development & Relief Services
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="International Peace"
+                        onClick={this.addCriteria}
+                        >
+                        International Peace
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Security"
+                        onClick={this.addCriteria}
+                        >
+                        Security
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Humanitarian Relief"
+                        onClick={this.addCriteria}
+                        >
+                        Humanitarian Relief Supplies
+                      </div>
                   </div>
                 </div>
               </div>
@@ -220,8 +517,20 @@ var Browse = exports.Browse = React.createClass({
                   </div>
                   <div className="card-reveal">
                     <span className="card-title grey-text text-darken-4">Religion<i className="material-icons right">close</i></span>
-                    <p>Religious Activities
-                      Religious Media and Broadcasting</p>
+                       <div
+                        className="hoverable"
+                        title="Religious Activities"
+                        onClick={this.addCriteria}
+                        >
+                        Religious Activities
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Religious Media"
+                        onClick={this.addCriteria}
+                        >
+                        Religious Media & Broadcasting
+                      </div>
                   </div>
                 </div>
               </div>
@@ -234,8 +543,27 @@ var Browse = exports.Browse = React.createClass({
                   </div>
                   <div className="card-reveal">
                     <span className="card-title grey-text text-darken-4">Research and Public Policy<i className="material-icons right">close</i></span>
-                    <p>Non-Medical Science & Technology Research
-                      Social and Public Policy Research</p>
+                    <div
+                        className="hoverable"
+                        title="Non-Medical Science"
+                        onClick={this.addCriteria}
+                        >
+                        Non-Medical Science
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Technology Research"
+                        onClick={this.addCriteria}
+                        >
+                        Technology Research
+                      </div>
+                      <div
+                        className="hoverable"
+                        title="Public Policy Research"
+                        onClick={this.addCriteria}
+                        >
+                        Public Policy Research
+                      </div>
                   </div>
                 </div>
               </div>
