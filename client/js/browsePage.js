@@ -33,7 +33,7 @@ var Browse = exports.Browse = React.createClass({
     var list = this.state.data.map(function(thumbnailProps) {
       return <Thumbnail header = {thumbnailProps.name} />
     })*/
-
+    console.log("Props: ", this.props)
     return <div>
 
     <div className="center">
@@ -287,4 +287,3 @@ var Thumbnail = React.createClass({
             <img className = "image" src={this.props.imageUrl} />
             {this.props.header}
           </div>*/
-

@@ -1,7 +1,7 @@
 "use strict";
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, Link, IndexRoute } from 'react-router';
+import { Router, Route, Link, IndexRoute, Navigation } from 'react-router';
 import { createHistory, useBasename } from 'history';
 
 /*local imports*/
@@ -17,10 +17,14 @@ const history = useBasename(createHistory)({
 
 const App = React.createClass({
 
+  navigateToSearchPage () {
+    this.props.history.pushState(null, `/search`);
+  },
+
   getInitialState: function () {
     return {
       searchText: "",
-      searchResults: {}
+      searchResults: []
     };
   },
 
@@ -44,6 +48,7 @@ const App = React.createClass({
           searchText: this.state.searchText,
           searchResults: data.results
         });
+          this.navigateToSearchPage();
       }.bind(this),
       error: function (xhr, status, err) {
         console.error(xhr, status, err.toString());
