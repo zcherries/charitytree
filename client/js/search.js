@@ -43,15 +43,20 @@ var OrganizationResults = React.createClass({
   }
 });
 
-var Tag = React.createClass({
+var Tag = exports.Tag = React.createClass({
+  removeSelf: function(e) {
+    this.props.removeTag(this.refs.tagText.innerHTML);
+  },
   render: function () {
     return(
-      <div>
-        <div className="chip">
-          Tag
-          <i className="material-icons">close</i>
+        <div
+          className="chip"
+          tagName={this.props.text}
+          onClick={this.removeSelf}
+        >
+          <span ref="tagText">{this.props.text}
+          <i className="material-icons">close</i></span>
         </div>
-      </div>
     );
   }
 });
