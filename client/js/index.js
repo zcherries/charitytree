@@ -34,7 +34,22 @@ const App = React.createClass({
     });
   },
 
-  handleSearch: function () {
+  handleSearchButton: function (searchText) {
+    console.log("App/hSS/searchText:",searchText);
+    this.setState({
+      searchText: searchText
+    });
+    var self = this
+    var i = setInterval(function () {
+      if (searchText === self.state.searchText) {
+        clearInterval(i);
+        console.log("App/hSS/this.state.searchText:",self.state.searchText);
+        self.handleSearchSubmit();
+      }
+    }, 100);
+  },
+
+  handleSearchSubmit: function () {
     var searchArr = this.state.searchText.split(" ");
     console.log("handleSearch: searchArr",searchArr);
     $.ajax({
@@ -48,7 +63,7 @@ const App = React.createClass({
           searchText: this.state.searchText,
           searchResults: data.results
         });
-          this.navigateToSearchPage();
+        this.navigateToSearchPage();
       }.bind(this),
       error: function (xhr, status, err) {
         console.error(xhr, status, err.toString());
@@ -61,10 +76,16 @@ const App = React.createClass({
       <div>
         <Navbar
           searchText={this.state.searchText}
-          onSearchInput={this.handleInput}
-          onSearchSubmit={this.handleSearch}
+          handleInput={this.handleInput}
+          handleSearchSubmit={this.handleSearchSubmit}
         />
-        {React.cloneElement(this.props.children, {searchResults: this.state.searchResults})}
+        {React.cloneElement(this.props.children,
+          {
+            searchText: this.state.searchText,
+            handleSearchButton: this.handleSearchButton,
+            handleSearchSubmit: this.handleSearchSubmit,
+            searchResults: this.state.searchResults
+          })}
       </div>
     );
   }

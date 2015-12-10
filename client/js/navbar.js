@@ -3,16 +3,16 @@ var React = require('react');
 import { Link } from 'react-router';
 
 var Navbar = exports.Navbar = React.createClass({
-  handleChange: function (e) {
+  handleInput: function (e) {
     //console.log("value",e.target.value);
-    this.props.onSearchInput(
+    this.props.handleInput(
       e.target.value
     );
   },
 
-  handleSubmit: function (e) {
+  handleSearchSubmit: function (e) {
     e.preventDefault();
-    this.props.onSearchSubmit();
+    this.props.handleSearchSubmit();
   },
 
   render: function () {
@@ -25,7 +25,7 @@ var Navbar = exports.Navbar = React.createClass({
               <a href="#" data-activates="mobile-demo" className="button-collapse black-text"><i className="material-icons">menu</i></a>
               <ul className="right hide-on-med-and-down">
                 <li>
-                  <form onSubmit={this.handleSubmit}>
+                  <form onSubmit={this.handleSearchSubmit}>
                     <div className="input-field black-text">
                     <input
                         id="search"
@@ -33,7 +33,7 @@ var Navbar = exports.Navbar = React.createClass({
                         placeholder="Search..."
                         ref="searchInput"
                         value={this.props.searchText}
-                        onChange={this.handleChange}
+                        onChange={this.handleInput}
                         required />
                       <label htmlFor="search"><i className="material-icons black-text">search</i></label>
                       <i className="material-icons black-text">close</i>
@@ -48,7 +48,7 @@ var Navbar = exports.Navbar = React.createClass({
               <ul className="side-nav" id="mobile-demo">
                 <li>
                   {/*
-                  <form onSubmit={this.handleSubmit}>
+                  <form onSubmit={this.handleSearchSubmit}>
                     <div className="input-field black-text">
                       <input
                         id="search"
@@ -56,7 +56,7 @@ var Navbar = exports.Navbar = React.createClass({
                         placeholder="Search..."
                         ref="searchInput"
                         value={this.props.searchText}
-                        onChange={this.handleChange}
+                        onChange={this.handleInput}
                         required />
                       <label htmlFor="search"><i className="material-icons grey-text text-lighten-3 black-text">search</i></label>
                       <i className="material-icons">close</i>
