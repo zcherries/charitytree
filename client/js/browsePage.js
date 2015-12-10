@@ -19,7 +19,6 @@ var Browse = exports.Browse = React.createClass({
     this.setState({
       searchCriteria: tags
     });
-    console.log("addCriteria/this.state.searchCriteria",this.state.searchCriteria);
   },
 
   removeTag: function(tagName) {
@@ -29,7 +28,13 @@ var Browse = exports.Browse = React.createClass({
     this.setState({
       searchCriteria: searchCriteria
     });
-    console.log("removeTag/searchCriteria:",searchCriteria);
+  },
+
+  handleSearchSubmit: function (e) {
+    e.preventDefault();
+    var searchText = this.state.searchCriteria.join(" ");
+    console.log("Browse:searchText/searchText:",searchText);
+    this.props.handleSearchButton(searchText);
   },
 
   render: function() {
@@ -42,8 +47,14 @@ var Browse = exports.Browse = React.createClass({
         <div className="row">
           <div className="col s12 m2 l2">
             <div className="center-align pinned" style={{maxWidth: "16%", zIndex: "100"}}>
-              <button className="btn waves-effect waves-light" type="submit" name="action">Submit Search
-                <i className="material-icons right">send</i>
+              <button
+                className="btn waves-effect waves-light"
+                type="submit"
+                name="action"
+                onClick={this.handleSearchSubmit}
+              >
+                Submit Search
+                <i className="material-icons left">search</i>
               </button>
               <h6>Search Criterion</h6>
               <TagContainer
@@ -66,9 +77,8 @@ var Browse = exports.Browse = React.createClass({
 
 var TagContainer = React.createClass({
   render: function () {
-    console.log("TagContainer/this.props.searchCriteria",this.props.searchCriteria);
     var tagNodes = this.props.searchCriteria.map(function(tag, idx) {
-      console.log("TagContainer/tagNodes/tag",tag,"idx",idx);
+      //console.log("TagContainer/tagNodes/tag",tag,"idx",idx);
       return (
         <Tag
           text={ tag }
@@ -84,8 +94,6 @@ var TagContainer = React.createClass({
     );
   }
 });
-
-
 
 var Causes = React.createClass({
   render: function () {
@@ -129,11 +137,13 @@ var Cause = React.createClass({
         <div className="cardx hoverable">
           <div className="card-image waves-effect waves-block waves-light">
             <img className="image activator" src={this.props.causeImage} />
-            <span className="card-title activator white-text z-depth-5">{this.props.causeTitle}</span>
+            <span className="card-title activator white-text shadow">{this.props.causeTitle}</span>
           </div>
-          <div className="card-reveal">
+          <div className="card-reveal #f5f5f5 grey lighten-4">
             <span className="card-title grey-text text-darken-4">{this.props.causeTitle}</span>
-            {causeCardReveals}
+            <form action="#">
+              {causeCardReveals}
+            </form>
           </div>
         </div>
       </div>
@@ -151,6 +161,17 @@ var CauseCriteria = React.createClass({
       >
         {this.props.title}
       </div>
+    );
+  }
+});
+
+var CauseCriteriaCB = React.createClass({
+  render: function () {
+    return(
+      <p>
+        <input type="checkbox" title={this.props.tags} onCheck={this.props.addCriteria}/>
+        <label htmlFor="test5">{this.props.title}</label>
+      </p>
     );
   }
 });

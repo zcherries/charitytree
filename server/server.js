@@ -96,8 +96,8 @@ app.get('/', function(req, res) {
 
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
-// app.get('*', function (req, res){
-//   res.sendFile(path.resolve(__dirname, './../client', 'index.html'))
-// });
+ app.get('*', function (req, res){
+   res.sendFile(path.resolve(__dirname, './../client', 'index.html'))
+ });
 
 app.listen(PORT, IP);

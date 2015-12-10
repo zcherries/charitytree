@@ -12,7 +12,7 @@ var Search = exports.Search = React.createClass({
           <div className="col s12 m7 push-m5">
             <h5 className="center-align">Projects</h5>
             <h6>Search Tags</h6>
-            <div style={{minHeight: 32 + 'px'}}>
+            <div style={{minHeight: '25px'}}>
               <pre>Search Results: {this.props.searchResults.text}</pre>
               <Tag />
             </div>
@@ -57,12 +57,12 @@ var Tag = exports.Tag = React.createClass({
   render: function () {
     return(
         <div
-          className="chipx"
+          className="chipx valign"
           textContent={this.props.text}
           onClick={this.removeSelf}
         > {/*custom chip*/}
+          <i className="chipx material-icons">close</i>
           {this.props.text}
-          <i className="material-icons">close</i>
         </div>
     );
   }
