@@ -54,16 +54,16 @@ const App = React.createClass({
     console.log("handleSearch: searchArr",searchArr);
     $.ajax({
       url: "/post_search",
-      dataType: 'json',
+      // dataType: 'json',
       method: "Post",
       data: {aofs: searchArr},
       success: function (data) {
-        console.log("DB Search response data",data);
         this.setState({
           searchText: this.state.searchText,
           searchResults: data.results
         });
         this.navigateToSearchPage();
+        // console.log('Testing success time. Inside of success to AJAX')
       }.bind(this),
       error: function (xhr, status, err) {
         console.error(xhr, status, err.toString());
