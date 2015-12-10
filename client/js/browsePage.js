@@ -1,38 +1,22 @@
 //display list of areas of focus
 import React from 'react';
 import { Link } from 'react-router';
-import { Tag } from './search.js';
+import { TagContainer, Tag } from './tag_container.js';
 import { CausesInfo } from './causesinfo.js';
 
 var Browse = exports.Browse = React.createClass({
-  getInitialState: function () {
-    return {
-      searchCriteria: []
-    };
-  },
 
   addCriteria: function (e) {
-    var tags = this.state.searchCriteria;
-    if (this.state.searchCriteria.indexOf(e.target.title) === -1) {
+    var tags = this.props.searchCriteria;
+    if (this.props.searchCriteria.indexOf(e.target.title) === -1) {
       tags.push(e.target.title);
     }
-    this.setState({
-      searchCriteria: tags
-    });
-  },
-
-  removeTag: function(tagName) {
-    var searchCriteria = this.state.searchCriteria.slice();
-    var tagIdx = searchCriteria.indexOf(tagName);
-    searchCriteria.splice(tagIdx, 1);
-    this.setState({
-      searchCriteria: searchCriteria
-    });
+    this.props.updateSearchCriteria(tags);
   },
 
   handleSearchSubmit: function (e) {
     e.preventDefault();
-    var searchText = this.state.searchCriteria.join(" ");
+    var searchText = this.props.searchCriteria.join(" ");
     console.log("Browse:searchText/searchText:",searchText);
     this.props.handleSearchButton(searchText);
   },
@@ -58,8 +42,8 @@ var Browse = exports.Browse = React.createClass({
               </button>
               <h6>Search Criterion</h6>
               <TagContainer
-                searchCriteria={this.state.searchCriteria}
-                removeTag={this.removeTag}
+                searchCriteria={this.props.searchCriteria}
+                removeBrowseTag={this.props.removeBrowseTag}
               />
             </div>
           </div>
@@ -70,26 +54,6 @@ var Browse = exports.Browse = React.createClass({
           {/*ScrollSpy*/}
           <ScrollSpyListItems />
         </div>
-      </div>
-    );
-  }
-});
-
-var TagContainer = React.createClass({
-  render: function () {
-    var tagNodes = this.props.searchCriteria.map(function(tag, idx) {
-      //console.log("TagContainer/tagNodes/tag",tag,"idx",idx);
-      return (
-        <Tag
-          text={ tag }
-          removeTag={ this.props.removeTag }
-          key={idx}
-        />
-      );
-    }.bind(this));
-    return (
-      <div className="taglist">
-        { tagNodes }
       </div>
     );
   }

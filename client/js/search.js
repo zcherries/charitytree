@@ -1,11 +1,11 @@
 "use strict";
 var React = require('react');
-
 import { Link } from 'react-router';
+import { TagContainer, Tag } from './tag_container.js';
 
 var Search = exports.Search = React.createClass({
   render: function () {
-    console.log("Search Props: ", this.props);
+    //console.log("Search Props: ", this.props);
     return (
       <div>
         <div className="row">
@@ -13,8 +13,10 @@ var Search = exports.Search = React.createClass({
             <h5 className="center-align">Projects</h5>
             <h6>Search Tags</h6>
             <div style={{minHeight: '25px'}}>
-              <pre>Search Results: {this.props.searchResults.text}</pre>
-              <Tag />
+              <TagContainer
+                searchCriteria={this.props.searchCriteria}
+                removeSearchTag={this.props.removeSearchTag}
+              />
             </div>
             <ProjectResults />
           </div>
@@ -31,39 +33,22 @@ var Search = exports.Search = React.createClass({
 var OrganizationResults = React.createClass({
 
   render: function () {
-    var org = this.props.searchResultOrgs.map(function(organization){
-      return (
-        <Organization org={organization}/>
-      )
-    })
+    if (this.props.searchResultOrgs) {
+      var org = this.props.searchResultOrgs.map(function(organization, index){
+        return (
+          <Organization org={organization} key={index}/>
+        )
+      });
+    }
     return(
       <div>
         <div>
           <h6>Organization Results</h6>
           <ul className="collection hoverable">
-            {org}
+            {org ? org : "No results to display"}
           </ul>
         </div>
       </div>
-    );
-  }
-});
-
-var Tag = exports.Tag = React.createClass({
-  removeSelf: function(e) {
-    console.log("e.target.textContent:",e.target.textContent);
-    this.props.removeTag(e.target.textContent);
-  },
-  render: function () {
-    return(
-        <div
-          className="chipx valign"
-          textContent={this.props.text}
-          onClick={this.removeSelf}
-        > {/*custom chip*/}
-          <i className="chipx material-icons">close</i>
-          {this.props.text}
-        </div>
     );
   }
 });

@@ -17,21 +17,55 @@ const history = useBasename(createHistory)({
 
 const App = React.createClass({
 
+  getInitialState: function () {
+    return {
+      searchText: "",
+      searchCriteria: [],
+      searchResults: []
+    };
+  },
+  updateSearchCriteria: function(tags) {
+    this.setState({
+      searchCriteria: tags
+    })
+  },
+
   navigateToSearchPage () {
     this.props.history.pushState(null, `/search`);
   },
 
-  getInitialState: function () {
-    return {
-      searchText: "",
-      searchResults: []
-    };
-  },
-
-  handleInput: function (searchText) {
+  updateInput: function (searchText) {
     this.setState({
       searchText: searchText
     });
+  },
+
+  removeBrowseTag: function(tagName) {
+    var searchCriteria = this.state.searchCriteria.slice();
+    var tagIdx = searchCriteria.indexOf(tagName);
+    searchCriteria.splice(tagIdx, 1);
+    this.setState({
+      searchCriteria: searchCriteria
+    });
+  },
+
+  removeSearchTag: function(tagName) {
+    var searchCriteria = this.state.searchCriteria.slice();
+    var tagIdx = searchCriteria.indexOf(tagName);
+    searchCriteria.splice(tagIdx, 1);
+    this.setState({
+      searchText: searchCriteria.join(" "),
+      searchCriteria: searchCriteria
+    });
+    var self = this;
+    var i = setInterval(function () {
+      if (searchCriteria === self.state.searchCriteria) {
+        clearInterval(i);
+        console.log("App/rST/self.state.searchCriteria:",self.state.searchCriteria);
+        console.log("App/rST/self.state.searchText:",self.state.searchText);
+        self.handleSearchSubmit();
+      }
+    }, 100);
   },
 
   handleSearchButton: function (searchText) {
@@ -39,7 +73,7 @@ const App = React.createClass({
     this.setState({
       searchText: searchText
     });
-    var self = this
+    var self = this;
     var i = setInterval(function () {
       if (searchText === self.state.searchText) {
         clearInterval(i);
@@ -50,16 +84,17 @@ const App = React.createClass({
   },
 
   handleSearchSubmit: function () {
-    var searchArr = this.state.searchText.split(" ");
-    console.log("handleSearch: searchArr",searchArr);
+    var searchCriteria = this.state.searchText.split(" ");
+    console.log("handleSearch: searchCriteria",searchCriteria);
     $.ajax({
       url: "/post_search",
       // dataType: 'json',
       method: "Post",
-      data: {aofs: searchArr},
+      data: {aofs: searchCriteria},
       success: function (data) {
         this.setState({
           searchText: this.state.searchText,
+          searchCriteria: searchCriteria,
           searchResults: data.results
         });
         this.navigateToSearchPage();
@@ -76,15 +111,19 @@ const App = React.createClass({
       <div>
         <Navbar
           searchText={this.state.searchText}
-          handleInput={this.handleInput}
+          updateInput={this.updateInput}
           handleSearchSubmit={this.handleSearchSubmit}
         />
         {React.cloneElement(this.props.children,
           {
             searchText: this.state.searchText,
+            searchCriteria: this.state.searchCriteria,
             handleSearchButton: this.handleSearchButton,
             handleSearchSubmit: this.handleSearchSubmit,
-            searchResults: this.state.searchResults
+            searchResults: this.state.searchResults,
+            updateSearchCriteria: this.updateSearchCriteria,
+            removeBrowseTag: this.removeBrowseTag,
+            removeSearchTag: this.removeSearchTag
           })}
       </div>
     );
