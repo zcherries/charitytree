@@ -70,11 +70,11 @@ var Tag = exports.Tag = React.createClass({
 
 var Organization = React.createClass({
   render: function () {
-    var img = this.props.org.profile_img ? 'data:image/jpeg;base64,' + window.btoa(this.props.org.profile_img.data.data.toString())
-        : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050007_0001.182123902_std.jpg"
-    return( <div>
+    var img = (this.props.org.img) ? "data:image/jpeg;base64," + this.props.org.img
+        : "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg";
+    return( <div className="org-card">
         <li className="collection-item avatar">
-          <img src={img} alt="" className="image circle" />
+          <img className="image circle" src={img} />
           <span className="title right-align"><h4>{this.props.org.name}</h4></span>
           <p>{this.props.org.about}</p>
         </li>

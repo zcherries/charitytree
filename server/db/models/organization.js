@@ -15,7 +15,8 @@ var OrganizationSchema = new Schema({
   },
   media: [ObjectId],
   projects: [{ type: ObjectId, ref: 'Project' }],
-  endorsements: [{ type: ObjectId, ref: 'Donor' }]
+  endorsements: [{ type: ObjectId, ref: 'Donor' }],
+  img: { type: String, default: '' }
 });
 
 var Organization = mongoose.model('Organization', OrganizationSchema);
