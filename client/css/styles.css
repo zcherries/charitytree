@@ -184,33 +184,6 @@ main {
     border: 2px dashed #000;
   }
 
-
-.box__file {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
-}
-
-.box__file + label {
-    font-size: 1.25em;
-    font-weight: 700;
-    color: white;
-    background-color: black;
-    display: inline-block;
-}
-
-.box__file:focus + label,
-.box__file + label:hover {
-    background-color: red;
-}
-
-.box__file + label {
-	cursor: pointer; /* "hand" cursor */
-}
-
 .box__dragndrop,
 .box__uploading,
 .box__success,
@@ -220,7 +193,7 @@ main {
 
 .box.has-advanced-upload {
   background-color: white;
-  outline: 2px dashed black;
+  outline: 2px dashed teal;
   outline-offset: -10px;
 }
 .box.has-advanced-upload .box__dragndrop {
@@ -236,4 +209,37 @@ main {
 }
 .box.is-uploading .box__uploading {
   display: block;
+}
+
+.box__file {
+  width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.box__file + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: teal;
+    opacity: 0.5;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.box__file:focus + label,
+.box__file + label:hover {
+    background-color: red;
+}
+
+.box__file:focus + label {
+  outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+
+.box__file + label * {
+	pointer-events: none;
 }

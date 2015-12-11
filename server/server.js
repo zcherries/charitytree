@@ -93,34 +93,40 @@ var imgPath = 'C:/Users/T410/Documents/GitHub/charitytree/server/resources/Hydra
   });
 }
 
- app.post('/upload', multer().array('media'), function(req, res, next) {
-  //  console.log("Files: ", req.files);
-   console.log("Body: ", req.body);
-  //  req.pipe(req.busboy);
-  //  req.busboy.on('file', function(fieldname, file, filename) {
-  //    console.log('File Path: ', file.path);
+app.post('/signup', function(req, res, next) {
+  console.log('Body: ', req.body)
+  if (req.body.userType === 'Organization') {
+    Controller.Organization.create(req, res, next, orgData);
+  } else if (req.body.userType === 'Donor') {
+    Controller.Donor.create(req, res, next, donorData);
+  }
+});
+
+ app.post('/media_upload', multer().array('media'), function(req, res, next) {
+   console.log("Files: ", req.files);
+  //  console.log("Body: ", req.body);
+
+  //  req.files.forEach(function(file) {
+  //    console.log(file);
+  //    //create and object id
+  //    var fileId = mongoose.Types.ObjectId();
+  //    var writeStream = connection.gridfs.createWriteStream({
+  //      _id: fileId,
+  //      length: Number(file.size),
+  //      chunkSize: 1024 * 4,
+  //      filename: file.originalname,
+  //      content_type: file.mimetype,
+  //      mode: 'w',
+  //      metadata: {
+  //        org: req.body.org_id
+  //      }
+  //    });
+  //    streamifier.createReadStream(file.buffer).pipe(writeStream);
+  //    writeStream.on('close', function() {
+  //      console.log("File write was successful");
+  //      //store fileId in media property of organization or project
+  //    });
   //  });
-   req.files.forEach(function(file) {
-     console.log(file);
-     //create and object id
-     var fileId = mongoose.Types.ObjectId();
-     var writeStream = connection.gridfs.createWriteStream({
-       _id: fileId,
-       length: Number(file.size),
-       chunkSize: 1024 * 4,
-       filename: file.originalname,
-       content_type: file.mimetype,
-       mode: 'w',
-       metadata: {
-         org: req.body.org_id
-       }
-     });
-     streamifier.createReadStream(file.buffer).pipe(writeStream);
-     writeStream.on('close', function() {
-       console.log("File write was successful");
-       //store fileId in media property of organization or project
-     });
-   });
 
    return res.status(200).send({ message: 'Success' });
   //  res.send({success: true});
