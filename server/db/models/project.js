@@ -15,21 +15,25 @@ var ProjectSchema = new Schema({
     goal: Number,
     current: Number
   },
+  total_donors_participating: Number,
   needs_list: [{
     title: String,
     description: String,
     cost: Number,
     quantity_needed: Number,
-    number_purchsed: Number,
+    number_purchased: Number,
     number_participants: Number
   }],
-  updates: [{ title: String, date: Date, description: String }],
   // comments: [{ type: ObjectID, ref: 'Donor', comment: String, date: Date }],
   faqs: [{title: String, description: String}],
+  updates: [{ title: String, date: Date, description: String }],
   sponsors: [{ type: ObjectId, ref: 'Donor' }],
   media: [ObjectId]
 });
 
+//set up relationship between needs items and the donor who purchased them - org needs to see what donor donated what so it can push relevant updates
+
+//what else in this schema needs to be required
 var Project = mongoose.model('Project', ProjectSchema);
 
 module.exports = Project;

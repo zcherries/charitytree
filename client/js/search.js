@@ -42,7 +42,10 @@ var OrganizationResults = React.createClass({
     if (this.props.searchResultOrgs) {
       var org = this.props.searchResultOrgs.map(function(organization, index){
         return (
-          <Organization org={organization} key={index}/>
+          <Organization
+            key={index}
+            org={organization}
+          />
         )
       });
     }
@@ -76,22 +79,32 @@ var Organization = React.createClass({
 
 var ProjectResults = React.createClass({
   render: function () {
-    if (this.props.searchResultProjects) {
-      var project = this.props.searchResultProjects.map(function(project, index){
+    console.log("ProjectResults/render/this.props.searchResultsProjects:",this.props.searchResultsProjects);
+    if (this.props.searchResultsProjects) {
+      var projects = this.props.searchResultsProjects.map(function (project, index) {
         return (
-          <Project project={project} key={index}/>
-        )
-      })
+          <Project
+            key={index}
+            title={project.title}
+            info={project.info}
+            areas_of_focus={project.areas_of_focus}
+            projectId={project._id}
+            getProject={this.props.getProject}
+          />
+        );
+      }.bind(this));
+    } else {
+      return (
+        <div>
+          No results to display
+        </div>
+      );
     }
-
     return(
       <div className="row">
         <div className="col s12 m6 l4">
           <h6>Project Search Results</h6>
-          <Project
-            searchResultsProjects={this.props.searchResultsProjects}
-            getProject={this.props.getProject}
-          />
+          {projects}
         </div>
       </div>
     );
@@ -102,34 +115,34 @@ var ProjectResults = React.createClass({
 var Project = React.createClass({
 
   getProject: function() {
-    this.props.getProject(this.props.searchResultsProjects._id);
+    this.props.getProject(this.props.projectId);
   },
 
 
   render: function () {
-    console.log("search results projects: ", this.props)
-    return(
 
+    return (
       <div className="card hoverable">
         <div className="card-image">
-          <img src="http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg" />
-          <span className="card-title shadow">
-            {this.props.searchResultsProjects.title}
-          </span>
+          <img src="http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg"/>
+              <span className="card-title shadow">
+                {this.props.title}
+              </span>
         </div>
         <div className="card-content">
 
-          <h6>{this.props.searchResultsProjects.org}</h6>
+          <h6>{this.props.areas_of_focus}</h6>
           <div className="truncate">
-            {this.props.searchResultsProjects.info}
+            {this.props.info}
           </div>
         </div>
         <div className="card-action">
-          <p><button className="waves-effect waves-light" onClick={this.getProject}>Read more...</button></p>
+          <p>
+            <button className="waves-effect waves-light" onClick={this.getProject}>Read more...</button>
+          </p>
 
         </div>
       </div>
-
     );
   }
 });
