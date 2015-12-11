@@ -47,14 +47,14 @@ var Project = exports.Project = React.createClass ({
           </div>
           <div className="col s12 m4">
             <div className="card blue-grey darken-1">
-            <div className="card-content white-text">
-              <span className="card-title">Need</span>
-              <p>We need 10,000 pairs of shoes</p>
+              <div className="card-content white-text">
+                <span className="card-title">Need</span>
+                <p>We need 10,000 pairs of shoes</p>
+              </div>
+              <div className="card-action">
+                <a href="#">Buy Shoes for Kids</a>
+              </div>
             </div>
-            <div className="card-action">
-              <a href="#">Buy Shoes for Kids</a>
-            </div>
-          </div>
           </div>
         </div>
 
