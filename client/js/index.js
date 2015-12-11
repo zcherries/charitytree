@@ -9,7 +9,7 @@ import {Browse} from './browsePage.js';
 import {Footer} from './footer.js';
 import {Navbar} from './navbar.js';
 import {Search} from './search.js';
-
+import {Project} from './project.js';
 
 const history = useBasename(createHistory)({
   basename: '/'
@@ -21,7 +21,8 @@ const App = React.createClass({
     return {
       searchText: "",
       searchCriteria: [],
-      searchResults: []
+      searchResults: [],
+      projectId: ""
     };
   },
   updateSearchCriteria: function(tags) {
@@ -30,7 +31,7 @@ const App = React.createClass({
     })
   },
 
-  navigateToSearchPage () {
+  navigateToSearchPage: function () {
     this.props.history.pushState(null, `/search`);
   },
 
@@ -106,6 +107,20 @@ const App = React.createClass({
     })
   },
 
+  getProject: function(projectId) {
+    this.setState({
+      projectId: projectId
+    })
+    var self = this;
+    var i = setInterval(function () {
+      if (projectId === self.state.projectId) {
+        clearInterval(i);
+        console.log("App/hSS/this.state.searchText:",self.state.projectId);
+        this.props.history.pushState(null, `/project`);
+      }
+    }, 100);
+  },
+
   render: function () {
     return (
       <div>
@@ -123,8 +138,10 @@ const App = React.createClass({
             searchResults: this.state.searchResults,
             updateSearchCriteria: this.updateSearchCriteria,
             removeBrowseTag: this.removeBrowseTag,
-            removeSearchTag: this.removeSearchTag
-          })}
+            removeSearchTag: this.removeSearchTag,
+            getProject: this.getProject
+          }
+        )}
       </div>
     );
   }
@@ -195,8 +212,9 @@ render((
     <Route path="/" component={App}>
       <IndexRoute component={Index} />
       <Route path="browse" component={Browse} />
-      <Route path="search" component={Search}
-      />
+      <Route path="search" component={Search} />
+      <Route path="project" component={Project} />
     </Route>
   </Router>
 ), document.getElementById('app'));
+      // <Route path="organization" component={Organization} />
