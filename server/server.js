@@ -6,6 +6,7 @@ var connection = require('./db/connection.js');
 var organizations = require('./resources/organizations.js');
 var bodyParser = require('body-parser')
 var fs = require('fs');
+var project = require('./resources/projects.js')
 
 var app = express();
 
@@ -21,7 +22,7 @@ app.use(express.static(__dirname + '/../client'));
 
 var imgPath = 'C:/Users/T410/Documents/GitHub/charitytree/server/resources/Hydrangeas.jpg';
 
- //organizations.forEach(function(org) {
+ // organizations.forEach(function(org) {
  //  var newOrg = new Model.Organization(org);
  //  newOrg.save(function(err, obj) {
  //    if (err) {
@@ -30,7 +31,7 @@ var imgPath = 'C:/Users/T410/Documents/GitHub/charitytree/server/resources/Hydra
  //      console.log("New organization has been added")
  //    }
  //  });
- //});
+ // });
 app.get('/image', function(req, res) {
   console.log('Inside GET Image')
   Model.Organization.findById({_id:"56663575f7ec540c2d4698fb"}, function(err, org) {
@@ -51,9 +52,20 @@ app.get('/image', function(req, res) {
   });
 });
 
+// Model.Project.create(project, function(error, result){
+//   if(error) {
+//     console.error(error)
+//   }else {
+//     console.log(result)
+//   }
+// })
 
 app.get('/organizations', function(req, res, next) {
   Controller.Organization.retrieve(req, res, next);
+});
+
+app.get('/projects', function(req, res, next) {
+  Controller.Project.retrieve(req, res, next);
 });
 
 app.get('/get_browse', function(req, res, next) {
