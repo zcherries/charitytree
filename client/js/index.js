@@ -86,7 +86,7 @@ const App = React.createClass({
 
   handleSearchSubmit: function () {
     var searchCriteria = this.state.searchText.split(" ");
-    console.log("handleSearch: searchCriteria",searchCriteria);
+    console.log("App/hSS/: searchCriteria",searchCriteria);
     $.ajax({
       url: "/post_search",
       // dataType: 'json',
@@ -110,13 +110,13 @@ const App = React.createClass({
   getProject: function(projectId) {
     this.setState({
       projectId: projectId
-    })
+    });
     var self = this;
     var i = setInterval(function () {
       if (projectId === self.state.projectId) {
         clearInterval(i);
-        console.log("App/hSS/this.state.searchText:",self.state.projectId);
-        this.props.history.pushState(null, `/project`);
+        console.log("App/gP/this.state.projectId:",self.state.projectId);
+        self.props.history.pushState(null, `/project`);
       }
     }, 100);
   },
@@ -139,7 +139,8 @@ const App = React.createClass({
             updateSearchCriteria: this.updateSearchCriteria,
             removeBrowseTag: this.removeBrowseTag,
             removeSearchTag: this.removeSearchTag,
-            getProject: this.getProject
+            getProject: this.getProject,
+            projectId: this.state.projectId
           }
         )}
       </div>
@@ -214,6 +215,8 @@ render((
       <Route path="browse" component={Browse} />
       <Route path="search" component={Search} />
       <Route path="project" component={Project} />
+      <Route path="projectCreate" component={ProjectCreate} />
+
     </Route>
   </Router>
 ), document.getElementById('app'));

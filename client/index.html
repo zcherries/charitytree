@@ -20,6 +20,7 @@
 
   <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="bower_components/Materialize/dist/js/materialize.min.js"></script>
+  <!--<script src="bower_components/react-intl/dist/react-intl.min.js"></script>-->
   <script src="js/dist/index.dist.js">
 </script>
   <script>
@@ -28,6 +29,8 @@
       $(".button-collapse").sideNav();
       $('.scrollspy').scrollSpy();
       $('.materialboxed').materialbox();
+      $('ul.tabs').tabs();
+//      $('ul.tabs').tabs('select_tab', 'tab_id');
 
       $(document).on('mouseenter.cardx', '.cardx', function (e) {
         if ($(e.target).is($('.cardx .activator')) ) {
@@ -50,7 +53,6 @@
 
         $('.card-reveal').closest('.card').css('overflow', 'hidden');
       });
-
     });
   </script>
 </body>
