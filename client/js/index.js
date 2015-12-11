@@ -9,6 +9,7 @@ import {Browse} from './browsePage.js';
 import {Footer} from './footer.js';
 import {Navbar} from './navbar.js';
 import {Search} from './search.js';
+// import {Upload} from './upload.js';
 
 
 const history = useBasename(createHistory)({
@@ -123,7 +124,17 @@ var Index = React.createClass({
             <img src="https://c2.staticflickr.com/6/5477/10570079866_b622f2a732_b.jpg" />
           </div>
         </div>
-
+        <form className="box" method="post" action="/upload">
+          <div className="box__input">
+            <input className="box__file" type="file" name="media" id="file" data-multiple-caption="{count} files selected" multiple />
+            <input name='org' type="hidden" className="org" value="56663575f7ec540c2d469903" />
+            <label htmlFor="file"><strong>Choose a file</strong><span className="box__dragndrop"> or drag it here</span>.</label>
+            <button className="box__button" type="submit">Upload</button>
+          </div>
+          <div className="box__uploading">Uploading&hellip;</div>
+          <div className="box__success">Done!</div>
+          <div className="box__error">Error! <span></span>.</div>
+        </form>
         {/*Footer*/}
         <Footer />
       </div>
