@@ -25,7 +25,7 @@ var ProjectSchema = new Schema({
   }],
   updates: [{ title: String, date: Date, description: String }],
   // comments: [{ type: ObjectID, ref: 'Donor', comment: String, date: Date }],
-  // faqs: [{title: String, description: String}],
+  faqs: [{title: String, description: String}],
   sponsors: [{ type: ObjectId, ref: 'Donor' }],
   media: [ObjectId]
 });
