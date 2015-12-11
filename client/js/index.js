@@ -10,6 +10,7 @@ import {Footer} from './footer.js';
 import {Navbar} from './navbar.js';
 import {Search} from './search.js';
 import {Project} from './project.js';
+import {ProjectCreate} from './projectCreate.js';
 
 const history = useBasename(createHistory)({
   basename: '/'
