@@ -6,7 +6,7 @@ import { CausesInfo } from './causesinfo.js';
 var Project = exports.Project = React.createClass ({
 
   render: function() {
-
+    console.log("1: ", this.props)
     return (
       <div>
         <div className="center-align">
@@ -31,36 +31,63 @@ var Project = exports.Project = React.createClass ({
         </div>
 
         <div className="row">
-          <div className="col s12 m8">
+          <div className="col s12 m4 push-m8">
+            <Needs
+              searchResultsProjects={this.props.searchResults.projects}
+              projectId={this.props.projectId}
+            />
+          </div>
+          <div className="col s12 m8 pull-m4">
             <div className="row">
               <div className="col s12">
                 <ul className="tabs">
-                  <li className="tab col s3"><a className="active" href="#test1">Description</a></li>
-                  <li className="tab col s3"><a href="#test2">FAQ</a></li>
-                  <li className="tab col s3"><a href="#test3">Comments</a></li>
+                  <li className="tab col s3"><a className="active" href="#description">Description</a></li>
+                  <li className="tab col s3"><a href="#faq">FAQ</a></li>
+                  <li className="tab col s3"><a href="#comments">Comments</a></li>
                 </ul>
               </div>
-              <div id="test1" className="col s12">Description</div>
-              <div id="test2" className="col s12">FAQ</div>
-              <div id="test3" className="col s12">Comments</div>
+              <div id="description" className="col s12">Description</div>
+              <div id="faq" className="col s12">FAQ</div>
+              <div id="comments" className="col s12">Comments</div>
             </div>
-          </div>
-          <div className="col s12 m4">
-            <div className="card blue-grey darken-1">
-            <div className="card-content white-text">
-              <span className="card-title">Need</span>
-              <p>We need 10,000 pairs of shoes</p>
-            </div>
-            <div className="card-action">
-              <a href="#">Buy Shoes for Kids</a>
-            </div>
-          </div>
           </div>
         </div>
-
-
       </div>
     );
   }
+
 });
+
+var Needs = exports.Needs = React.createClass({
+
+  render: function() {
+    var id = this.props.projectId;
+    console.log(this.props)
+    // var needs = this.props.searchResultsProjects.filter(function(id){
+    //   if(this._id === id) {
+    //     return this;
+    //   }
+    // }).needs_list.map(function(need, index) {
+    //   return (
+    //     <div className="card blue-grey darken-1">
+    //       <div className="card-content white-text">
+    //         <span className="card-title">{need.title}</span>
+    //         <p>description: {need.description}</p>
+    //         <p>cost: {need.cost}</p>
+    //         <p>needed: {need.quantity_needed}</p>
+    //         <p>purchased: {need.number_purchased}</p>
+    //       </div>
+    //       <div className="card-action">
+    //         <a href="#">Buy Shoes for Kids</a>
+    //       </div>
+    //     </div>
+    //   )
+    // })
+
+  return <div></div>
+  }
+
+
+
+})
 

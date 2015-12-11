@@ -6,6 +6,7 @@ var connection = require('./db/connection.js');
 var organizations = require('./resources/organizations.js');
 var bodyParser = require('body-parser')
 var fs = require('fs');
+var project = require('./resources/projects.js')
 
 var app = express();
 
@@ -51,9 +52,20 @@ app.get('/image', function(req, res) {
   });
 });
 
+// Model.Project.create(project, function(error, result){
+//   if(error) {
+//     console.error(error)
+//   }else {
+//     console.log(result)
+//   }
+// })
 
 app.get('/organizations', function(req, res, next) {
   Controller.Organization.retrieve(req, res, next);
+});
+
+app.get('/projects', function(req, res, next) {
+  Controller.Project.retrieve(req, res, next);
 });
 
 app.get('/get_browse', function(req, res, next) {
