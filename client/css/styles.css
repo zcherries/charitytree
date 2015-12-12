@@ -74,6 +74,10 @@ main {
   text-shadow: 2px 2px 5px black;
 }
 
+.shadow-white {
+  text-shadow: 2px 2px 5px white;
+}
+
 .chipx {
   display: inline-block;
   font-size: 12px;

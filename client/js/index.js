@@ -3,6 +3,13 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, Link, IndexRoute, Navigation } from 'react-router';
 import { createHistory, useBasename } from 'history';
+let injectTapEventPlugin = require("react-tap-event-plugin");
+
+//Needed for onTouchTap
+//Can go away when react 1.0 release
+//Check this repo:
+//https://github.com/zilverline/react-tap-event-plugin
+injectTapEventPlugin();
 
 /*local imports*/
 import {Browse} from './browsePage.js';
@@ -150,6 +157,11 @@ const App = React.createClass({
 });
 
 var Index = React.createClass({
+  componentDidMount: function () {
+    $('.parallax').parallax();
+    $(".button-collapse").sideNav();
+  },
+
   render: function() {
     return(
       <div>
@@ -159,9 +171,9 @@ var Index = React.createClass({
           <div className="parallax">
             <img src="https://c1.staticflickr.com/5/4142/4931601202_92f9bb7152_b.jpg" />
           </div>
-          <div className="caption center-align">
+          <div className="caption center-align shadow-white">
             <h3>See the lives changed by your donation!</h3>
-            <h5 className="light grey-text text-lighten-3">Follow the impact of your money</h5>
+            <h5 className="light grey-text text-lighten-3 shadow">Follow the impact of your money</h5>
           </div>
         </div>
 
@@ -175,14 +187,6 @@ var Index = React.createClass({
 
             <div className="col s4">
             <i className="material-icons">flash_on</i>
-            Promo Content 1 goes here
-            Promo Content 1 goes here
-            Promo Content 1 goes here
-            Promo Content 1 goes here
-            Promo Content 1 goes here
-            Promo Content 1 goes here
-            Promo Content 1 goes here
-            Promo Content 1 goes here
             Promo Content 1 goes here
             </div>
             <div className="col s4">

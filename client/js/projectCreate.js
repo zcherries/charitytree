@@ -3,9 +3,17 @@ import { CausesInfo } from './causesinfo.js';
 
 
 var ProjectCreate = exports.ProjectCreate = React.createClass({
+
+  componentDidMount: function () {
+    $('.collapsible').collapsible({
+      accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+    });
+    $('input#input_text, textarea#textarea1, input#need_description ').characterCounter();
+  },
+
   render: function () {
     return(
-      <div>
+      <div className="container">
         <div className="row">
 
           <div className="col s12 m6">
@@ -15,13 +23,16 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
 
           <form className="col s12 m6">
             <div className="row">
+
               <div className="input-field col s6">
                 <input placeholder="Project Title" id="first_name" type="text" className="validate" />
-                  <label htmlFor="first_name">Project Title</label>
+                  <label htmlFor="project_title">Project Title</label>
               </div>
+
+
               <div className="input-field col s6">
-                <input placeholder="Last Name"  id="last_name" type="text" className="validate" />
-                  <label htmlFor="last_name">Last Name</label>
+                <input placeholder="Description"  id="description" type="text" className="validate" />
+                  <label htmlFor="description"></label>
               </div>
             </div>
             <div className="row">
@@ -47,9 +58,12 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
               </div>
             </div>
           </form>
+
           <CategorySelect
 
           />
+
+          <Needs />
         </div>
       </div>
     );
@@ -121,6 +135,70 @@ var MinCategory = React.createClass({
         <input type="checkbox" id={this.props.subCauseID} />
         <label htmlFor={this.props.subCauseID}>{this.props.tags}</label>
       </p>
+    );
+  }
+});
+
+var Needs = React.createClass({
+  addNeed: function () {
+
+  },
+
+  render: function () {
+    return(
+      <ul className="collapsible" data-collapsible="accordion">
+        <Need
+          addNeed={this.addNeed}
+        />
+      </ul>
+    );
+  }
+});
+
+var Need = React.createClass({
+  render: function () {
+    return(
+      <li>
+        <div className="collapsible-header active">
+          <i className="material-icons">filter_drama</i>
+          Create a Need
+          <i className="material-icons right">library_add</i>
+        </div>
+        <div className="collapsible-body">
+          <div className="row">
+            <form className="container">
+              <div className="row">
+                <div className="input-field col s12">
+                  <input id="need_title" type="text" className="validate" />
+                    <label htmlFor="need_title">Need Title</label>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="input-field col s12">
+                  <input id="need_description" type="text"  length="120"/>
+                  <label htmlFor="need_description">Need Description</label>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="input-field col s12">
+                  <input id="need_cost" type="number" className="validate" />
+                  <label htmlFor="need_cost">Need Cost</label>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="input-field col s12">
+                  <input id="need_quantity" type="number" className="validate" />
+                  <label htmlFor="need_quantity">Need Quantity</label>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </li>
     );
   }
 });
