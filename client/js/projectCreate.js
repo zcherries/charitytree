@@ -174,7 +174,7 @@ var Needs = React.createClass({
             needDescription={""}
             needCost={""}
             needQuantityNeeded={""}
-            updateNeed=this.props.updateNeed
+            updateNeed={this.props.updateNeed}
           />
         }
       </ul>
@@ -185,7 +185,7 @@ var Needs = React.createClass({
 var Need = React.createClass({
   updateNeed: function () {
     var need = {
-      key: this.props.key
+      key: this.props.key,
       title: this.props.needTitle,
       description: this.props.needDescription,
       cost: this.props.needCost,
