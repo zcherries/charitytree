@@ -9,6 +9,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
       accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
     $('input#input_text, textarea#textarea1, input#need_description ').characterCounter();
+    $('.tooltipped').tooltip({delay: 20});
   },
 
   render: function () {
@@ -63,7 +64,10 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
 
           />
 
-          <Needs />
+          <Needs
+            needs={this.props.needs}
+            updateNeed={this.props.updateNeed}
+          />
         </div>
       </div>
     );
@@ -145,52 +149,87 @@ var Needs = React.createClass({
   },
 
   render: function () {
+    var needs = this.props.needs.map(function(need, index) {
+      return (
+        <Need
+          key={index}
+          addNeed={this.addNeed}
+          needTitle={need.title}
+          needDescription={need.description}
+          needCost={need.cost}
+          needQuantityNeeded={need.quantity_needed}
+        />
+      );
+    }.bind(this));
+    
+    console.log("projectCreate/Needs/render/needs:",needs);
+
     return(
       <ul className="collapsible" data-collapsible="accordion">
-        <Need
-          addNeed={this.addNeed}
-        />
+        {needs.length ? needs :
+          <Need
+            key={0}
+            addNeed={this.addNeed}
+            needTitle={""}
+            needDescription={""}
+            needCost={""}
+            needQuantityNeeded={""}
+            updateNeed=this.props.updateNeed
+          />
+        }
       </ul>
     );
   }
 });
 
 var Need = React.createClass({
+  updateNeed: function () {
+    var need = {
+      key: this.props.key
+      title: this.props.needTitle,
+      description: this.props.needDescription,
+      cost: this.props.needCost,
+      quantity_needed: this.props.quantity_needed
+    };
+    console.log("projectCreate/Need/updateNeed/need:",need);
+    this.props.updateNeed(need);
+  },
+
   render: function () {
     return(
       <li>
         <div className="collapsible-header active">
           <i className="material-icons">filter_drama</i>
-          Create a Need
-          <i className="material-icons right">library_add</i>
+          {this.props.needTitle !== "" ? this.props.needTitle : "Create a Need"}
+          <i className="material-icons right tooltipped" data-position="top" data-delay="50" data-tooltip="Click to save and add another need">library_add</i>
         </div>
         <div className="collapsible-body">
           <div className="row">
             <form className="container">
               <div className="row">
                 <div className="input-field col s12">
-                  <input id="need_title" type="text" className="validate" />
+                  <input value={this.props.needTitle} onChange={this.updateNeed} id="need_title" type="text" className="validate" />
                     <label htmlFor="need_title">Need Title</label>
                 </div>
               </div>
 
               <div className="row">
                 <div className="input-field col s12">
-                  <input id="need_description" type="text"  length="120"/>
+                  <input value={this.props.needDescription} onChange={this.updateNeed} id="need_description" type="text"  length="120"/>
                   <label htmlFor="need_description">Need Description</label>
                 </div>
               </div>
 
               <div className="row">
                 <div className="input-field col s12">
-                  <input id="need_cost" type="number" className="validate" />
+                  <input value={this.props.needCost} onChange={this.updateNeed} id="need_cost" type="number" className="validate" />
                   <label htmlFor="need_cost">Need Cost</label>
                 </div>
               </div>
 
               <div className="row">
                 <div className="input-field col s12">
-                  <input id="need_quantity" type="number" className="validate" />
+                  <input value={this.props.needQuantityNeeded} onChange={this.updateNeed} id="need_quantity" type="number" className="validate" />
                   <label htmlFor="need_quantity">Need Quantity</label>
                 </div>
               </div>
