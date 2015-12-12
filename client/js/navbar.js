@@ -69,28 +69,7 @@ var Navbar = exports.Navbar = React.createClass({
             </div>
           </nav>
         </div>
-        {/*<SearchBar />*/}
       </div>
     );
   }
 });
-
-//var SearchBar = exports.SearchBar = React.createClass({
-//  render: function () {
-//    return(
-//      <div>
-//        <nav>
-//          <div className="nav-wrapper">
-//            <form>
-//              <div className="input-field">
-//                <input id="search" type="search" required />
-//                <label htmlFor="search"><i className="material-icons">search</i></label>
-//                <i className="material-icons">close</i>
-//              </div>
-//            </form>
-//          </div>
-//        </nav>
-//      </div>
-//    );
-//  }
-//});

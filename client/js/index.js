@@ -30,7 +30,8 @@ const App = React.createClass({
       searchText: "",
       searchCriteria: [],
       searchResults: [],
-      projectId: ""
+      projectId: "",
+      needs: []
     };
   },
   updateSearchCriteria: function(tags) {
@@ -46,6 +47,22 @@ const App = React.createClass({
   updateInput: function (searchText) {
     this.setState({
       searchText: searchText
+    });
+  },
+
+  updateNeed: function (need) {
+    this.state.needs.filter(function (stateNeed, index) {
+      if (need.key === stateNeed[index]) {
+        stateNeed.setState({
+          title: need.title,
+          description: need.description,
+          cost: need.cost,
+          quantity_needed: need.quantity_needed
+        });
+      }
+    }.bind(this));
+    this.setState({
+
     });
   },
 
@@ -141,14 +158,16 @@ const App = React.createClass({
           {
             searchText: this.state.searchText,
             searchCriteria: this.state.searchCriteria,
+            searchResults: this.state.searchResults,
+            projectId: this.state.projectId,
+            needs: this.state.needs,
             handleSearchButton: this.handleSearchButton,
             handleSearchSubmit: this.handleSearchSubmit,
-            searchResults: this.state.searchResults,
             updateSearchCriteria: this.updateSearchCriteria,
             removeBrowseTag: this.removeBrowseTag,
             removeSearchTag: this.removeSearchTag,
             getProject: this.getProject,
-            projectId: this.state.projectId
+            updateNeed: this.updateNeed
           }
         )}
       </div>
