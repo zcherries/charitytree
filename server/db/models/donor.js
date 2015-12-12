@@ -10,12 +10,13 @@ var endorsementSchema = new Schema({
 
 var DonorSchema = new Schema({
   name: {
-    first: { type: String, trim: true },
-    last: { type: String, trim: true }
+    first: { type: String, trim: true, required: true },
+    last: { type: String, trim: true, required: true }
   },
+  username: {type: String, required: true, unique: true },
   email: { type: String, required: true },
   password: {type: String, required: true },
-  signup_date: { type: Date, default: Date.now() },
+  signup_date: Date,
   profile_img: { data: Buffer, contentType: String },
   areas_of_focus: [{ type: ObjectId, ref: 'AoF' }],
   sponsored_projects: [{ type: ObjectId, ref: 'Project' }],
@@ -24,7 +25,7 @@ var DonorSchema = new Schema({
 });
 
 DonorSchema.pre('save', function(next) {
-  var now = Date();
+  var now = new Date();
   if (!this.signup_date) {
     this.signup_date = now;
   }

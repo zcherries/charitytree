@@ -11,6 +11,7 @@ import {Navbar} from './navbar.js';
 import {Search} from './search.js';
 import {Upload} from './upload.js';
 import {Signup} from './signup.js';
+import {Login} from './login.js';
 
 const history = useBasename(createHistory)({
   basename: '/'
@@ -137,6 +138,7 @@ render((
   <Router history={history}>
     <Route path="/" component={App}>
       <IndexRoute component={Index} />
+      <Route path="Login" component={Login} />
       <Route path="Signup" component={Signup} />
       <Route path="browse" component={Browse} />
       <Route path="search" component={Search} />

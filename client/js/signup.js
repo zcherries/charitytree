@@ -4,8 +4,6 @@ var ReactDOM = require('react-dom');
 
 import { Link } from 'react-router';
 
-var formData = '';
-
 var Signup = exports.Signup = React.createClass({
   getInitialState: function() {
     return {
@@ -20,8 +18,8 @@ var Signup = exports.Signup = React.createClass({
 
   showOrgSignupForm: function() {
     return (
-      <div id="signupForm" method='POST' className="div-signup-form">
-        <form onSubmit={this.signup} className="col s12">
+      <div className="div-signup-form">
+        <form id="signupForm" className="col s12" onSubmit={this.signup}>
           <div className="row">
             <div className="input-field col s6">
               <label htmlFor="org_name">Organization Name</label>
@@ -54,7 +52,7 @@ var Signup = exports.Signup = React.createClass({
   showDonorSignupForm: function() {
     return (
       <div className="div-signup-form">
-        <form id="signupForm" method='POST' onSubmit={this.signup} className="col s12">
+        <form id="signupForm" className="col s12" onSubmit={this.signup}>
           <div className="row">
             <div className="input-field col s6">
               <label htmlFor="first_name">First Name</label>
@@ -107,6 +105,7 @@ var Signup = exports.Signup = React.createClass({
     //   console.log(formData);
     //   e.preventDefault();
     // })
+
     var formData = {};
     if (this.state.userType === 'Organization') {
         formData.org_name = ReactDOM.findDOMNode(this.refs.org_name).value,
@@ -136,6 +135,10 @@ var Signup = exports.Signup = React.createClass({
         console.log("Error posting to: " + xhr, status, err.toString());
       }.bind(this)
     });
+
+    var frm = document.getElementById('signupForm');
+    frm.reset();
+    return false;
   },
 
   render: function() {

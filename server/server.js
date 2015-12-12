@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var multer = require('multer');
 var streamifier = require('streamifier');
+var bcrypt = require('bcrypt-nodejs');
 
 var multerOptions = {
   upload: null,
@@ -95,42 +96,107 @@ var imgPath = 'C:/Users/T410/Documents/GitHub/charitytree/server/resources/Hydra
 
 app.post('/signup', function(req, res, next) {
   console.log('Body: ', req.body)
-  if (req.body.userType === 'Organization') {
-    Controller.Organization.create(req, res, next, orgData);
-  } else if (req.body.userType === 'Donor') {
-    Controller.Donor.create(req, res, next, donorData);
-  }
+  bcrypt.hash(req.body.pwd, null, null, function(err, hash) {
+    if (err) {
+      console.error("Signup Error:", err);
+      res.status(400).send({ status: 400, message: "Could not complete signup operation." });
+    }
+    if (req.body.userType === 'Organization') {
+      var orgData = {
+        name: req.body.org_name,
+        username: req.body.username,
+        password: hash
+      }
+      Controller.Organization.create(req, res, next, orgData);
+    } else if (req.body.userType === 'Donor') {
+      var donorData = {
+        name: { first: req.body.first_name, last: req.body.last_name },
+        email: req.body.email,
+        username: req.body.username,
+        password: hash
+      }
+      Controller.Donor.create(req, res, next, donorData);
+    }
+  });
+});
+
+app.post('/login', function(req, res, next) {
+  console.log('Body: ', req.body)
+  //check if user is a donor
+  Model.Donor.findOne({ username: req.body.username }, function(err, donor) {
+    if (err) {
+      console.error("Login Error:", err);
+      res.status(400).send({ status: 400, message: "Login Error." });
+    }
+    if (donor) {
+      bcrypt.compare(req.body.pwd, donor.password, function(err, result) {
+        if (err) {
+          console.error("Login Error:", err);
+          res.status(400).send({ status: 400, message: "Login validation failed." });
+        }
+        if (result) {
+          res.send({ status: 200, message: "Login successful" });
+          //create session
+        }
+      });
+    }
+  });
+  //check if user is an organization
+  Model.Organization.findOne({ username: req.body.username }, function(err, org) {
+    if (err) {
+      console.error("Login Error:", err);
+      res.status(400).send({ status: 400, message: "Login Error." });
+    }
+    if (org) {
+      bcrypt.compare(req.body.pwd, org.password, function(err, result) {
+        if (err) {
+          console.error("Login Error:", err);
+          res.status(400).send({ status: 400, message: "Login validation failed." });
+        }
+        if (result) {
+          res.send({ status: 200, message: "Login successful" });
+          //create session
+        } else { //found org but password doesn't match
+          res.status(400).send({ status: 400, message: "Invalid username/password combination" });
+        }
+      });
+    } else { //did not find user in either donor or organization collection
+      res.status(400).send({ status: 400, message: "User not found" });
+    }
+  });
+});
+
+app.get('/donors', function(req,res,next) {
+  Controller.Donor.retrieve(req,res,next,{});
 });
 
  app.post('/media_upload', multer().array('media'), function(req, res, next) {
    console.log("Files: ", req.files);
   //  console.log("Body: ", req.body);
 
-  //  req.files.forEach(function(file) {
-  //    console.log(file);
-  //    //create and object id
-  //    var fileId = mongoose.Types.ObjectId();
-  //    var writeStream = connection.gridfs.createWriteStream({
-  //      _id: fileId,
-  //      length: Number(file.size),
-  //      chunkSize: 1024 * 4,
-  //      filename: file.originalname,
-  //      content_type: file.mimetype,
-  //      mode: 'w',
-  //      metadata: {
-  //        org: req.body.org_id
-  //      }
-  //    });
-  //    streamifier.createReadStream(file.buffer).pipe(writeStream);
-  //    writeStream.on('close', function() {
-  //      console.log("File write was successful");
-  //      //store fileId in media property of organization or project
-  //    });
-  //  });
+   req.files.forEach(function(file) {
+     console.log(file);
+     //create and object id
+     var fileId = mongoose.Types.ObjectId();
+     var writeStream = connection.gridfs.createWriteStream({
+       _id: fileId,
+       length: Number(file.size),
+       chunkSize: 1024 * 4,
+       filename: file.originalname,
+       content_type: file.mimetype,
+       mode: 'w',
+       metadata: {
+         org: req.body.org_id
+       }
+     });
+     streamifier.createReadStream(file.buffer).pipe(writeStream);
+     writeStream.on('close', function() {
+       console.log("File write was successful");
+       //store fileId in media property of organization or project
+     });
+   });
 
    return res.status(200).send({ message: 'Success' });
-  //  res.send({success: true});
-  // res.sendStatus(200);
  });
 
 app.get('/remove_media', function(req, res) {
@@ -152,7 +218,7 @@ app.get('/get_file', function (req, res) {
   readstream.pipe(res);
 });
 
-app.get('/image', function(req, res) {
+app.get('/upload/profile_img', function(req, res) {
   console.log('Inside GET Image')
   Model.Organization.findById({_id:"56663575f7ec540c2d4698fb"}, function(err, org) {
     if (err) {console.error(err); res.status(400).send('Could not retrieve data'); }

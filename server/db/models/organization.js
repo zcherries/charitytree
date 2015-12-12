@@ -4,7 +4,7 @@ var Schema = mongoose.Schema, ObjectId = Schema.Types.ObjectId;
 
 var OrganizationSchema = new Schema({
   name: { type: String, required: true, unique: true, trim: true },
-  username:{ type: String, required: true },
+  username:{ type: String, required: true, unique: true },
   password: { type: String, required: true },
   address: { type: String, trim: true },
   about: { type: String },
