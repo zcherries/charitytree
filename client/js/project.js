@@ -2,13 +2,19 @@ import React from 'react';
 import { Link } from 'react-router';
 import { TagContainer, Tag } from './tag_container.js';
 import { CausesInfo } from './causesinfo.js';
-//import { IntlMixin } from 'react-intl';
-//import  { injectTapEventPlugin } from 'react-tap-event-plugin';
-//var IntlMixin       = ReactIntl.IntlMixin;
-//var FormattedNumber = ReactIntl.FormattedNumber;
+var ReactIntl = require('react-intl');
+
+var IntlMixin       = ReactIntl.IntlMixin;
+var FormattedNumber = ReactIntl.FormattedNumber;
 
 var Project = exports.Project = React.createClass ({
-  //mixins: [IntlMixin],
+  mixins: [IntlMixin],
+
+  componentDidMount: function () {
+    $('.materialboxed').materialbox();
+    $('ul.tabs').tabs();
+    $('ul.tabs').tabs('select_tab', 'tab_id');
+  },
 
   render: function() {
     //console.log("Project/this.props.searchResults.projects: ", this.props.searchResults.projects);
@@ -52,7 +58,7 @@ var Project = exports.Project = React.createClass ({
             <img className="responsive-img materialboxed" src="http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg" />
           </div>
           <div className="col s12 m4">
-            <h3>Goal: ${project.amount.goal}</h3>
+            <h3>Goal: <FormattedNumber value={project.amount.goal} style="currency" currency="USD"/></h3>
             <h4>Progress: ${project.amount.current}</h4>
             <div className="progress">
               <div className="determinate" style={percentRaised}>
@@ -62,6 +68,7 @@ var Project = exports.Project = React.createClass ({
             <h6>Status: {project.status}</h6>
           </div>
         </div>
+
 
         <div className="row">
           <div className="col s12 m4 push-m8">
