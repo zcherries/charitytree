@@ -10,9 +10,10 @@ var endorsementSchema = new Schema({
 
 var DonorSchema = new Schema({
   name: {
-    first: { type: String, trim: true },
-    last: { type: String, trim: true }
+    first: { type: String, trim: true, required: true },
+    last: { type: String, trim: true, required: true }
   },
+  username: {type: String, required: true, unique: true },
   email: { type: String, required: true },
   password: {type: String, required: true },
   signup_date: Date,
@@ -21,6 +22,14 @@ var DonorSchema = new Schema({
   sponsored_projects: [{ type: ObjectId, ref: 'Project' }],
   orgs_followed: [{ type: ObjectId, ref: 'Organization' }],
   endorsements: [endorsementSchema]
+});
+
+DonorSchema.pre('save', function(next) {
+  var now = new Date();
+  if (!this.signup_date) {
+    this.signup_date = now;
+  }
+  next();
 });
 
 var Donor = mongoose.model('Donor', DonorSchema);

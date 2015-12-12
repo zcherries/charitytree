@@ -42,6 +42,8 @@ var Navbar = exports.Navbar = React.createClass({
                     </div>
                   </form>
                 </li>
+                <li><Link className="waves-effect waves-light black-text" to="/login">Login</Link></li>
+                <li><Link className="waves-effect waves-light black-text" to="/signup">Signup</Link></li>
                 <li><Link className="waves-effect waves-light black-text" to="/browse">Browse Categories</Link></li>
                 <li><Link className="waves-effect waves-light black-text" to="/projectCreate">Create a Project</Link></li>
 
@@ -64,33 +66,14 @@ var Navbar = exports.Navbar = React.createClass({
                     </div>
                   </form>
                 </li>
+                <li><Link className="waves-effect waves-light" to="/login">Login</Link></li>
+                <li><Link className="waves-effect waves-light" to="/signup">Signup</Link></li>
                 <li><Link className="waves-effect waves-light" to="/browse">Browse Categories</Link></li>
               </ul>
             </div>
           </nav>
         </div>
-        {/*<SearchBar />*/}
       </div>
     );
   }
 });
-
-//var SearchBar = exports.SearchBar = React.createClass({
-//  render: function () {
-//    return(
-//      <div>
-//        <nav>
-//          <div className="nav-wrapper">
-//            <form>
-//              <div className="input-field">
-//                <input id="search" type="search" required />
-//                <label htmlFor="search"><i className="material-icons">search</i></label>
-//                <i className="material-icons">close</i>
-//              </div>
-//            </form>
-//          </div>
-//        </nav>
-//      </div>
-//    );
-//  }
-//});

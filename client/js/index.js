@@ -3,13 +3,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, Link, IndexRoute, Navigation } from 'react-router';
 import { createHistory, useBasename } from 'history';
-let injectTapEventPlugin = require("react-tap-event-plugin");
-
-//Needed for onTouchTap
-//Can go away when react 1.0 release
-//Check this repo:
-//https://github.com/zilverline/react-tap-event-plugin
-injectTapEventPlugin();
 
 /*local imports*/
 import {Browse} from './browsePage.js';
@@ -18,6 +11,9 @@ import {Navbar} from './navbar.js';
 import {Search} from './search.js';
 import {Project} from './project.js';
 import {ProjectCreate} from './projectCreate.js';
+import {Upload} from './upload.js';
+import {Signup} from './signup.js';
+import {Login} from './login.js';
 
 const history = useBasename(createHistory)({
   basename: '/'
@@ -30,7 +26,8 @@ const App = React.createClass({
       searchText: "",
       searchCriteria: [],
       searchResults: [],
-      projectId: ""
+      projectId: "",
+      needs: []
     };
   },
   updateSearchCriteria: function(tags) {
@@ -46,6 +43,22 @@ const App = React.createClass({
   updateInput: function (searchText) {
     this.setState({
       searchText: searchText
+    });
+  },
+
+  updateNeed: function (need) {
+    this.state.needs.filter(function (stateNeed, index) {
+      if (need.key === stateNeed[index]) {
+        stateNeed.setState({
+          title: need.title,
+          description: need.description,
+          cost: need.cost,
+          quantity_needed: need.quantity_needed
+        });
+      }
+    }.bind(this));
+    this.setState({
+
     });
   },
 
@@ -141,14 +154,16 @@ const App = React.createClass({
           {
             searchText: this.state.searchText,
             searchCriteria: this.state.searchCriteria,
+            searchResults: this.state.searchResults,
+            projectId: this.state.projectId,
+            needs: this.state.needs,
             handleSearchButton: this.handleSearchButton,
             handleSearchSubmit: this.handleSearchSubmit,
-            searchResults: this.state.searchResults,
             updateSearchCriteria: this.updateSearchCriteria,
             removeBrowseTag: this.removeBrowseTag,
             removeSearchTag: this.removeSearchTag,
             getProject: this.getProject,
-            projectId: this.state.projectId
+            updateNeed: this.updateNeed
           }
         )}
       </div>
@@ -207,6 +222,7 @@ var Index = React.createClass({
         </div>
 
         {/*Footer*/}
+        <Upload />
         <Footer />
       </div>
     );
@@ -217,11 +233,12 @@ render((
   <Router history={history}>
     <Route path="/" component={App}>
       <IndexRoute component={Index} />
+      <Route path="Login" component={Login} />
+      <Route path="Signup" component={Signup} />
       <Route path="browse" component={Browse} />
       <Route path="search" component={Search} />
       <Route path="project" component={Project} />
       <Route path="projectCreate" component={ProjectCreate} />
-
     </Route>
   </Router>
 ), document.getElementById('app'));
