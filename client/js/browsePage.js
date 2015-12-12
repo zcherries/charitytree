@@ -6,6 +6,10 @@ import { CausesInfo } from './causesinfo.js';
 
 var Browse = exports.Browse = React.createClass({
 
+  componentDidMount: function () {
+    $('.scrollspy').scrollSpy();
+  },
+
   addCriteria: function (e) {
     var tags = this.props.searchCriteria;
     if (this.props.searchCriteria.indexOf(e.target.title) === -1) {

@@ -3,6 +3,13 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, Link, IndexRoute, Navigation } from 'react-router';
 import { createHistory, useBasename } from 'history';
+let injectTapEventPlugin = require("react-tap-event-plugin");
+
+//Needed for onTouchTap
+//Can go away when react 1.0 release
+//Check this repo:
+//https://github.com/zilverline/react-tap-event-plugin
+injectTapEventPlugin();
 
 /*local imports*/
 import {Browse} from './browsePage.js';
@@ -10,6 +17,7 @@ import {Footer} from './footer.js';
 import {Navbar} from './navbar.js';
 import {Search} from './search.js';
 import {Project} from './project.js';
+import {ProjectCreate} from './projectCreate.js';
 
 const history = useBasename(createHistory)({
   basename: '/'
@@ -86,7 +94,7 @@ const App = React.createClass({
 
   handleSearchSubmit: function () {
     var searchCriteria = this.state.searchText.split(" ");
-    console.log("handleSearch: searchCriteria",searchCriteria);
+    console.log("App/hSS/: searchCriteria",searchCriteria);
     $.ajax({
       url: "/post_search",
       // dataType: 'json',
@@ -110,13 +118,13 @@ const App = React.createClass({
   getProject: function(projectId) {
     this.setState({
       projectId: projectId
-    })
+    });
     var self = this;
     var i = setInterval(function () {
       if (projectId === self.state.projectId) {
         clearInterval(i);
-        console.log("App/hSS/this.state.searchText:",self.state.projectId);
-        this.props.history.pushState(null, `/project`);
+        console.log("App/gP/this.state.projectId:",self.state.projectId);
+        self.props.history.pushState(null, `/project`);
       }
     }, 100);
   },
@@ -139,7 +147,8 @@ const App = React.createClass({
             updateSearchCriteria: this.updateSearchCriteria,
             removeBrowseTag: this.removeBrowseTag,
             removeSearchTag: this.removeSearchTag,
-            getProject: this.getProject
+            getProject: this.getProject,
+            projectId: this.state.projectId
           }
         )}
       </div>
@@ -148,6 +157,11 @@ const App = React.createClass({
 });
 
 var Index = React.createClass({
+  componentDidMount: function () {
+    $('.parallax').parallax();
+    $(".button-collapse").sideNav();
+  },
+
   render: function() {
     return(
       <div>
@@ -157,9 +171,9 @@ var Index = React.createClass({
           <div className="parallax">
             <img src="https://c1.staticflickr.com/5/4142/4931601202_92f9bb7152_b.jpg" />
           </div>
-          <div className="caption center-align">
+          <div className="caption center-align shadow-white">
             <h3>See the lives changed by your donation!</h3>
-            <h5 className="light grey-text text-lighten-3">Follow the impact of your money</h5>
+            <h5 className="light grey-text text-lighten-3 shadow">Follow the impact of your money</h5>
           </div>
         </div>
 
@@ -173,14 +187,6 @@ var Index = React.createClass({
 
             <div className="col s4">
             <i className="material-icons">flash_on</i>
-            Promo Content 1 goes here
-            Promo Content 1 goes here
-            Promo Content 1 goes here
-            Promo Content 1 goes here
-            Promo Content 1 goes here
-            Promo Content 1 goes here
-            Promo Content 1 goes here
-            Promo Content 1 goes here
             Promo Content 1 goes here
             </div>
             <div className="col s4">
@@ -214,6 +220,8 @@ render((
       <Route path="browse" component={Browse} />
       <Route path="search" component={Search} />
       <Route path="project" component={Project} />
+      <Route path="projectCreate" component={ProjectCreate} />
+
     </Route>
   </Router>
 ), document.getElementById('app'));
