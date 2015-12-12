@@ -1,6 +1,6 @@
 "use strict";
 var React = require('react');
-var Dropzone = require('react-dropzone');
+//var Dropzone = require('react-dropzone');
 
 import { Router, Route, Link, IndexRoute } from 'react-router';
 

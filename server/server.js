@@ -19,31 +19,31 @@ var multerOptions = {
   upload: null,
   onFileUploadStart: function (file) {
     //set upload with WritableStream
-    console.log("File: ", file)
+    console.log("File: ", file);
     this.upload = connection.gridfs.createWriteStream({
-        filename: file.originalname,
-        mode: "w",
-        chunkSize: 1024*4,
-        content_type: file.mimetype,
-        root: "fs",
-        metadata: {
-          org_id: '123'
-        }
+      filename: file.originalname,
+      mode: "w",
+      chunkSize: 1024*4,
+      content_type: file.mimetype,
+      root: "fs",
+      metadata: {
+        org_id: '123'
+      }
     });
   },
 
- onFileUploadData: function (file, data) {
+  onFileUploadData: function (file, data) {
     //put the chucks into db
     this.upload.write(data);
- },
+  },
 
- onFileUploadComplete: function (file) {
+  onFileUploadComplete: function (file) {
     //end process
     // this.upload.on('drain', function () {
-    console.log("Got to complete")
-        this.upload.end();
+    console.log("Got to complete");
+    this.upload.end();
     // });
- }
+  }
 };
 // var upload = multer({ dest: 'uploads/' })
 // var busboy = require('connect-busboy');
@@ -112,7 +112,7 @@ app.get('/image', function(req, res) {
 });
 
 app.post('/signup', function(req, res, next) {
-  console.log('Body: ', req.body)
+  console.log('Body: ', req.body);
   bcrypt.hash(req.body.pwd, null, null, function(err, hash) {
     if (err) {
       console.error("Signup Error:", err);
@@ -138,7 +138,7 @@ app.post('/signup', function(req, res, next) {
 });
 
 app.post('/login', function(req, res, next) {
-  console.log('Body: ', req.body)
+  console.log('Body: ', req.body);
   //check if user is a donor
   Model.Donor.findOne({ username: req.body.username }, function(err, donor) {
     if (err) {
@@ -187,45 +187,45 @@ app.get('/donors', function(req,res,next) {
   Controller.Donor.retrieve(req,res,next,{});
 });
 
- app.post('/media_upload', multer().array('media'), function(req, res, next) {
-   console.log("Files: ", req.files);
+app.post('/media_upload', multer().array('media'), function(req, res, next) {
+  console.log("Files: ", req.files);
   //  console.log("Body: ", req.body);
 
-   req.files.forEach(function(file) {
-     console.log(file);
-     //create and object id
-     var fileId = mongoose.Types.ObjectId();
-     var writeStream = connection.gridfs.createWriteStream({
-       _id: fileId,
-       length: Number(file.size),
-       chunkSize: 1024 * 4,
-       filename: file.originalname,
-       content_type: file.mimetype,
-       mode: 'w',
-       metadata: {
-         org: req.body.org_id
-       }
-     });
-     streamifier.createReadStream(file.buffer).pipe(writeStream);
-     writeStream.on('close', function() {
-       console.log("File write was successful");
-       //store fileId in media property of organization or project
-     });
-   });
+  req.files.forEach(function(file) {
+    console.log(file);
+    //create and object id
+    var fileId = mongoose.Types.ObjectId();
+    var writeStream = connection.gridfs.createWriteStream({
+      _id: fileId,
+      length: Number(file.size),
+      chunkSize: 1024 * 4,
+      filename: file.originalname,
+      content_type: file.mimetype,
+      mode: 'w',
+      metadata: {
+        org: req.body.org_id
+      }
+    });
+    streamifier.createReadStream(file.buffer).pipe(writeStream);
+    writeStream.on('close', function() {
+      console.log("File write was successful");
+      //store fileId in media property of organization or project
+    });
+  });
 
-   return res.status(200).send({ message: 'Success' });
- });
+  return res.status(200).send({ message: 'Success' });
+});
 
 app.get('/remove_media', function(req, res) {
   var options = { filename: 'Sleep Away.mp3' }
   // if (file_exists(options)) {
-    connection.gridfs.remove(options, function (err) {
-      if (err) console.log(err);
-      else {
-        console.log('success');
-        res.send('Successfully deleted ' + options.filename);
-      }
-    });
+  connection.gridfs.remove(options, function (err) {
+    if (err) console.log(err);
+    else {
+      console.log('success');
+      res.send('Successfully deleted ' + options.filename);
+    }
+  });
   // }
 });
 
@@ -236,7 +236,7 @@ app.get('/get_file', function (req, res) {
 });
 
 app.get('/upload/profile_img', function(req, res) {
-  console.log('Inside GET Image')
+  console.log('Inside GET Image');
   Model.Organization.findById({_id:"56663575f7ec540c2d4698fb"}, function(err, org) {
     if (err) {console.error(err); res.status(400).send('Could not retrieve data'); }
     else {
@@ -247,9 +247,9 @@ app.get('/upload/profile_img', function(req, res) {
       //   console.log("Save org, about to send")
       //   console.log(org.profile_img.contentType);
       var img = new Buffer(org.profile_img.data).toString('base64');
-        res.contentType(org.profile_img.contentType);
-        // console.log(org.profile_img.data);
-        res.send(img);
+      res.contentType(org.profile_img.contentType);
+      // console.log(org.profile_img.data);
+      res.send(img);
       // });
     }
   });
@@ -262,7 +262,6 @@ app.get('/organizations', function(req, res, next) {
 app.get('/projects', function(req, res, next) {
   Controller.Project.retrieve(req, res, next);
   //Controller.Project.delete(req, res, next, {}, {}, 'find');
-
 });
 
 app.get('/get_browse', function(req, res, next) {
@@ -270,47 +269,51 @@ app.get('/get_browse', function(req, res, next) {
 });
 
 app.post('/post_search', function(req, res, next) {
-  Model.Organization.find({ areas_of_focus: { $in: req.body.aofs } }, function(err, orgs) {
-  var aofs = req.body.aofs.map(function(aof) {
-    // return '(\\b' + aof + '\\b)';
-    return capitalizeFirstLetter(aof);
-  });
-  // aofs.join('|');
-  console.log("Aofs: " + aofs);
-  Model.Organization.find({ areas_of_focus: { $in: aofs } }, function(err, orgs) {
-    if (err) { console.log(err); res.status(400).send('Could not retrieve data'); }
-    else {
-      // console.log("Orgs: ", orgs)
-      orgs.forEach(function(org, idx) {
-        if (org.profile_img.contentType) {
-          console.log("Org: ", org.profile_img.contentType)
-          var img = new Buffer(org.profile_img.data).toString('base64');
-          org.img = img;
-        }
-      });
-      Model.Project.find({ areas_of_focus: { $in: aofs } }, function(err, projects) {
-        if (err) throw err;
-        else {
-          // res.contentType(org.contentType);
-          // res.contentType('multipart/mixed');
-          res.send({status: 201, results: { orgs: orgs, projects: projects }});
-          // res.send()
-        }
-      });
-    }
+  Model.Organization.find({areas_of_focus: {$in: req.body.aofs}}, function (err, orgs) {
+    var aofs = req.body.aofs.map(function (aof) {
+      // return '(\\b' + aof + '\\b)';
+      return capitalizeFirstLetter(aof);
+    });
+    // aofs.join('|');
+    console.log("Aofs: " + aofs);
+    Model.Organization.find({areas_of_focus: {$in: aofs}}, function (err, orgs) {
+      if (err) {
+        console.log(err);
+        res.status(400).send('Could not retrieve data');
+      }
+      else {
+        // console.log("Orgs: ", orgs)
+        orgs.forEach(function (org, idx) {
+          if (org.profile_img.contentType) {
+            console.log("Org: ", org.profile_img.contentType);
+            var img = new Buffer(org.profile_img.data).toString('base64');
+            org.img = img;
+          }
+        });
+        Model.Project.find({areas_of_focus: {$in: aofs}}, function (err, projects) {
+          if (err) throw err;
+          else {
+            // res.contentType(org.contentType);
+            // res.contentType('multipart/mixed');
+            res.send({status: 201, results: {orgs: orgs, projects: projects}});
+            // res.send()
+          }
+        });
+      }
+    });
   });
 });
-
 
 app.get('/', function(req, res) {
-  console.log("Get Index Page")
+  console.log("Get Index Page");
   res.send('index.html');
 });
+
 // handle every other route with index.html, which will contain
-// a script tag to your app        lication's JavaScript file(s).
- app.get('*', function (req, res){
-   res.sendFile(path.resolve(__dirname, './../client', 'index.html'))
- });
+// a script tag to your application's JavaScript file(s).
+app.get('*', function (req, res){
+  res.sendFile(path.resolve(__dirname, './../client', 'index.html'));
+});
 
 
 //new WebpackDevServer(webpack(config), {
