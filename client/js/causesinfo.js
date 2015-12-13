@@ -2,6 +2,7 @@ exports.CausesInfo = [
   {
     id: "animals",
     title: "Animals",
+    tags: "Animals",
     img: "https://c1.staticflickr.com/5/4119/4931607222_92bf5fea5f_b.jpg",
     subcauses: [
       {id: "animal_rights", title: "Right", tags: "Animal Rights"},
@@ -13,6 +14,7 @@ exports.CausesInfo = [
   {
     id: "arts",
     title: "Arts, Culture, Humanitites",
+    tags: "Arts Culture Humanities",
     img: "https://c1.staticflickr.com/5/4077/4931032081_9d5ca8cfff_b.jpg",
     subcauses: [
       {id: "libraries", title: "Libraries", tags: "Libraries"},
@@ -25,6 +27,7 @@ exports.CausesInfo = [
   {
     id: "community",
     title: "Community Development",
+    tags: "Community Development",
     img: "https://c1.staticflickr.com/9/8082/8380083742_098a5616b9_b.jpg",
     subcauses: [
       {id: "fundraising", title: "Fundraising", tags: "Fundraising"},
@@ -34,6 +37,7 @@ exports.CausesInfo = [
   {
     id: "education",
     title: "Education",
+    tags: "Education",
     img: "https://c1.staticflickr.com/5/4123/4931585570_d75507cee3_b.jpg",
     subcauses: [
       {id: "higher_education", title: "Universities, Graduate Schools, and Technological Institutes", tags: "Universities Graduate Technological"},
@@ -44,6 +48,7 @@ exports.CausesInfo = [
   {
     id: "environment",
     title: "Environment",
+    tags: "Environment",
     img: "https://c1.staticflickr.com/5/4099/4931030575_033fca9b28_b.jpg",
     subcauses: [
       {id: "environment_protection_conservation", title: "Environmental Protection and Conservation", tags: "Environment Protection Conservation"},
@@ -52,6 +57,7 @@ exports.CausesInfo = [
   {
     id: "health",
     title: "Health",
+    tags: "Health",
     img: "https://c1.staticflickr.com/5/4119/4931607222_92bf5fea5f_b.jpg",
     subcauses: [
       {id: "diseases", title: "Diseases, Disorders, and Disciplines", tags: "Diseases Disorders Disciplines"},
@@ -65,6 +71,7 @@ exports.CausesInfo = [
   {
     id: "services",
     title: "Human Services",
+    tags: "Human Services",
     img: "https://c1.staticflickr.com/5/4115/4931010827_98907c06c2_b.jpg",
     subcauses: [
       {id: "children_family", title: "Children's and Family Services", tags: "Children Family"},
@@ -82,6 +89,7 @@ exports.CausesInfo = [
   {
     id: "rights",
     title: "Human and Civil Rights",
+    tags: "Human Civil Rights",
     img: "https://c1.staticflickr.com/5/4099/4931620392_e3654db7dd_b.jpg",
     subcauses: [
       {id: "rights_advocacy", title: "Advocacy and Education", tags: "Rights Advocacy"},
@@ -91,6 +99,7 @@ exports.CausesInfo = [
   {
     id: "international",
     title: "International",
+    tags: "International",
     img: "https://c2.staticflickr.com/4/3793/10569512605_3815d5c4f2_b.jpg",
     subcauses: [
       {id: "development_relief", title: "Development and Relief Services", tags: "Development Relief"},
@@ -102,6 +111,7 @@ exports.CausesInfo = [
   {
     id: "religion",
     title: "Religion",
+    tags: "Religion",
     img: "https://c1.staticflickr.com/5/4073/4931004261_af5c021afb_b.jpg",
     subcauses: [
       {id: "religious_activities", title: "Religious Activities", tags: "Religious Activities"},
@@ -110,6 +120,7 @@ exports.CausesInfo = [
   {
     id: "research",
     title: "Research and Public Policy",
+    tags: "Research Public Policy",
     img: "https://c1.staticflickr.com/5/4073/4931004261_af5c021afb_b.jpg",
     subcauses: [
       {id: "science_technology_research", title: "Non-Medical Science & Technology Research", tags: "Science Technology Research"},
