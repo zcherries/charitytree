@@ -136,9 +136,9 @@ var Signup = exports.Signup = React.createClass({
       }.bind(this)
     });
 
-    var frm = document.getElementById('signupForm');
-    frm.reset();
-    return false;
+    // var frm = document.getElementById('signupForm');
+    // frm.reset();
+    // return false;
   },
 
   render: function() {

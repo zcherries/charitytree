@@ -1,50 +1,26 @@
 var express = require('express');
+var app = express();
+// app.use(require('morgan')('dev'));
+// var session = require('express-session');
+// var FileStore = require('session-file-store')(session);
+// var session_helpers = require('./helpers/session-helpers.js');
+
 var path = require('path');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var multer = require('multer');
 var streamifier = require('streamifier');
 var bcrypt = require('bcrypt-nodejs');
+
 //var webpack = require('webpack');
 //var WebpackDevServer = require('webpack-dev-server');
 //var config = require('../client/webpack.config.js');
-
 var Controller = require('./db/controllers');
 var Model = require('./db/models');
 var connection = require('./db/connection.js');
 var organizations = require('./resources/organizations.js');
 var project = require('./resources/projects.js');
 
-var multerOptions = {
-  upload: null,
-  onFileUploadStart: function (file) {
-    //set upload with WritableStream
-    console.log("File: ", file);
-    this.upload = connection.gridfs.createWriteStream({
-      filename: file.originalname,
-      mode: "w",
-      chunkSize: 1024*4,
-      content_type: file.mimetype,
-      root: "fs",
-      metadata: {
-        org_id: '123'
-      }
-    });
-  },
-
-  onFileUploadData: function (file, data) {
-    //put the chucks into db
-    this.upload.write(data);
-  },
-
-  onFileUploadComplete: function (file) {
-    //end process
-    // this.upload.on('drain', function () {
-    console.log("Got to complete");
-    this.upload.end();
-    // });
-  }
-};
 // var upload = multer({ dest: 'uploads/' })
 // var busboy = require('connect-busboy');
 
@@ -56,7 +32,24 @@ var multerOptions = {
 //   log_stdout.write(util.format(d) + '\n');
 // };
 
-var app = express();
+//session middleware
+// app.use(session({
+//   name: 'server-session-cookie-id',
+//   secret: '@%20%23&amp;',
+//   saveUninitialized: false,
+//   resave: true,
+//   store: new FileStore(),
+//   cookie: { maxAge: 1000 * 5 }
+// }));
+
+// app.use(function printSession(req, res, next) {
+//   console.log('req.session', req.session);
+//   return next();
+// });
+
+// app.use(session_helpers.validateSession);
+
+//================================= PARSERS ==================================/
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -64,17 +57,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse application/json
 app.use(bodyParser.json());
 
-// app.use(busboy());
-
 // app.use(multer({ dest: './uploads/'}));
+
+app.use(express.static(__dirname + '/../client'));
 
 var IP = '127.0.0.1', PORT = 4000;
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-app.use(express.static(__dirname + '/../client'));
 
 var imgPath = 'C:/Users/T410/Documents/GitHub/charitytree/server/resources/Hydrangeas.jpg';
 
@@ -89,17 +80,20 @@ var imgPath = 'C:/Users/T410/Documents/GitHub/charitytree/server/resources/Hydra
 // });
 //});
 
-//Model.Project.create(project, function(error, result){
+// Model.Project.create(project, function(error, result){
 //  if(error) {
 //    console.error(error)
 //  }else {
 //    console.log(result)
 //  }
-//});
+// });
 
+//================================== GET ====================================//
+app.get('/dashboard', function(req, res, next){
+  Controller.Organization.retrieve(req, res, next, { _id : req.session.uid });
+});
 
 app.get('/image', function(req, res) {
-
   var file_exists = function (options) {
     connection.gridfs.exist(options, function (err, found) {
       if (err) {
@@ -111,109 +105,8 @@ app.get('/image', function(req, res) {
   }
 });
 
-app.post('/signup', function(req, res, next) {
-  console.log('Body: ', req.body);
-  bcrypt.hash(req.body.pwd, null, null, function(err, hash) {
-    if (err) {
-      console.error("Signup Error:", err);
-      res.status(400).send({ status: 400, message: "Could not complete signup operation." });
-    }
-    if (req.body.userType === 'Organization') {
-      var orgData = {
-        name: req.body.org_name,
-        username: req.body.username,
-        password: hash
-      };
-      Controller.Organization.create(req, res, next, orgData);
-    } else if (req.body.userType === 'Donor') {
-      var donorData = {
-        name: { first: req.body.first_name, last: req.body.last_name },
-        email: req.body.email,
-        username: req.body.username,
-        password: hash
-      };
-      Controller.Donor.create(req, res, next, donorData);
-    }
-  });
-});
-
-app.post('/login', function(req, res, next) {
-  console.log('Body: ', req.body);
-  //check if user is a donor
-  Model.Donor.findOne({ username: req.body.username }, function(err, donor) {
-    if (err) {
-      console.error("Login Error:", err);
-      res.status(400).send({ status: 400, message: "Login Error." });
-    }
-    if (donor) {
-      bcrypt.compare(req.body.pwd, donor.password, function(err, result) {
-        if (err) {
-          console.error("Login Error:", err);
-          res.status(400).send({ status: 400, message: "Login validation failed." });
-        }
-        if (result) {
-          res.send({ status: 200, message: "Login successful" });
-          //create session
-        }
-      });
-    }
-  });
-  //check if user is an organization
-  Model.Organization.findOne({ username: req.body.username }, function(err, org) {
-    if (err) {
-      console.error("Login Error:", err);
-      res.status(400).send({ status: 400, message: "Login Error." });
-    }
-    if (org) {
-      bcrypt.compare(req.body.pwd, org.password, function(err, result) {
-        if (err) {
-          console.error("Login Error:", err);
-          res.status(400).send({ status: 400, message: "Login validation failed." });
-        }
-        if (result) {
-          res.send({ status: 200, message: "Login successful" });
-          //create session
-        } else { //found org but password doesn't match
-          res.status(400).send({ status: 400, message: "Invalid username/password combination" });
-        }
-      });
-    } else { //did not find user in either donor or organization collection
-      res.status(400).send({ status: 400, message: "User not found" });
-    }
-  });
-});
-
 app.get('/donors', function(req,res,next) {
   Controller.Donor.retrieve(req,res,next,{});
-});
-
-app.post('/media_upload', multer().array('media'), function(req, res, next) {
-  console.log("Files: ", req.files);
-  //  console.log("Body: ", req.body);
-
-  req.files.forEach(function(file) {
-    console.log(file);
-    //create and object id
-    var fileId = mongoose.Types.ObjectId();
-    var writeStream = connection.gridfs.createWriteStream({
-      _id: fileId,
-      length: Number(file.size),
-      chunkSize: 1024 * 4,
-      filename: file.originalname,
-      content_type: file.mimetype,
-      mode: 'w',
-      metadata: {
-        org: req.body.org_id
-      }
-    });
-    streamifier.createReadStream(file.buffer).pipe(writeStream);
-    writeStream.on('close', function() {
-      console.log("File write was successful");
-      //store fileId in media property of organization or project
-    });
-  });
-
-  return res.status(200).send({ message: 'Success' });
 });
 
 app.get('/remove_media', function(req, res) {
@@ -268,45 +161,147 @@ app.get('/get_browse', function(req, res, next) {
   Controller.AoF.retrieve(req, res, next);
 });
 
-app.post('/post_search', function(req, res, next) {
-  Model.Organization.find({areas_of_focus: {$in: req.body.aofs}}, function (err, orgs) {
-    var aofs = req.body.aofs.map(function (aof) {
-      // return '(\\b' + aof + '\\b)';
-      return capitalizeFirstLetter(aof);
-    });
-    // aofs.join('|');
-    console.log("Aofs: " + aofs);
-    Model.Organization.find({areas_of_focus: {$in: aofs}}, function (err, orgs) {
-      if (err) {
-        console.log(err);
-        res.status(400).send('Could not retrieve data');
-      }
-      else {
-        // console.log("Orgs: ", orgs)
-        orgs.forEach(function (org, idx) {
-          if (org.profile_img.contentType) {
-            console.log("Org: ", org.profile_img.contentType);
-            var img = new Buffer(org.profile_img.data).toString('base64');
-            org.img = img;
-          }
-        });
-        Model.Project.find({areas_of_focus: {$in: aofs}}, function (err, projects) {
-          if (err) throw err;
-          else {
-            // res.contentType(org.contentType);
-            // res.contentType('multipart/mixed');
-            res.send({status: 201, results: {orgs: orgs, projects: projects}});
-            // res.send()
-          }
-        });
-      }
-    });
+//================================== POST ===================================//
+app.post('/signup', function(req, res, next) {
+  console.log('Body: ', req.body);
+  bcrypt.hash(req.body.pwd, null, null, function(err, hash) {
+    if (err) {
+      console.error("Signup Error:", err);
+      res.status(400).send({ status: 400, message: "Could not complete signup operation." });
+    }
+    if (req.body.userType === 'Organization') {
+      var orgData = {
+        name: req.body.org_name,
+        username: req.body.username,
+        password: hash
+      };
+      Controller.Organization.create(req, res, next, orgData);
+    } else if (req.body.userType === 'Donor') {
+      var donorData = {
+        name: { first: req.body.first_name, last: req.body.last_name },
+        email: req.body.email,
+        username: req.body.username,
+        password: hash
+      };
+      Controller.Donor.create(req, res, next, donorData);
+    }
   });
 });
 
-app.get('/', function(req, res) {
-  console.log("Get Index Page");
-  res.send('index.html');
+app.post('/login', function(req, res, next) {
+  console.log('Body: ', req.body);
+  //check if user is a donor
+  Model.Donor.findOne({ username: req.body.username }, function(err, donor) {
+    if (err) {
+      console.error("Login Error:", err);
+      res.status(400).send({ status: 400, message: "Login Error." });
+    }
+    if (donor) { //is user a donor
+      bcrypt.compare(req.body.pwd, donor.password, function(err, result) {
+        if (err) {
+          console.error("Login Error:", err);
+          res.status(400).send({ status: 400, message: "Login validation failed." });
+        } else {
+          if (result) {
+            //create session
+            req.session.uid = donor._id;
+            console.log('Session id has been set');
+            res.status(201).send({ status: 201, message: "Login successful" });
+          } else { //found donor but password doesn't match
+            res.status(400).send({ status: 400, message: "Invalid username/password combination" });
+          }
+        }
+      });
+    } else {
+      //check if user is an organization
+      Model.Organization.findOne({ username: req.body.username }, function(err, org) {
+        if (err) {
+          console.error("Login Error:", err);
+          res.status(400).send({ status: 400, message: "Login Error." });
+        }
+        if (org) { //is user an organization
+          bcrypt.compare(req.body.pwd, org.password, function(err, result) {
+            if (err) {
+              console.error("Login Error:", err);
+              res.status(400).send({ status: 400, message: "Login validation failed." });
+            }
+            if (result) {
+              //create session
+              req.session.uid = org._id;
+              res.send({ status: 200, message: "Login successful" });
+            } else { //found org but password doesn't match
+              res.status(400).send({ status: 400, message: "Invalid username/password combination" });
+            }
+          });
+        } else { //did not find user in either donor or organization collection
+          res.status(400).send({ status: 400, message: "User not found" });
+        }
+      });
+    }
+  });
+});
+
+app.post('/media_upload', multer().array('media'), function(req, res, next) {
+  console.log("Files: ", req.files);
+  //  console.log("Body: ", req.body);
+
+  req.files.forEach(function(file) {
+    console.log(file);
+    //create and object id
+    var fileId = mongoose.Types.ObjectId();
+    var writeStream = connection.gridfs.createWriteStream({
+      _id: fileId,
+      length: Number(file.size),
+      chunkSize: 1024 * 4,
+      filename: file.originalname,
+      content_type: file.mimetype,
+      mode: 'w',
+      metadata: {
+        org: req.body.org_id
+      }
+    });
+    streamifier.createReadStream(file.buffer).pipe(writeStream);
+    writeStream.on('close', function() {
+      console.log("File write was successful");
+      //store fileId in media property of organization or project
+    });
+  });
+
+  return res.status(200).send({ message: 'Success' });
+});
+
+app.post('/post_search', function(req, res, next) {
+  var aofs = req.body.aofs.map(function (aof) {
+    // return '(\\b' + aof + '\\b)';
+    return capitalizeFirstLetter(aof);
+  });
+  // aofs.join('|');
+  // console.log("Aofs: " + aofs);
+  Model.Organization.find({areas_of_focus: {$in: aofs}}, function (err, orgs) {
+    if (err) {
+      console.log(err);
+      res.status(400).send('Could not retrieve data');
+    }
+    else {
+      // console.log("Orgs: ", orgs)
+      orgs.forEach(function (org, idx) {
+        if (org.profile_img.contentType) {
+          console.log("Org: ", org.profile_img.contentType);
+          var img = new Buffer(org.profile_img.data).toString('base64');
+          org.img = img;
+        }
+      });
+      Model.Project.find({areas_of_focus: {$in: req.body.aofs}}, function (err, projects) {
+        if (err) throw err;
+        else {
+          // res.contentType(org.contentType);
+          // res.contentType('multipart/mixed');
+          res.send({status: 201, results: {orgs: orgs, projects: projects}});
+          // res.send()
+        }
+      });
+    }
+  });
 });
 
 // handle every other route with index.html, which will contain

@@ -1,5 +1,4 @@
 var projects = module.exports =
-
   {
     org: "56663f998461000b5037cdf0",
     start_date: "11/11/2011",
@@ -56,4 +55,3 @@ var projects = module.exports =
       }
     ]
   };
-
