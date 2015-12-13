@@ -81,14 +81,12 @@ var Project = exports.Project = React.createClass ({
                 <ul className="tabs">
                   <li className="tab col s3"><a href="#description">Description</a></li>
                   <li className="tab col s3"><a href="#updates">Updates</a></li>
-                  <li className="tab col s3"><a href="#faq">FAQ</a></li>
                   <li className="tab col s3"><a href="#comments">Comments</a></li>
                 </ul>
               </div>
               <div id="description" className="col s12">{project.info}</div>
               <div id="updates" className="col s12">Updates</div>
 
-              <div id="faq" className="col s12">FAQS</div>
               <div id="comments" className="col s12">Comments</div>
             </div>
           </div>

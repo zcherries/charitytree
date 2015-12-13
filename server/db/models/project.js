@@ -25,7 +25,7 @@ var ProjectSchema = new Schema({
     number_participants: Number
   }],
   // comments: [{ type: ObjectID, ref: 'Donor', comment: String, date: Date }],
-  faqs: [{title: String, description: String}],
+  //faqs: [{title: String, description: String}],
   updates: [{ title: String, date: Date, description: String }],
   sponsors: [{ type: ObjectId, ref: 'Donor' }],
   media: [ObjectId]
