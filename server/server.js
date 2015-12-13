@@ -271,11 +271,11 @@ app.get('/get_browse', function(req, res, next) {
 app.post('/post_search', function(req, res, next) {
   Model.Organization.find({areas_of_focus: {$in: req.body.aofs}}, function (err, orgs) {
     var aofs = req.body.aofs.map(function (aof) {
-      // return '(\\b' + aof + '\\b)';
+       //return '(\\b' + aof + '\\b)';
       return capitalizeFirstLetter(aof);
     });
     // aofs.join('|');
-    console.log("Aofs: " + aofs);
+    //console.log("Aofs: " + aofs);
     Model.Organization.find({areas_of_focus: {$in: aofs}}, function (err, orgs) {
       if (err) {
         console.log(err);
@@ -290,7 +290,7 @@ app.post('/post_search', function(req, res, next) {
             org.img = img;
           }
         });
-        Model.Project.find({areas_of_focus: {$in: aofs}}, function (err, projects) {
+        Model.Project.find({areas_of_focus: {$in: req.body.aofs}}, function (err, projects) {
           if (err) throw err;
           else {
             // res.contentType(org.contentType);
