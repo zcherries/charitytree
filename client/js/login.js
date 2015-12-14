@@ -42,6 +42,7 @@ var Login = exports.Login = React.createClass({
 
   render: function() {
     return (
+
       <div className="div-signup-form">
         <form id="loginForm" className="col s12" onSubmit={this.login}>
           <div className="row">
