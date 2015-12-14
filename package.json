@@ -24,13 +24,14 @@
     "connect-busboy": "0.0.2",
     "express": "^4.13.3",
     "gridfs-stream": "^1.1.1",
-    "history": "^1.16.0",
+    "history": "^1.13.1",
     "material-ui": "^0.13.4",
     "materialize-css": "^0.97.3",
     "mongoose": "^4.2.9",
-    "react-intl": "^1.2.2",
     "multer": "^1.1.0",
     "path": "^0.12.7",
+    "react-intl": "^1.2.2",
+    "react-router": "^1.0.2",
     "streamifier": "^0.1.1"
   },
   "devDependencies": {
