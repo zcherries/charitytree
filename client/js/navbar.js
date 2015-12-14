@@ -1,6 +1,8 @@
 "use strict";
 var React = require('react');
 import { Link } from 'react-router';
+import { Login } from './login.js';
+import { Signup } from './signup.js';
 
 var Navbar = exports.Navbar = React.createClass({
   updateInput: function (e) {
@@ -16,6 +18,18 @@ var Navbar = exports.Navbar = React.createClass({
   handleSearchSubmit: function (e) {
     e.preventDefault();
     this.props.handleSearchSubmit();
+  },
+
+  componentDidMount: function () {
+    $('.modal-trigger').leanModal({
+        dismissible: true, // Modal can be dismissed by clicking outside of the modal
+        opacity: 0, // Opacity of modal background
+        in_duration: 300, // Transition in duration
+        out_duration: 200, // Transition out duration
+        //ready: function() { alert('Ready'); }, // Callback for Modal open
+        //complete: function() { alert('Closed'); } // Callback for Modal close
+      }
+    );
   },
 
   render: function () {
@@ -42,6 +56,22 @@ var Navbar = exports.Navbar = React.createClass({
                     </div>
                   </form>
                 </li>
+                <li><a className="waves-effect waves-light btn-flat modal-trigger" href="#modal1">Login/Signup</a></li>
+                <div id="modal1" className="modal row center-align">
+                  <div className="modal-content col s12 m6">
+                    <h4 className="black-text">Login</h4>
+                    <p>A bunch of text</p>
+                    <Login />
+                  </div>
+                  <div className="modal-content col s12 m6">
+                    <h4 className="black-text">Signup</h4>
+                    <p>A bunch of text</p>
+                    <Signup />
+                  </div>
+                  <div className="modal-footer">
+                    <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+                  </div>
+                </div>
                 <li><Link className="waves-effect waves-light black-text" to="/login">Login</Link></li>
                 <li><Link className="waves-effect waves-light black-text" to="/signup">Signup</Link></li>
                 <li><Link className="waves-effect waves-light black-text" to="/browse">Browse Categories</Link></li>

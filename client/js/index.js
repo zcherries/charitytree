@@ -14,6 +14,7 @@ import {ProjectCreate} from './projectCreate.js';
 import {Upload} from './upload.js';
 import {Signup} from './signup.js';
 import {Login} from './login.js';
+import {Organization} from './organizationpage.js'
 
 const history = useBasename(createHistory)({
   basename: '/'
@@ -220,6 +221,7 @@ render((
       <Route path="search" component={Search} />
       <Route path="project" component={Project} />
       <Route path="projectCreate" component={ProjectCreate} />
+      <Route path="organization" component={Organization} />
     </Route>
   </Router>
 ), document.getElementById('app'));

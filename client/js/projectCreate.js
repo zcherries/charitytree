@@ -1,6 +1,8 @@
 import React from 'react';
 import { CausesInfo } from './causesinfo.js';
 import {Footer} from './footer.js';
+//var DatePicker = require('react-datepicker');
+//var moment = require('moment');
 
 var ProjectCreate = exports.ProjectCreate = React.createClass({
   getInitialState: function () {
@@ -109,7 +111,6 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
     });
   },
 
-
   componentDidMount: function () {
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
@@ -124,7 +125,11 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
     })
   },
   updateEndDate: function (e) {
-    console.log("ProjectCreate/updateEndDate/e.target:",e.target);
+    var endDate = $('.datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 15 // Creates a dropdown of 15 years to control year
+    });
+    console.log("ProjectCreate/updateEndDate/endDate:",endDate[0]);
     this.setState({
       end_date: e.target.value
     })
@@ -162,7 +167,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
                 </div>
                 {/*End Date*/}
                 <div className="input-field col s12">
-                  <input id="end_date" type="date" className="datepicker" value={this.state.end_date} onChange={this.updateEndDate} />
+                  <input id="end_date" type="date" className="datepicker" value={this.state.end_date} onClick={this.updateEndDate} />
                   <label htmlFor="end_date">Projected End Date</label>
                 </div>
                 {/*Target Funding Amount*/}
