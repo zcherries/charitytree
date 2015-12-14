@@ -78,7 +78,7 @@ app.use(express.static(__dirname + '/../client'));
 
 var imgPath = 'C:/Users/T410/Documents/GitHub/charitytree/server/resources/Hydrangeas.jpg';
 
-//organizations.forEach(function(org) {
+// organizations.forEach(function(org) {
 // var newOrg = new Model.Organization(org);
 // newOrg.save(function(err, obj) {
 //   if (err) {
@@ -87,15 +87,15 @@ var imgPath = 'C:/Users/T410/Documents/GitHub/charitytree/server/resources/Hydra
 //     console.log("New organization has been added")
 //   }
 // });
-//});
+// });
 
-//Model.Project.create(project, function(error, result){
+// Model.Project.create(project, function(error, result){
 //  if(error) {
 //    console.error(error)
 //  }else {
 //    console.log(result)
 //  }
-//});
+// });
 
 
 app.get('/image', function(req, res) {

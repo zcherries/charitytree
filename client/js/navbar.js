@@ -43,6 +43,8 @@ var Navbar = exports.Navbar = React.createClass({
                   </form>
                 </li>
                 <li><Link className="waves-effect waves-light black-text" to="/login">Login</Link></li>
+                <li><Link className="waves-effect waves-light black-text" to="/organization">organization</Link></li>
+
                 <li><Link className="waves-effect waves-light black-text" to="/signup">Signup</Link></li>
                 <li><Link className="waves-effect waves-light black-text" to="/browse">Browse Categories</Link></li>
                 <li><Link className="waves-effect waves-light black-text" to="/projectCreate">Create a Project</Link></li>
