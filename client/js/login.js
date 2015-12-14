@@ -28,16 +28,16 @@ var Login = exports.Login = React.createClass({
       data: this.state,
       success: function(response) {
         console.log(response)
-        //navigate to profile page
+        //navigate to dashboard page
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("Error posting to: " + xhr, status, err.toString());
       }.bind(this)
     });
 
-    var frm = document.getElementById('loginForm');
-    frm.reset();
-    return false;
+    // var frm = document.getElementById('loginForm');
+    // frm.reset();
+    // return false;
   },
 
   render: function() {
