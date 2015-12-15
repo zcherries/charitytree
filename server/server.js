@@ -244,7 +244,7 @@ app.post('/login', function(req, res, next) {
         } else {
           if (result) {
             //create session
-            req.session.user = { uid: donor._id, type: 'donor' }
+            req.session.user = { uid: donor._id, type: 'donor' };
             console.log('Session has been set');
             res.status(201).send({ status: 201, message: "Login successful" });
           } else { //found donor but password doesn't match
@@ -267,7 +267,7 @@ app.post('/login', function(req, res, next) {
             }
             if (result) {
               //create session
-              req.session.user = { uid: org._id, type: 'organization' }
+              req.session.user = { uid: org._id, type: 'organization' };
               res.send({ status: 200, message: "Login successful" });
             } else { //found org but password doesn't match
               res.status(400).send({ status: 400, message: "Invalid username/password combination" });

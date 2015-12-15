@@ -58,7 +58,7 @@ var OrganizationResults = React.createClass({
         )
       }.bind(this));
     }
-    return(
+    return (
       <div>
         <div>
           <h6>Organization Results</h6>
@@ -80,7 +80,8 @@ var Organization = React.createClass({
   render: function () {
     var img = (this.props.org.img) ? "data:image/jpeg;base64," + this.props.org.img
         : "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg";
-    return( <div className="org-card" onClick={this.setOrganization}>
+    return (
+      <div className="org-card" onClick={this.setOrganization}>
         <div className="collection-item avatar">
           <img className="image circle" src={img} />
           <span className="title right-align"><h4>{this.props.org.name}</h4></span>
