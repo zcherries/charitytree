@@ -184,13 +184,13 @@ var Index = React.createClass({
 
             <div className="col s4">
             <i className="material-icons">flash_on</i>
-            Promo Content 1 goes here
+              Whatever plaid four loko, pabst roof party bitters irony williamsburg twee. Franzen lomo gentrify schlitz twee authentic migas brooklyn. Four dollar toast banh mi crucifix, mlkshk aesthetic chartreuse yuccie disrupt PBR&B knausgaard hella tofu vegan ramps. Neutra affogato sriracha ugh photo booth. Before they sold out keytar taxidermy, aesthetic raw denim truffaut austin readymade semiotics salvia brunch mumblecore celiac kickstarter. Marfa hashtag kogi whatever, heirloom schlitz ramps four dollar toast kickstarter portland vegan cliche +1 occupy. Before they sold out roof party cred neutra church-key, truffaut chillwave farm-to-table marfa cold-pressed.
             </div>
             <div className="col s4">
-            Promo Content 2 goes here
+              Aesthetic tumblr lomo, banh mi squid williamsburg typewriter blog plaid. Wayfarers blue bottle chillwave direct trade plaid semiotics, bespoke skateboard authentic kombucha sustainable flannel deep v. Sustainable craft beer bicycle rights ramps kombucha poutine. Listicle bushwick hella normcore. Irony austin paleo, street art iPhone venmo PBR&B meggings readymade 3 wolf moon. Four dollar toast portland echo park marfa, blog distillery keytar. Migas organic health goth affogato cornhole, leggings cold-pressed put a bird on it keytar sriracha pinterest wayfarers.
             </div>
             <div className="col s4">
-            Promo Content 3 goes here
+              Knausgaard PBR&B organic, pickled skateboard etsy freegan vice green juice tacos. Small batch YOLO gluten-free humblebrag etsy skateboard. Freegan normcore selvage stumptown williamsburg pinterest marfa. 90's ramps aesthetic, cliche farm-to-table kickstarter narwhal YOLO whatever small batch mustache. Schlitz mlkshk yr, etsy craft beer keffiyeh single-origin coffee. XOXO kickstarter flannel, fingerstache PBR&B tousled wayfarers kale chips ramps kitsch craft beer. Blue bottle put a bird on it deep v DIY, four loko retro distillery.
             </div>
 
             </div>
@@ -220,9 +220,7 @@ render((
       <Route path="browse" component={Browse} />
       <Route path="search" component={Search} />
       <Route path="project" component={Project} />
-      <Route path="projectCreate" component={ProjectCreate} />
       <Route path="organization" component={Organization} />
     </Route>
   </Router>
 ), document.getElementById('app'));
-      // <Route path="organization" component={Organization} />
