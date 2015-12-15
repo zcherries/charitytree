@@ -14,7 +14,7 @@ import {ProjectCreate} from './projectCreate.js';
 import {Upload} from './upload.js';
 import {Signup} from './signup.js';
 import {Login} from './login.js';
-import {Organization} from './organizationpage.js';
+import {organization} from './organizationpage.js';
 
 const history = useBasename(createHistory)({
   basename: '/'
@@ -27,7 +27,9 @@ const App = React.createClass({
       searchText: "",
       searchCriteria: [],
       searchResults: [],
-      projectId: ""
+      projectId: "",
+      orgId: "",
+      currentOrganization: null
     };
   },
   updateSearchCriteria: function(tags) {
@@ -38,6 +40,10 @@ const App = React.createClass({
 
   navigateToSearchPage: function () {
     this.props.history.pushState(null, `/search`);
+  },
+
+  navigateToOrganizationPage: function () {
+    this.props.history.pushState(null, `/organization`);
   },
 
   updateInput: function (searchText) {
@@ -126,14 +132,25 @@ const App = React.createClass({
     }, 100);
   },
 
+  setOrganization: function(org){
+    this.setState({
+      searchText: this.state.searchText,
+      searchCriteria: this.state.searchCriteria,
+      searchResults: this.state.searchResults,
+      projectId: this.state.projectId,
+      orgId: this.state.orgId,
+      currentOrganization: org
+    });
+    this.navigateToOrganizationPage();
+  },
+
   render: function () {
     return (
       <div>
         <Navbar
           searchText={this.state.searchText}
           updateInput={this.updateInput}
-          handleSearchSubmit={this.handleSearchSubmit}
-        />
+          handleSearchSubmit={this.handleSearchSubmit}/>
         {React.cloneElement(this.props.children,
           {
             searchText: this.state.searchText,
@@ -146,6 +163,8 @@ const App = React.createClass({
             removeBrowseTag: this.removeBrowseTag,
             removeSearchTag: this.removeSearchTag,
             getProject: this.getProject,
+            setOrganization: this.setOrganization,
+            currentOrganization: this.state.currentOrganization
           }
         )}
       </div>
@@ -220,7 +239,6 @@ render((
       <Route path="browse" component={Browse} />
       <Route path="search" component={Search} />
       <Route path="project" component={Project} />
-      <Route path="organization" component={Organization} />
     </Route>
   </Router>
 ), document.getElementById('app'));
