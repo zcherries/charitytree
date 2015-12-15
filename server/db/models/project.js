@@ -2,8 +2,19 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema, ObjectId = Schema.Types.ObjectId;
 
+var NeedSchema = new Schema({
+  title: String,
+  description: String,
+  cost: Number,
+  quantity_needed: Number,
+  number_purchased: Number,
+  number_participants: Number,
+  updated_on: Date
+});
+
 var ProjectSchema = new Schema({
   org: { type: ObjectId, ref: 'Organization' },
+  created_date: Date,
   start_date: Date,
   end_date: Date,
   status: String,
@@ -16,14 +27,7 @@ var ProjectSchema = new Schema({
     current: Number
   },
   total_donors_participating: Number,
-  needs_list: [{
-    title: String,
-    description: String,
-    cost: Number,
-    quantity_needed: Number,
-    number_purchased: Number,
-    number_participants: Number
-  }],
+  needs_list: [NeedSchema],
   // comments: [{ type: ObjectID, ref: 'Donor', comment: String, date: Date }],
   //faqs: [{title: String, description: String}],
   updates: [{ title: String, date: Date, description: String }],
@@ -31,6 +35,13 @@ var ProjectSchema = new Schema({
   media: [ObjectId]
 });
 
+ProjectSchema.pre('save', function(next) {
+  var now = Date();
+  if (!this.created_date) {
+    this.created_date = now;
+  }
+  next();
+})
 //set up relationship between needs items and the donor who purchased them - org needs to see what donor donated what so it can push relevant updates
 
 //what else in this schema needs to be required

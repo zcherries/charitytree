@@ -28,20 +28,21 @@ var Login = exports.Login = React.createClass({
       data: this.state,
       success: function(response) {
         console.log(response)
-        //navigate to profile page
+        //navigate to dashboard page
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("Error posting to: " + xhr, status, err.toString());
       }.bind(this)
     });
 
-    var frm = document.getElementById('loginForm');
-    frm.reset();
-    return false;
+    // var frm = document.getElementById('loginForm');
+    // frm.reset();
+    // return false;
   },
 
   render: function() {
     return (
+
       <div className="div-signup-form">
         <form id="loginForm" className="col s12" onSubmit={this.login}>
           <div className="row">
