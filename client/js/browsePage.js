@@ -121,13 +121,16 @@ var Cause = React.createClass({
   }
 });
 
-var CauseCriteriaCB = React.createClass({
+var CauseCriteria = React.createClass({
   render: function () {
     return(
-      <p>
-        <input type="checkbox" title={this.props.tags} onCheck={this.props.addCriteria}/>
-        <label htmlFor="test5">{this.props.title}</label>
-      </p>
+      <div
+    className="hand"
+    title={this.props.tags}
+    onClick={this.props.addCriteria}
+    >
+    {this.props.title}
+    </div>
     );
   }
 });
