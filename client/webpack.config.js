@@ -10,7 +10,7 @@ module.exports = {
   module: {
     loaders: [
       {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: {presets: ['react']}},
-      { test: /\.css$/, loader: 'style!css' }
+      { test: /\.css$/, loader: 'style-loader!css-loader' }
     ]
   }
 };
