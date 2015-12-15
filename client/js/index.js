@@ -216,13 +216,12 @@ render((
     <Route path="/" component={App}>
       <IndexRoute component={Index} />
       <Route path="Login" component={Login} />
-      <Route path="organization" component={organization} />
+      <Route path="organization" component={Organization} />
       <Route path="Signup" component={Signup} />
       <Route path="browse" component={Browse} />
       <Route path="search" component={Search} />
       <Route path="project" component={Project} />
       <Route path="projectCreate" component={ProjectCreate} />
-      <Route path="organization" component={Organization} />
     </Route>
   </Router>
 ), document.getElementById('app'));

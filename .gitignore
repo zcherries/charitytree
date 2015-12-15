@@ -79,3 +79,7 @@ public/data/.DS_Store
 .idea/watcherTasks.xml
 
 .idea/misc.xml
+
+#Sessions
+sessions
+sessions/*

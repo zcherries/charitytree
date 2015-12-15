@@ -1,7 +1,7 @@
 "use strict";
 var React = require('react');
 
-var organization = exports.organization = React.createClass({
+var Organization = exports.Organization = React.createClass({
 
   dummyOrgdata : {
   name: "3HO Foundation",
@@ -17,8 +17,8 @@ var organization = exports.organization = React.createClass({
   // projects: [{ type: ObjectId, ref: 'Project' }],//does this have past and curr
   // endorsements: [{ type: ObjectId, ref: 'Donor' }]
 },
-  
-  
+
+
   projects:{
   past:[{
     org: "Test Project Org",
@@ -137,4 +137,3 @@ var organization = exports.organization = React.createClass({
     );
   }
 });
-
