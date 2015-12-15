@@ -25,8 +25,10 @@ module.exports = {
         Org.create(orgData, function(err, org) {
           if (err)
             handleError(req, res, "Controller create", err);
-          else
+          else{
+            req.session.uid = org._id;
             res.send({ status: 201, results: org });
+          }
         });
       } else {
           res.status(400).send({ status: 400, message: "We found an organization with this name." });

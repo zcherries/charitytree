@@ -2,13 +2,14 @@ module.exports = {
   validateSession: function(req, res, next) {
     console.log('Validation Starts')
     console.log('Req.Path: ', req)
-    // if (req.path === '/') {
-    //   return next();
-    // }
-    if (req.session.uid != null) {
-      return next();
+    if (req.path === '/') {
+      next();
     } else {
-      res.redirect('/');
+      if (req.session.user.uid != null) {
+        next();
+      } else {
+        res.redirect('/');
+      }
     }
   }
 }
