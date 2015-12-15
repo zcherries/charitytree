@@ -121,20 +121,6 @@ var Cause = React.createClass({
   }
 });
 
-var CauseCriteria = React.createClass({
-  render: function () {
-    return(
-      <div
-        className="hand"
-        title={this.props.tags}
-        onClick={this.props.addCriteria}
-      >
-        {this.props.title}
-      </div>
-    );
-  }
-});
-
 var CauseCriteriaCB = React.createClass({
   render: function () {
     return(
