@@ -16,7 +16,7 @@ var Organization = exports.Organization = React.createClass({
   // media: [ObjectId],
   // projects: [{ type: ObjectId, ref: 'Project' }],//does this have past and curr
   // endorsements: [{ type: ObjectId, ref: 'Donor' }]
-},
+  },
 
   projects:{
   past:[{
@@ -83,7 +83,7 @@ var Organization = exports.Organization = React.createClass({
       goal: 3000,
       current:1500
     }}]
-},
+  },
 
   componentWillMount: function(){
     console.log('Insideof orgpage logging current org', this.props.currentOrganization);
@@ -140,4 +140,3 @@ var Organization = exports.Organization = React.createClass({
     );
   }
 });
-

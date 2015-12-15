@@ -29,6 +29,7 @@ var Login = exports.Login = React.createClass({
       success: function(response) {
         console.log(response)
         //navigate to dashboard page
+        window.location.href = "http://127.0.0.1:4000/dashboard"
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("Error posting to: " + xhr, status, err.toString());

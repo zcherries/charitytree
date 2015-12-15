@@ -36,6 +36,13 @@ var Signup = exports.Signup = React.createClass({
 
           <div className="row">
             <div className="input-field col s6">
+              <label htmlFor="pwd2">Re-enter Password</label>
+              <input type="password" id="pwd2" name="pwd2" ref="pwd2" required />
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="input-field col s6">
               <label htmlFor="pwd">Password</label>
               <input type="password" id="pwd" name="pwd" ref="pwd" required />
             </div>
@@ -89,6 +96,13 @@ var Signup = exports.Signup = React.createClass({
           </div>
 
           <div className="row">
+            <div className="input-field col s6">
+              <label htmlFor="pwd2">Re-enter Password</label>
+              <input type="password" id="pwd2" name="pwd2" ref="pwd2" required />
+            </div>
+          </div>
+
+          <div className="row">
             <input type="submit" value="Submit" />
           </div>
         </form>
@@ -105,6 +119,10 @@ var Signup = exports.Signup = React.createClass({
     //   console.log(formData);
     //   e.preventDefault();
     // })
+    if (ReactDOM.findDOMNode(this.refs.pwd).value !== ReactDOM.findDOMNode(this.refs.pwd2).value) {
+      alert("Passwords didn't match.")
+      return;
+    }
 
     var formData = {};
     if (this.state.userType === 'Organization') {
@@ -129,7 +147,8 @@ var Signup = exports.Signup = React.createClass({
       data: formData,
       success: function(response) {
         console.log(response)
-        //navigate to profile page
+        //navigate to dashboard page
+        window.location.href = "http://127.0.0.1:4000/dashboard"
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("Error posting to: " + xhr, status, err.toString());

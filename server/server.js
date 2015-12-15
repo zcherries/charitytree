@@ -1,9 +1,9 @@
 var express = require('express');
 var app = express();
-// app.use(require('morgan')('dev'));
-// var session = require('express-session');
-// var FileStore = require('session-file-store')(session);
-// var session_helpers = require('./helpers/session-helpers.js');
+app.use(require('morgan')('dev'));
+var session = require('express-session');
+var FileStore = require('session-file-store')(session);
+var session_helpers = require('./helpers/session-helpers.js');
 
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -32,22 +32,22 @@ var project = require('./resources/projects.js');
 //   log_stdout.write(util.format(d) + '\n');
 // };
 
-//session middleware
-// app.use(session({
-//   name: 'server-session-cookie-id',
-//   secret: '@%20%23&amp;',
-//   saveUninitialized: false,
-//   resave: true,
-//   store: new FileStore(),
-//   cookie: { maxAge: 1000 * 5 }
-// }));
+// session middleware
+app.use(session({
+  name: 'server-session-cookie-id',
+  secret: '@%20%23&amp;',
+  saveUninitialized: false,
+  resave: true,
+  store: new FileStore(),
+  cookie: { maxAge: 1000 * 60 * 60 }
+}));
 
 // app.use(function printSession(req, res, next) {
 //   console.log('req.session', req.session);
 //   return next();
 // });
 
-// app.use(session_helpers.validateSession);
+app.use('/dashboard', session_helpers.validateSession);
 
 //================================= PARSERS ==================================/
 
@@ -67,7 +67,7 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-var imgPath = 'C:/Users/T410/Documents/GitHub/charitytree/server/resources/Hydrangeas.jpg';
+// var imgPath = 'C:/Users/T410/Documents/GitHub/charitytree/server/resources/Hydrangeas.jpg';
 
 // organizations.forEach(function(org) {
 // var newOrg = new Model.Organization(org);
@@ -88,9 +88,34 @@ var imgPath = 'C:/Users/T410/Documents/GitHub/charitytree/server/resources/Hydra
 //  }
 // });
 
+// var renderWithData = function(req, res, next) {
+//   res.renderWithData = function() {
+//     res.render();
+//   }
+// }
 //================================== GET ====================================//
-app.get('/dashboard', function(req, res, next){
-  Controller.Organization.retrieve(req, res, next, { _id : req.session.uid });
+app.get('/', function(req, res, next) {
+  console.log("Get Index Page");
+  res.send('index.html');
+});
+
+app.get('/logout', function(req, res, next) {
+  if (req.session) {
+    req.session.destroy();
+  }
+  res.send('index.html');
+});
+
+app.get('/dashboard', function(req, res, next) {
+  if (req.session && req.session.user) {
+    if (req.session.user.type === 'organization') {
+      Controller.Organization.retrieve(req, res, next, { _id: req.session.user.uid });
+    } else if (req.session.user.type === 'donor') {
+      Controller.Donor.retrieve(req, res, next, { _id: req.session.user.uid });
+    }
+  } else {
+    res.status(404).send({status: 404, message: "Cannot access dashboard"});
+  }
 });
 
 app.get('/image', function(req, res) {
@@ -149,11 +174,26 @@ app.get('/upload/profile_img', function(req, res) {
 });
 
 app.get('/organizations', function(req, res, next) {
-  Controller.Organization.retrieve(req, res, next);
+  // Controller.Organization.retrieve(req, res, next, { name: "BRAC" });
+  // Model.Organization.findOne({ name: "BRAC" }, function(err, org) {
+  //   if (err) console.log(err)
+  //   else {
+  //     console.log(org)
+  //     org.username = 'BRAC';
+  //     org.password = "$2a$10$iT4mB1TEPWOR1u0/aHtoH.RHFLGmvKe9k2jJbgoS099cr.PtTeh6G";
+  //     org.projects.push('566c71024e699e200eec5a3b');
+  //     org.save(function(err, org) {
+  //       if (err) console.error(err);
+  //       else console.log(org);
+  //     });
+  //     res.send('got here');
+  //   }
+  // });
+  // Controller.Organization.update(req, res, next, { name: "BRAC" }, {_id: "56663f998461000b5037cdf0" });
 });
 
 app.get('/projects', function(req, res, next) {
-  Controller.Project.retrieve(req, res, next);
+  // Controller.Project.retrieve(req, res, next);
   //Controller.Project.delete(req, res, next, {}, {}, 'find');
 });
 
@@ -204,8 +244,8 @@ app.post('/login', function(req, res, next) {
         } else {
           if (result) {
             //create session
-            req.session.uid = donor._id;
-            console.log('Session id has been set');
+            req.session.user = { uid: donor._id, type: 'donor' }
+            console.log('Session has been set');
             res.status(201).send({ status: 201, message: "Login successful" });
           } else { //found donor but password doesn't match
             res.status(400).send({ status: 400, message: "Invalid username/password combination" });
@@ -227,7 +267,7 @@ app.post('/login', function(req, res, next) {
             }
             if (result) {
               //create session
-              req.session.uid = org._id;
+              req.session.user = { uid: org._id, type: 'organization' }
               res.send({ status: 200, message: "Login successful" });
             } else { //found org but password doesn't match
               res.status(400).send({ status: 400, message: "Invalid username/password combination" });
@@ -302,12 +342,6 @@ app.post('/post_search', function(req, res, next) {
       });
     }
   });
-});
-
-
-app.get('/', function(req, res) {
-  console.log("Get Index Page");
-  res.send('index.html');
 });
 
 // handle every other route with index.html, which will contain
