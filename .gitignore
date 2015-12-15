@@ -79,3 +79,19 @@ public/data/.DS_Store
 .idea/watcherTasks.xml
 
 .idea/misc.xml
+
+#Sessions
+sessions
+sessions/*
+
+.idea/charitytree.iml
+
+.idea/jsLibraryMappings.xml
+
+.idea/libraries/charitytree_node_modules.xml
+
+.idea/charitytree.iml
+
+.idea/modules.xml
+
+.idea/libraries/charitytree_node_modules.xml

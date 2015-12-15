@@ -24,10 +24,13 @@ module.exports = {
       if (!found) {
         Donor.create(donorData, function(err, donor) {
           if (err) handleError(req, res, "Controller create", err);
-          res.send({ status: 201, results: donor });
+          else {
+            req.session.uid = donor._id;
+            res.send({ status: 201, results: donor });
+          }
         });
       } else {
-          res.status(400).send({ status: 400, message: "We found an donor with this name." });
+        res.status(400).send({ status: 400, message: "We found an donor with this name." });
       }
     });
   },
