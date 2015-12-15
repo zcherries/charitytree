@@ -14,7 +14,7 @@ import {ProjectCreate} from './projectCreate.js';
 import {Upload} from './upload.js';
 import {Signup} from './signup.js';
 import {Login} from './login.js';
-import {organization} from './organizationpage.js';
+import {Organization} from './organizationpage.js';
 
 const history = useBasename(createHistory)({
   basename: '/'
@@ -194,11 +194,9 @@ var Index = React.createClass({
         </div>
 
         <div className="section white">
-          <div className="row container">
+          <p className="grey-text text-darken-3 lighten-3"></p>
+          <div className="container">
 
-          </div>
-          <p className="grey-text text-darken-3 lighten-3">
-                    </p>
             <div className="row">
 
             <div className="col s4">
@@ -213,7 +211,7 @@ var Index = React.createClass({
             </div>
 
             </div>
-
+          </div>
         </div>
 
         <div className="parallax-container">
@@ -239,6 +237,7 @@ render((
       <Route path="browse" component={Browse} />
       <Route path="search" component={Search} />
       <Route path="project" component={Project} />
+      <Route path="organization" component={Organization} />
     </Route>
   </Router>
 ), document.getElementById('app'));

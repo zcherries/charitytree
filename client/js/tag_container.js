@@ -38,7 +38,7 @@ var Tag = exports.Tag = React.createClass({
         textContent={this.props.text}
         onClick={this.removeTag}
       > {/*custom chip*/}
-        <i className="chipx material-icons">close</i>
+        <i className="fa fa-close"></i>
         {this.props.text}
       </div>
     );
