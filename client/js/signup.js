@@ -36,15 +36,15 @@ var Signup = exports.Signup = React.createClass({
 
           <div className="row">
             <div className="input-field col s6">
-              <label htmlFor="pwd2">Re-enter Password</label>
-              <input type="password" id="pwd2" name="pwd2" ref="pwd2" required />
+              <label htmlFor="pwd">Password</label>
+              <input type="password" id="pwd" name="pwd" ref="pwd" required />
             </div>
           </div>
 
           <div className="row">
             <div className="input-field col s6">
-              <label htmlFor="pwd">Password</label>
-              <input type="password" id="pwd" name="pwd" ref="pwd" required />
+              <label htmlFor="pwd2">Re-enter Password</label>
+              <input type="password" id="pwd2" name="pwd2" ref="pwd2" required />
             </div>
           </div>
 
@@ -128,7 +128,7 @@ var Signup = exports.Signup = React.createClass({
     if (this.state.userType === 'Organization') {
         formData.org_name = ReactDOM.findDOMNode(this.refs.org_name).value,
         formData.username = ReactDOM.findDOMNode(this.refs.username).value,
-        formData.pwd = ReactDOM.findDOMNode(this.refs.username).value
+        formData.pwd = ReactDOM.findDOMNode(this.refs.pwd).value
         formData.userType = this.state.userType
     }
 
@@ -148,7 +148,8 @@ var Signup = exports.Signup = React.createClass({
       success: function(response) {
         console.log(response)
         //navigate to dashboard page
-        window.location.href = "http://127.0.0.1:4000/dashboard"
+        this.navigateToDashboard();
+        // window.location.href = "http://127.0.0.1:4000/dashboard"
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("Error posting to: " + xhr, status, err.toString());

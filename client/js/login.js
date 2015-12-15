@@ -12,6 +12,10 @@ var Login = exports.Login = React.createClass({
     }
   },
 
+  navigateToDashboard: function () {
+    this.props.history.pushState(null, `/dashboard`);
+  },
+
   usernameChange: function(e) {
     this.setState({ username: e.target.value });
   },
@@ -29,7 +33,8 @@ var Login = exports.Login = React.createClass({
       success: function(response) {
         console.log(response)
         //navigate to dashboard page
-        window.location.href = "http://127.0.0.1:4000/dashboard"
+        // window.location.href = "http://127.0.0.1:4000/dashboard"
+        this.navigateToDashboard();
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("Error posting to: " + xhr, status, err.toString());

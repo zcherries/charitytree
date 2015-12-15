@@ -1,9 +1,4 @@
 var express = require('express');
-var app = express();
-app.use(require('morgan')('dev'));
-var session = require('express-session');
-var FileStore = require('session-file-store')(session);
-var session_helpers = require('./helpers/session-helpers.js');
 
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -15,6 +10,11 @@ var bcrypt = require('bcrypt-nodejs');
 //var webpack = require('webpack');
 //var WebpackDevServer = require('webpack-dev-server');
 //var config = require('../client/webpack.config.js');
+
+var session = require('express-session');
+var FileStore = require('session-file-store')(session);
+var session_helpers = require('./helpers/session-helpers.js');
+
 var Controller = require('./db/controllers');
 var Model = require('./db/models');
 var connection = require('./db/connection.js');
@@ -32,13 +32,19 @@ var project = require('./resources/projects.js');
 //   log_stdout.write(util.format(d) + '\n');
 // };
 
+var app = express();
+
+app.use('/client/js', express.static(path.join(__dirname, '../client/js')));
+app.use(express.static(path.join(__dirname, '../client')));
+// app.use(require('morgan')('dev'));
+
 // session middleware
 app.use(session({
   name: 'server-session-cookie-id',
   secret: '@%20%23&amp;',
   saveUninitialized: false,
   resave: true,
-  store: new FileStore(),
+  store: new FileStore({ retries: 50, reapInterval: 10000 }),
   cookie: { maxAge: 1000 * 60 * 60 }
 }));
 
@@ -46,8 +52,6 @@ app.use(session({
 //   console.log('req.session', req.session);
 //   return next();
 // });
-
-app.use('/dashboard', session_helpers.validateSession);
 
 //================================= PARSERS ==================================/
 
@@ -58,8 +62,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // app.use(multer({ dest: './uploads/'}));
-
-app.use(express.static(__dirname + '/../client'));
 
 var IP = '127.0.0.1', PORT = 4000;
 
@@ -93,20 +95,22 @@ function capitalizeFirstLetter(string) {
 //     res.render();
 //   }
 // }
+
+// app.use('/dashboard', session_helpers.validateSession);
+
 //================================== GET ====================================//
-app.get('/', function(req, res, next) {
-  console.log("Get Index Page");
-  res.send('index.html');
-});
+// app.get('/dashboard', function(req, res, next) {
+//   res.sendFile(path.join(__dirname, '../client', 'index.html'));
+// });
 
 app.get('/logout', function(req, res, next) {
   if (req.session) {
     req.session.destroy();
   }
-  res.send('index.html');
+  res.sendFile(path.join(__dirname, '../client', 'index.html'));
 });
 
-app.get('/dashboard', function(req, res, next) {
+app.get('/dashboard_data', function(req, res, next) {
   if (req.session && req.session.user) {
     if (req.session.user.type === 'organization') {
       Controller.Organization.retrieve(req, res, next, { _id: req.session.user.uid });
@@ -114,7 +118,7 @@ app.get('/dashboard', function(req, res, next) {
       Controller.Donor.retrieve(req, res, next, { _id: req.session.user.uid });
     }
   } else {
-    res.status(404).send({status: 404, message: "Cannot access dashboard"});
+    res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
   }
 });
 
@@ -307,7 +311,7 @@ app.post('/media_upload', multer().array('media'), function(req, res, next) {
     });
   });
 
-  return res.status(200).send({ message: 'Success' });
+  return res.status(201).send({ message: 'Success' });
 });
 
 app.post('/post_search', function(req, res, next) {
@@ -336,7 +340,7 @@ app.post('/post_search', function(req, res, next) {
         else {
           // res.contentType(org.contentType);
           // res.contentType('multipart/mixed');
-          res.send({status: 201, results: {orgs: orgs, projects: projects}});
+          res.status(201).send({status: 201, results: {orgs: orgs, projects: projects}});
           // res.send()
         }
       });
@@ -344,12 +348,21 @@ app.post('/post_search', function(req, res, next) {
   });
 });
 
+app.get('/', function(req, res) {
+  console.log("Get Index Page");
+  res.sendFile(path.join(__dirname, '../client', 'index.html'));
+});
+
+// app.get('/org', function(req, res) {
+//   console.log("Get Index Page");
+//   res.sendFile(path.join(__dirname, '../client/org', 'index.html'));
+// });
+
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
 app.get('*', function (req, res){
   res.sendFile(path.resolve(__dirname, './../client', 'index.html'));
 });
-
 
 //new WebpackDevServer(webpack(config), {
 //  publicPath: config.output.publicPath,

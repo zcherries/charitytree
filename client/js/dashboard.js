@@ -8,37 +8,40 @@ var Dashboard = exports.Dashboard = React.createClass({
 
   getInitialState: function() {
     return {
-      orgData: [],
-      view: 'about'
+      orgData: {},
+      view: ''
     }
   },
 
   getData: function() {
     $.ajax({
       method: 'GET',
-      url: '/dashboard',
+      url: '/dashboard_data',
       success:function(response){
-        this.setState({ orgData: response.data });
-      },
+        console.log('Dashboard')
+        this.setState({ view: 'about', orgData: response.results[0] });
+      }.bind(this),
       error: function(error){
         console.log(error);
       }
     })
   },
 
+  showOrgDashboard: function() {
+
+  },
+
+  showDonorDashboard: function() {
+
+  },
+  
   updatePageView: function(view) {
     this.setState({ view: view });
   },
 
   render: function() {
     if(this.state.view === 'about') {
-      return (
-        <div>
-          <h2>{this.state.orgData.name}</h2>
-          <h3>{this.state.orgData.username}</h3>
-          <p>{this.state.orgData.about}</p>
-        </div>
-      );
+      console.log("About Org Data: ", this.state.orgData)
       var orgInfo = {
         name: this.state.orgData.name,
         username: this.state.orgData.username,
@@ -68,10 +71,10 @@ var DashboardMenu = React.createClass({
     return (
       <div>
         <ul>
-          <li onClick={this.goToPage}>'About'</li>
-          <li onClick={this.goToPage}>'Projects'</li>
-          <li onClick={this.goToPage}>'Media'</li>
-          <li onClick={this.goToPage}>'Endorsements'</li>
+          <li onClick={this.goToPage}>About</li>
+          <li onClick={this.goToPage}>Projects</li>
+          <li onClick={this.goToPage}>Media</li>
+          <li onClick={this.goToPage}>Endorsements</li>
         </ul>
       </div>
     )
