@@ -10,7 +10,7 @@ var Dashboard = exports.Dashboard = React.createClass({
   getInitialState: function() {
     return {
       orgData: [],
-      view: 'about',
+      view: 'about'
     }
   },
 
@@ -34,9 +34,8 @@ var Dashboard = exports.Dashboard = React.createClass({
           <h2>{this.state.orgData.name}</h2>
           <h3>{this.state.orgData.username}</h3>
           <p>{this.state.orgData.about}</p>
-          <ul>
         </div>
-      )
+      );
     }
   }
 });
