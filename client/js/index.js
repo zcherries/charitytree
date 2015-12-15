@@ -216,7 +216,6 @@ render((
     <Route path="/" component={App}>
       <IndexRoute component={Index} />
       <Route path="Login" component={Login} />
-      <Route path="organization" component={organization} />
       <Route path="Signup" component={Signup} />
       <Route path="browse" component={Browse} />
       <Route path="search" component={Search} />
