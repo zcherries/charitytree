@@ -274,3 +274,8 @@ main {
 .box__file + label * {
 	pointer-events: none;
 }
+
+.hand:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
