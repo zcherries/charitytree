@@ -12,7 +12,6 @@ var Signup = exports.Signup = React.createClass({
   },
 
   setUserType: function(e) {
-    console.log(e.target.value);
     this.setState( {userType: e.target.value });
   },
 

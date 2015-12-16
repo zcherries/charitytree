@@ -7,7 +7,7 @@ var OrganizationSchema = new Schema({
   username:{ type: String, required: true, unique: true },
   password: { type: String, required: true },
   address: { type: String, trim: true },
-  about: { type: String },
+  about: String,
   signup_date: Date,
   // areas_of_focus: [{ type: ObjectId, ref: 'AoF' }],
   areas_of_focus: [String],

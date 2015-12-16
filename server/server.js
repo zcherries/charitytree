@@ -61,40 +61,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse application/json
 app.use(bodyParser.json());
 
-// app.use(multer({ dest: './uploads/'}));
-
 var IP = '127.0.0.1', PORT = 4000;
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-// var imgPath = 'C:/Users/T410/Documents/GitHub/charitytree/server/resources/Hydrangeas.jpg';
-
-// organizations.forEach(function(org) {
-// var newOrg = new Model.Organization(org);
-// newOrg.save(function(err, obj) {
-//   if (err) {
-//     console.error("Error: ", err)
-//   } else {
-//     console.log("New organization has been added")
-//   }
-// });
-// });
-
-// Model.Project.create(project, function(error, result){
-//  if(error) {
-//    console.error(error)
-//  }else {
-//    console.log(result)
-//  }
-// });
-
-// var renderWithData = function(req, res, next) {
-//   res.renderWithData = function() {
-//     res.render();
-//   }
-// }
 
 // app.use('/dashboard', session_helpers.validateSession);
 
@@ -113,9 +84,9 @@ app.get('/logout', function(req, res, next) {
 app.get('/dashboard_data', function(req, res, next) {
   if (req.session && req.session.user) {
     if (req.session.user.type === 'organization') {
-      Controller.Organization.retrieve(req, res, next, { _id: req.session.user.uid });
+      Controller.Organization.retrieve(req, res, next, { _id: req.session.user.uid },{}, 'findOne');
     } else if (req.session.user.type === 'donor') {
-      Controller.Donor.retrieve(req, res, next, { _id: req.session.user.uid });
+      Controller.Donor.retrieve(req, res, next, { _id: req.session.user.uid }, {}, 'findOne');
     }
   } else {
     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
@@ -155,26 +126,6 @@ app.get('/get_file', function (req, res) {
   //  connection.gridfs.chunks.find({ metadata: { org: '56663575f7ec540c2d469903'}})
   var readstream = connection.gridfs.createReadStream({ filename: '1_-_Introduction_to_NoSQL_Databases.mp4' });
   readstream.pipe(res);
-});
-
-app.get('/upload/profile_img', function(req, res) {
-  console.log('Inside GET Image');
-  Model.Organization.findById({_id:"56663575f7ec540c2d4698fb"}, function(err, org) {
-    if (err) {console.error(err); res.status(400).send('Could not retrieve data'); }
-    else {
-      // console.log('Org Name: ', org.name);
-      // org.profile_img.data = fs.readFileSync(imgPath);
-      // org.profile_img.contentType = 'image/jpeg';
-      // org.save(function(err, currOrg) {
-      //   console.log("Save org, about to send")
-      //   console.log(org.profile_img.contentType);
-      var img = new Buffer(org.profile_img.data).toString('base64');
-      res.contentType(org.profile_img.contentType);
-      // console.log(org.profile_img.data);
-      res.send(img);
-      // });
-    }
-  });
 });
 
 app.get('/organizations', function(req, res, next) {
@@ -285,6 +236,40 @@ app.post('/login', function(req, res, next) {
   });
 });
 
+app.post('/dashboard_data', function(req, res, next) {
+  if (req.session && req.session.user) {
+    if (req.session.user.type === 'organization') {
+      if (req.body.view === 'about') {
+        Controller.Organization.update(req, res, next, { _id: req.session.user.uid },
+          { about: req.body.about, areas_of_focus: req.body.areas_of_focus });
+      }
+    } else if (req.session.user.type === 'donor') {
+      Controller.Donor.update(req, res, next, { _id: req.session.user.uid });
+    }
+  } else {
+    res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
+  }
+});
+
+app.post('/upload/profile_img', multer().single('profile_img'), function(req, res, next) {
+  Model.Organization.findById({ _id: req.session.id }, function(err, org) {
+    if (err) { console.error(err); res.status(400).send('Could not retrieve data'); }
+    else {
+      // console.log('Org Name: ', org.name);
+      // org.profile_img.data = fs.readFileSync(imgPath);
+      // org.profile_img.contentType = 'image/jpeg';
+      // org.save(function(err, currOrg) {
+      //   console.log("Save org, about to send")
+      //   console.log(org.profile_img.contentType);
+      var img = new Buffer(org.profile_img.data).toString('base64');
+      res.contentType(org.profile_img.contentType);
+      // console.log(org.profile_img.data);
+      // res.send(img);
+      // });
+    }
+  });
+});
+
 app.post('/media_upload', multer().array('media'), function(req, res, next) {
   console.log("Files: ", req.files);
   //  console.log("Body: ", req.body);
@@ -310,7 +295,6 @@ app.post('/media_upload', multer().array('media'), function(req, res, next) {
       //store fileId in media property of organization or project
     });
   });
-
   return res.status(201).send({ message: 'Success' });
 });
 
@@ -352,11 +336,6 @@ app.get('/', function(req, res) {
   console.log("Get Index Page");
   res.sendFile(path.join(__dirname, '../client', 'index.html'));
 });
-
-// app.get('/org', function(req, res) {
-//   console.log("Get Index Page");
-//   res.sendFile(path.join(__dirname, '../client/org', 'index.html'));
-// });
 
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).

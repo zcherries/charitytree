@@ -33,7 +33,7 @@ module.exports = {
   },
 
   update: function(req, res, next, criteria, changes, method, options) {
-    Donor.findOne(criteria, function(err, doc) {
+    Project.findOne(criteria, function(err, doc) {
       if (err) handleError(req, res, "Controller update", err);
       if (doc) {
         for (var key in changes) {

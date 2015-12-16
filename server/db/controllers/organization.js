@@ -46,7 +46,8 @@ module.exports = {
           }
         }
         doc.save(function(err, org) {
-          res.send({ status: 201, results: org });
+          console.log("Org: ", org)
+          res.status(201).send({ status: 201, results: org });
         });
       } else {
         res.status(400).send({ status: 400, message: "Organization not found." });
