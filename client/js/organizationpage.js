@@ -116,27 +116,57 @@ var Organization = exports.Organization = React.createClass({
 
     return (
       <div>
-          <h1>This is a new organization</h1>
-          <div>
-          <h2>org id is {this.props.currentOrganization._id}</h2>
-          </div>
 
-          <div>
-          <h2>address is {this.props.currentOrganization.address}</h2>
-          </div>
 
-          <div>
-            <h2>about is {this.props.currentOrganization.about}</h2>
-          </div>
+           <div className="row s12 text center">
+              <h1>
+                {this.props.currentOrganization.name}
+                {/* {this.props.currentOrganization._id} */}
+              </h1>
+             <img src="https://c1.staticflickr.com/5/4140/4930996357_8c6f018343_z.jpg" />
 
-          <div>
-            <h2>Our currrent Projects are {currentProjects}</h2>
-          </div>
+           </div>
+           <div className="text center">
+             <h5> Description: {this.props.currentOrganization.about}</h5>
+             <h6> Address: {this.props.currentOrganization.address}</h6>
+            </div>
 
-          <div>
-           <div>Our Past Projects {pastProject}</div>
-          </div>
-      </div>
+         <div className="row">
+            <div className="col s6 valign-wrapper">
+              <h3 className="valign">
+                Additional info here about what the Org Cares about
+                Boom and there goes the dynamite
+              </h3>
+            </div>
+
+           <div className="col s6">
+             <img src="https://c1.staticflickr.com/5/4116/4931019303_2f386bffb7_z.jpg" />
+           </div>
+           </div>
+
+
+           <div>
+            <h4>
+             Areas of focus:
+             {this.props.currentOrganization.areas_of_focus}
+            </h4>
+           </div>
+
+           <div className="row">
+             <h2>Our currrent Projects are</h2>
+             {currentProjects}
+           </div>
+           <div>
+             <h2>Our Past Projects</h2>
+            <div>{pastProject}</div>
+           </div>
+
+           <div>
+            <h2>Endorsements</h2>
+            <div>Various Endorsements</div>
+           </div>
+
+         </div>
     );
   }
 });

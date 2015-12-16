@@ -5,7 +5,7 @@ exports.CausesInfo = [
     tags: "Animals",
     img: "https://c1.staticflickr.com/5/4119/4931607222_92bf5fea5f_b.jpg",
     subcauses: [
-      {id: "animal_rights", title: "Right", tags: "Animal Rights"},
+      {id: "animal_rights", title: "Rights", tags: "Animal Rights"},
       {id: "animal_services", title: "Services", tags: "Animal Services"},
       {id: "animal_welfare", title: "Welfare", tags: "Animal Welfare"},
       {id: "wildlife", title: "Wildlife Conservation", tags: "Wildlife Conservation"},

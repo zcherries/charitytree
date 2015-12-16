@@ -137,14 +137,16 @@ main {
 .cardx .card-image {
   position: relative; }
 .cardx .card-image img {
-  display: block;
+  display: inline-block;
+  vertical-align: middle;
   border-radius: 2px 2px 0 0;
   position: relative;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  width: 100%; }
+  width: 100%;
+  height: 100%}
 .cardx .card-image .card-title {
   color: #fff;
   position: absolute;
@@ -160,8 +162,7 @@ main {
 .card .card-content .card-title {
   line-height: 48px; }
 .cardx .card-action {
-  border-top: 1px solid rgba(160, 160, 160, 0.2);
-  padding: 20px; }
+  border-top: 1px solid rgba(160, 160, 160, 0.2); }
 .cardx .card-action a {
   color: #ffab40;
   margin-right: 20px;

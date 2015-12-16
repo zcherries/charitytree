@@ -62,7 +62,7 @@ var OrganizationResults = React.createClass({
       <div>
         <div>
           <h6>Organization Results</h6>
-          <div className="collection hoverable">
+          <div className="collection">
             {org ? org : "No results to display"}
           </div>
         </div>
@@ -81,11 +81,26 @@ var Organization = React.createClass({
     var img = (this.props.org.img) ? "data:image/jpeg;base64," + this.props.org.img
         : "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg";
     return (
-      <div className="org-card" onClick={this.setOrganization}>
-        <div className="collection-item avatar">
-          <img className="image circle" src={img} />
-          <span className="title right-align"><h4>{this.props.org.name}</h4></span>
-          <p>{this.props.org.about}</p>
+      <div className="container">
+        <div className="cardx hoverable" onClick={this.setOrganization}>
+
+          <div className="card-image ">
+            <img src={img}/>
+            <span className="card-title shadow">
+              <h4>{this.props.org.name}</h4>
+            </span>
+          </div>
+
+          <div className="card-content truncate ">
+            <p>{this.props.org.about}</p>
+          </div>
+
+          {/*<div className="card-action">
+            <p>
+              <button className="btn-small btn-flat waves-effect waves-light" onClick={this.setOrganization}>Read more...</button>
+            </p>
+          </div>*/}
+
         </div>
       </div>
     );
@@ -137,14 +152,15 @@ var Project = React.createClass({
 
     return (
       <div className="card hoverable">
+
         <div className="card-image">
           <img src="http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg"/>
-              <span className="card-title shadow">
-                {this.props.title}
-              </span>
+            <span className="card-title shadow">
+              {this.props.title}
+            </span>
         </div>
-        <div className="card-content">
 
+        <div className="card-content">
           <h6>{this.props.areas_of_focus}</h6>
           <div className="truncate">
             {this.props.info}
@@ -152,10 +168,10 @@ var Project = React.createClass({
         </div>
         <div className="card-action">
           <p>
-            <button className="waves-effect waves-light" onClick={this.getProject}>Read more...</button>
+            <button className="btn-small btn-flat waves-effect waves-light" onClick={this.getProject}>Read more...</button>
           </p>
-
         </div>
+
       </div>
     );
   }
