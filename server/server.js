@@ -92,16 +92,19 @@ app.get('/', function(req, res, next) {
   res.send('index.html');
 });
 
-app.get('/dashboard', function(req, res, next) {
+app.get('/dashboard_data', function(req, res, next) {
+  console.log("Here")
   if (req.session && req.session.user) {
     if (req.session.user.type === 'organization') {
+      console.log("In Org");
       // Controller.Organization.retrieve(req, res, next, { _id: req.session.user.uid },
       //   { select: '-password' }, 'findOne');
+      console.log('User ID: ', req.session.user.uid)
       Model.Organization.findOne({_id: req.session.user.uid})
         .populate('projects').populate('endorsements')
         .exec(function(err, org) {
           if (err) throw err;
-          else { res.status(200).send({status: 200, results: org }); }
+          else { console.log("About to send info"); res.status(200).send({status: 200, results: org }); }
         });
     } else if (req.session.user.type === 'donor') {
       Controller.Donor.retrieve(req, res, next, { _id: req.session.user.uid },
@@ -228,8 +231,8 @@ app.post('/signup_post', function(req, res, next) {
       };
       // Controller.Organization.create(req, res, next, orgData);
       Model.Organization.create(orgData, function(err, org) {
-        req.session.user = { uid: org._id, type: 'organization' };
-        res.send({ status: 201, results: org });
+        req.session.user = { uid: org._id, type: 'organization' }
+        res.send({ status: 201, message: "Signup was succesful"  });
       });
     } else if (req.body.userType === 'Donor') {
       var donorData = {
@@ -241,7 +244,7 @@ app.post('/signup_post', function(req, res, next) {
       // Controller.Donor.create(req, res, next, donorData);
       Model.Donor.create(donorData, function(err, donor) {
         req.session.user = { uid: donor._id, type: 'donor' }
-        res.send({ status: 201, results: donor });
+        // res.send({ status: 201, results: donor });
       });
     }
   });
@@ -287,7 +290,7 @@ app.post('/login_post', function(req, res, next) {
             if (result) {
               //create session
               req.session.user = { uid: org._id, type: 'organization' };
-              res.send({ status: 200, message: "Login successful" });
+              res.send({ status: 201, message: "Login successful" });
             } else { //found org but password doesn't match
               res.status(400).send({ status: 400, message: "Invalid username/password combination" });
             }
@@ -347,7 +350,7 @@ app.post('/dashboard/projects/new', function(req, res, next) {
               org.save(function(err, org) {
                 if (err) { throw err; }
                 else {
-                  console.log("new project here")
+                  console.log("new project here");
                   res.status(201).send({ status: 201, message: "You are logged in" });
                 }
               });
