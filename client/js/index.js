@@ -10,7 +10,7 @@ import {Footer} from './footer.js';
 import {Navbar} from './navbar.js';
 import {Search} from './search.js';
 import {Project} from './project.js';
-import {ProjectCreate} from './projectCreate.js';
+import {ProjectCreate} from './dashboard/projectCreate.js';
 import {Upload} from './upload.js';
 import {Signup} from './signup.js';
 import {Login} from './login.js';

@@ -84,9 +84,11 @@ app.get('/logout', function(req, res, next) {
 app.get('/dashboard_data', function(req, res, next) {
   if (req.session && req.session.user) {
     if (req.session.user.type === 'organization') {
-      Controller.Organization.retrieve(req, res, next, { _id: req.session.user.uid },{}, 'findOne');
+      Controller.Organization.retrieve(req, res, next, { _id: req.session.user.uid },
+        { select: '-password' }, 'findOne');
     } else if (req.session.user.type === 'donor') {
-      Controller.Donor.retrieve(req, res, next, { _id: req.session.user.uid }, {}, 'findOne');
+      Controller.Donor.retrieve(req, res, next, { _id: req.session.user.uid },
+        { select: '-password' }, 'findOne');
     }
   } else {
     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
@@ -236,19 +238,46 @@ app.post('/login', function(req, res, next) {
   });
 });
 
-app.post('/dashboard_data', function(req, res, next) {
+// app.post('/dashboard_data', function(req, res, next) {
+//   if (req.session && req.session.user) {
+//     if (req.session.user.type === 'organization') {
+//       if (req.body.view === 'about') {
+//         console.log("About: ", req.body.about)
+//         Controller.Organization.update(req, res, next, { _id: req.session.user.uid },
+//           { about: req.body.about, areas_of_focus: req.body.areas_of_focus });
+//       }
+//     } else if (req.session.user.type === 'donor') {
+//       Controller.Donor.update(req, res, next, { _id: req.session.user.uid });
+//     }
+//   } else {
+//     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
+//   }
+// });
+
+app.post('/dashboard_data/about', function(req, res, next) {
   if (req.session && req.session.user) {
     if (req.session.user.type === 'organization') {
-      if (req.body.view === 'about') {
         Controller.Organization.update(req, res, next, { _id: req.session.user.uid },
-          { about: req.body.about, areas_of_focus: req.body.areas_of_focus });
-      }
+          { about: req.body.about, areas_of_focus: req.body.areas_of_focus },
+          'name username about areas_of_focus');
     } else if (req.session.user.type === 'donor') {
-      Controller.Donor.update(req, res, next, { _id: req.session.user.uid });
+      Controller.Donor.update(req, res, next, { _id: req.session.user.uid },
+        { about: req.body.about, areas_of_focus: req.body.areas_of_focus },
+        'name username about areas_of_focus');
     }
   } else {
     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
   }
+});
+
+app.post('/dashboard/projects/new', function(req, res, next) {
+  // if (req.session && req.session.user) {
+  //   Controller.Organization.update(req, res, next, { _id: req.session.user.uid },
+  //     { about: req.body.about, areas_of_focus: req.body.areas_of_focus },
+  //     'name username about areas_of_focus');
+  // } else {
+  //   res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
+  // }
 });
 
 app.post('/upload/profile_img', multer().single('profile_img'), function(req, res, next) {

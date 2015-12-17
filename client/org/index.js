@@ -5,7 +5,7 @@ import { Router, Route, Link, IndexRoute, Navigation } from 'react-router';
 import { createHistory, useBasename } from 'history';
 
 import {Dashboard, About} from '../js/dashboard.js';
-import {ProjectCreate} from '../js/projectCreate';
+import {ProjectCreate} from '../js/dashboard/projectCreate';
 
 const history = useBasename(createHistory)({
   basename: '/org/'

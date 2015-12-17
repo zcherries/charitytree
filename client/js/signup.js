@@ -109,6 +109,10 @@ var Signup = exports.Signup = React.createClass({
     )
   },
 
+  navigateToDashboard: function () {
+    this.props.history.pushState(null, `/dashboard`);
+  },
+
   signup: function(e) {
     e.preventDefault();
     // var formData = new FormData(document.querySelector('#signupForm'))
