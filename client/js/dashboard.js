@@ -3,6 +3,7 @@ var React = require('react');
 
 import {About} from './dashboard/about.js';
 import {Projects} from './dashboard/projects.js';
+import {Media} from './dashboard/media.js';
 
 var Dashboard = exports.Dashboard = React.createClass({
   componentDidMount: function() {
@@ -17,17 +18,17 @@ var Dashboard = exports.Dashboard = React.createClass({
   },
 
   getData: function() {
-    var self = this;
     $.ajax({
       method: 'GET',
       url: '/dashboard_data',
-      success:function(response){
-        self.setState({ orgData: response.data });
-      },
+      success: function(response) {
+        console.log("Response data: ", response.results)
+        this.setState({ orgData: response.results, view: 'about' });
+      }.bind(this),
       error: function(error){
         console.log(error);
-      }
-    })
+      }.bind(this)
+    });
   },
 
   showOrgDashboard: function() {

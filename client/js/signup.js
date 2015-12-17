@@ -124,23 +124,24 @@ var Signup = exports.Signup = React.createClass({
     if (this.props.userType === 'Organization') {
       formData.org_name = ReactDOM.findDOMNode(this.refs.org_name).value,
       formData.username = ReactDOM.findDOMNode(this.refs.username).value,
-      formData.pwd = ReactDOM.findDOMNode(this.refs.username).value
+      formData.pwd = ReactDOM.findDOMNode(this.refs.pwd).value
       formData.userType = this.props.userType
     }
 
     if (this.props.userType === 'Donor') {
-      formData.first_name = ReactDOM.findDOMNode(this.refs.first_name).value,
+      formData.first_name = ReactDOM.findDOMNode(this.refs.first_name).value
       formData.last_name = ReactDOM.findDOMNode(this.refs.last_name).value,
       formData.email = ReactDOM.findDOMNode(this.refs.email).value,
       formData.username = ReactDOM.findDOMNode(this.refs.username).value,
       formData.pwd = ReactDOM.findDOMNode(this.refs.pwd).value
       formData.userType = this.props.userType
     }
+
     console.log("Signup/signup/formData:",formData);
 
     $.ajax({
       type: 'POST',
-      url: '/signup',
+      url: '/signup_post',
       data: formData,
       success: function(response) {
         console.log(response)
