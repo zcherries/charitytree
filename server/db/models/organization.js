@@ -6,8 +6,8 @@ var OrganizationSchema = new Schema({
   name: { type: String, required: true, unique: true, trim: true },
   username:{ type: String, required: true, unique: true },
   password: { type: String, required: true },
+  about: String,
   address: { type: String, trim: true },
-  about: { type: String },
   signup_date: Date,
   // areas_of_focus: [{ type: ObjectId, ref: 'AoF' }],
   areas_of_focus: [String],
@@ -21,9 +21,11 @@ var OrganizationSchema = new Schema({
   img: { type: String, default: '' }
 });
 
+// OrganizationSchema.add({ about: String });
+
 OrganizationSchema.pre('save', function(next) {
   var now = Date();
-  if (!this.signup_date) {
+  if (this.signup_date == null) {
     this.signup_date = now;
   }
   next();
@@ -32,3 +34,4 @@ OrganizationSchema.pre('save', function(next) {
 var Organization = mongoose.model('Organization', OrganizationSchema);
 
 module.exports = Organization;
+// module.exports = OrganizationSchema;

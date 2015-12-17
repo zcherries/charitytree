@@ -1,6 +1,5 @@
 import React from 'react';
 import { CausesInfo } from './causesinfo.js';
-import {Footer} from './footer.js';
 
 var ProjectCreate = exports.ProjectCreate = React.createClass({
   getInitialState: function () {
@@ -173,17 +172,11 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
 
   submitForm: function () {
     $.ajax({
-      url: "/post_search",
-      // dataType: 'json',
-      method: "Post",
-      data: {aofs: searchCriteria},
-      success: function (data) {
-        this.setState({
-          searchText: this.state.searchText,
-          searchCriteria: searchCriteria,
-          searchResults: data.results
-        });
-        this.navigateToSearchPage();
+      url: "/dashboard/projects/new",
+      method: "POST",
+      data: {projectData: this.state},
+      success: function (response) {
+        console.log(response);
         // console.log('Testing success time. Inside of success to AJAX')
       }.bind(this),
       error: function (xhr, status, err) {
@@ -201,7 +194,6 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
             <div className="col s12 m6">
               <h1>Create a new Project</h1>
             </div>
-
 
             <form className="col s12 m6">
               <div className="row">
@@ -244,13 +236,9 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
           </div>
 
         </div>
-
-        <Footer />
       </div>
     );
   }
-
-
 });
 
 var CategorySelect = React.createClass({
@@ -364,7 +352,7 @@ var Needs = React.createClass({
         />
       );
     }.bind(this));
-    
+
     //console.log("projectCreate/Needs/render/needs:",needs);
 
     return(

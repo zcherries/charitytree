@@ -3,6 +3,7 @@ var React = require('react');
 import { Link } from 'react-router';
 import { Login } from './login.js';
 import { Signup } from './signup.js';
+import { Dashboard } from './dashboard.js';
 
 var Navbar = exports.Navbar = React.createClass({
   updateInput: function (e) {
@@ -74,7 +75,7 @@ var Navbar = exports.Navbar = React.createClass({
                     <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
                   </div>
                 </div>*/}
-
+                <li><Link className="waves-effect waves-light black-text" to="/dashboard">Dashboard</Link></li>
                 <li><Link className="waves-effect waves-light black-text" to="/login">Login</Link></li>
                 <li><Link className="waves-effect waves-light black-text" to="/signup">Signup</Link></li>
                 <li><Link className="waves-effect waves-light black-text" to="/browse">Browse Categories</Link></li>
@@ -97,6 +98,7 @@ var Navbar = exports.Navbar = React.createClass({
                     </div>
                   </form>
                 </li>
+                <li><Link className="waves-effect waves-light" to="/dashboard">Dashboard</Link></li>
                 <li><Link className="waves-effect waves-light" to="/login">Login</Link></li>
                 <li><Link className="waves-effect waves-light" to="/signup">Signup</Link></li>
                 <li><Link className="waves-effect waves-light" to="/browse">Browse Categories</Link></li>

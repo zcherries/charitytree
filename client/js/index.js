@@ -10,11 +10,13 @@ import {Footer} from './footer.js';
 import {Navbar} from './navbar.js';
 import {Search} from './search.js';
 import {Project} from './project.js';
-import {ProjectCreate} from './projectCreate.js';
+import {ProjectCreate} from './dashboard/projectCreate.js';
 import {Upload} from './upload.js';
 import {Signup} from './signup.js';
 import {Login} from './login.js';
 import {Organization} from './organizationpage.js';
+import {Dashboard} from './dashboard.js';
+
 
 const history = useBasename(createHistory)({
   basename: '/'
@@ -181,7 +183,6 @@ var Index = React.createClass({
   render: function() {
     return(
       <div>
-
         {/*Parallax*/}
         <div className="parallax-container">
           <div className="parallax">
@@ -207,9 +208,7 @@ var Index = React.createClass({
               Aesthetic tumblr lomo, banh mi squid williamsburg typewriter blog plaid. Wayfarers blue bottle chillwave direct trade plaid semiotics, bespoke skateboard authentic kombucha sustainable flannel deep v. Sustainable craft beer bicycle rights ramps kombucha poutine. Listicle bushwick hella normcore. Irony austin paleo, street art iPhone venmo PBR&B meggings readymade 3 wolf moon. Four dollar toast portland echo park marfa, blog distillery keytar. Migas organic health goth affogato cornhole, leggings cold-pressed put a bird on it keytar sriracha pinterest wayfarers.
             </div>
             <div className="col s4">
-              Knausgaard PBR&B organic, pickled skateboard etsy freegan vice green juice tacos. Small batch YOLO gluten-free humblebrag etsy skateboard. Freegan normcore selvage stumptown williamsburg pinterest marfa. 90's ramps aesthetic, cliche farm-to-table kickstarter narwhal YOLO whatever small batch mustache. Schlitz mlkshk yr, etsy craft beer keffiyeh single-origin coffee. XOXO kickstarter flannel, fingerstache PBR&B tousled wayfarers kale chips ramps kitsch craft beer. Blue bottle put a bird on it deep v DIY, four loko retro distillery.
-            </div>
-
+              Knausgaard PBR&B organic, pickled skateboard etsy freegan vice green juice tacos. Small batch YOLO gluten-free humblebrag etsy skateboard. Freegan normcore selvage stumptown williamsburg pinterest marfa. 90's ramps aesthetic, cliche farm-to-table kickstarter narwhal YOLO whatever small batch mustache. Schlitz mlkshk yr, etsy craft beer keffiyeh single-origin coffee. XOXO kickstarter flannel, fingerstache PBR&B tousled wayfarers kale chips ramps kitsch craft beer. Blue bottle put a bird on it deep v DIY, four loko retro distillery.</div>
             </div>
           </div>
         </div>
@@ -238,6 +237,7 @@ render((
       <Route path="search" component={Search} />
       <Route path="project" component={Project} />
       <Route path="organization" component={Organization} />
+      <Route path="dashboard" component={Dashboard} />
     </Route>
   </Router>
 ), document.getElementById('app'));

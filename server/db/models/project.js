@@ -9,7 +9,8 @@ var NeedSchema = new Schema({
   quantity_needed: Number,
   number_purchased: Number,
   number_participants: Number,
-  updated_on: Date
+  created_date: Date,
+  lastModified: Date
 });
 
 var ProjectSchema = new Schema({
@@ -35,9 +36,18 @@ var ProjectSchema = new Schema({
   media: [ObjectId]
 });
 
-ProjectSchema.pre('save', function(next) {
+NeedSchema.pre('save', function(next) {
   var now = Date();
   if (!this.created_date) {
+    this.created_date = now;
+  }
+  this.lastModified = now;
+  next();
+});
+
+ProjectSchema.pre('save', function(next) {
+  var now = Date();
+  if (!this.updated_on) {
     this.created_date = now;
   }
   next();
@@ -48,3 +58,4 @@ ProjectSchema.pre('save', function(next) {
 var Project = mongoose.model('Project', ProjectSchema);
 
 module.exports = Project;
+// module.exports = ProjectSchema;

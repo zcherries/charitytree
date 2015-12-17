@@ -4,17 +4,19 @@ import { render } from 'react-dom';
 import { Router, Route, Link, IndexRoute, Navigation } from 'react-router';
 import { createHistory, useBasename } from 'history';
 
-import {Dashboard} from './dashboard.js';
-import {ProjectCreate} from './projectCreate';
+import {Dashboard, About} from '../js/dashboard.js';
+import {ProjectCreate} from '../js/dashboard/projectCreate';
 
 const history = useBasename(createHistory)({
-  basename: '/'
+  basename: '/org/'
 });
+
+console.log(document.getElementById('org'))
 
 render((
   <Router history={history}>
     <Route path="/org/" component={Dashboard}>
-      <IndexRoute component={OrgAbout} />
+      <IndexRoute component={About} />
       <Route path="projectCreate" component={ProjectCreate} />
     </Route>
   </Router>
