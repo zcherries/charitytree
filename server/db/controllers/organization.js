@@ -38,7 +38,7 @@ module.exports = {
           if (err)
             handleError(req, res, "Controller create", err);
           else{
-            req.session.uid = org._id;
+            // req.session.uid = org._id;
             res.send({ status: 201, results: org });
           }
         });

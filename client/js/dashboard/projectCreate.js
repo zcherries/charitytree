@@ -177,6 +177,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
       data: {projectData: this.state},
       success: function (response) {
         console.log(response);
+        this.props.submitHandler();
         // console.log('Testing success time. Inside of success to AJAX')
       }.bind(this),
       error: function (xhr, status, err) {
@@ -199,7 +200,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
               <div className="row">
                 {/*Project Title*/}
                 <div className="input-field col s12">
-                  <input id="project_title" type="text" className="validate" value={this.state.title} onChange={this.updateTitle}/>
+                  <input id="project_title" type="text" className="validate" required value={this.state.title} onChange={this.updateTitle}/>
                   <label htmlFor="project_title">Project Title</label>
                 </div>
                 {/*End Date*/}
@@ -220,9 +221,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
               </div>
             </form>
 
-            <CategorySelect
-              addRemoveCat={this.addRemoveCat}
-            />
+            <CategorySelect addRemoveCat={this.addRemoveCat} />
 
             <Needs
               needs={this.state.needs_list}

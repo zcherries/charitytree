@@ -14,7 +14,7 @@ var NeedSchema = new Schema({
 });
 
 var ProjectSchema = new Schema({
-  org: { type: ObjectId, ref: 'Organization' },
+  _org: { type: ObjectId, ref: 'Organization' },
   created_date: Date,
   start_date: Date,
   end_date: Date,

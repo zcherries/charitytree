@@ -19,7 +19,7 @@ module.exports = {
   },
 
   create: function(req, res, next, projectData) {
-    Project.findOne({name: projectData.name}, function(err, found) {
+    Project.findOne({name: projectData.title}, function(err, found) {
       if (err) handleError(req, res, "Controller create", err);
       if (!found) {
         Project.create(projectData, function(err, project) {
