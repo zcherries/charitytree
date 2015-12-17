@@ -9,6 +9,10 @@ import { CausesInfo } from './dashboard/causesinfo.js';
 
 var Project = exports.Project = React.createClass ({
   //mixins: [IntlMixin],
+  componentWillMount: function(){
+    // console.log('on project page and props.project is ', this.props.currentProject);
+    console.log('on proj page and props.searchResults is ', this.props.searchResults);
+  },
 
   componentDidMount: function () {
     $('.materialboxed').materialbox();
@@ -16,14 +20,27 @@ var Project = exports.Project = React.createClass ({
     $('ul.tabs').tabs('select_tab', 'tab_id');
   },
 
+  setCurrentOrg: function(){
+    console.log('inside of setCurrentOrg');
+    console.log('this.props.searchResults.orgs is ', this.props.searchResults.orgs)
+    for(var i = 0; i < this.props.searchResults.orgs.length; i++){
+      console.log('orgs is ', this.props.searchResults.orgs[i])
+      if(this.props.searchResults.orgs[i]._id === this.props.currentProject.org){
+        console.log('inside of if statement');
+        this.props.setOrganization(this.props.searchResults.orgs[i]);
+      }
+    }
+  },
+
   render: function() {
     //console.log("Project/this.props.searchResults.projects: ", this.props.searchResults.projects);
-    var project = this.props.searchResults.projects.filter(function(project){
-      if(project._id === this.props.projectId) {
-        return project;
-      }
-    }.bind(this));
-    project = project[0];
+    // var project = this.props.searchResults.projects.filter(function(project){
+    //   if(project._id === this.props.projectId) {
+    //     return project;
+    //   }
+    // }.bind(this));
+    // project = project[0];
+    var project = this.props.currentProject;
 
     var needs;
 
@@ -38,8 +55,7 @@ var Project = exports.Project = React.createClass ({
             description={need.description}
             cost={need.cost}
             quantity_needed={need.quantity_needed}
-            number_purchased={need.number_purchased}
-          />
+            number_purchased={need.number_purchased}/>
         );
       }.bind(this));
     }
@@ -50,7 +66,9 @@ var Project = exports.Project = React.createClass ({
       <div>
         <div className="center-align">
           <h3>{project.title}</h3>
-          <h4>{project.org}</h4>
+          <div onClick={this.setCurrentOrg}>
+          <h4>the project.org is {project.org}</h4>
+          </div>
         </div>
 
         <div className="row">
