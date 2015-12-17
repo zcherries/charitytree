@@ -135,7 +135,9 @@ var Signup = exports.Signup = React.createClass({
       formData.username = ReactDOM.findDOMNode(this.refs.username).value;
       formData.pwd = ReactDOM.findDOMNode(this.refs.pwd).value;
       formData.userType = this.props.userType;
+
     }
+
     console.log("Signup/signup/formData:",formData);
 
     $.ajax({

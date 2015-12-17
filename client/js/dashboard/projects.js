@@ -9,9 +9,13 @@ var Projects = exports.Projects = React.createClass({
     this.getProjects();
   },
 
+  componentDidMount: function() {
+    this.setState({ action: 'display' });
+  },
+
   getInitialState: function() {
     return {
-      action: 'display',
+      action: '',
       projects: []
     }
   },
@@ -51,7 +55,7 @@ var Projects = exports.Projects = React.createClass({
     this.setState({ action: 'create' });
   },
 
-  showProjectForm: function() {
+  createProject: function() {
     console.log('Show Form')
     return <div><ProjectCreate submitHandler={this.handleSubmit} /></div>
   },
@@ -60,12 +64,12 @@ var Projects = exports.Projects = React.createClass({
     this.getProjects();
   },
 
-  displayMode: function() {
+  showProjects: function() {
     var org_projects = this.state.projects.length ? this.state.projects : this.props.projects;
     console.log("Org Projects: ", org_projects)
     return (
       <div>
-        <h5><a href="#" onClick={this.changeAction}>Create a Project</a></h5>
+        <h6><a href="#" onClick={this.changeAction}>Create a Project</a></h6>
         <div>
           {org_projects.map(function(project, idx) {
             return <ProjectBlurb key={idx} details={project} />
@@ -84,7 +88,7 @@ var Projects = exports.Projects = React.createClass({
   },
 
   render: function() {
-    return (this.state.action === 'display') ? this.displayMode() : this.showProjectForm()
+    return (this.state.action === 'display') ? this.showProjects() : this.createProject()
   }
 });
 
@@ -92,6 +96,7 @@ var ProjectBlurb = React.createClass({
   render: function() {
     return (
       <div>
+        <h5>Project</h5>
         <p>{"Title: " + this.props.details.title}</p>
         <p>{"Description: " + this.props.details.info}</p>
         <p>{"Status: " + this.props.details.status}</p>

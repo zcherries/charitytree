@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {Upload} from './upload.js';
 import {Footer} from './footer.js';
 
 exports.Home = React.createClass({
@@ -52,7 +51,6 @@ exports.Home = React.createClass({
         </div>
 
         {/*Footer*/}
-        <Upload />
         <Footer />
       </div>
     );
