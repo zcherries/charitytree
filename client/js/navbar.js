@@ -7,12 +7,10 @@ import { Dashboard } from './dashboard.js';
 
 var Navbar = exports.Navbar = React.createClass({
   updateInput: function (e) {
-    //console.log("value",e.target.value);
     this.props.updateInput(e.target.value);
   },
 
   clearInput: function (e) {
-    //console.log("value",e.target.value);
     this.props.updateInput("");
   },
 
@@ -33,7 +31,12 @@ var Navbar = exports.Navbar = React.createClass({
     );
   },
 
+  //componentWillMount: function () {
+  //  this.props.loggedIn();
+  //},
+
   render: function () {
+    //console.log("Navbar/render/this.props.loggedIn:",this.props.loggedIn);
     return (
       <div>
         <div className="navbar-fixed">
@@ -42,6 +45,7 @@ var Navbar = exports.Navbar = React.createClass({
               <Link to="/" className="brand-logo black-text">Charity Tree</Link>
               <a href="#" data-activates="mobile-demo" className="button-collapse black-text"><i className="material-icons">menu</i></a>
               <ul className="right hide-on-med-and-down">
+                {/*Search Bar*/}
                 <li>
                   <form onSubmit={this.handleSearchSubmit}>
                     <div className="input-field black-text">
@@ -57,32 +61,23 @@ var Navbar = exports.Navbar = React.createClass({
                     </div>
                   </form>
                 </li>
-
-                {/*Login/Signup Modal*/}
-                {/*<li><a className="waves-effect waves-light btn-flat modal-trigger" href="#modal1">Login/Signup</a></li>
-                <div id="modal1" className="modal row center-align">
-                  <div className="modal-content col s12 m6">
-                    <h4 className="black-text">Login</h4>
-                    <p>A bunch of text</p>
-                    <Login />
-                  </div>
-                  <div className="modal-content col s12 m6">
-                    <h4 className="black-text">Signup</h4>
-                    <p>A bunch of text</p>
-                    <Signup />
-                  </div>
-                  <div className="modal-footer">
-                    <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
-                  </div>
-                </div>*/}
-                <li><Link className="waves-effect waves-light black-text" to="/dashboard">Dashboard</Link></li>
-                <li><Link className="waves-effect waves-light black-text" to="/login">Login</Link></li>
-                <li><Link className="waves-effect waves-light black-text" to="/signup">Signup</Link></li>
-                <li><Link className="waves-effect waves-light black-text" to="/browse">Browse Categories</Link></li>
+                {/*Login/Signup*/}
+                <li>
+                  {this.props.loggedIn ? (
+                    <Link className="waves-effect waves-light black-text" to="/logout">Logout</Link>
+                  ) : (
+                    <Link className="waves-effect waves-light black-text" to="/login">Login/Signup</Link>
+                  )}
+                </li>
+                {/*Browse Categories*/}
+                <li>
+                  <Link className="waves-effect waves-light black-text" to="/browse">Browse Categories</Link>
+                </li>
               </ul>
 
               {/*Side Navigation*/}
               <ul className="side-nav" id="mobile-demo">
+                {/*Search Bar*/}
                 <li>
                   <form onSubmit={this.handleSearchSubmit}>
                     <div className="input-field black-text">
@@ -98,10 +93,18 @@ var Navbar = exports.Navbar = React.createClass({
                     </div>
                   </form>
                 </li>
-                <li><Link className="waves-effect waves-light" to="/dashboard">Dashboard</Link></li>
-                <li><Link className="waves-effect waves-light" to="/login">Login</Link></li>
-                <li><Link className="waves-effect waves-light" to="/signup">Signup</Link></li>
-                <li><Link className="waves-effect waves-light" to="/browse">Browse Categories</Link></li>
+                {/*Login/Signup*/}
+                <li>
+                  {this.props.loggedIn ? (
+                    <Link className="waves-effect waves-light black-text" to="/logout">Logout</Link>
+                  ) : (
+                    <Link className="waves-effect waves-light black-text" to="/login">Login/Signup</Link>
+                  )}
+                </li>
+                {/*Browse Categories*/}
+                <li>
+                  <Link className="waves-effect waves-light" to="/browse">Browse Categories</Link>
+                </li>
               </ul>
             </div>
           </nav>

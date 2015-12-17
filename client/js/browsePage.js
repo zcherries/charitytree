@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { TagContainer, Tag } from './tag_container.js';
 import { CausesInfo } from './dashboard/causesinfo.js';
 
-var Browse = exports.Browse = React.createClass({
+const Browse = exports.Browse = React.createClass({
 
   componentDidMount: function () {
     $('.scrollspy').scrollSpy();

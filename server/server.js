@@ -7,10 +7,6 @@ var multer = require('multer');
 var streamifier = require('streamifier');
 var bcrypt = require('bcrypt-nodejs');
 
-//var webpack = require('webpack');
-//var WebpackDevServer = require('webpack-dev-server');
-//var config = require('../client/webpack.config.js');
-
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 var session_helpers = require('./helpers/session-helpers.js');
@@ -34,7 +30,7 @@ var project = require('./resources/projects.js');
 
 var app = express();
 
-app.use('/client/js', express.static(path.join(__dirname, '../client/js')));
+//app.use('/client/js', express.static(path.join(__dirname, '../client/js')));
 app.use(express.static(path.join(__dirname, '../client')));
 // app.use(require('morgan')('dev'));
 
@@ -69,11 +65,10 @@ function capitalizeFirstLetter(string) {
 
 // app.use('/dashboard', session_helpers.validateSession);
 
-//================================== GET ====================================//
-// app.get('/dashboard', function(req, res, next) {
-//   res.sendFile(path.join(__dirname, '../client', 'index.html'));
-// });
+/*
+Routes diverted to client
 
+ //================================== GET ====================================//
 app.get('/logout', function(req, res, next) {
   if (req.session) {
     req.session.destroy();
@@ -95,70 +90,8 @@ app.get('/dashboard_data', function(req, res, next) {
   }
 });
 
-app.get('/image', function(req, res) {
-  var file_exists = function (options) {
-    connection.gridfs.exist(options, function (err, found) {
-      if (err) {
-        console.error(err);
-        return false;
-      }
-      return found ? true : false;
-    });
-  }
-});
+ //================================== POST ===================================//
 
-app.get('/donors', function(req,res,next) {
-  Controller.Donor.retrieve(req,res,next,{});
-});
-
-app.get('/remove_media', function(req, res) {
-  var options = { filename: 'Sleep Away.mp3' }
-  // if (file_exists(options)) {
-  connection.gridfs.remove(options, function (err) {
-    if (err) console.log(err);
-    else {
-      console.log('success');
-      res.send('Successfully deleted ' + options.filename);
-    }
-  });
-  // }
-});
-
-app.get('/get_file', function (req, res) {
-  //  connection.gridfs.chunks.find({ metadata: { org: '56663575f7ec540c2d469903'}})
-  var readstream = connection.gridfs.createReadStream({ filename: '1_-_Introduction_to_NoSQL_Databases.mp4' });
-  readstream.pipe(res);
-});
-
-app.get('/organizations', function(req, res, next) {
-  // Controller.Organization.retrieve(req, res, next, { name: "BRAC" });
-  // Model.Organization.findOne({ name: "BRAC" }, function(err, org) {
-  //   if (err) console.log(err)
-  //   else {
-  //     console.log(org)
-  //     org.username = 'BRAC';
-  //     org.password = "$2a$10$iT4mB1TEPWOR1u0/aHtoH.RHFLGmvKe9k2jJbgoS099cr.PtTeh6G";
-  //     org.projects.push('566c71024e699e200eec5a3b');
-  //     org.save(function(err, org) {
-  //       if (err) console.error(err);
-  //       else console.log(org);
-  //     });
-  //     res.send('got here');
-  //   }
-  // });
-  // Controller.Organization.update(req, res, next, { name: "BRAC" }, {_id: "56663f998461000b5037cdf0" });
-});
-
-app.get('/projects', function(req, res, next) {
-  // Controller.Project.retrieve(req, res, next);
-  //Controller.Project.delete(req, res, next, {}, {}, 'find');
-});
-
-app.get('/get_browse', function(req, res, next) {
-  Controller.AoF.retrieve(req, res, next);
-});
-
-//================================== POST ===================================//
 app.post('/signup', function(req, res, next) {
   console.log('Body: ', req.body);
   bcrypt.hash(req.body.pwd, null, null, function(err, hash) {
@@ -237,6 +170,82 @@ app.post('/login', function(req, res, next) {
     }
   });
 });
+
+*/
+
+//================================== GET ====================================//
+// app.get('/dashboard', function(req, res, next) {
+//   res.sendFile(path.join(__dirname, '../client', 'index.html'));
+// });
+app.get('/', function(req, res, next) {
+  console.log("Get Index Page");
+  res.send('index.html');
+});
+
+app.get('/image', function(req, res) {
+  var file_exists = function (options) {
+    connection.gridfs.exist(options, function (err, found) {
+      if (err) {
+        console.error(err);
+        return false;
+      }
+      return found ? true : false;
+    });
+  }
+});
+
+app.get('/donors', function(req,res,next) {
+  Controller.Donor.retrieve(req,res,next,{});
+});
+
+app.get('/remove_media', function(req, res) {
+  var options = { filename: 'Sleep Away.mp3' }
+  // if (file_exists(options)) {
+  connection.gridfs.remove(options, function (err) {
+    if (err) console.log(err);
+    else {
+      console.log('success');
+      res.send('Successfully deleted ' + options.filename);
+    }
+  });
+  // }
+});
+
+app.get('/get_file', function (req, res) {
+  //  connection.gridfs.chunks.find({ metadata: { org: '56663575f7ec540c2d469903'}})
+  var readstream = connection.gridfs.createReadStream({ filename: '1_-_Introduction_to_NoSQL_Databases.mp4' });
+  readstream.pipe(res);
+});
+
+app.get('/organizations', function(req, res, next) {
+  // Controller.Organization.retrieve(req, res, next, { name: "BRAC" });
+  // Model.Organization.findOne({ name: "BRAC" }, function(err, org) {
+  //   if (err) console.log(err)
+  //   else {
+  //     console.log(org)
+  //     org.username = 'BRAC';
+  //     org.password = "$2a$10$iT4mB1TEPWOR1u0/aHtoH.RHFLGmvKe9k2jJbgoS099cr.PtTeh6G";
+  //     org.projects.push('566c71024e699e200eec5a3b');
+  //     org.save(function(err, org) {
+  //       if (err) console.error(err);
+  //       else console.log(org);
+  //     });
+  //     res.send('got here');
+  //   }
+  // });
+  // Controller.Organization.update(req, res, next, { name: "BRAC" }, {_id: "56663f998461000b5037cdf0" });
+});
+
+app.get('/projects', function(req, res, next) {
+  // Controller.Project.retrieve(req, res, next);
+  //Controller.Project.delete(req, res, next, {}, {}, 'find');
+});
+
+app.get('/get_browse', function(req, res, next) {
+  Controller.AoF.retrieve(req, res, next);
+});
+
+//================================== POST ===================================//
 
 // app.post('/dashboard_data', function(req, res, next) {
 //   if (req.session && req.session.user) {
@@ -361,26 +370,15 @@ app.post('/post_search', function(req, res, next) {
   });
 });
 
-app.get('/', function(req, res) {
-  console.log("Get Index Page");
-  res.sendFile(path.join(__dirname, '../client', 'index.html'));
-});
+//app.get('/', function(req, res) {
+//  console.log("Get Index Page");
+//  res.sendFile(path.join(__dirname, '../client', 'index.html'));
+//});
 
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
 app.get('*', function (req, res){
   res.sendFile(path.resolve(__dirname, './../client', 'index.html'));
 });
-
-//new WebpackDevServer(webpack(config), {
-//  publicPath: config.output.publicPath,
-//  hot: true,
-//  historyApiFallback: true
-//})/*.listen(3000, 'localhost', function (err, result) {
-//  if (err) {
-//    console.log(err);
-//  }
-//  console.log('Listening at localhost:3000');
-//})*/;
 
 app.listen(PORT, IP);
