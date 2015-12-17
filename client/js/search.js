@@ -19,7 +19,8 @@ var Search = exports.Search = React.createClass({
             </div>
             <ProjectResults
               searchResultsProjects={this.props.searchResults.projects}
-              getProject={this.props.getProject}/>
+              getProject={this.props.getProject}
+              setProject={this.props.setProject}/>
           </div>
           <div className="col s12 m4 pull-m8">
             <h5 className="center-align">Organizations</h5>
@@ -117,7 +118,9 @@ var ProjectResults = React.createClass({
             info={project.info}
             areas_of_focus={project.areas_of_focus}
             projectId={project._id}
-            getProject={this.props.getProject}/>
+            getProject={this.props.getProject}
+            setProject={this.props.setProject}
+            project={project}/>
         );
       }.bind(this));
     }
@@ -134,6 +137,9 @@ var ProjectResults = React.createClass({
 });
 
 var Project = React.createClass({
+  setProject: function(){
+    this.props.setProject(this.props.project);  
+  },
 
   getProject: function() {
     this.props.getProject(this.props.projectId);
@@ -143,8 +149,7 @@ var Project = React.createClass({
   render: function () {
 
     return (
-      <div className="card hoverable">
-
+      <div className="card hoverable" onClick={this.setProject}>
         <div className="card-image">
           <img src="http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg"/>
             <span className="card-title shadow">

@@ -18,6 +18,48 @@ import {Login} from './login.js';
 import {Organization} from './organizationpage.js';
 
 
+const history = useBasename(createHistory)({
+  basename: '/'
+});
+
+const App = React.createClass({
+
+  getInitialState: function () {
+    return {
+      searchText: "",
+      searchCriteria: [],
+      searchResults: [],
+      projectId: "",
+      orgId: "",
+      currentOrganization: null,
+      currentProject: null
+    };
+  },
+  updateSearchCriteria: function(tags) {
+    this.setState({
+      searchCriteria: tags
+    })
+  },
+
+  navigateToSearchPage: function () {
+    this.props.history.pushState(null, `/search`);
+  },
+
+  navigateToOrganizationPage: function () {
+    this.props.history.pushState(null, `/organization`);
+  },
+
+  navigateToProjectPage: function () {
+    this.props.history.pushState(null, `/project`);
+  },
+
+  updateInput: function (searchText) {
+    this.setState({
+      searchText: searchText
+    });
+  },
+
+
 
 //============Authenticated Routes===============/
 import {Dashboard} from './dashboard.js';
@@ -39,14 +81,29 @@ import routes from '../config/routes';
     }, 100);
   },
 
-  setOrganization: function(org){
+  setProject: function(project){
     this.setState({
       searchText: this.state.searchText,
       searchCriteria: this.state.searchCriteria,
       searchResults: this.state.searchResults,
       projectId: this.state.projectId,
       orgId: this.state.orgId,
-      currentOrganization: org
+      currentOrganization: this.state.currentOrganization,
+      currentProject: project
+    });
+    this.navigateToProjectPage();
+  },
+
+  setOrganization: function(org){
+    console.log('inside of setOrganization fcn in index.js');
+    this.setState({
+      searchText: this.state.searchText,
+      searchCriteria: this.state.searchCriteria,
+      searchResults: this.state.searchResults,
+      projectId: this.state.projectId,
+      orgId: this.state.orgId,
+      currentOrganization: org,
+      currentProject: this.state.currentProject
     });
     this.navigateToOrganizationPage();
   },
@@ -66,10 +123,12 @@ import routes from '../config/routes';
             projectId: this.state.projectId,
             handleSearchButton: this.handleSearchButton,
             handleSearchSubmit: this.handleSearchSubmit,
+            currentProject: this.state.currentProject,
             updateSearchCriteria: this.updateSearchCriteria,
             removeBrowseTag: this.removeBrowseTag,
             removeSearchTag: this.removeSearchTag,
             getProject: this.getProject,
+            setProject: this.setProject,
             setOrganization: this.setOrganization,
             currentOrganization: this.state.currentOrganization
           }
