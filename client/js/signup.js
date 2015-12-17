@@ -103,6 +103,10 @@ var Signup = exports.Signup = React.createClass({
     )
   },
 
+  navigateToDashboard: function () {
+    this.props.history.pushState(null, `/dashboard`);
+  },
+
   signup: function(e) {
     e.preventDefault();
     // var formData = new FormData(document.querySelector('#signupForm'))
@@ -118,10 +122,10 @@ var Signup = exports.Signup = React.createClass({
     }
     var formData = {};
     if (this.props.userType === 'Organization') {
-        formData.org_name = ReactDOM.findDOMNode(this.refs.org_name).value,
-        formData.username = ReactDOM.findDOMNode(this.refs.username).value,
-        formData.pwd = ReactDOM.findDOMNode(this.refs.username).value
-        formData.userType = this.props.userType
+      formData.org_name = ReactDOM.findDOMNode(this.refs.org_name).value,
+      formData.username = ReactDOM.findDOMNode(this.refs.username).value,
+      formData.pwd = ReactDOM.findDOMNode(this.refs.username).value
+      formData.userType = this.props.userType
     }
 
     if (this.props.userType === 'Donor') {
@@ -141,7 +145,8 @@ var Signup = exports.Signup = React.createClass({
       success: function(response) {
         console.log(response)
         //navigate to dashboard page
-        window.location.href = "http://127.0.0.1:4000/dashboard"
+        this.navigateToDashboard();
+        // window.location.href = "http://127.0.0.1:4000/dashboard"
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("Error posting to: " + xhr, status, err.toString());

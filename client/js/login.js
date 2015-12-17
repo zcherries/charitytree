@@ -17,6 +17,10 @@ var Login = exports.Login = React.createClass({
     }
   },
 
+  navigateToDashboard: function () {
+    this.props.history.pushState(null, `/dashboard`);
+  },
+
   usernameChange: function(e) {
     this.setState({ username: e.target.value });
   },

@@ -17,8 +17,10 @@ import {Signup} from './signup.js';
 import {Login} from './login.js';
 import {Organization} from './organizationpage.js';
 
+
 //============Authenticated Routes===============/
-import {ProjectCreate} from './projectCreate.js';
+import {Dashboard} from './dashboard.js';
+import {ProjectCreate} from './dashboard/projectCreate.js';
 import {Upload} from './upload.js';
 import auth from '../utils/auth';
 import routes from '../config/routes';

@@ -1,6 +1,9 @@
 "use strict";
 var React = require('react');
 
+import {About} from './dashboard/about.js';
+import {Projects} from './dashboard/projects.js';
+
 var Dashboard = exports.Dashboard = React.createClass({
   componentDidMount: function() {
     this.getData();
@@ -8,8 +11,8 @@ var Dashboard = exports.Dashboard = React.createClass({
 
   getInitialState: function() {
     return {
-      orgData: [],
-      view: 'about'
+      orgData: {},
+      view: ''
     }
   },
 
@@ -17,7 +20,7 @@ var Dashboard = exports.Dashboard = React.createClass({
     var self = this;
     $.ajax({
       method: 'GET',
-      url: '/dashboard',
+      url: '/dashboard_data',
       success:function(response){
         self.setState({ orgData: response.data });
       },
@@ -27,71 +30,68 @@ var Dashboard = exports.Dashboard = React.createClass({
     })
   },
 
+  showOrgDashboard: function() {
+  },
+
+  showDonorDashboard: function() {
+  },
+
   updatePageView: function(view) {
+    console.log(view);
     this.setState({ view: view });
   },
 
   render: function() {
-    if(this.state.view === 'about') {
-      return (
-        <div>
-          <h2>{this.state.orgData.name}</h2>
-          <h3>{this.state.orgData.username}</h3>
-          <p>{this.state.orgData.about}</p>
-        </div>
-      );
-      var orgInfo = {
-        name: this.state.orgData.name,
-        username: this.state.orgData.username,
-        about: this.state.orgData.about,
-        aofs: this.state.orgData.areas_of_focus,
-        address: this.state.orgData.address
-      }
-      return ( <div><DashboardMenu updatePageView={this.updatePageView} /><About orgInfo={orgInfo} /></div> )
-    } else  if (this.state.view === 'projects') {
-      return ( <div><DashboardMenu updatePageView={this.updatePageView} /><Projects projects={this.state.orgData.projects} /></div> )
-    } else if (this.state.view === 'media') {
-      return ( <div><DashboardMenu updatePageView={this.updatePageView} /><Media media={this.state.orgData.media} /></div> )
-    } else if (this.state.view === 'endorsements') {
-      return ( <div><DashboardMenu updatePageView={this.updatePageView} /><Endorsements endorsements={this.state.orgData.endorsements} /></div> )
-    }
-    return <div><p>"Nothing to display"</p></div>
-  }
-});
-
-var DashboardMenu = React.createClass({
-  goToPage: function(e) {
-    console.log("Clicked list item: ", e);
-    this.props.updatePageView();
-  },
-
-  render: function() {
+    var view;
+    switch (this.state.view) {
+      case 'about':
+        var orgInfo = {
+          name: this.state.orgData.name,
+          username: this.state.orgData.username,
+          about: this.state.orgData.about,
+          areas_of_focus: this.state.orgData.areas_of_focus,
+          address: this.state.orgData.address
+        }
+        console.log("About: " + orgInfo.about)
+        view = <About postData={this.postData} orgInfo={orgInfo} />
+        break;
+      case 'projects':
+        view = <Projects postData={this.postData} projects={this.state.orgData.projects} />
+        break;
+      case 'media':
+        view = <Media postData={this.postData} media={this.state.orgData.media} />
+        break;
+      case 'endorsements':
+        view = <Endorsements postData={this.postData} endorsements={this.state.orgData.endorsements} />
+        break;
+      default:
+        view = <div><p>"Nothing to display"</p></div>
+    };
     return (
       <div>
-        <ul>
-          <li onClick={this.goToPage}>'About'</li>
-          <li onClick={this.goToPage}>'Projects'</li>
-          <li onClick={this.goToPage}>'Media'</li>
-          <li onClick={this.goToPage}>'Endorsements'</li>
-        </ul>
+        <div className="db_menu"><DashboardMenu updatePageView={this.updatePageView} /></div>
+        <div className="view">{view}</div>
       </div>
     )
   }
 });
 
-var About = React.createClass({
+var DashboardMenu = React.createClass({
+  goToPage: function(e) {
+    e.preventDefault();
+    this.props.updatePageView(e.target.innerHTML.toLowerCase());
+  },
+
   render: function() {
     return (
       <div>
-        <h2>{this.props.orgInfo.name}</h2>
-        <h3>{this.props.orgInfo.username}</h3>
-        <p>{this.props.orgInfo.about}</p>
         <ul>
-          {this.props.orgInfo.aofs.map(function(aof) {
-            return <li>aof</li>
-          })};
+          <li><a href="#" onClick={this.goToPage}>About</a></li>
+          <li><a href="#" onClick={this.goToPage}>Projects</a></li>
+          <li><a href="#" onClick={this.goToPage}>Media</a></li>
+          <li><a href="#" onClick={this.goToPage}>Endorsements</a></li>
         </ul>
       </div>
-    );
+    )
   }
 });

@@ -3,6 +3,7 @@ var React = require('react');
 import { Link } from 'react-router';
 import { Login } from './login.js';
 import { Signup } from './signup.js';
+import { Dashboard } from './dashboard.js';
 
 var Navbar = exports.Navbar = React.createClass({
   updateInput: function (e) {
@@ -40,6 +41,7 @@ var Navbar = exports.Navbar = React.createClass({
               <Link to="/" className="brand-logo black-text">Charity Tree</Link>
               <a href="#" data-activates="mobile-demo" className="button-collapse black-text"><i className="material-icons">menu</i></a>
               <ul className="right hide-on-med-and-down">
+                {/*Search Bar*/}
                 <li>
                   <form onSubmit={this.handleSearchSubmit}>
                     <div className="input-field black-text">
@@ -55,6 +57,7 @@ var Navbar = exports.Navbar = React.createClass({
                     </div>
                   </form>
                 </li>
+                {/*Login/Signup*/}
                 <li>
                   {this.props.loggedIn ? (
                     <Link className="waves-effect waves-light black-text" to="/logout">Logout</Link>
@@ -62,6 +65,7 @@ var Navbar = exports.Navbar = React.createClass({
                     <Link className="waves-effect waves-light black-text" to="/login">Login/Signup</Link>
                   )}
                 </li>
+                {/*Browse Categories*/}
                 <li>
                   <Link className="waves-effect waves-light black-text" to="/browse">Browse Categories</Link>
                 </li>
@@ -69,6 +73,7 @@ var Navbar = exports.Navbar = React.createClass({
 
               {/*Side Navigation*/}
               <ul className="side-nav" id="mobile-demo">
+                {/*Search Bar*/}
                 <li>
                   <form onSubmit={this.handleSearchSubmit}>
                     <div className="input-field black-text">
@@ -84,9 +89,18 @@ var Navbar = exports.Navbar = React.createClass({
                     </div>
                   </form>
                 </li>
-                <li><Link className="waves-effect waves-light" to="/login">Login</Link></li>
-                <li><Link className="waves-effect waves-light" to="/signup">Signup</Link></li>
-                <li><Link className="waves-effect waves-light" to="/browse">Browse Categories</Link></li>
+                {/*Login/Signup*/}
+                <li>
+                  {this.props.loggedIn ? (
+                    <Link className="waves-effect waves-light black-text" to="/logout">Logout</Link>
+                  ) : (
+                    <Link className="waves-effect waves-light black-text" to="/login">Login/Signup</Link>
+                  )}
+                </li>
+                {/*Browse Categories*/}
+                <li>
+                  <Link className="waves-effect waves-light" to="/browse">Browse Categories</Link>
+                </li>
               </ul>
             </div>
           </nav>
