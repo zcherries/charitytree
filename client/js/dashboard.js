@@ -14,11 +14,12 @@ var Dashboard = exports.Dashboard = React.createClass({
   },
 
   getData: function() {
+    var self = this;
     $.ajax({
       method: 'GET',
       url: '/dashboard',
       success:function(response){
-        this.setState({ orgData: response.data });
+        self.setState({ orgData: response.data });
       },
       error: function(error){
         console.log(error);

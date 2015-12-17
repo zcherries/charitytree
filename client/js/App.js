@@ -178,11 +178,14 @@ exports.App = React.createClass({
           handleSearchSubmit={this.handleSearchSubmit}/>
         {this.props.children && React.cloneElement(this.props.children,
           {
+            //State Props
             searchText: this.state.searchText,
             searchCriteria: this.state.searchCriteria,
             searchResults: this.state.searchResults,
             projectId: this.state.projectId,
             currentOrganization: this.state.currentOrganization,
+            userType: this.state.userType,
+            //Functions
             handleSearchButton: this.handleSearchButton,
             handleSearchSubmit: this.handleSearchSubmit,
             updateSearchCriteria: this.updateSearchCriteria,
@@ -190,7 +193,6 @@ exports.App = React.createClass({
             removeSearchTag: this.removeSearchTag,
             getProject: this.getProject,
             setOrganization: this.setOrganization,
-            userType: this.state.userType,
             setUserType: this.setUserType
           }
         )}

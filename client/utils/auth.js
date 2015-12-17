@@ -7,7 +7,7 @@ module.exports = {
       this.onChange(true);
       return
     }
-    pretendRequest(username, password, (res) => {
+    authenticateUser (username, password, (res) => {
       if (res.authenticated) {
         localStorage.token = res.token
         if (cb) cb(true);
@@ -37,28 +37,26 @@ module.exports = {
   onChange: function () {}
 };
 
-function pretendRequest(username, password, cb) {
-  /*$.ajax({
-   type: 'POST',
-   url: '/login',
-   data: this.state,
-   success: function(response) {
-   console.log(response)
-   //navigate to dashboard page
-   window.location.href = "http://127.0.0.1:4000/dashboard"
-   }.bind(this),
-   error: function(xhr, status, err) {
-   console.log("Error posting to: " + xhr, status, err.toString());
-   }.bind(this)
-   });*/
-  setTimeout(() => {
-    if (username === 'joe@example.com' && password === 'password1') {
-      cb({
-        authenticated: true,
-        token: Math.random().toString(36).substring(7)
-      })
-    } else {
-      cb({ authenticated: false })
-    }
-  }, 0)
+function authenticateUser (username, password, cb) {
+  if (username && password) {
+    $.ajax({
+      type: 'POST',
+      url: '/login_post',
+      data: {username: username, pwd: password},
+      success: function (response) {
+        console.log(response);
+        cb({
+          authenticated: true,
+          token: Math.random().toString(36).substring(7)
+        });
+        //navigate to dashboard page
+        //window.location.href = "http://127.0.0.1:4000/dashboard"
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.log("Error posting to: " + xhr, status, err.toString());
+      }.bind(this)
+    });
+  }else {
+    cb({ authenticated: false })
+  }
 }

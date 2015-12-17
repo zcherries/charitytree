@@ -85,11 +85,7 @@ function capitalizeFirstLetter(string) {
 //     res.render();
 //   }
 // }
-//================================== GET ====================================//
-app.get('/', function(req, res, next) {
-  console.log("Get Index Page");
-  res.send('index.html');
-});
+
 /*
 Routes diverted to client
 
@@ -98,6 +94,16 @@ app.get('/logout', function(req, res, next) {
   if (req.session) {
     req.session.destroy();
   }
+  res.send('index.html');
+});
+
+ //================================== POST ===================================//
+
+*/
+
+//================================== GET ====================================//
+app.get('/', function(req, res, next) {
+  console.log("Get Index Page");
   res.send('index.html');
 });
 
@@ -112,89 +118,6 @@ app.get('/dashboard', function(req, res, next) {
     res.status(404).send({status: 404, message: "Cannot access dashboard"});
   }
 });
-
- //================================== POST ===================================//
-
-app.post('/signup', function(req, res, next) {
-  console.log('Body: ', req.body);
-  bcrypt.hash(req.body.pwd, null, null, function(err, hash) {
-    if (err) {
-      console.error("Signup Error:", err);
-      res.status(400).send({ status: 400, message: "Could not complete signup operation." });
-    }
-    if (req.body.userType === 'Organization') {
-      var orgData = {
-        name: req.body.org_name,
-        username: req.body.username,
-        password: hash
-      };
-      Controller.Organization.create(req, res, next, orgData);
-    } else if (req.body.userType === 'Donor') {
-      var donorData = {
-        name: { first: req.body.first_name, last: req.body.last_name },
-        email: req.body.email,
-        username: req.body.username,
-        password: hash
-      };
-      Controller.Donor.create(req, res, next, donorData);
-    }
-  });
-});
-
-app.post('/login', function(req, res, next) {
-  console.log('Body: ', req.body);
-  //check if user is a donor
-  Model.Donor.findOne({ username: req.body.username }, function(err, donor) {
-    if (err) {
-      console.error("Login Error:", err);
-      res.status(400).send({ status: 400, message: "Login Error." });
-    }
-    if (donor) { //is user a donor
-      bcrypt.compare(req.body.pwd, donor.password, function(err, result) {
-        if (err) {
-          console.error("Login Error:", err);
-          res.status(400).send({ status: 400, message: "Login validation failed." });
-        } else {
-          if (result) {
-            //create session
-            req.session.user = { uid: donor._id, type: 'donor' };
-            console.log('Session has been set');
-            res.status(201).send({ status: 201, message: "Login successful" });
-          } else { //found donor but password doesn't match
-            res.status(400).send({ status: 400, message: "Invalid username/password combination" });
-          }
-        }
-      });
-    } else {
-      //check if user is an organization
-      Model.Organization.findOne({ username: req.body.username }, function(err, org) {
-        if (err) {
-          console.error("Login Error:", err);
-          res.status(400).send({ status: 400, message: "Login Error." });
-        }
-        if (org) { //is user an organization
-          bcrypt.compare(req.body.pwd, org.password, function(err, result) {
-            if (err) {
-              console.error("Login Error:", err);
-              res.status(400).send({ status: 400, message: "Login validation failed." });
-            }
-            if (result) {
-              //create session
-              req.session.user = { uid: org._id, type: 'organization' };
-              res.send({ status: 200, message: "Login successful" });
-            } else { //found org but password doesn't match
-              res.status(400).send({ status: 400, message: "Invalid username/password combination" });
-            }
-          });
-        } else { //did not find user in either donor or organization collection
-          res.status(400).send({ status: 400, message: "User not found" });
-        }
-      });
-    }
-  });
-});
-
-*/
 
 app.get('/image', function(req, res) {
   var file_exists = function (options) {
@@ -280,6 +203,84 @@ app.get('/get_browse', function(req, res, next) {
 });
 
 //================================== POST ===================================//
+app.post('/signup_post', function(req, res, next) {
+  console.log('Body: ', req.body);
+  bcrypt.hash(req.body.pwd, null, null, function(err, hash) {
+    if (err) {
+      console.error("Signup Error:", err);
+      res.status(400).send({ status: 400, message: "Could not complete signup operation." });
+    }
+    if (req.body.userType === 'Organization') {
+      var orgData = {
+        name: req.body.org_name,
+        username: req.body.username,
+        password: hash
+      };
+      Controller.Organization.create(req, res, next, orgData);
+    } else if (req.body.userType === 'Donor') {
+      var donorData = {
+        name: { first: req.body.first_name, last: req.body.last_name },
+        email: req.body.email,
+        username: req.body.username,
+        password: hash
+      };
+      Controller.Donor.create(req, res, next, donorData);
+    }
+  });
+});
+
+app.post('/login_post', function(req, res, next) {
+  //console.log('Body: ', req.body);
+  //check if user is a donor
+  Model.Donor.findOne({ username: req.body.username }, function(err, donor) {
+    if (err) {
+      console.error("Login Error:", err);
+      res.status(400).send({ status: 400, message: "Login Error." });
+    }
+    if (donor) { //is user a donor
+      bcrypt.compare(req.body.pwd, donor.password, function(err, result) {
+        if (err) {
+          console.error("Login Error:", err);
+          res.status(400).send({ status: 400, message: "Login validation failed." });
+        } else {
+          if (result) {
+            //create session
+            req.session.user = { uid: donor._id, type: 'donor' };
+            console.log('Session has been set');
+            res.status(201).send({ status: 201, message: "Login successful" });
+          } else { //found donor but password doesn't match
+            res.status(400).send({ status: 400, message: "Invalid username/password combination" });
+          }
+        }
+      });
+    } else {
+      //check if user is an organization
+      Model.Organization.findOne({ username: req.body.username }, function(err, org) {
+        if (err) {
+          console.error("Login Error:", err);
+          res.status(400).send({ status: 400, message: "Login Error." });
+        }
+        if (org) { //is user an organization
+          bcrypt.compare(req.body.pwd, org.password, function(err, result) {
+            if (err) {
+              console.error("Login Error:", err);
+              res.status(400).send({ status: 400, message: "Login validation failed." });
+            }
+            if (result) {
+              //create session
+              req.session.user = { uid: org._id, type: 'organization' };
+              res.send({ status: 200, message: "Login successful" });
+            } else { //found org but password doesn't match
+              res.status(400).send({ status: 400, message: "Invalid username/password combination" });
+            }
+          });
+        } else { //did not find user in either donor or organization collection
+          res.status(400).send({ status: 400, message: "User not found" });
+        }
+      });
+    }
+  });
+});
 app.post('/media_upload', multer().array('media'), function(req, res, next) {
   console.log("Files: ", req.files);
   //  console.log("Body: ", req.body);

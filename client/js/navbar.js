@@ -30,10 +30,6 @@ var Navbar = exports.Navbar = React.createClass({
     );
   },
 
-  //componentWillMount: function () {
-  //  this.props.loggedIn();
-  //},
-
   render: function () {
     //console.log("Navbar/render/this.props.loggedIn:",this.props.loggedIn);
     return (
@@ -59,23 +55,6 @@ var Navbar = exports.Navbar = React.createClass({
                     </div>
                   </form>
                 </li>
-                {/*Login/Signup Modal*/}
-                {/*<li><a className="waves-effect waves-light btn-flat modal-trigger" href="#modal1">Login/Signup</a></li>
-                <div id="modal1" className="modal row center-align">
-                  <div className="modal-content col s12 m6">
-                    <h4 className="black-text">Login</h4>
-                    <p>A bunch of text</p>
-                    <Login />
-                  </div>
-                  <div className="modal-content col s12 m6">
-                    <h4 className="black-text">Signup</h4>
-                    <p>A bunch of text</p>
-                    <Signup />
-                  </div>
-                  <div className="modal-footer">
-                    <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
-                  </div>
-                </div>*/}
                 <li>
                   {this.props.loggedIn ? (
                     <Link className="waves-effect waves-light black-text" to="/logout">Logout</Link>
