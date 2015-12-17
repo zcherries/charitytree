@@ -2,11 +2,10 @@
 var React = require('react');
 import { Link } from 'react-router';
 import { TagContainer, Tag } from './tag_container.js';
-
+var LocalStorageMixin = require('react-localstorage');
 
 var Search = exports.Search = React.createClass({
   render: function () {
-    console.log("Search Props: ", this.props);
     return (
       <div>
         <div className="row">
@@ -39,12 +38,11 @@ var OrganizationResults = React.createClass({
 
   testClick: function(e){
     e.preventDefault();
-    console.log('inside of testClick');
-    console.log('e.target.value is',e.target.value);
+    //console.log('inside of testClick');
+    //console.log('e.target.value is',e.target.value);
   },
 
   componentWillMount: function(){
-    console.log(this.props.searchResultOrgs[0])
   },
 
   render: function () {
@@ -107,18 +105,12 @@ var ProjectResults = React.createClass({
             getProject={this.props.getProject}/>
         );
       }.bind(this));
-    } else {
-      return (
-        <div>
-          No results to display
-        </div>
-      );
     }
     return(
       <div className="row">
         <div className="col s12 m6 l4">
           <h6>Project Search Results</h6>
-          {projects}
+          {projects ? projects : "No results to display"}
         </div>
       </div>
     );

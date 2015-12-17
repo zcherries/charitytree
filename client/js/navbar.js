@@ -6,12 +6,10 @@ import { Signup } from './signup.js';
 
 var Navbar = exports.Navbar = React.createClass({
   updateInput: function (e) {
-    //console.log("value",e.target.value);
     this.props.updateInput(e.target.value);
   },
 
   clearInput: function (e) {
-    //console.log("value",e.target.value);
     this.props.updateInput("");
   },
 
@@ -32,7 +30,12 @@ var Navbar = exports.Navbar = React.createClass({
     );
   },
 
+  //componentWillMount: function () {
+  //  this.props.loggedIn();
+  //},
+
   render: function () {
+    //console.log("Navbar/render/this.props.loggedIn:",this.props.loggedIn);
     return (
       <div>
         <div className="navbar-fixed">
@@ -56,7 +59,6 @@ var Navbar = exports.Navbar = React.createClass({
                     </div>
                   </form>
                 </li>
-
                 {/*Login/Signup Modal*/}
                 {/*<li><a className="waves-effect waves-light btn-flat modal-trigger" href="#modal1">Login/Signup</a></li>
                 <div id="modal1" className="modal row center-align">
@@ -74,10 +76,16 @@ var Navbar = exports.Navbar = React.createClass({
                     <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
                   </div>
                 </div>*/}
-
-                <li><Link className="waves-effect waves-light black-text" to="/login">Login</Link></li>
-                <li><Link className="waves-effect waves-light black-text" to="/signup">Signup</Link></li>
-                <li><Link className="waves-effect waves-light black-text" to="/browse">Browse Categories</Link></li>
+                <li>
+                  {this.props.loggedIn ? (
+                    <Link className="waves-effect waves-light black-text" to="/logout">Logout</Link>
+                  ) : (
+                    <Link className="waves-effect waves-light black-text" to="/login">Login/Signup</Link>
+                  )}
+                </li>
+                <li>
+                  <Link className="waves-effect waves-light black-text" to="/browse">Browse Categories</Link>
+                </li>
               </ul>
 
               {/*Side Navigation*/}

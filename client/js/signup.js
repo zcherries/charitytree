@@ -5,16 +5,6 @@ var ReactDOM = require('react-dom');
 import { Link } from 'react-router';
 
 var Signup = exports.Signup = React.createClass({
-  getInitialState: function() {
-    return {
-      userType: ''
-    }
-  },
-
-  setUserType: function(e) {
-    console.log(e.target.value);
-    this.setState( {userType: e.target.value });
-  },
 
   showOrgSignupForm: function() {
     return (
@@ -161,21 +151,10 @@ var Signup = exports.Signup = React.createClass({
   },
 
   render: function() {
-    if (this.state.userType === 'Organization') {
+    if (this.props.userType === 'Organization') {
       return this.showOrgSignupForm();
-    } else if (this.state.userType === 'Donor') {
+    } else if (this.props.userType === 'Donor') {
       return this.showDonorSignupForm();
-    } else {
-      return (
-        <div className="div-signup-form">
-          <div className="userType">
-            <button value="Organization" onClick={this.setUserType}>Organization</button>
-          </div>
-          <div className="userType">
-            <button value="Donor" onClick={this.setUserType}>Donor</button>
-          </div>
-        </div>
-      )
     }
   }
 });
