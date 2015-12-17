@@ -117,33 +117,33 @@ var Signup = exports.Signup = React.createClass({
     //   e.preventDefault();
     // })
     if (ReactDOM.findDOMNode(this.refs.pwd).value !== ReactDOM.findDOMNode(this.refs.pwd2).value) {
-      alert("Passwords didn't match.")
+      alert("Passwords didn't match.");
       return;
     }
     var formData = {};
     if (this.props.userType === 'Organization') {
-      formData.org_name = ReactDOM.findDOMNode(this.refs.org_name).value,
-      formData.username = ReactDOM.findDOMNode(this.refs.username).value,
-      formData.pwd = ReactDOM.findDOMNode(this.refs.username).value
-      formData.userType = this.props.userType
+      formData.org_name = ReactDOM.findDOMNode(this.refs.org_name).value;
+      formData.username = ReactDOM.findDOMNode(this.refs.username).value;
+      formData.pwd = ReactDOM.findDOMNode(this.refs.pwd).value;
+      formData.userType = this.props.userType;
     }
 
     if (this.props.userType === 'Donor') {
-      formData.first_name = ReactDOM.findDOMNode(this.refs.first_name).value,
-      formData.last_name = ReactDOM.findDOMNode(this.refs.last_name).value,
-      formData.email = ReactDOM.findDOMNode(this.refs.email).value,
-      formData.username = ReactDOM.findDOMNode(this.refs.username).value,
-      formData.pwd = ReactDOM.findDOMNode(this.refs.pwd).value
-      formData.userType = this.props.userType
+      formData.first_name = ReactDOM.findDOMNode(this.refs.first_name).value;
+      formData.last_name = ReactDOM.findDOMNode(this.refs.last_name).value;
+      formData.email = ReactDOM.findDOMNode(this.refs.email).value;
+      formData.username = ReactDOM.findDOMNode(this.refs.username).value;
+      formData.pwd = ReactDOM.findDOMNode(this.refs.pwd).value;
+      formData.userType = this.props.userType;
     }
     console.log("Signup/signup/formData:",formData);
 
     $.ajax({
       type: 'POST',
-      url: '/signup',
+      url: '/signup_post',
       data: formData,
       success: function(response) {
-        console.log(response)
+        console.log(response);
         //navigate to dashboard page
         this.navigateToDashboard();
         // window.location.href = "http://127.0.0.1:4000/dashboard"

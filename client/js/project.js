@@ -22,9 +22,9 @@ var Project = exports.Project = React.createClass ({
 
   setCurrentOrg: function(){
     console.log('inside of setCurrentOrg');
-    console.log('this.props.searchResults.orgs is ', this.props.searchResults.orgs)
+    console.log('this.props.searchResults.orgs is ', this.props.searchResults.orgs);
     for(var i = 0; i < this.props.searchResults.orgs.length; i++){
-      console.log('orgs is ', this.props.searchResults.orgs[i])
+      console.log('orgs is ', this.props.searchResults.orgs[i]);
       if(this.props.searchResults.orgs[i]._id === this.props.currentProject.org){
         console.log('inside of if statement');
         this.props.setOrganization(this.props.searchResults.orgs[i]);

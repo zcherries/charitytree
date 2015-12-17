@@ -18,6 +18,7 @@ exports.App = React.createClass({
       projectId: "",
       orgId: "",
       currentOrganization: null,
+      currentProject: null,
       userType: ''
     };
   },
@@ -54,6 +55,10 @@ exports.App = React.createClass({
 
   navigateToOrganizationPage: function () {
     this.props.history.pushState(null, `/organization`);
+  },
+
+  navigateToProjectPage: function () {
+    this.props.history.pushState(null, `/project`);
   },
 
   updateInput: function (searchText) {
@@ -156,7 +161,21 @@ exports.App = React.createClass({
     }, 100);
   },
 
+  setProject: function(project){
+    this.setState({
+      searchText: this.state.searchText,
+      searchCriteria: this.state.searchCriteria,
+      searchResults: this.state.searchResults,
+      projectId: this.state.projectId,
+      orgId: this.state.orgId,
+      currentOrganization: this.state.currentOrganization,
+      currentProject: project
+    });
+    this.navigateToProjectPage();
+  },
+
   setOrganization: function(org){
+    console.log("App/sO/org:",org);
     this.setState({
       searchText: this.state.searchText,
       searchCriteria: this.state.searchCriteria,
@@ -185,6 +204,7 @@ exports.App = React.createClass({
             projectId: this.state.projectId,
             currentOrganization: this.state.currentOrganization,
             userType: this.state.userType,
+            currentProject: this.state.currentProject,
             //Functions
             handleSearchButton: this.handleSearchButton,
             handleSearchSubmit: this.handleSearchSubmit,
@@ -192,6 +212,7 @@ exports.App = React.createClass({
             removeBrowseTag: this.removeBrowseTag,
             removeSearchTag: this.removeSearchTag,
             getProject: this.getProject,
+            setProject: this.setProject,
             setOrganization: this.setOrganization,
             setUserType: this.setUserType
           }
