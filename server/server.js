@@ -228,7 +228,7 @@ app.post('/signup_post', function(req, res, next) {
       };
       // Controller.Organization.create(req, res, next, orgData);
       Model.Organization.create(orgData, function(err, org) {
-        req.session.user = { uid: org._id, type: 'organization' }
+        req.session.user = { uid: org._id, type: 'organization' };
         res.send({ status: 201, results: org });
       });
     } else if (req.body.userType === 'Donor') {
