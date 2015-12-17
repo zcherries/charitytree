@@ -12,6 +12,7 @@ var Project = exports.Project = React.createClass ({
   componentWillMount: function(){
     // console.log('on project page and props.project is ', this.props.currentProject);
     console.log('on proj page and props.searchResults is ', this.props.searchResults);
+    this.setCurrentOrg():
   },
 
   componentDidMount: function () {
@@ -30,6 +31,10 @@ var Project = exports.Project = React.createClass ({
         this.props.setOrganization(this.props.searchResults.orgs[i]);
       }
     }
+  },
+
+  navToOrg: function(){
+    this.props.navigateToOrganizationPage();
   },
 
   render: function() {
@@ -66,8 +71,8 @@ var Project = exports.Project = React.createClass ({
       <div>
         <div className="center-align">
           <h3>{project.title}</h3>
-          <div onClick={this.setCurrentOrg}>
-          <h4>the project.org is {project.org}</h4>
+          <div onClick={this.navToOrg}>
+          <h4>the project.org is {this.props.currentOrganization.name}</h4>
           </div>
         </div>
 
