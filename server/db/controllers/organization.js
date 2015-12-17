@@ -1,7 +1,16 @@
 var Org = require('../models/organization.js');
 
 module.exports = {
+  findOne: function(req, res, next, criteria) {
+    Org.findOne(criteria, function(err, org) {
+      if (err) { handleError(req, res, 'Controller: Organization, Method: findOne', err) }
+      console.log("About: ", org.about);
+      res.status(200).send({ status: 200, results: org });
+    });
+  },
+
   retrieve: function(req, res, next, criteria, options, method) {
+    console.log("Org:", Org)
     var criteria = criteria || {}, method = method || '';
     var query = (Org[method]) ? Org[method](criteria) : Org.find(criteria);
 
@@ -14,7 +23,10 @@ module.exports = {
     }
     query.exec(function(err, orgs) {
       if (err) handleError(req, res, "Controller: Organization, Method: Retrieve", err);
-      res.send({ status: 200, results: orgs });
+      else {
+        console.log(orgs);
+        res.send({ status: 200, results: orgs });
+      }
     });
   },
 
@@ -36,17 +48,17 @@ module.exports = {
     });
   },
 
-  update: function(req, res, next, criteria, changes, method, options) {
-    Org.findOne(criteria, function(err, doc) {
+  update: function(req, res, next, criteria, changes, options) {
+    Org.findOne(criteria, options, function(err, doc) {
       if (err) handleError(req, res, "Controller update", err);
       if (doc) {
         for (var key in changes) {
-          if (doc[key]) {
+          if (key in doc)
             doc[key] = changes[key];
-          }
         }
         doc.save(function(err, org) {
-          res.send({ status: 201, results: org });
+          console.log("Org: ", org)
+          res.status(201).send({ status: 201, results: org });
         });
       } else {
         res.status(400).send({ status: 400, message: "Organization not found." });

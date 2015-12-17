@@ -35,3 +35,4 @@ DonorSchema.pre('save', function(next) {
 var Donor = mongoose.model('Donor', DonorSchema);
 
 module.exports = Donor;
+// module.exports = DonorSchema;

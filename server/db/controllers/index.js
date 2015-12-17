@@ -7,5 +7,5 @@ module.exports = {
   Organization: organization,
   Donor: donor,
   Project: project,
-  AoF: aof
+  AoF: aof,
 };
