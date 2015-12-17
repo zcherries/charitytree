@@ -31,10 +31,6 @@ var Navbar = exports.Navbar = React.createClass({
     );
   },
 
-  //componentWillMount: function () {
-  //  this.props.loggedIn();
-  //},
-
   render: function () {
     //console.log("Navbar/render/this.props.loggedIn:",this.props.loggedIn);
     return (
