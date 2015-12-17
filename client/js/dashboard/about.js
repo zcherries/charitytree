@@ -45,16 +45,16 @@ var About = exports.About = React.createClass({
     var orgInfo = Object.keys(this.state.orgInfo).length ? this.state.orgInfo : this.props.orgInfo;
     console.log(orgInfo.areas_of_focus.join("; "));
     return (
-      <div>
+      <div className="float-left">
         <h3>{orgInfo.name}</h3>
         <h6>{orgInfo.username}</h6>
         <p>{orgInfo.about}</p>
-        <button onClick={this.editPage}>Edit</button>
         <ul>
           {orgInfo.areas_of_focus.map(function(aof, idx) {
             return <li key={idx}>{aof}</li>
           })}
         </ul>
+        <button onClick={this.editPage}>Edit</button>
       </div>
     )
   },
@@ -62,7 +62,7 @@ var About = exports.About = React.createClass({
   editMode: function() {
     var orgInfo = Object.keys(this.state.orgInfo).length ? this.state.orgInfo : this.props.orgInfo;
     return (
-      <div>
+      <div className="float-left">
         <h3>{orgInfo.name}</h3>
         <h5>{orgInfo.username}</h5>
         <form onSubmit={this.handleSubmit}>
