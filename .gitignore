@@ -95,3 +95,7 @@ sessions/*
 .idea/modules.xml
 
 .idea/libraries/charitytree_node_modules.xml
+
+.idea/encodings.xml
+
+.idea/vcs.xml
