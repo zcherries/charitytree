@@ -5,11 +5,29 @@ var ReactDOM = require('react-dom');
 import {ProjectCreate} from './projectCreate.js'
 
 var Projects = exports.Projects = React.createClass({
+  compDidMount: function() {
+    this.getProjects();
+  },
+
   getInitialState: function() {
     return {
       action: 'display',
-      orgInfo: {}
+      projects: []
     }
+  },
+
+  getProjects: function() {
+    $.ajax({
+      method: 'GET',
+      url: '/dashboard_data/projects',
+      success:function(response) {
+        console.log("GET Success: ", response.results);
+        this.setState({ projects: response.results, action: 'display' });
+      }.bind(this),
+      error: function(error){
+        console.log(error);
+      }
+    });
   },
 
   update: function(formData) {
@@ -18,9 +36,9 @@ var Projects = exports.Projects = React.createClass({
       method: 'POST',
       url: '/dashboard_data/projects',
       data: formData,
-      success:function(response) {
-        console.log("Post Success: ", response.results);
-        this.setState({ orgInfo: response.results, editing: false });
+      success: function(response) {
+        console.log("POST Success: ", response.results);
+        this.setState({ projects: response.results });
       }.bind(this),
       error: function(error){
         console.log(error);
@@ -35,20 +53,23 @@ var Projects = exports.Projects = React.createClass({
 
   showProjectForm: function() {
     console.log('Show Form')
-    return <div><ProjectCreate /></div>
+    return <div><ProjectCreate submitHandler={this.handleSubmit} /></div>
   },
 
-  handleSubmit: function(e) {
-    e.preventDefault();
-    this.update(formData);
+  handleSubmit: function() {
+    this.getProjects();
   },
 
   displayMode: function() {
+    var org_projects = this.state.projects.length ? this.state.projects : this.props.projects;
+    console.log("Org Projects: ", org_projects)
     return (
       <div>
-        <h4><a href="#" onClick={this.changeAction}>Create a Project</a></h4>
+        <h5><a href="#" onClick={this.changeAction}>Create a Project</a></h5>
         <div>
-
+          {org_projects.map(function(project, idx) {
+            return <ProjectBlurb key={idx} details={project} />
+          })}
         </div>
       </div>
     )
@@ -58,15 +79,6 @@ var Projects = exports.Projects = React.createClass({
     var orgInfo = Object.keys(this.state.orgInfo).length ? this.state.orgInfo : this.props.orgInfo;
     return (
       <div>
-        <h3>{orgInfo.name}</h3>
-        <h5>{orgInfo.username}</h5>
-        <form onSubmit={this.handleSubmit}>
-          <h5>About</h5>
-          <textarea className="form-control" ref="about" defaultValue={orgInfo.about}></textarea>
-          <h5>Areas of Focus</h5>
-          <textarea className="form-control" ref="aofs" defaultValue={orgInfo.areas_of_focus.join("; ")}></textarea>
-          <input type="submit" value="Submit" />
-        </form>
       </div>
     )
   },
@@ -75,3 +87,17 @@ var Projects = exports.Projects = React.createClass({
     return (this.state.action === 'display') ? this.displayMode() : this.showProjectForm()
   }
 });
+
+var ProjectBlurb = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <p>{"Title: " + this.props.details.title}</p>
+        <p>{"Description: " + this.props.details.info}</p>
+        <p>{"Status: " + this.props.details.status}</p>
+        <p>{"Created: " + this.props.details.created_date}</p>
+        <p>{"Total Donors: " + this.props.details.total_donors_participating}</p>
+      </div>
+    )
+  }
+})
