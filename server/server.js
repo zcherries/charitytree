@@ -182,6 +182,10 @@ app.get('/organizations', function(req, res, next) {
   // Controller.Organization.update(req, res, next, { name: "BRAC" }, {_id: "56663f998461000b5037cdf0" });
 });
 
+app.get('/updateProject', function(req, res, next){
+  Controller.Project.update(req,res,next,{_id: '566c7099c06fb7572473707a'},{org: '5666442675b6898a0ec62819'});
+})
+
 app.get('/projects', function(req, res, next) {
   // Controller.Project.retrieve(req, res, next);
   //Controller.Project.delete(req, res, next, {}, {}, 'find');
