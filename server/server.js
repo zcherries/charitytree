@@ -95,11 +95,33 @@ app.get('/', function(req, res, next) {
 app.get('/dashboard', function(req, res, next) {
   if (req.session && req.session.user) {
     if (req.session.user.type === 'organization') {
-      Controller.Organization.retrieve(req, res, next, { _id: req.session.user.uid },
-        { select: '-password' }, 'findOne');
+      // Controller.Organization.retrieve(req, res, next, { _id: req.session.user.uid },
+      //   { select: '-password' }, 'findOne');
+      Model.Organization.findOne({_id: req.session.user.uid})
+        .populate('projects').populate('endorsements')
+        .exec(function(err, org) {
+          if (err) throw err;
+          else { res.status(200).send({status: 200, results: org }); }
+        });
     } else if (req.session.user.type === 'donor') {
       Controller.Donor.retrieve(req, res, next, { _id: req.session.user.uid },
         { select: '-password' }, 'findOne');
+    }
+  } else {
+    res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
+  }
+});
+
+app.get('/dashboard_data/projects', function(req, res, next) {
+  if (req.session && req.session.user) {
+    if (req.session.user.type === 'organization') {
+      Model.Organization.find({ _id: req.session.user.uid})
+      .select('projects')
+      .populate('projects')
+      .exec(function(err, projects) {
+        if (err) throw err;
+        else { res.status(200).send({status: 200, results: projects }); }
+      });
     }
   } else {
     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
@@ -187,51 +209,6 @@ app.get('/get_browse', function(req, res, next) {
 //   }
 // });
 
-app.post('/dashboard_data/about', function(req, res, next) {
-  if (req.session && req.session.user) {
-    if (req.session.user.type === 'organization') {
-        Controller.Organization.update(req, res, next, { _id: req.session.user.uid },
-          { about: req.body.about, areas_of_focus: req.body.areas_of_focus },
-          'name username about areas_of_focus');
-    } else if (req.session.user.type === 'donor') {
-      Controller.Donor.update(req, res, next, { _id: req.session.user.uid },
-        { about: req.body.about, areas_of_focus: req.body.areas_of_focus },
-        'name username about areas_of_focus');
-    }
-  } else {
-    res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
-  }
-});
-
-app.post('/dashboard/projects/new', function(req, res, next) {
-  // if (req.session && req.session.user) {
-  //   Controller.Organization.update(req, res, next, { _id: req.session.user.uid },
-  //     { about: req.body.about, areas_of_focus: req.body.areas_of_focus },
-  //     'name username about areas_of_focus');
-  // } else {
-  //   res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
-  // }
-});
-
-app.post('/upload/profile_img', multer().single('profile_img'), function(req, res, next) {
-  Model.Organization.findById({ _id: req.session.id }, function(err, org) {
-    if (err) { console.error(err); res.status(400).send('Could not retrieve data'); }
-    else {
-      // console.log('Org Name: ', org.name);
-      // org.profile_img.data = fs.readFileSync(imgPath);
-      // org.profile_img.contentType = 'image/jpeg';
-      // org.save(function(err, currOrg) {
-      //   console.log("Save org, about to send")
-      //   console.log(org.profile_img.contentType);
-      var img = new Buffer(org.profile_img.data).toString('base64');
-      res.contentType(org.profile_img.contentType);
-      // console.log(org.profile_img.data);
-      // res.send(img);
-      // });
-    }
-  });
-});
-
 app.post('/signup_post', function(req, res, next) {
   console.log('Body: ', req.body);
   bcrypt.hash(req.body.pwd, null, null, function(err, hash) {
@@ -245,7 +222,11 @@ app.post('/signup_post', function(req, res, next) {
         username: req.body.username,
         password: hash
       };
-      Controller.Organization.create(req, res, next, orgData);
+      // Controller.Organization.create(req, res, next, orgData);
+      Model.Organization.create(orgData, function(err, org) {
+        req.session.user = { uid: org._id, type: 'organization' }
+        res.send({ status: 201, results: org });
+      });
     } else if (req.body.userType === 'Donor') {
       var donorData = {
         name: { first: req.body.first_name, last: req.body.last_name },
@@ -253,7 +234,11 @@ app.post('/signup_post', function(req, res, next) {
         username: req.body.username,
         password: hash
       };
-      Controller.Donor.create(req, res, next, donorData);
+      // Controller.Donor.create(req, res, next, donorData);
+      Model.Donor.create(donorData, function(err, donor) {
+        req.session.user = { uid: donor._id, type: 'donor' }
+        res.send({ status: 201, results: donor });
+      });
     }
   });
 });
@@ -310,6 +295,86 @@ app.post('/login_post', function(req, res, next) {
     }
   });
 });
+
+// app.post('/dashboard_data', function(req, res, next) {
+//   if (req.session && req.session.user) {
+//     if (req.session.user.type === 'organization') {
+//       if (req.body.view === 'about') {
+//         console.log("About: ", req.body.about)
+//         Controller.Organization.update(req, res, next, { _id: req.session.user.uid },
+//           { about: req.body.about, areas_of_focus: req.body.areas_of_focus });
+//       }
+//     } else if (req.session.user.type === 'donor') {
+//       Controller.Donor.update(req, res, next, { _id: req.session.user.uid });
+//     }
+//   } else {
+//     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
+//   }
+// });
+
+app.post('/dashboard_data/about', function(req, res, next) {
+  if (req.session && req.session.user) {
+    if (req.session.user.type === 'organization') {
+        Controller.Organization.update(req, res, next, { _id: req.session.user.uid },
+          { about: req.body.about, areas_of_focus: req.body.areas_of_focus },
+          'name username about areas_of_focus');
+    } else if (req.session.user.type === 'donor') {
+      Controller.Donor.update(req, res, next, { _id: req.session.user.uid },
+        { about: req.body.about, areas_of_focus: req.body.areas_of_focus },
+        'name username about areas_of_focus');
+    }
+  } else {
+    res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
+  }
+});
+
+app.post('/dashboard/projects/new', function(req, res, next) {
+  if (req.session && req.session.user) {
+      var newProject = req.body.projectData;
+      newProject._org = req.session.user.uid;
+      console.log('New Project:', newProject);
+      Model.Project.create(newProject, function(err, project) {
+        if (err) { throw err; }
+        else {
+          Model.Organization.findOne({_id: req.session.user.uid}, function(err, org) {
+            if (err) { throw err; }
+            else {
+              org.projects.push(project);
+              org.save(function(err, org) {
+                if (err) { throw err; }
+                else {
+                  console.log("new project here")
+                  res.status(201).send({ status: 201, message: "You are logged in" });
+                }
+              });
+            }
+          });
+        }
+      });
+  } else {
+    res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
+  }
+});
+
+app.post('/upload/profile_img', multer().single('profile_img'), function(req, res, next) {
+  Model.Organization.findById({ _id: req.session.id }, function(err, org) {
+    if (err) { console.error(err); res.status(400).send('Could not retrieve data'); }
+    else {
+      // console.log('Org Name: ', org.name);
+      // org.profile_img.data = fs.readFileSync(imgPath);
+      // org.profile_img.contentType = 'image/jpeg';
+      // org.save(function(err, currOrg) {
+      //   console.log("Save org, about to send")
+      //   console.log(org.profile_img.contentType);
+      var img = new Buffer(org.profile_img.data).toString('base64');
+      res.contentType(org.profile_img.contentType);
+      // console.log(org.profile_img.data);
+      // res.send(img);
+      // });
+    }
+  });
+});
+
 app.post('/media_upload', multer().array('media'), function(req, res, next) {
   console.log("Files: ", req.files);
   //  console.log("Body: ", req.body);
