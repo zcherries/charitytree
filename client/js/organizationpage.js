@@ -92,27 +92,27 @@ var Organization = exports.Organization = React.createClass({
   render: function() {
 
     var pastProject = this.projects.past.map(function(project, index){
-    return(
-      <div>
-        <div>the org is {project.org}</div>
-        <div>the info is {project.info}</div>
-        <div>this is the start_date {project.start_date}</div>
-        <div>the end_date {project.end_date}</div>
-      </div>
-      );
-  });
+      return(
+        <div key={index}>
+          <div>the org is {project.org}</div>
+          <div>the info is {project.info}</div>
+          <div>this is the start_date {project.start_date}</div>
+          <div>the end_date {project.end_date}</div>
+        </div>
+        );
+    });
 
 
     var currentProjects = this.projects.current.map(function(project, index){
-    return(
-      <div>
-        <div>the org is {project.org}</div>
-        <div>the info is {project.info}</div>
-        <div>this is the start_date {project.start_date}</div>
-        <div>the end_date {project.end_date}</div>
-      </div>
-      );
-  });
+      return(
+        <div key={index}>
+          <div>the org is {project.org}</div>
+          <div>the info is {project.info}</div>
+          <div>this is the start_date {project.start_date}</div>
+          <div>the end_date {project.end_date}</div>
+        </div>
+        );
+    });
 
     return (
       <div>

@@ -2,20 +2,23 @@ import React from 'react';
 
 exports.TagContainer = React.createClass({
   render: function () {
-    var tagNodes = this.props.searchCriteria.map(function(tag, idx) {
-      //console.log("TagContainer/tagNodes/tag",tag,"idx",idx);
-      return (
-        <Tag
-          text={ tag }
-          removeBrowseTag={ this.props.removeBrowseTag }
-          removeSearchTag={ this.props.removeSearchTag }
-          key={idx}
-        />
-      );
-    }.bind(this));
+    var tagNodes;
+    if (this.props.searchCriteria.length > 0) {
+      tagNodes = this.props.searchCriteria.map(function(tag, idx) {
+        //console.log("TagContainer/tagNodes/tag",tag,"idx",idx);
+        return (
+          <Tag
+            text={ tag }
+            removeBrowseTag={ this.props.removeBrowseTag }
+            removeSearchTag={ this.props.removeSearchTag }
+            key={idx}
+          />
+        );
+      }.bind(this));
+    }
     return (
       <div className="taglist">
-        { tagNodes }
+        { tagNodes ? tagNodes : ""}
       </div>
     );
   }
@@ -37,9 +40,7 @@ var Tag = exports.Tag = React.createClass({
         className="chipx valign hoverable tag-hand"
         textContent={this.props.text}
         onClick={this.removeTag}
-      > {/*custom chip*/}
-        <i className="fa fa-close"></i>
-        {this.props.text}
+      ><i className="fa fa-close"></i>{this.props.text}
       </div>
     );
   }

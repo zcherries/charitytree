@@ -1,6 +1,8 @@
 var path = require("path");
 module.exports = {
-  entry: ["./js/index.js","./org/index.js", "./js/donorIndex.js"],
+  entry: {
+    main: "./js/index.js"
+  },
   output: {
     path: path.join(__dirname, "js/dist"),
     filename: "[name].dist.js"
