@@ -93,7 +93,7 @@ app.get('/', function(req, res, next) {
 });
 
 app.get('/dashboard_data', function(req, res, next) {
-  console.log("Here")
+  console.log("App.get/dashboard_data");
   if (req.session && req.session.user) {
     if (req.session.user.type === 'organization') {
       console.log("In Org");
@@ -229,10 +229,15 @@ app.post('/signup_post', function(req, res, next) {
         username: req.body.username,
         password: hash
       };
+      console.log("app.post/orgData:",orgData);
       // Controller.Organization.create(req, res, next, orgData);
       Model.Organization.create(orgData, function(err, org) {
-        req.session.user = { uid: org._id, type: 'organization' }
-        res.send({ status: 201, message: "Signup was succesful"  });
+        if (err) {
+          console.log("app.post/error:",err);
+        }
+        console.log("app.post/org:",org);
+        req.session.user = { uid: org._id, type: 'organization' };
+        res.send({ status: 201, message: "Signup was successful"  });
       });
     } else if (req.body.userType === 'Donor') {
       var donorData = {
@@ -243,7 +248,7 @@ app.post('/signup_post', function(req, res, next) {
       };
       // Controller.Donor.create(req, res, next, donorData);
       Model.Donor.create(donorData, function(err, donor) {
-        req.session.user = { uid: donor._id, type: 'donor' }
+        req.session.user = { uid: donor._id, type: 'donor' };
         // res.send({ status: 201, results: donor });
       });
     }

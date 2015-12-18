@@ -12,7 +12,7 @@ var Project = exports.Project = React.createClass ({
   componentWillMount: function(){
     // console.log('on project page and props.project is ', this.props.currentProject);
     console.log('on proj page and props.searchResults is ', this.props.searchResults);
-    this.setCurrentOrg():
+    this.setCurrentOrg();
   },
 
   componentDidMount: function () {
@@ -108,9 +108,16 @@ var Project = exports.Project = React.createClass ({
                 </ul>
               </div>
               <div id="description" className="col s12">{project.info}</div>
-              <div id="updates" className="col s12">Updates</div>
+              <div id="updates" className="col s12">
+                <h5>Updates</h5>
+                <p>Knausgaard PBR&B organic, pickled skateboard etsy freegan vice green juice tacos. Small batch YOLO gluten-free humblebrag etsy skateboard. Freegan normcore selvage stumptown williamsburg pinterest marfa. 90's ramps aesthetic, cliche farm-to-table kickstarter narwhal YOLO whatever small batch mustache. Schlitz mlkshk yr, etsy craft beer keffiyeh single-origin coffee. XOXO kickstarter flannel, fingerstache PBR&B tousled wayfarers kale chips ramps kitsch craft beer. Blue bottle put a bird on it deep v DIY, four loko retro distillery.
+                </p>
+              </div>
 
-              <div id="comments" className="col s12">Comments</div>
+              <div id="comments" className="col s12">
+                <h5>Comments</h5>
+                <p>Pabst kogi cardigan echo park raw denim helvetica. Mlkshk echo park PBR&B, dreamcatcher franzen forage iPhone blog pop-up four dollar toast fixie chartreuse VHS brunch leggings. Chillwave pitchfork forage venmo, pork belly irony authentic ugh. Literally gentrify banh mi pinterest hoodie. Typewriter migas mlkshk hoodie letterpress biodiesel post-ironic. Church-key pitchfork mlkshk, cardigan everyday carry fashion axe tofu. Intelligentsia DIY shabby chic, chartreuse cardigan occupy distillery tilde artisan kogi flexitarian readymade.
+                </p></div>
             </div>
           </div>
         </div>
