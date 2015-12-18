@@ -30,6 +30,10 @@ const Browse = exports.Browse = React.createClass({
       <div>
         <div className="center flow-text">
           <h3>Find causes you care about the most</h3>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
         </div>
 
         <div className="row">
