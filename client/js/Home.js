@@ -8,14 +8,14 @@ exports.Home = React.createClass({
     $(".button-collapse").sideNav();
   },
 
-  render: function() {
-    return(
+  render: function () {
+    return (
       <div>
 
         {/*Parallax*/}
         <div className="parallax-container">
           <div className="parallax">
-            <img src="https://c1.staticflickr.com/5/4142/4931601202_92f9bb7152_b.jpg" />
+            <img src="https://c1.staticflickr.com/5/4142/4931601202_92f9bb7152_b.jpg"/>
           </div>
           <div className="caption center-align shadow-white">
             <h3>See the lives changed by your donation!</h3>
@@ -27,8 +27,9 @@ exports.Home = React.createClass({
           <p className="grey-text text-darken-3 lighten-3"></p>
           <div className="container">
 
-             <div className="row">
-              <a className="waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}><i className="material-icons left">cloud</i>Find a Cause Now</a>
+            <div className="row">
+              <a className="waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}><i
+                className="material-icons left">cloud</i>Find a Cause Now</a>
 
               <h1 className="center-align"> Making Giving Personal! </h1>
 
@@ -39,14 +40,15 @@ exports.Home = React.createClass({
 
               </div>
               <div className="col s4">
-              <i className="material-icons large center">toc</i>
-              <h4>Be a part of a project!</h4>
-              <h6>Donate specific needs on a project!</h6>
+                <i className="material-icons large center">toc</i>
+                <h4>Be a part of a project!</h4>
+                <h6>Donate specific needs on a project!</h6>
               </div>
               <div className="col s4">
-              <i className="material-icons large center">supervisor_account</i>
-                  <h4>Contribute in a meaningful way!</h4>
-              <h6>Charity tree is the closest thing to being there in person with the ability to see the impact of your donation!</h6>
+                <i className="material-icons large center">supervisor_account</i>
+                <h4>Contribute in a meaningful way!</h4>
+                <h6>Charity tree is the closest thing to being there in person with the ability to see the impact of
+                  your donation!</h6>
               </div>
 
             </div>
@@ -55,7 +57,7 @@ exports.Home = React.createClass({
 
         <div className="parallax-container">
           <div className="parallax">
-            <img src="https://c1.staticflickr.com/5/4073/4931587174_a40ebdf2f5_b.jpg" />
+            <img src="https://c1.staticflickr.com/5/4073/4931587174_a40ebdf2f5_b.jpg"/>
           </div>
         </div>
 
@@ -63,16 +65,17 @@ exports.Home = React.createClass({
           <p className="grey-text text-darken-3 lighten-3"></p>
           <div className="container">
 
-             <div className="row">
-              <a className="waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}><i className="material-icons left">cloud</i>Find a Cause</a>
+            <div className="row">
+              <a className="waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}><i
+                className="material-icons left">cloud</i>Find a Cause</a>
 
               <h1 className="left-align"> What can YOU give?! </h1>
 
 
               <div className="col s6">
-              <i className="material-icons large center">toc</i>
-              <h4>Featured Projects!</h4>
-              <h6>list ones here</h6>
+                <i className="material-icons large center">toc</i>
+                <h4>Featured Projects!</h4>
+                <h6>list ones here</h6>
               </div>
               <div className="col s4">
               </div>
@@ -83,7 +86,7 @@ exports.Home = React.createClass({
 
         <div className="parallax-container">
           <div className="parallax">
-            <img src="https://c1.staticflickr.com/5/4116/4931019303_2f386bffb7_b.jpg" />
+            <img src="https://c1.staticflickr.com/5/4116/4931019303_2f386bffb7_b.jpg"/>
           </div>
         </div>
 
