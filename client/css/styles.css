@@ -211,37 +211,45 @@ main {
   font-size: 2rem;
   transition: .3s color; }
 
-#dropZone {
-    width: 300px;
-    height: 300px;
-    border: 2px dashed #000;
-  }
+.hand:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.tag-hand:hover {
+  cursor: pointer;
+}
+
+.fa {
+  font-size: 14px;
+  margin-right: 6px;
+}
+
+/* Dashboard Styles */
+
+.media-content {
+  width: 60%;
+}
+.db_menu, .view {
+  float: left;
+  margin-left: 35px;
+  /*border: 1px solid #000;*/
+}
+
+.profile_img {
+  width: 150px;
+  height: 150px;
+}
+
+/*.upload_assorted_media {
+  width: 500px;
+}*/
 
 .box__dragndrop,
 .box__uploading,
 .box__success,
 .box__error {
   display: none;
-}
-
-.box.has-advanced-upload {
-  background-color: white;
-  outline: 2px dashed teal;
-  outline-offset: -10px;
-}
-.box.has-advanced-upload .box__dragndrop {
-  display: inline;
-}
-
-.box.is-dragover {
-  background-color: grey;
-}
-
-.box.is-uploading .box__input {
-  visibility: hidden;
-}
-.box.is-uploading .box__uploading {
-  display: block;
 }
 
 .box__file {
@@ -277,22 +285,29 @@ main {
 	pointer-events: none;
 }
 
-.hand:hover {
-  cursor: pointer;
-  text-decoration: underline;
+.box.has-advanced-upload .box__dragndrop {
+  display: inline;
 }
 
-.tag-hand:hover {
-  cursor: pointer;
+.box.has-advanced-upload {
+  background-color: white;
+  outline: 2px dashed teal;
+  outline-offset: -10px;
 }
 
-.fa {
-  font-size: 14px;
-  margin-right: 6px;
+.box.is-dragover {
+  background-color: grey;
 }
 
-.db_menu, .view {
-  float: left;
-  margin-left: 35px;
-  /*border: 1px solid #000;*/
+.box.is-uploading .box__input {
+  visibility: hidden;
+}
+.box.is-uploading .box__uploading {
+  display: block;
+}
+
+#dropZone {
+  width: 300px;
+  height: 300px;
+  border: 2px dashed #000;
 }

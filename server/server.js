@@ -18,7 +18,7 @@ var organizations = require('./resources/organizations.js');
 var project = require('./resources/projects.js');
 
 // var upload = multer({ dest: 'uploads/' })
-// var busboy = require('connect-busboy');
+var busboy = require('connect-busboy');
 
 // var util = require('util');
 // var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
@@ -101,10 +101,15 @@ app.get('/dashboard_data', function(req, res, next) {
       //   { select: '-password' }, 'findOne');
       console.log('User ID: ', req.session.user.uid)
       Model.Organization.findOne({_id: req.session.user.uid})
-        .populate('projects').populate('endorsements')
+        .select('-password -profile_img.data')
+        .populate('projects endorsements')
         .exec(function(err, org) {
           if (err) throw err;
-          else { console.log("About to send info"); res.status(200).send({status: 200, results: org }); }
+          else {
+            // org.img = new Buffer(org.profile_img.data).toString('base64');
+            console.log("About to send info");
+            res.status(200).send({status: 200, results: org });
+          }
         });
     } else if (req.session.user.type === 'donor') {
       Controller.Donor.retrieve(req, res, next, { _id: req.session.user.uid },
@@ -199,23 +204,6 @@ app.get('/get_browse', function(req, res, next) {
 });
 
 //================================== POST ===================================//
-
-// app.post('/dashboard_data', function(req, res, next) {
-//   if (req.session && req.session.user) {
-//     if (req.session.user.type === 'organization') {
-//       if (req.body.view === 'about') {
-//         console.log("About: ", req.body.about)
-//         Controller.Organization.update(req, res, next, { _id: req.session.user.uid },
-//           { about: req.body.about, areas_of_focus: req.body.areas_of_focus });
-//       }
-//     } else if (req.session.user.type === 'donor') {
-//       Controller.Donor.update(req, res, next, { _id: req.session.user.uid });
-//     }
-//   } else {
-//     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
-//   }
-// });
-
 app.post('/signup_post', function(req, res, next) {
   console.log('Body: ', req.body);
   bcrypt.hash(req.body.pwd, null, null, function(err, hash) {
@@ -368,51 +356,66 @@ app.post('/dashboard/projects/new', function(req, res, next) {
   }
 });
 
-app.post('/upload/profile_img', multer().single('profile_img'), function(req, res, next) {
-  Model.Organization.findById({ _id: req.session.id }, function(err, org) {
+app.post('dashboard/media/profile_img/upload', multer().single('profile_img'), function(req, res, next) {
+  Model.Organization.findById({ _id: req.session.user.uid }, function(err, org) {
     if (err) { console.error(err); res.status(400).send('Could not retrieve data'); }
     else {
-      // console.log('Org Name: ', org.name);
-      // org.profile_img.data = fs.readFileSync(imgPath);
-      // org.profile_img.contentType = 'image/jpeg';
-      // org.save(function(err, currOrg) {
-      //   console.log("Save org, about to send")
-      //   console.log(org.profile_img.contentType);
-      var img = new Buffer(org.profile_img.data).toString('base64');
-      res.contentType(org.profile_img.contentType);
+      console.log('Org Name: ', org.name);
+      console.log("Files: ", req.file);
+      // console.log("Body: ", req.body);
+        org.profile_img.data = req.file.buffer;
+        org.profile_img.contentType = req.file.mimetype;
+        org.profile_img.filename = req.file.originalname;
+        org.profile_img.path = new Buffer(req.file.buffer).toString('base64');
+        org.save(function(err, currOrg) {
+          if (err) { console.error("Profile Image save error: ", err)}
+          res.status(201).send({ status: 201, results: {path: currOrg.profile_img.path, contentType: currOrg.profile_img.contentType} });
+        });
+      // var img = new Buffer(org.profile_img.data).toString('base64');
+      // res.contentType(org.profile_img.contentType);
       // console.log(org.profile_img.data);
       // res.send(img);
-      // });
     }
   });
 });
 
-app.post('/media_upload', multer().array('media'), function(req, res, next) {
+app.post('/dashboard/media/upload', multer().array('media'), function(req, res, next) {
   console.log("Files: ", req.files);
   //  console.log("Body: ", req.body);
-
   req.files.forEach(function(file) {
     console.log(file);
     //create and object id
-    var fileId = mongoose.Types.ObjectId();
+    var fileId = connection.types.ObjectId();
     var writeStream = connection.gridfs.createWriteStream({
       _id: fileId,
       length: Number(file.size),
-      chunkSize: 1024 * 4,
+      chunkSize: 1024,
       filename: file.originalname,
       content_type: file.mimetype,
       mode: 'w',
       metadata: {
-        org: req.body.org_id
+        org: req.session.user.uid
       }
     });
+
     streamifier.createReadStream(file.buffer).pipe(writeStream);
     writeStream.on('close', function() {
       console.log("File write was successful");
       //store fileId in media property of organization or project
+      Model.Organization.findById({ _id: req.session.user.uid }, function(err, org) {
+        if (err) { throw err; }
+        else {
+          org.media.push(fileId);
+          org.save(function(err, updatedOrg) {
+            if (err) { throw err; }
+            else {
+              res.status(201).send({ status: 201, message: "Media upload successful." });
+            }
+          });
+        }
+      });
     });
   });
-  return res.status(201).send({ message: 'Success' });
 });
 
 app.post('/post_search', function(req, res, next) {
@@ -422,7 +425,7 @@ app.post('/post_search', function(req, res, next) {
   });
   // aofs.join('|');
   // console.log("Aofs: " + aofs);
-  Model.Organization.find({areas_of_focus: {$in: aofs}}, function (err, orgs) {
+  Model.Organization.find({areas_of_focus: {$in: req.body.aofs}}, function (err, orgs) {
     if (err) {
       console.log(err);
       res.status(400).send('Could not retrieve data');
