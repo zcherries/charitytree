@@ -10,8 +10,8 @@ var Footer = exports.Footer = React.createClass({
         <div className="container">
           <div className="row">
             <div className="col l6 s12">
-              <h5 className="black-text">Footer Content</h5>
-              <p className="grey-text">You can use rows and columns here to organize your footer content.</p>
+              <h5 className="black-text">Charity Tree</h5>
+              <p className="grey-text">Making Giving Personal!</p>
             </div>
             <div className="col l4 offset-l2 s12">
               <h5 className="black-text">Links</h5>
