@@ -2,12 +2,18 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 import { History } from 'react-router';
-var LocalStorageMixin = require('react-localstorage');
+import auth from '../utils/auth';
 
 import { Link } from 'react-router';
 
 var Signup = exports.Signup = React.createClass({
-  mixins: [LocalStorageMixin, History],
+  mixins: [ History],
+
+  getInitialState: function() {
+    return {
+      error: false
+    }
+  },
 
   showOrgSignupForm: function() {
     return (
@@ -135,19 +141,28 @@ var Signup = exports.Signup = React.createClass({
       formData.username = ReactDOM.findDOMNode(this.refs.username).value;
       formData.pwd = ReactDOM.findDOMNode(this.refs.pwd).value;
       formData.userType = this.props.userType;
-
     }
-
-    console.log("Signup/signup/formData:",formData);
 
     $.ajax({
       type: 'POST',
       url: '/signup_post',
       data: formData,
       success: function(response) {
-        console.log(response);
+        auth.signup(formData.username, function (loggedIn) {
+          console.log("Signup/signup/auth.login/loggedIn:",loggedIn);
+          if (!loggedIn) {
+            return this.setState({ error: true });
+          }
+          const {location} = this.props;
+          console.log("Signup/signup/location:",location);
+          if (location.state && location.state.nextPathname) {
+            this.history.replaceState(null, location.state.nextPathname);
+          } else {
+            this.history.replaceState(null, '/');
+          }
+        }.bind(this));
         //navigate to dashboard page
-        this.navigateToDashboard();
+        //this.navigateToDashboard();
         // window.location.href = "http://127.0.0.1:4000/dashboard"
       }.bind(this),
       error: function(xhr, status, err) {

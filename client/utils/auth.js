@@ -1,13 +1,34 @@
 module.exports = {
   login(username, password, cb) {
-    console.log("auth/login/username:",username,"password",password,"localStorage.token",localStorage.token);
+    console.log("auth/login/username:",username,"localStorage.token",localStorage.token);
     cb = arguments[arguments.length - 1];
     if (localStorage.token) {
       if (cb) cb(true);
       this.onChange(true);
       return
     }
-    authenticateUser (username, password, (res) => {
+    authenticateLogin (username, password, (res) => {
+      if (res.authenticated) {
+        localStorage.token = res.token
+        if (cb) cb(true);
+        this.onChange(true)
+      } else {
+        if (cb) cb(false);
+        this.onChange(false)
+      }
+    })
+  },
+
+  signup(username, cb) {
+    console.log("auth/signup/username:",username,"localStorage.token",localStorage.token);
+    cb = arguments[arguments.length - 1];
+    if (localStorage.token) {
+      if (cb) cb(true);
+      this.onChange(true);
+      return
+    }
+    authenticateSignup (username, (res) => {
+      console.log("auth/aS/res:",res);
       if (res.authenticated) {
         localStorage.token = res.token
         if (cb) cb(true);
@@ -30,14 +51,14 @@ module.exports = {
   },
 
   loggedIn: function () {
-    console.log("auth/loggedIn/localStorage.token:",localStorage.token);
+    //console.log("auth/loggedIn/localStorage.token:",localStorage.token);
     return !!localStorage.token
   },
 
   onChange: function () {}
 };
 
-function authenticateUser (username, password, cb) {
+function authenticateLogin (username, password, cb) {
   if (username && password) {
     $.ajax({
       type: 'POST',
@@ -59,4 +80,17 @@ function authenticateUser (username, password, cb) {
   }else {
     cb({ authenticated: false })
   }
+}
+
+function authenticateSignup (username, cb) {
+  setTimeout(() => {
+    if (username) {
+      cb({
+        authenticated: true,
+        token: Math.random().toString(36).substring(7)
+      })
+    } else {
+      cb({ authenticated: false });
+    }
+  }, 0);
 }

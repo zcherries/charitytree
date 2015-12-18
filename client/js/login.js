@@ -32,12 +32,12 @@ var Login = exports.Login = React.createClass({
   login: function(e) {
     e.preventDefault();
     auth.login(this.state.username, this.state.pwd, function (loggedIn) {
-        console.log("auth loggedIn/loggedIn:",loggedIn);
+        console.log("Login/login/loggedIn:",loggedIn);
       if (!loggedIn) {
         return this.setState({ error: true });
       }
       const {location} = this.props;
-      console.log("Login/login/location:",location);
+      //console.log("Login/login/location:",location);
       if (location.state && location.state.nextPathname) {
         this.history.replaceState(null, location.state.nextPathname);
       } else {

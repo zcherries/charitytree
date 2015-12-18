@@ -22,11 +22,11 @@ var Dashboard = exports.Dashboard = React.createClass({
       method: 'GET',
       url: '/dashboard_data',
       success: function(response) {
-        console.log("Response data: ", response.results)
+        console.log("Response data: ", response.results);
         this.setState({ orgData: response.results, view: 'about' });
       }.bind(this),
       error: function(error){
-        console.log(error);
+        console.log("Dashboard/getData/error",error);
       }.bind(this)
     });
   },
