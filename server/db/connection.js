@@ -11,7 +11,7 @@ var gridfs = grid(connection.db);
 
 module.exports.connection = connection;
 module.exports.gridfs = gridfs;
-
+module.exports.types = mongoose.Types;
 // var mongoose = require('mongoose');
 // var grid = require('gridfs-stream');
 // var Schemas = require('../db/models');

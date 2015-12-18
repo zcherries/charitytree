@@ -13,12 +13,14 @@ var OrganizationSchema = new Schema({
   areas_of_focus: [String],
   profile_img: {
     data: Buffer,
-    contentType: String
+    contentType: String,
+    filename: String,
+    path: String
   },
   media: [ObjectId],
   projects: [{ type: ObjectId, ref: 'Project' }],
-  endorsements: [{ type: ObjectId, ref: 'Donor' }],
-  img: { type: String, default: '' }
+  endorsements: [{ type: ObjectId, ref: 'Donor' }]
+  // img: { type: String, default: '' }
 });
 
 // OrganizationSchema.add({ about: String });

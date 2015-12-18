@@ -5,15 +5,56 @@ var ReactDOM = require('react-dom');
 var Media = exports.Media = React.createClass({
   getInitialState: function() {
     return {
-
+      profile_img: {}
     }
   },
 
-  profile_and_banner_img: function() {
+  upload_profile_img: function(e) {
+    e.preventDefault();
+
+    var $form = $('.' + e.target.className);
+    var formData = new FormData($form.get(0));
+    console.log("Form data: ", formData);
+    $.ajax({
+      method: 'POST',
+      url: $form.attr('action'),
+      dataType: 'json',
+      contentType: false,
+      cache: false,
+      processData: false,
+      data: formData,
+      success:function(response) {
+        console.log("Post Success: ", response.results);
+        this.setState({ profile_img: response.results });
+      }.bind(this),
+      error: function(error){
+        console.log(error);
+      }
+    });
+  },
+
+  profile_img_upload_form: function() {
     return (
-      <div>
+      <form className="profile_img_frm" onSubmit={this.upload_profile_img} action="dashboard/media/profile_img/upload" encType="multipart/form-data" accept="image/*">
+        {/*<label htmlFor="profile_img">Choose profile image</label>*/}
+        <input id="profile_img" type="file" name="profile_img" />
+        <input type="submit" value="Upload" />
+      </form>
+    )
+  },
+
+  profile_and_banner_img: function() {
+    var contentType = this.state.profile_img.contentType || this.props.media.profile_img.contentType;
+    var path = this.state.profile_img.path || this.props.media.profile_img.path;
+    var profile_img = (contentType)
+        ? "data:" + contentType + ";base64," + path
+        : "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg";
+    return (
+      <div className="row">
         <div className="float-left">
           <h5>Profile Image</h5>
+          <img className="profile_img" src={profile_img} />
+          {this.profile_img_upload_form()}
         </div>
         <div className="float-left">
           <h5>Banner Image</h5>
@@ -34,7 +75,7 @@ var Media = exports.Media = React.createClass({
           <h5>Videos</h5>
         </div>
 
-        <div>
+        <div className="upload_assorted">
           <h5>Upload Media</h5>
           <Upload />
         </div>
@@ -43,6 +84,8 @@ var Media = exports.Media = React.createClass({
   }
 });
 
+
+// ================================================================================
 var Upload = exports.Upload = React.createClass({
     componentDidMount: function() {
       var isAdvancedUpload = function() {
@@ -52,15 +95,12 @@ var Upload = exports.Upload = React.createClass({
       }();
 
       var $form = $('.box');
-      var $input = $form.find('input[type="file"]'),
-          $label = $form.find('label'),
+      var $input = $form.find('input[type="file"]'), $label = $form.find('label'),
          showFiles = function(files) {
            $label.text(files.length > 1 ? ($input.attr('data-multiple-caption') || '').replace( '{count}', files.length ) : files[ 0 ].name);
          };
 
-      if (isAdvancedUpload) {
-        $form.addClass('has-advanced-upload');
-      }
+      if (isAdvancedUpload) { $form.addClass('has-advanced-upload'); }
 
       if (isAdvancedUpload) {
         var droppedFiles = false;
@@ -106,7 +146,7 @@ var Upload = exports.Upload = React.createClass({
 
       var ajaxModern = function(e) {
         e.preventDefault();
-        var ajaxData = new FormData($form.get(0));
+        var ajaxData = new FormData($form[0]);
 
         if (droppedFiles) {
           console.log('Dropped Files Exist')
@@ -171,7 +211,7 @@ var Upload = exports.Upload = React.createClass({
     render: function () {
       return (
         <div className="form-media-upload">
-          <form className="box" method="post" action="/media_upload" encType="multipart/form-data">
+          <form className="box" method="post" action="/dashboard/media/upload" encType="multipart/form-data">
             <div className="box__input">
               <input className="box__file" type="file" name="media" id="file" data-multiple-caption="{count} files selected" multiple />
               <label htmlFor="file"><strong>Choose a file</strong><span className="box__dragndrop"> or drag it here</span>.</label>

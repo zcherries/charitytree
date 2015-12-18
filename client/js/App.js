@@ -117,7 +117,7 @@ exports.App = React.createClass({
       $.ajax({
         url: "/post_search",
         // dataType: 'json',
-        method: "Post",
+        method: "POST",
         data: {aofs: searchCriteria},
         success: function (data) {
           this.setState({

@@ -60,13 +60,17 @@ var Dashboard = exports.Dashboard = React.createClass({
         view = <Projects postData={this.postData} projects={this.state.orgData.projects} />
         break;
       case 'media':
-        view = <Media postData={this.postData} media={this.state.orgData.media} />
+        var media = {
+          profile_img: this.state.orgData.profile_img,
+          content: this.state.orgData.media
+        }
+        view = <Media postData={this.postData} media={media} />
         break;
       case 'endorsements':
         view = <Endorsements postData={this.postData} endorsements={this.state.orgData.endorsements} />
         break;
       default:
-        view = <div><p>"Nothing to display"</p></div>
+        view = <div></div>
     };
     return (
       <div>
