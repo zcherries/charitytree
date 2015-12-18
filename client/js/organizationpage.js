@@ -1,21 +1,11 @@
 "use strict";
 var React = require('react');
 
-var Organization = exports.Organization = React.createClass({
 
-  dummyOrgdata: {
-    name: "3HO Foundation",
-    address: "6 Narayan Court, Espanola, New Mexico 87532, USA",
-    about: "The Mission of 3HO is to uplift humanity through the technologies of Kundalini Yoga, meditation and conscious living. Addressing one of the greatest problems facing the world today, substance abuse and addictions, 3HO SuperHealth, which includes the practice of Kundalini Yoga, meditation, vegetarian diet, offers an effective, evidence-based and time-proven rehabilitation and treatment programme. Programs have operated successfully in the United States since 1973 and in India.",
-    signup_date: "11/11/2014",
-    areas_of_focus: ["Counseling", "Education", "Rehabilitation", "Drug Treatment", "Human Rights", "Women's Issues", "Health", "Addiction"]
-    // profile_img: {
-    //   data: Buffer,
-    //   contentType: String
-    // }
-    // media: [ObjectId],
-    // projects: [{ type: ObjectId, ref: 'Project' }],//does this have past and curr
-    // endorsements: [{ type: ObjectId, ref: 'Donor' }]
+
+var Organization = exports.Organization = React.createClass({
+  componentDidMount: function() {
+    $('.materialboxed').materialbox();
   },
 
   projects: {
@@ -89,10 +79,6 @@ var Organization = exports.Organization = React.createClass({
     }]
   },
 
-  componentWillMount: function () {
-    console.log('Insideof orgpage logging current org', this.props.currentOrganization);
-  },
-
   render: function () {
 
     var pastProject = this.projects.past.map(function (project, index) {
@@ -118,20 +104,28 @@ var Organization = exports.Organization = React.createClass({
       );
     });
 
+    var aofs = this.props.currentOrganization.areas_of_focus.map(function (aof, index) {
+      return (
+        <div className="chip">
+          <h6>{aof}</h6>
+        </div>
+      );
+    });
+
     return (
       <div className="container">
+        <h1 className="center-align">
+          {this.props.currentOrganization.name}
+        </h1>
         <div className="row">
-
-          <h1>
-            {this.props.currentOrganization.name}
-            {/* {this.props.currentOrganization._id} */}
-          </h1>
-
-        </div>
-        <div className="text center">
-          <img src="https://c1.staticflickr.com/5/4140/4930996357_8c6f018343_z.jpg"/>
-          <h5> Description: {this.props.currentOrganization.about}</h5>
-          <h6> Address: {this.props.currentOrganization.address}</h6>
+          <div className="col s12 m7">
+            <img className="responsive-img materialboxed" src="https://c1.staticflickr.com/5/4140/4930996357_8c6f018343_z.jpg"/>
+          </div>
+          <div className="col s12 m5 center-align">
+            <i class="material-icons">description</i>
+            <h5> Description: {this.props.currentOrganization.about}</h5>
+            <h6><i className="material-icons">location_on</i><pre>{this.props.currentOrganization.address}</pre></h6>
+          </div>
         </div>
 
         <div className="row">
@@ -143,15 +137,15 @@ var Organization = exports.Organization = React.createClass({
           </div>
 
           <div className="col s6">
-            <img src="https://c1.staticflickr.com/5/4116/4931019303_2f386bffb7_z.jpg"/>
+            <img className="responsive-img materialboxed" src="https://c1.staticflickr.com/5/4116/4931019303_2f386bffb7_z.jpg"/>
           </div>
         </div>
 
 
-        <div>
+        <div className="container">
           <h4>
             Areas of focus:
-            {this.props.currentOrganization.areas_of_focus.join(", ")}
+            {aofs}
           </h4>
         </div>
 
