@@ -31,10 +31,6 @@ const Browse = exports.Browse = React.createClass({
       <div>
         <div className="center flow-text">
           <h3>Find causes you care about the most</h3>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
         </div>
 
         <div className="row">
@@ -143,11 +139,13 @@ var CauseCriteria = React.createClass({
 var ScrollSpyListItems = React.createClass({
   render: function () {
     var items = CausesInfo.map(function (cause, index) {
-      return <li key={index}>
-        <a href={"#" + cause.id}>
-          {cause.title}
-        </a>
-      </li>
+      return (
+        <li key={index}>
+          <a href={"#" + cause.id}>
+            {cause.title}
+          </a>
+        </li>
+      );
     });
     return(
     <div className="col hide-on-small-only m2 push-m2 l2 push-l2">

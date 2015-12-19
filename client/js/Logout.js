@@ -6,7 +6,11 @@ import auth from '../utils/auth';
 const Logout = React.createClass({
   mixins: [ History ],
   componentDidMount() {
-    auth.logout()
+    auth.logout();
+    localStorage.clear();
+    setTimeout(function () {
+      this.props.history.pushState(null, `/`);
+    }.bind(this), 1000);
   },
 
   render() {

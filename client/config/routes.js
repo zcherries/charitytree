@@ -22,9 +22,9 @@ function redirectToLogin(nextState, replaceState) {
 }
 
 function redirectToDashboard(nextState, replaceState) {
-  /*if (auth.loggedIn()) {
+  if (auth.loggedIn()) {
     replaceState(null, '/');
-  }*/
+  }
 }
 
 export default {

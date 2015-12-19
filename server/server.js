@@ -6,7 +6,7 @@ var fs = require('fs');
 var multer = require('multer');
 var streamifier = require('streamifier');
 var bcrypt = require('bcrypt-nodejs');
-var q = require('q');
+//var q = require('q');
 
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
