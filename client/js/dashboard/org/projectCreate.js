@@ -1,5 +1,5 @@
 import React from 'react';
-import { CausesInfo } from './causesinfo.js';
+import { CausesInfo } from '../../causesinfo.js';
 var LocalStorageMixin = require('react-localstorage');
 
 
@@ -31,7 +31,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
       is_complete: false
     }
   },
-  
+
   componentDidMount: function() {
     //$('.datepicker').pickadate('clear');
   },
