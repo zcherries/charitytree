@@ -22,8 +22,10 @@
   <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="bower_components/Materialize/dist/js/materialize.min.js"></script>
   <script src="js/dist/main.dist.js"></script>
-  <script src="js/fileUpload.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
 
+  <!-- <script src="js/fileUpload.js"></script> -->
   <script>
     $(document).ready(function(){
       $(document).on('mouseenter.cardx', '.cardx', function (e) {
@@ -48,43 +50,14 @@
         $('.card-reveal').closest('.card').css('overflow', 'hidden');
       });
     });
+  </script>
 
-    // var dropZone = document.getElementById('dropZone');
-    // // dropZone.addEventListener('dragenter', dragenter, false);
-    // // dropZone.addEventListener('drapover', dragover, false);
-    // // dropZone.addEventListener('drop', drop, false);
-    //
-    // dropZone.ondragover = dropZone.ondragenter = function(e) {
-    //   e.stopPropagation();
-    //   e.preventDefault();
-    // }
-    //
-    // dropZone.ondrop = function(e) {
-    //   e.stopPropagation();
-    //   e.preventDefault();
-    //
-    //   var files = e.dataTransfer.files;
-    //   for (var i = 0; i < files.length; i++) {
-    //     uploadFile(files[i]);
-    //   }
-    // }
-    //
-    // function uploadFile(file) {
-    //   file.org_id = '123';
-    //   console.log(file);
-    //   var formData = new FormData();
-    //   var xhr = new XMLHttpRequest();
-    //   xhr.open('POST', '/upload', true);
-    //   xhr.onreadystatechange = function() {
-    //     if (xhr.readyState === 4 && xhr.status === 200) {
-    //       console.log('Files were updated ' + xhr.responseText);
-    //     } else {
-    //       console.log('Error: Files were not updated')
-    //     }
-    //   };
-    //   formData.append(file.name, file);
-    //   xhr.send(formData);
-    // }
+  <script>
+    var socket = io.connect('http://localhost:4000');
+    socket.emit('join', 'Hello world from client' );
+    socket.on('reply', function(data) {
+      console.log('Data:', data);
+    });
   </script>
 </body>
 </html>

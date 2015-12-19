@@ -19,7 +19,7 @@ module.exports = {
     })
   },
 
-  signup(username, cb) {
+  signup(username, responseToken, cb) {
     console.log("auth/signup/username:",username,"localStorage.token",localStorage.token);
     cb = arguments[arguments.length - 1];
     if (localStorage.token) {
@@ -27,10 +27,10 @@ module.exports = {
       this.onChange(true);
       return
     }
-    authenticateSignup (username, (res) => {
+    authenticateSignup (username, responseToken, (res) => {
       console.log("auth/aS/res:",res);
       if (res.authenticated) {
-        localStorage.token = res.token
+        localStorage.token = responseToken
         if (cb) cb(true);
         this.onChange(true)
       } else {
@@ -92,15 +92,13 @@ function authenticateLogin (username, password, cb) {
   }
 }
 
-function authenticateSignup (username, cb) {
-  setTimeout(() => {
-    if (username) {
-      cb({
-        authenticated: true,
-        token: response.token
-      })
-    } else {
-      cb({ authenticated: false });
-    }
-  }, 0);
+function authenticateSignup (username, responseToken, cb) {
+  if (username) {
+    cb({
+      authenticated: true,
+      token: responseToken
+    })
+  } else {
+    cb({ authenticated: false });
+  }
 }

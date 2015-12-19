@@ -5,6 +5,7 @@ var Schema = mongoose.Schema, ObjectId = Schema.Types.ObjectId;
 var endorsementSchema = new Schema({
   review: { type: String, trim: true },
   rating: Number,
+  review_date: Date,
   org: { type: ObjectId, ref: 'Organization' }
 });
 
@@ -18,15 +19,17 @@ var DonorSchema = new Schema({
   password: {type: String, required: true },
   signup_date: Date,
   profile_img: { data: Buffer, contentType: String },
-  areas_of_focus: [{ type: ObjectId, ref: 'AoF' }],
+  // areas_of_focus: [{ type: ObjectId, ref: 'AoF' }],
+  areas_of_focus: [String],
   sponsored_projects: [{ type: ObjectId, ref: 'Project' }],
   orgs_followed: [{ type: ObjectId, ref: 'Organization' }],
-  endorsements: [endorsementSchema]
+  endorsements: [endorsementSchema],
+  feed: [{ content: Schema.Types.Mixed, created_date: Date }]
 });
 
 DonorSchema.pre('save', function(next) {
   var now = new Date();
-  if (!this.signup_date) {
+  if (this.signup_date == null) {
     this.signup_date = now;
   }
   next();
