@@ -45,9 +45,19 @@ module.exports = {
   },
 
   logout: function (cb) {
-    delete localStorage.token;
-    if (cb) cb();
-    this.onChange(false)
+    $.ajax({
+      type: 'POST',
+      url: '/logout_post',
+      success: function (response) {
+        // console.log(response);
+        delete localStorage.token;
+        if (cb) cb();
+        this.onChange(false)
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.log("Error posting to: " + xhr, status, err.toString());
+      }.bind(this)
+    });
   },
 
   loggedIn: function () {
@@ -68,7 +78,7 @@ function authenticateLogin (username, password, cb) {
         console.log(response);
         cb({
           authenticated: true,
-          token: Math.random().toString(36).substring(7)
+          token: response.token
         });
         //navigate to dashboard page
         //window.location.href = "http://127.0.0.1:4000/dashboard"
@@ -87,7 +97,7 @@ function authenticateSignup (username, cb) {
     if (username) {
       cb({
         authenticated: true,
-        token: Math.random().toString(36).substring(7)
+        token: response.token
       })
     } else {
       cb({ authenticated: false });
