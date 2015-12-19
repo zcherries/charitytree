@@ -4,8 +4,12 @@ import { Link } from 'react-router';
 import { Login } from './login.js';
 import { Signup } from './signup.js';
 import { Dashboard } from './dashboard.js';
+import { History } from 'react-router';
+var LocalStorageMixin = require('react-localstorage');
 
 var Navbar = exports.Navbar = React.createClass({
+  displayName: 'Navbar',
+  mixins: [ History, LocalStorageMixin ],
   updateInput: function (e) {
     this.props.updateInput(e.target.value);
   },

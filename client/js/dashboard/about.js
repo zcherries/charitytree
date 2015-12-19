@@ -1,8 +1,12 @@
 "use strict";
 var React = require('react');
 var ReactDOM = require('react-dom');
+import { History } from 'react-router';
+var LocalStorageMixin = require('react-localstorage');
 
 var About = exports.About = React.createClass({
+  displayName: 'About',
+  mixins: [ History, LocalStorageMixin ],
   getInitialState: function() {
     return {
       editing: false,

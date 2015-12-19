@@ -1,10 +1,10 @@
 var path = require("path");
 module.exports = {
   entry: {
-    main: "./js/index.js"
+    main: "./client/js/index.js"
   },
   output: {
-    path: path.join(__dirname, "js/dist"),
+    path: path.join(__dirname, "client/js/dist"),
     filename: "[name].dist.js"
   },
   module: {
@@ -20,20 +20,20 @@ module.exports = {
 //module.exports = {
 //  devtool: 'eval',
 //  entry: [
-//    'webpack-dev-server/client?http://localhost:4000', // WebpackDevServer host and port
+//    'webpack-dev-server/client?http://0.0.0.0:4000', // WebpackDevServer host and port
 //    'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-//    "./js/index.js"
+//    "./client/js/index.js"
 //  ],
 //  output: {
 //    path: path.join(__dirname, "js/dist"),
 //    filename: "[name].dist.js",
-//    publicPath: '/client/'
+//    publicPath: '/'
 //  },
 //  module: {
 //    loaders: [{
 //      test: /\.jsx?$/,
 //      loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015'],
-//      include: path.join(__dirname, 'js'),
+//      include: path.join(__dirname, 'client'),
 //      exclude: /node_modules/
 //    },
 //      {

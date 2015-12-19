@@ -1,10 +1,12 @@
 "use strict";
 var React = require('react');
-import { Link } from 'react-router';
+import { Link, History } from 'react-router';
 import { TagContainer, Tag } from './tag_container.js';
 var LocalStorageMixin = require('react-localstorage');
 
 var Search = exports.Search = React.createClass({
+  displayName: 'Search',
+  mixins: [ History,LocalStorageMixin ],
   render: function () {
     return (
       <div>
@@ -36,16 +38,6 @@ var Search = exports.Search = React.createClass({
 });
 
 var OrganizationResults = React.createClass({
-
-  testClick: function(e){
-    e.preventDefault();
-    //console.log('inside of testClick');
-    //console.log('e.target.value is',e.target.value);
-  },
-
-  componentWillMount: function(){
-  },
-
   render: function () {
     if (this.props.searchResultOrgs) {
       var org = this.props.searchResultOrgs.map(function(organization, index){
@@ -144,7 +136,6 @@ var Project = React.createClass({
   getProject: function() {
     this.props.getProject(this.props.projectId);
   },
-
 
   render: function () {
 

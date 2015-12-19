@@ -1,7 +1,11 @@
 import React from 'react';
 import { CausesInfo } from './causesinfo.js';
+var LocalStorageMixin = require('react-localstorage');
+
 
 var ProjectCreate = exports.ProjectCreate = React.createClass({
+  displayName: 'ProjectCreate',
+  mixins: [LocalStorageMixin],
   getInitialState: function () {
     return {
       title: "",
@@ -26,6 +30,10 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
       status: "In Progress",
       is_complete: false
     }
+  },
+  
+  componentDidMount: function() {
+    //$('.datepicker').pickadate('clear');
   },
 
   updateNeedTitle: function (need) {
@@ -118,7 +126,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
 
   updateEndDate: function () {
     var self= this;
-    var endDate = $('.datepicker').pickadate({
+    $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 5, // Creates a dropdown of 15 years to control year
       closeOnSelect: true,
@@ -142,7 +150,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
       onSet: function (e) {
         console.log("onset/e.select:",e.select);
         var endDate = new Date(e.select);
-        endDate = endDate.toDateString();
+        //endDate = endDate.toDateString();
         console.log("endDate", endDate)
 
         self.setState({
@@ -205,7 +213,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
                 </div>
                 {/*End Date*/}
                 <div className="input-field col s12">
-                  <input id="end_date" type="date" className="datepicker" value={this.state.end_date} onClick={this.updateEndDate} />
+                  <input id="end_date" type="date" className="datepicker" value={this.state.end_date || ""} onClick={this.updateEndDate} />
                   <label htmlFor="end_date">Projected End Date</label>
                 </div>
                 {/*Target Funding Amount*/}

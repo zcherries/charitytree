@@ -1,6 +1,10 @@
 import React from 'react';
+import { History } from 'react-router';
+var LocalStorageMixin = require('react-localstorage');
 
 exports.TagContainer = React.createClass({
+  displayName: 'TagContainer',
+  mixins: [ History, LocalStorageMixin ],
   render: function () {
     var tagNodes;
     if (this.props.searchCriteria.length > 0) {

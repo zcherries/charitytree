@@ -7,7 +7,9 @@ console.log("App/auth.loggedIn():",auth.loggedIn());
 import {Navbar} from './navbar';
 
 exports.App = React.createClass({
-  mixins: [LocalStorageMixin, History],
+  displayName: 'App',
+
+  mixins: [History,LocalStorageMixin],
 
   getInitialState: function () {
     return {

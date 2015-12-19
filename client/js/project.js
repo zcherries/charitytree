@@ -1,15 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, History } from 'react-router';
 
 import { TagContainer, Tag } from './tag_container.js';
 import { CausesInfo } from './dashboard/causesinfo.js';
+var LocalStorageMixin = require('react-localstorage');
+
 //var ReactIntl = require('react-intl');
 //
 //var IntlMixin       = ReactIntl.IntlMixin;
 //var FormattedNumber = ReactIntl.FormattedNumber;
 
 var Project = exports.Project = React.createClass ({
-  //mixins: [IntlMixin],
+  displayName: 'Project',
+  mixins: [ History,LocalStorageMixin ],
   componentWillMount: function(){
     // console.log('on project page and props.project is ', this.props.currentProject);
     console.log('on proj page and props.searchResults is ', this.props.searchResults);

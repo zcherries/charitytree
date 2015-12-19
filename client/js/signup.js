@@ -5,9 +5,11 @@ import { History } from 'react-router';
 import auth from '../utils/auth';
 
 import { Link } from 'react-router';
+var LocalStorageMixin = require('react-localstorage');
 
 var Signup = exports.Signup = React.createClass({
-  mixins: [ History],
+  displayName: 'Signup',
+  mixins: [ History, LocalStorageMixin ],
 
   getInitialState: function() {
     return {

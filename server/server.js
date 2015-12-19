@@ -11,6 +11,10 @@ var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 var session_helpers = require('./helpers/session-helpers.js');
 
+//var webpack = require('webpack');
+//var WebpackDevServer = require('webpack-dev-server');
+//var config = require('../webpack.config.js');
+
 var Controller = require('./db/controllers');
 var Model = require('./db/models');
 var connection = require('./db/connection.js');
@@ -464,3 +468,15 @@ app.get('*', function (req, res){
 });
 
 app.listen(PORT, IP);
+
+//new WebpackDevServer(webpack(config), {
+//  publicPath: config.output.publicPath,
+//  hot: true,
+//  historyApiFallback: true
+//}).listen(4000, 'localhost', function (err, result) {
+//  if (err) {
+//    console.log(err);
+//  }
+//
+//  console.log('Listening at localhost:4000');
+//});
