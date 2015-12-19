@@ -6,6 +6,7 @@ var fs = require('fs');
 var multer = require('multer');
 var streamifier = require('streamifier');
 var bcrypt = require('bcrypt-nodejs');
+var q = require('q');
 
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
@@ -18,7 +19,7 @@ var organizations = require('./resources/organizations.js');
 var project = require('./resources/projects.js');
 
 // var upload = multer({ dest: 'uploads/' })
-var busboy = require('connect-busboy');
+// var busboy = require('connect-busboy');
 
 // var util = require('util');
 // var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
@@ -59,32 +60,27 @@ app.use(bodyParser.json());
 
 var IP = '127.0.0.1', PORT = 4000;
 
+// function isObject(obj) {
+// 	return obj != null && typeof obj === 'object';
+// }
+//
+// function extend(destination /*, sources */) {
+// 	if (!isObject(destination)) return {};
+// 	var arrObj = [].slice.call(arguments, 1);
+// 	arrObj.forEach(function(e, key, coll) {//e is an obj
+// 		var objKeys = Object.keys(e);
+// 		objKeys.forEach(function(elem, ind, list) {//elem is an object property
+// 			destination[elem] = e[elem];
+// 		});
+// 	});
+// 	return destination;
+// }
+
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 // app.use('/dashboard', session_helpers.validateSession);
-
-// var renderWithData = function(req, res, next) {
-//   res.renderWithData = function() {
-//     res.render();
-//   }
-// }
-
-/*
-Routes diverted to client
-
- //================================== GET ====================================//
-app.get('/logout', function(req, res, next) {
-  if (req.session) {
-    req.session.destroy();
-  }
-  res.sendFile(path.join(__dirname, '../client', 'index.html'));
-});
-
- //================================== POST ===================================//
-
-*/
 
 //================================== GET ====================================//
 app.get('/', function(req, res, next) {
@@ -92,24 +88,43 @@ app.get('/', function(req, res, next) {
   res.send('index.html');
 });
 
-app.get('/dashboard_data', function(req, res, next) {
+app.get('/dashboard_data', function(req, res) {
   console.log("App.get/dashboard_data");
+  console.log('body: ', req.headers)
   if (req.session && req.session.user) {
+    console.log('In session')
     if (req.session.user.type === 'organization') {
-      console.log("In Org");
-      // Controller.Organization.retrieve(req, res, next, { _id: req.session.user.uid },
-      //   { select: '-password' }, 'findOne');
+      console.log('Organization')
       console.log('User ID: ', req.session.user.uid)
-      Model.Organization.findOne({_id: req.session.user.uid})
-        .select('-password -profile_img.data')
-        .populate('projects endorsements')
-        .exec(function(err, org) {
+      Model.Organization.findOne({_id: req.session.user.uid}).select('-password -profile_img.data')
+        .populate('projects endorsements').exec(function(err, org) {
           if (err) throw err;
           else {
-            // org.img = new Buffer(org.profile_img.data).toString('base64');
-            console.log("About to send info");
+            // console.log(org)
+            // var images = [], count = 0;
+            // org.images.forEach(function(fileId, idx) {
+            //   console.log("Index: ", idx)
+            //   var buffer = new Buffer(0);
+            //   var readstream = connection.gridfs.createReadStream({ _id: fileId });
+            //
+            //   readstream.on('data', function(chunk) {
+            //     buffer = Buffer.concat([buffer, chunk]);
+            //   });
+            //
+            //   readstream.on('error', function (err) {
+            //     console.log('An error occurred!', err);
+            //     throw err;
+            //   });
+            //
+            //   readstream.on('close', function() {
+            //     images[idx] = buffer.toString('base64');
+            //     if (org.images.length === ++count) {
+            //       res.status(200).send({status: 200, results: org, imgs: images });
+            //     }
+            //   });
+            // });
             res.status(200).send({status: 200, results: org });
-          }
+          } //end else
         });
     } else if (req.session.user.type === 'donor') {
       Controller.Donor.retrieve(req, res, next, { _id: req.session.user.uid },
@@ -124,9 +139,7 @@ app.get('/dashboard_data/projects', function(req, res, next) {
   if (req.session && req.session.user) {
     if (req.session.user.type === 'organization') {
       Model.Organization.find({ _id: req.session.user.uid})
-      .select('projects')
-      .populate('projects')
-      .exec(function(err, projects) {
+      .select('projects').populate('projects').exec(function(err, projects) {
         if (err) throw err;
         else { res.status(200).send({status: 200, results: projects }); }
       });
@@ -148,10 +161,6 @@ app.get('/image', function(req, res) {
   }
 });
 
-app.get('/donors', function(req,res,next) {
-  Controller.Donor.retrieve(req,res,next,{});
-});
-
 app.get('/remove_media', function(req, res) {
   var options = { filename: 'Sleep Away.mp3' }
   // if (file_exists(options)) {
@@ -163,40 +172,6 @@ app.get('/remove_media', function(req, res) {
     }
   });
   // }
-});
-
-app.get('/get_file', function (req, res) {
-  //  connection.gridfs.chunks.find({ metadata: { org: '56663575f7ec540c2d469903'}})
-  var readstream = connection.gridfs.createReadStream({ filename: '1_-_Introduction_to_NoSQL_Databases.mp4' });
-  readstream.pipe(res);
-});
-
-app.get('/organizations', function(req, res, next) {
-  // Controller.Organization.retrieve(req, res, next, { name: "BRAC" });
-  // Model.Organization.findOne({ name: "BRAC" }, function(err, org) {
-  //   if (err) console.log(err)
-  //   else {
-  //     console.log(org)
-  //     org.username = 'BRAC';
-  //     org.password = "$2a$10$iT4mB1TEPWOR1u0/aHtoH.RHFLGmvKe9k2jJbgoS099cr.PtTeh6G";
-  //     org.projects.push('566c71024e699e200eec5a3b');
-  //     org.save(function(err, org) {
-  //       if (err) console.error(err);
-  //       else console.log(org);
-  //     });
-  //     res.send('got here');
-  //   }
-  // });
-  // Controller.Organization.update(req, res, next, { name: "BRAC" }, {_id: "56663f998461000b5037cdf0" });
-});
-
-app.get('/updateProject', function(req, res, next){
-  Controller.Project.update(req,res,next,{_id: '566c7099c06fb7572473707a'},{org: '5666442675b6898a0ec62819'});
-})
-
-app.get('/projects', function(req, res, next) {
-  // Controller.Project.retrieve(req, res, next);
-  //Controller.Project.delete(req, res, next, {}, {}, 'find');
 });
 
 app.get('/get_browse', function(req, res, next) {
@@ -244,7 +219,6 @@ app.post('/signup_post', function(req, res, next) {
 });
 
 app.post('/login_post', function(req, res, next) {
-  //console.log('Body: ', req.body);
   //check if user is a donor
   Model.Donor.findOne({ username: req.body.username }, function(err, donor) {
     if (err) {
@@ -261,7 +235,7 @@ app.post('/login_post', function(req, res, next) {
             //create session
             req.session.user = { uid: donor._id, type: 'donor' };
             console.log('Session has been set');
-            res.status(201).send({ status: 201, message: "Login successful" });
+            res.status(201).send({ status: 201, token: req.session.user.uid });
           } else { //found donor but password doesn't match
             res.status(400).send({ status: 400, message: "Invalid username/password combination" });
           }
@@ -283,7 +257,7 @@ app.post('/login_post', function(req, res, next) {
             if (result) {
               //create session
               req.session.user = { uid: org._id, type: 'organization' };
-              res.send({ status: 201, message: "Login successful" });
+              res.send({ status: 201, token: req.session.user.uid });
             } else { //found org but password doesn't match
               res.status(400).send({ status: 400, message: "Invalid username/password combination" });
             }
@@ -296,6 +270,13 @@ app.post('/login_post', function(req, res, next) {
   });
 });
 
+app.post('/logout_post', function(req, res) {
+  console.log('here')
+  req.session.destroy(function(err) {
+    console.log('destroyed session')
+    res.status(201).send({status: 201, message: 'User has been logged out'});
+  });
+});
 // app.post('/dashboard_data', function(req, res, next) {
 //   if (req.session && req.session.user) {
 //     if (req.session.user.type === 'organization') {
@@ -384,7 +365,7 @@ app.post('/dashboard/media/upload', multer().array('media'), function(req, res, 
   //  console.log("Body: ", req.body);
   req.files.forEach(function(file) {
     console.log(file);
-    //create and object id
+    //generate an object id
     var fileId = connection.types.ObjectId();
     var writeStream = connection.gridfs.createWriteStream({
       _id: fileId,
@@ -405,7 +386,8 @@ app.post('/dashboard/media/upload', multer().array('media'), function(req, res, 
       Model.Organization.findById({ _id: req.session.user.uid }, function(err, org) {
         if (err) { throw err; }
         else {
-          org.media.push(fileId);
+          if (file.mimetype.slice(0, 6) === 'image/') { org.images.push(fileId); }
+          else if (file.mimetype.slice(0, 6) === 'video/') { org.videos.push(fileId); }
           org.save(function(err, updatedOrg) {
             if (err) { throw err; }
             else {

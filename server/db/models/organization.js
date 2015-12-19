@@ -17,7 +17,8 @@ var OrganizationSchema = new Schema({
     filename: String,
     path: String
   },
-  media: [ObjectId],
+  images: [ObjectId],
+  videos: [ObjectId],
   projects: [{ type: ObjectId, ref: 'Project' }],
   endorsements: [{ type: ObjectId, ref: 'Donor' }]
   // img: { type: String, default: '' }
