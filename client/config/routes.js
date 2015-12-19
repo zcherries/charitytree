@@ -115,17 +115,17 @@ export default {
           cb(null, Home);
         })
       },
-      indexRoute: {
-        getComponent: (location, cb) => {
-          // Only load if we're logged in
-          if (auth.loggedIn()) {
-            return require.ensure([], () => {
-              cb(null, Dashboard);
-            })
-          }
-          return cb()
-        }
-      },
+      // indexRoute: {
+      //   getComponent: (location, cb) => {
+      //     // Only load if we're logged in
+      //     if (auth.loggedIn()) {
+      //       return require.ensure([], () => {
+      //         cb(null, Dashboard);
+      //       })
+      //     }
+      //     return cb()
+      //   }
+      // },
       //childRoutes: [
       //  { onEnter: redirectToLogin,
       //    childRoutes: [

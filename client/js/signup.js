@@ -150,7 +150,7 @@ var Signup = exports.Signup = React.createClass({
       url: '/signup_post',
       data: formData,
       success: function(response) {
-        auth.signup(formData.username, function (loggedIn) {
+        auth.signup(formData.username, response.token, function (loggedIn) {
           console.log("Signup/signup/auth.login/loggedIn:",loggedIn);
           if (!loggedIn) {
             return this.setState({ error: true });

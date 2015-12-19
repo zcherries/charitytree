@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, History } from 'react-router';
 import { TagContainer, Tag } from './tag_container.js';
-import { CausesInfo } from './dashboard/causesinfo.js';
+import { CausesInfo } from './causesinfo.js';
 
 const Browse = exports.Browse = React.createClass({
   mixins: [ History ],
