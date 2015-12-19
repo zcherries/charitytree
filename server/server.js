@@ -1,4 +1,7 @@
 var express = require('express');
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -6,7 +9,7 @@ var fs = require('fs');
 var multer = require('multer');
 var streamifier = require('streamifier');
 var bcrypt = require('bcrypt-nodejs');
-var q = require('q');
+// var q = require('q');
 
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
@@ -19,11 +22,8 @@ var session_helpers = require('./helpers/session-helpers.js');
 var Controller = require('./db/controllers');
 var Model = require('./db/models');
 var connection = require('./db/connection.js');
-var organizations = require('./resources/organizations.js');
-var project = require('./resources/projects.js');
 
 // var upload = multer({ dest: 'uploads/' })
-// var busboy = require('connect-busboy');
 
 // var util = require('util');
 // var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
@@ -33,7 +33,13 @@ var project = require('./resources/projects.js');
 //   log_stdout.write(util.format(d) + '\n');
 // };
 
-var app = express();
+io.on('connection', function(client) {
+  console.log('Client connected')
+  client.on('join', function(data) {
+    console.log('Message Received: ', data);
+    client.emit('reply', { message: 'this is the reply'});
+  });
+});
 
 //app.use('/client/js', express.static(path.join(__dirname, '../client/js')));
 app.use(express.static(path.join(__dirname, '../client')));
@@ -94,18 +100,18 @@ app.get('/', function(req, res, next) {
 
 app.get('/dashboard_data', function(req, res) {
   console.log("App.get/dashboard_data");
-  console.log('body: ', req.headers)
+  // console.log('body: ', req.headers)
   if (req.session && req.session.user) {
     console.log('In session')
     if (req.session.user.type === 'organization') {
-      console.log('Organization')
-      console.log('User ID: ', req.session.user.uid)
+      // console.log('Organization')
+      // console.log('User ID: ', req.session.user.uid)
       Model.Organization.findOne({_id: req.session.user.uid}).select('-password -profile_img.data')
         .populate('projects endorsements').exec(function(err, org) {
           if (err) throw err;
           else {
             // console.log(org)
-            // var images = [], count = 0;
+            var images = [], count = 0;
             // org.images.forEach(function(fileId, idx) {
             //   console.log("Index: ", idx)
             //   var buffer = new Buffer(0);
@@ -127,12 +133,16 @@ app.get('/dashboard_data', function(req, res) {
             //     }
             //   });
             // });
-            res.status(200).send({status: 200, results: org });
+            res.status(200).send({status: 200, results: org, userType: req.session.user.type });
           } //end else
         });
     } else if (req.session.user.type === 'donor') {
-      Controller.Donor.retrieve(req, res, next, { _id: req.session.user.uid },
-        { select: '-password' }, 'findOne');
+      Model.Donor.findOne({ _id: req.session.user.uid }).select('-password').exec(function(err, donor) {
+        if (err) { console.log(err); }
+        else {
+          res.send({ status: 200, results: donor, userType: req.session.user.type });
+        }
+      });
     }
   } else {
     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
@@ -204,7 +214,7 @@ app.post('/signup_post', function(req, res, next) {
         }
         console.log("app.post/org:",org);
         req.session.user = { uid: org._id, type: 'organization' };
-        res.send({ status: 201, message: "Signup was successful"  });
+        res.send({ status: 201, token: req.session.user.uid });
       });
     } else if (req.body.userType === 'Donor') {
       var donorData = {
@@ -213,10 +223,9 @@ app.post('/signup_post', function(req, res, next) {
         username: req.body.username,
         password: hash
       };
-      // Controller.Donor.create(req, res, next, donorData);
       Model.Donor.create(donorData, function(err, donor) {
         req.session.user = { uid: donor._id, type: 'donor' };
-        // res.send({ status: 201, results: donor });
+        res.send({ status: 201, token: req.session.user.uid });
       });
     }
   });
@@ -297,7 +306,7 @@ app.post('/logout_post', function(req, res) {
 //   }
 // });
 
-app.post('/dashboard_data/about', function(req, res, next) {
+app.post('/dashboard_data/profile', function(req, res, next) {
   if (req.session && req.session.user) {
     if (req.session.user.type === 'organization') {
         Controller.Organization.update(req, res, next, { _id: req.session.user.uid },
@@ -305,8 +314,8 @@ app.post('/dashboard_data/about', function(req, res, next) {
           'name username about areas_of_focus');
     } else if (req.session.user.type === 'donor') {
       Controller.Donor.update(req, res, next, { _id: req.session.user.uid },
-        { about: req.body.about, areas_of_focus: req.body.areas_of_focus },
-        'name username about areas_of_focus');
+        { name: req.body.name, email: req.body.email, areas_of_focus: req.body.areas_of_focus },
+        'name username email areas_of_focus');
     }
   } else {
     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
@@ -449,8 +458,6 @@ app.get('*', function (req, res){
   res.sendFile(path.resolve(__dirname, './../client', 'index.html'));
 });
 
-app.listen(PORT, IP);
-
 //new WebpackDevServer(webpack(config), {
 //  publicPath: config.output.publicPath,
 //  hot: true,
@@ -462,3 +469,4 @@ app.listen(PORT, IP);
 //
 //  console.log('Listening at localhost:4000');
 //});
+server.listen(PORT, IP);

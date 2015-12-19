@@ -4,9 +4,9 @@ var ReactDOM = require('react-dom');
 import { History } from 'react-router';
 var LocalStorageMixin = require('react-localstorage');
 
-var About = exports.About = React.createClass({
-  displayName: 'About',
-  mixins: [ History, LocalStorageMixin ],
+var OrgProfile = exports.OrgProfile = React.createClass({
+  // displayName: 'OrgProfile',
+  // mixins: [ History, LocalStorageMixin ],
   getInitialState: function() {
     return {
       editing: false,
@@ -18,7 +18,7 @@ var About = exports.About = React.createClass({
     console.log("Form Data:", formData);
     $.ajax({
       method: 'POST',
-      url: '/dashboard_data/about',
+      url: '/dashboard_data/profile',
       data: formData,
       success:function(response) {
         console.log("Post Success: ", response.results);
@@ -40,7 +40,7 @@ var About = exports.About = React.createClass({
     var formData = {
       about: ReactDOM.findDOMNode(this.refs.about).value,
       areas_of_focus: (ReactDOM.findDOMNode(this.refs.aofs).value).trim()
-        .replace(/;\s*|\r\n|\r|\n/g,"/b$117/").split("/b$117/")
+        .replace(/\s|;\s*|\r\n|\r|\n/g,"/b$117/").split("/b$117/")
     }
     this.update(formData);
   },
@@ -51,13 +51,15 @@ var About = exports.About = React.createClass({
     return (
       <div className="float-left">
         <h3>{orgInfo.name}</h3>
-        <h6>{orgInfo.username}</h6>
-        <p>{orgInfo.about}</p>
-        <ul>
-          {orgInfo.areas_of_focus.map(function(aof, idx) {
-            return <li key={idx}>{aof}</li>
-          })}
-        </ul>
+          <h6>{'@'+orgInfo.username}</h6>
+          <h5>About</h5>
+          <p>{orgInfo.about}</p>
+        <h5>Areas of Focus</h5>
+          <ul>
+            {orgInfo.areas_of_focus.map(function(aof, idx) {
+              return <li key={idx}>{aof}</li>
+            })}
+          </ul>
         <button onClick={this.editPage}>Edit</button>
       </div>
     )
@@ -69,13 +71,24 @@ var About = exports.About = React.createClass({
       <div className="float-left">
         <h3>{orgInfo.name}</h3>
         <h5>{orgInfo.username}</h5>
-        <form onSubmit={this.handleSubmit}>
-          <h5>About</h5>
-          <textarea className="form-control" ref="about" defaultValue={orgInfo.about}></textarea>
-          <h5>Areas of Focus</h5>
-          <textarea className="form-control" ref="aofs" defaultValue={orgInfo.areas_of_focus.join("; ")}></textarea>
-          <input type="submit" value="Submit" />
-        </form>
+
+        <div className="div-profile-edit-form">
+          <form id="profileEdit" className="col s12" onSubmit={this.handleSubmit}>
+            <div className="row">
+              <div className="input-field col s12">
+                <label htmlFor="about">About</label>
+                <textarea id="about" className="materialize-textarea" ref="about" defaultValue={orgInfo.about} required></textarea>
+              </div>
+            </div>
+            <div className="row">
+              <div className="input-field col s12">
+                <label htmlFor="aofs">Areas of Focus</label>
+                <textarea id="aofs" className="materialize-textarea" ref="aofs" defaultValue={orgInfo.areas_of_focus.join("; ")}></textarea>
+              </div>
+            </div>
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
       </div>
     )
   },

@@ -1,7 +1,7 @@
 var Donor = require('../models/donor.js');
 
 module.exports = {
-  retrieve: function(req, res, next, criteria, options, method) {
+  retrieve: function(req, res, next, criteria, callback, options, method) {
     var criteria = criteria || {}, method = method || '';
     var query = (Donor[method]) ? Donor[method](criteria) : Donor.find(criteria);
 
@@ -12,10 +12,7 @@ module.exports = {
         }
       }
     }
-    query.exec(function(err, donors) {
-      if (err) handleError(req, res, "Controller: Donor, Method: Retrieve", err);
-      res.send({ status: 200, results: donors });
-    });
+    query.exec(callback);
   },
 
   create: function(req, res, next, donorData) {
@@ -35,17 +32,16 @@ module.exports = {
     });
   },
 
-  update: function(req, res, next, criteria, changes, method, options) {
-    Donor.findOne(criteria, function(err, doc) {
+  update: function(req, res, next, criteria, changes, options) {
+    Donor.findOne(criteria, options, function(err, doc) {
       if (err) handleError(req, res, "Controller update", err);
       if (doc) {
         for (var key in changes) {
-          if (doc[key]) {
+          if (key in doc)
             doc[key] = changes[key];
-          }
         }
         doc.save(function(err, donor) {
-          res.send({ status: 201, results: donor });
+          res.status(201).send({ status: 201, results: donor });
         });
       } else {
         res.status(400).send({ status: 400, message: "Donor not found." });
