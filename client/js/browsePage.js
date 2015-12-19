@@ -1,10 +1,11 @@
 //display list of areas of focus
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, History } from 'react-router';
 import { TagContainer, Tag } from './tag_container.js';
 import { CausesInfo } from './dashboard/causesinfo.js';
 
 const Browse = exports.Browse = React.createClass({
+  mixins: [ History ],
 
   componentDidMount: function () {
     $('.scrollspy').scrollSpy();

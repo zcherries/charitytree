@@ -4,8 +4,14 @@ var React = require('react');
 import {About} from './dashboard/about.js';
 import {Projects} from './dashboard/projects.js';
 import {Media} from './dashboard/media.js';
+import { History } from 'react-router';
+var LocalStorageMixin = require('react-localstorage');
+
 
 var Dashboard = exports.Dashboard = React.createClass({
+  displayName: 'Dashboard',
+  mixins: [ History, LocalStorageMixin ],
+
   componentDidMount: function() {
     this.getData();
   },
@@ -52,26 +58,26 @@ var Dashboard = exports.Dashboard = React.createClass({
           about: this.state.orgData.about,
           areas_of_focus: this.state.orgData.areas_of_focus,
           address: this.state.orgData.address
-        }
-        console.log("About: " + orgInfo.about)
-        view = <About postData={this.postData} orgInfo={orgInfo} />
+        };
+        console.log("About: " + orgInfo.about);
+        view = <About postData={this.postData} orgInfo={orgInfo} />;
         break;
       case 'projects':
-        view = <Projects postData={this.postData} projects={this.state.orgData.projects} />
+        view = <Projects postData={this.postData} projects={this.state.orgData.projects} />;
         break;
       case 'media':
         var media = {
           profile_img: this.state.orgData.profile_img,
           content: this.state.orgData.media
         }
-        view = <Media postData={this.postData} media={media} />
+        view = <Media postData={this.postData} media={media} />;
         break;
       case 'endorsements':
-        view = <Endorsements postData={this.postData} endorsements={this.state.orgData.endorsements} />
+        view = <Endorsements postData={this.postData} endorsements={this.state.orgData.endorsements} />;
         break;
       default:
         view = <div></div>
-    };
+    }
     return (
       <div>
         <div className="db_menu"><DashboardMenu updatePageView={this.updatePageView} /></div>

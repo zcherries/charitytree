@@ -1,9 +1,12 @@
 "use strict";
+
 var React = require('react');
-
-
+import { History } from 'react-router';
+var LocalStorageMixin = require('react-localstorage');
 
 var Organization = exports.Organization = React.createClass({
+  displayName: 'Organization',
+  mixins: [ History, LocalStorageMixin ],
   componentDidMount: function() {
     $('.materialboxed').materialbox();
   },
@@ -106,7 +109,7 @@ var Organization = exports.Organization = React.createClass({
 
     var aofs = this.props.currentOrganization.areas_of_focus.map(function (aof, index) {
       return (
-        <div className="chip">
+        <div key={index} className="chip">
           <h6>{aof}</h6>
         </div>
       );
@@ -122,7 +125,7 @@ var Organization = exports.Organization = React.createClass({
             <img className="responsive-img materialboxed" src="https://c1.staticflickr.com/5/4140/4930996357_8c6f018343_z.jpg"/>
           </div>
           <div className="col s12 m5 center-align">
-            <i class="material-icons">description</i>
+            <i className="material-icons">description</i>
             <h5> Description: {this.props.currentOrganization.about}</h5>
             <h6><i className="material-icons">location_on</i><pre>{this.props.currentOrganization.address}</pre></h6>
           </div>
