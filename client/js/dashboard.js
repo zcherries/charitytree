@@ -24,15 +24,24 @@ var Dashboard = exports.Dashboard = React.createClass({
   },
 
   getData: function() {
+    console.log('Making AJAX request to server')
     $.ajax({
       method: 'GET',
+      beforeSend: function(request) {
+        request.setRequestHeader("Authority", localStorage.token);
+      },
       url: '/dashboard_data',
       success: function(response) {
         console.log("Response data: ", response.results);
         this.setState({ orgData: response.results, view: 'about' });
       }.bind(this),
-      error: function(error){
-        console.log("Dashboard/getData/error",error);
+      error: function(xhr, status, error){
+        if (xhr.readyState == 0 || xhr.status == 0) {
+          console.log('Not really an error');
+          return;
+        }
+        else
+          console.log("Dashboard/getData/error", xhr, status, error);
       }.bind(this)
     });
   },
