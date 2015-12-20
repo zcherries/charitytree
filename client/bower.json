@@ -26,10 +26,7 @@
     "tests"
   ],
   "dependencies": {
-    "react": "~0.14.3",
-    "react-dom": "~0.1.0",
     "Materialize": "materialize#~0.97.3",
-    "react-intl": "~1.2.2",
     "pickadate": "~3.5.6"
   }
 }

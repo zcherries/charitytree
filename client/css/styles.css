@@ -46,20 +46,6 @@ main {
   margin-left: 10px;
 }
 
-.collection .collection-item.avatar .circle {
-  width: 200px;
-  height: 200px;
-  position: initial;
-  float: left;
-  margin-right: 15px;
-  margin-bottom: 15px;
-  border-radius: 10%;
-}
-
-.collection .collection-item.avatar {
-  padding-left: 25px;
-}
-
 .parallax-container {
       height: 500px;
 }
