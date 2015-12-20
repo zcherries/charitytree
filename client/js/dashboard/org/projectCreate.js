@@ -28,12 +28,17 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
       total_donors_participating: 0,
       updates: [],
       status: "In Progress",
-      is_complete: false
+      is_complete: false,
+      endDateText: ""
     }
   },
 
   componentDidMount: function() {
     //$('.datepicker').pickadate('clear');
+
+    $('.collapsible').collapsible({
+      accordion: true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+    });
   },
 
   updateNeedTitle: function (need) {
@@ -124,44 +129,42 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
     })
   },
 
-  updateEndDate: function () {
-    var self= this;
+  updateEndDate: function (e) {
+    var self = this;
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 5, // Creates a dropdown of 15 years to control year
       closeOnSelect: true,
-      format: 'd mmmm, yyyy',
-      formatSubmit: 'yyyy-mm-dd',
-      onStart: function() {
+      onStart: function () {
         console.log('Hello there :)')
       },
-      onRender: function() {
+      onRender: function () {
         console.log('Whoa.. rendered anew')
       },
-      onOpen: function() {
+      onOpen: function () {
         console.log('Opened up')
       },
-      onClose: function() {
+      onClose: function () {
         console.log('Closed now')
       },
-      onStop: function() {
+      onStop: function () {
         console.log('See ya.')
       },
       onSet: function (e) {
-        console.log("onset/e.select:",e.select);
+        //console.log("onset/e.select:",e.select);
         var endDate = new Date(e.select);
-        //endDate = endDate.toDateString();
-        console.log("endDate", endDate)
+        var endDateText = endDate.toDateString();
+        console.log("endDate", endDate);
 
         self.setState({
-          end_date: endDate
+          end_date: endDate,
+          endDateText: endDateText
         });
-        console.log("onset/this.state.end_date:",self.state.end_date);
+        console.log("onset/this.state.end_date:", self.state.end_date);
         this.close();
       }
     });
     //console.log("ProjectCreate/updateEndDate/endDate:",endDate[0]);
-
   },
 
   updateGoalAmount: function (e) {
@@ -199,38 +202,40 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
       <div>
         <div className="container">
           <div className="row">
+            <fieldset>
+              <legend>
+                <h1>Create a new Project</h1>
+              </legend>
+              <form className="col s12">
+                <div className="row">
+                  {/*Project Title*/}
+                  <div className="input-field col s12 m6">
+                    <input id="project_title" type="text" className="validate" required value={this.state.title} onChange={this.updateTitle}/>
+                    <label htmlFor="project_title">Project Title</label>
+                  </div>
+                  {/*Target Funding Amount*/}
+                  <div className="input-field col s12 m6">
+                    <input id="goal" type="number" className="validate" value={this.state.amount.goal} onChange={this.updateGoalAmount} />
+                    <label htmlFor="goal">Target Funding Amount</label>
+                  </div>
+                  {/*End Date*/}
+                  <div className="input-field col s12">
+                    <input id="end_date" type="date" className="datepicker" value={this.props.endDateText} onClick={this.updateEndDate} />
+                    <label htmlFor="end_date">Projected End Date</label>
+                  </div>
+                  {/*Project Info*/}
+                  <div className="input-field col s12">
+                    <textarea id="info" className="materialize-textarea" value={this.state.info} onChange={this.updateInfo} />
+                    <label htmlFor="info">Info</label>
+                  </div>
+                </div>
+              </form>
+            </fieldset>
 
-            <div className="col s12 m6">
-              <h1>Create a new Project</h1>
-            </div>
-
-            <form className="col s12 m6">
-              <div className="row">
-                {/*Project Title*/}
-                <div className="input-field col s12">
-                  <input id="project_title" type="text" className="validate" required value={this.state.title} onChange={this.updateTitle}/>
-                  <label htmlFor="project_title">Project Title</label>
-                </div>
-                {/*End Date*/}
-                <div className="input-field col s12">
-                  <input id="end_date" type="date" className="datepicker" value={this.state.end_date || ""} onClick={this.updateEndDate} />
-                  <label htmlFor="end_date">Projected End Date</label>
-                </div>
-                {/*Target Funding Amount*/}
-                <div className="input-field col s12">
-                  <input id="goal" type="number" className="validate" value={this.state.amount.goal} onChange={this.updateGoalAmount} />
-                  <label htmlFor="goal">Target Funding Amount</label>
-                </div>
-                {/*Project Info*/}
-                <div className="input-field col s12">
-                  <textarea id="info" className="materialize-textarea" value={this.state.info} onChange={this.updateInfo}></textarea>
-                  <label htmlFor="info">Info</label>
-                </div>
-              </div>
-            </form>
-
+            <h3>Select Project Areas of Focus</h3>
             <CategorySelect addRemoveCat={this.addRemoveCat} />
 
+            <h3>Add Project Needs</h3>
             <Needs
               needs={this.state.needs_list}
               addNeed={this.addNeed}
@@ -266,11 +271,28 @@ var CategorySelect = React.createClass({
 
     return(
       <form className="row" action="#">
-        {majCats}
+        <ul className="collapsible popout collection" data-collapsible="accordion">
+          {majCats}
+        </ul>
       </form>
     );
   }
 });
+
+//<ul class="collapsible popout" data-collapsible="accordion">
+//  <li>
+//    <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
+//    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+//  </li>
+//  <li>
+//    <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
+//    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+//  </li>
+//  <li>
+//    <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+//    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+//  </li>
+//</ul>
 
 var MajCategory = React.createClass({
 
@@ -288,24 +310,28 @@ var MajCategory = React.createClass({
     }.bind(this));
 
     return(
-      <div className="col s4">
-        <div className="chip">
-          <img src={this.props.causeImage} alt="" className="circle" />
-          {this.props.causeTitle}
+    <li className="collection-item avatar white black-text">
+      <div className="collapsible-header center-align">
+        <img src={this.props.causeImage} alt={this.props.causeTitle} className="circle" />
+        <h5>{this.props.causeTitle}</h5>
+      </div>
+      <div className="collapsible-body row white black-text">
+        <div className="col s12 m4">
+          <p>
+            <input
+              type="checkbox"
+              id={this.props.causeID}
+              onChange={this.props.addRemoveCat}
+              value={this.props.tags}
+            />
+            <label htmlFor={this.props.causeID} >
+              {this.props.causeTitle}
+            </label>
+          </p>
         </div>
-        <p>
-          <input
-            type="checkbox"
-            id={this.props.causeID}
-            onChange={this.props.addRemoveCat}
-            value={this.props.tags}
-          />
-          <label htmlFor={this.props.causeID} >
-            {this.props.causeTitle}
-          </label>
-        </p>
         {minCats}
       </div>
+    </li>
     );
   }
 });
@@ -313,15 +339,17 @@ var MajCategory = React.createClass({
 var MinCategory = React.createClass({
   render: function () {
     return(
-      <p>
-        <input
-          type="checkbox"
-          id={this.props.subCauseID}
-          onChange={this.props.addRemoveCat}
-          value={this.props.tags}
-        />
-        <label htmlFor={this.props.subCauseID}>{this.props.title}</label>
-      </p>
+      <div className="col s12 m4">
+        <p>
+          <input
+            type="checkbox"
+            id={this.props.subCauseID}
+            onChange={this.props.addRemoveCat}
+            value={this.props.tags}
+          />
+          <label htmlFor={this.props.subCauseID}>{this.props.title}</label>
+        </p>
+      </div>
     );
   }
 });
@@ -363,7 +391,7 @@ var Needs = React.createClass({
     //console.log("projectCreate/Needs/render/needs:",needs);
 
     return(
-      <ul className="collapsible" data-collapsible="accordion">
+      <ul className="collapsible popout" data-collapsible="accordion">
         {needs}
       </ul>
     );
@@ -408,9 +436,6 @@ var Need = React.createClass({
   },
 
   componentDidMount: function () {
-    $('.collapsible').collapsible({
-      accordion: true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
-    });
     $('.tooltipped').tooltip({delay: 20});
     $('input#need_description ').characterCounter();
   },
