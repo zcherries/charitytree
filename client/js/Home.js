@@ -26,26 +26,47 @@ exports.Home = React.createClass({
         <div className="section white">
           <p className="grey-text text-darken-3 lighten-3"></p>
           <div className="container">
+            <div className="center-align">
+              <h4> Search for a cause or Organization </h4>
+            </div>
+            <div className="center-align col s4">
+            <form onSubmit={this.props.handleSearchSubmit} className="center-align col s4">
+              <div className="center-align input-field col s4">
+                <input
+                htmlid="search"
+                type="search"
+                placeholder="Search..."
+                value={this.props.searchText}
+                onChange={this.props.updateInput}
+                required
+                 />
+                <label htmlfor="search"><i className="material-icons">search</i></label>
+                {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
+              </div>
+            </form>
+            </div>
+            <div className="center-align">
+            <h5>or</h5>
+            </div>
 
-            <div className="row">
-              <a className="waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}><i
-                className="material-icons left">cloud</i>Find a Cause Now</a>
+            <div className="row center-align">
+                <a className="center-align waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}><i
+                  className="material-icons left"></i>Browse Categories</a>
 
-              <h1 className="center-align"> Making Giving Personal! </h1>
+              <h1 className="center-align"> Make Giving Personal! </h1>
 
               <div className="col s4">
-                <i className="material-icons large center">lock_outline</i>
+                <i className="material-icons large center yellow-text accent-3">lock_outline</i>
                 <h4>Find Organizations you can trust!</h4>
                 <h6>Each organization on Charity tree is vetted and required to show you where your money is spent!</h6>
-
               </div>
               <div className="col s4">
-                <i className="material-icons large center">toc</i>
+                <i className="material-icons large center yellow-text accent-3">toc</i>
                 <h4>Be a part of a project!</h4>
-                <h6>Donate specific needs on a project!</h6>
+                <h6>Donate to specific needs on projects locally and around the world!</h6>
               </div>
               <div className="col s4">
-                <i className="material-icons large center">supervisor_account</i>
+                <i className="material-icons large center yellow-text accent-3">supervisor_account</i>
                 <h4>Contribute in a meaningful way!</h4>
                 <h6>Charity tree is the closest thing to being there in person with the ability to see the impact of
                   your donation!</h6>
@@ -59,27 +80,31 @@ exports.Home = React.createClass({
           <div className="parallax">
             <img src="https://c1.staticflickr.com/5/4073/4931587174_a40ebdf2f5_b.jpg"/>
           </div>
+          <div className="caption left-align shadow-white">
+            <h3 className="">“Real change, inspiring results!”</h3>
+            <h5 className="valign left-align light grey-text text-lighten-3 shadow">Be a part of something great</h5>
+          </div>
         </div>
 
-        <div className="section grey">
+        <div className="section grey lighten-5">
           <p className="grey-text text-darken-3 lighten-3"></p>
           <div className="container">
-
-            <div className="row">
-              <a className="waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}><i
-                className="material-icons left">cloud</i>Find a Cause</a>
-
+            <div className="row center-align">
               <h1 className="left-align"> What can YOU give?! </h1>
-
-
               <div className="col s6">
                 <i className="material-icons large center">toc</i>
                 <h4>Featured Projects!</h4>
                 <h6>list ones here</h6>
               </div>
-              <div className="col s4">
-              </div>
-
+                /*<div className="row">
+                <div className="col s12 m2 l2">
+                  <div className="center-align pinned" style={{maxWidth: "16%", zIndex: "100"}}>
+                    <img className="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png" />
+                    <img className="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png" />
+                    <img className="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png" />
+                  </div>
+                  </div>*/
+                </div>
             </div>
           </div>
         </div>
@@ -87,6 +112,10 @@ exports.Home = React.createClass({
         <div className="parallax-container">
           <div className="parallax">
             <img src="https://c1.staticflickr.com/5/4116/4931019303_2f386bffb7_b.jpg"/>
+          </div>
+          <div className="caption center-align shadow-white">
+            <h3>See the lives changed by your donation!</h3>
+            <h5 className="light grey-text text-lighten-3 shadow">Be a part of a project!</h5>
           </div>
         </div>
 

@@ -42,7 +42,7 @@ var Navbar = exports.Navbar = React.createClass({
         <div className="navbar-fixed">
           <nav>
             <div className="nav-wrapper grey lighten-5">
-              <Link to="/" className="brand-logo black-text">Charity Tree</Link>
+              <Link to="/" className="brand-logo blue-text accent-3">Charity Tree</Link>
               <a href="#" data-activates="mobile-demo" className="button-collapse black-text"><i className="material-icons">menu</i></a>
               <ul className="right hide-on-med-and-down">
                 {/*Search Bar*/}

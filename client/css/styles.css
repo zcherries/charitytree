@@ -311,3 +311,39 @@ main {
   height: 300px;
   border: 2px dashed #000;
 }
+
+.portfolio .col
+{
+    margin-bottom: 24px;
+}
+
+.portfolio h5
+{
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.portfolio h6
+{
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 45px;
+}
+
+.portfolio hr
+{
+    width: 40px;
+    margin-bottom: 45px;
+}
+
+.portfolio .portfolio-holder
+{
+    clear: both;
+    text-align: center;
+}
+.portfolio img {
+    width: 33%;
+    display: inline-block;
+    float: left;
+}
