@@ -11,14 +11,36 @@ var Search = exports.Search = React.createClass({
     return (
       <div>
         <div className="row">
-          <div className="col s12 m8 push-m4">
-            <h5 className="center-align">Projects</h5>
-            <h6>Search Tags</h6>
-            <div style={{minHeight: '25px'}}>
+          <h2 className="center-align"> Find a cause to give to </h2>
+          <div className="container center-align col s12">
+            <form onSubmit={this.handleSearchSubmit} className="center-align">
+              <div className="center-align input-field col s5">
+                <input
+                htmlid="search"
+                type="search"
+                placeholder="Search..."
+                value={this.props.searchText}
+                onChange={this.updateInput}
+                required
+                 />
+                <label htmlfor="search"><i className="material-icons">search</i></label>
+                {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
+              </div>
+            </form>
+
+          </div>
+          <div className="row col s12">
+            <h6 className="center-align">Search Tags</h6>
+            <div style={{minHeight:'25px'}} className="center-align">
               <TagContainer
                 searchCriteria={this.props.searchCriteria}
                 removeSearchTag={this.props.removeSearchTag}/>
             </div>
+          </div>
+
+          <div className="col s12 m8 push-m4">
+            <h5 className="center-align">Projects</h5>
+
             <ProjectResults
               searchResultsProjects={this.props.searchResults.projects}
               getProject={this.props.getProject}
@@ -130,7 +152,7 @@ var ProjectResults = React.createClass({
 
 var Project = React.createClass({
   setProject: function(){
-    this.props.setProject(this.props.project);  
+    this.props.setProject(this.props.project);
   },
 
   getProject: function() {

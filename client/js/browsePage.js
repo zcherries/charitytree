@@ -37,7 +37,7 @@ const Browse = exports.Browse = React.createClass({
           <div className="col s12 m2 l2">
             <div className="center-align pinned" style={{maxWidth: "16%", zIndex: "100"}}>
               <button
-                className="btn waves-effect waves-light"
+                className="btn waves-effect waves-light light-blue darken-3"
                 type="submit"
                 name="action"
                 onClick={this.handleSearchSubmit}
