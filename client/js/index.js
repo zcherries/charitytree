@@ -1,10 +1,9 @@
-"use strict";
+  "use strict";
 import React from 'react';
 import { render } from 'react-dom';
 import { Router } from 'react-router';
-import { createHistory, useBasename, cre }
-  from 'history';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
+import { createHistory, useBasename, } from 'history';
+//import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 /*local imports*/
 //============Unauthenticated Routes===============/

@@ -24,7 +24,7 @@ exports.Home = React.createClass({
         </div>
 
         <div className="section white">
-          <p className="grey-text text-darken-3 lighten-3"></p>
+          <p className="grey-text text-darken-3 lighten-3" />
           <div className="container">
             <div className="center-align">
               <h4> Search for a cause or Organization </h4>
@@ -86,8 +86,8 @@ exports.Home = React.createClass({
           </div>
         </div>
 
-        <div className="section grey lighten-5">
-          <p className="grey-text text-darken-3 lighten-3"></p>
+        <div className="section grey">
+          <p className="grey-text text-darken-3 lighten-3" />
           <div className="container">
             <div className="row center-align">
               <h1 className="left-align"> What can YOU give?! </h1>
