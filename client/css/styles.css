@@ -348,3 +348,11 @@ main {
 .collapsible-body p {
   padding: 0.5rem;
 }
+
+.side-nav {
+  top: 67px;
+  width: 200px;
+}
+.indent {
+  padding-left: 200px;
+}
