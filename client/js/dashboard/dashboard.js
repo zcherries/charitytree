@@ -1,5 +1,6 @@
 "use strict";
 var React = require('react');
+var ReactDOM = require('react-dom');
 
 import {OrgProfile} from './dashboard/org/profile.js';
 import {Projects} from './dashboard/org/projects.js';
@@ -8,18 +9,7 @@ import {Media} from './dashboard/org/media.js';
 import {DonorProfile} from './dashboard/donor/profile.js';
 import {Feed} from './dashboard/donor/feed.js';
 
-
-import {History} from 'react-router';
-
-var LocalStorageMixin = require('react-localstorage');
-
 var Dashboard = exports.Dashboard = React.createClass({
-  // displayName: 'Dashboard',
-  // mixins: [ History, LocalStorageMixin ],
-  componentWillMount: function() {
-    this.props.isLoggedIn();
-  },
-
   componentDidMount: function() {
     this.getData();
   },
@@ -181,3 +171,5 @@ var DonorDashboardMenu = React.createClass({
     )
   }
 });
+
+ReactDOM.render(<Dashboard />, document.getElementById('dashboard'));
