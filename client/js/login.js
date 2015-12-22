@@ -28,7 +28,6 @@ var Login = exports.Login = React.createClass({
 
   login: function(e) {
     e.preventDefault();
-    var self = this;
     $.ajax({
       type: 'POST',
       url: '/login_post',
@@ -73,6 +72,7 @@ var Login = exports.Login = React.createClass({
               </form>
             </fieldset>
           </div>
+
           <div className="col s12 m6">
             <fieldset className="center-align">
               <header><h3>Signup</h3></header><hr/>

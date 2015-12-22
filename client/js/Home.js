@@ -40,7 +40,7 @@ exports.Home = React.createClass({
                 onChange={this.props.updateInput}
                 required
                  />
-                <label htmlfor="search"><i className="material-icons">search</i></label>
+                <label htmlFor="search"><i className="material-icons">search</i></label>
                 {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
               </div>
             </form>
@@ -103,8 +103,8 @@ exports.Home = React.createClass({
                     <img className="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png" />
                     <img className="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png" />
                   </div>
-                  </div>*/
-                </div>
+                  </div>
+                </div>*/
             </div>
           </div>
         </div>

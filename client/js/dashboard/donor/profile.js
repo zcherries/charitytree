@@ -14,6 +14,14 @@ var DonorProfile = exports.DonorProfile = React.createClass({
     }
   },
 
+  componentWillMount: function() {
+    console.log('Donor Profile will mount')
+  },
+
+  componentWillUnmount: function() {
+    console.log('Donor Profile will unmount')
+  },
+
   update: function(formData) {
     console.log("Form Data:", formData);
     $.ajax({

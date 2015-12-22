@@ -118,6 +118,13 @@ exports.routes = {
         });
       }
     },
+    { path: '/signup',
+      getComponent: (location, cb) => {
+        require.ensure([], () => {
+          cb(null, Signup);
+        });
+      }
+    },
     { path: '/organization',
       getComponent: (location, cb) => {
         require.ensure([], () => {

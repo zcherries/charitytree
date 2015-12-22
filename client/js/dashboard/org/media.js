@@ -3,6 +3,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 var Media = exports.Media = React.createClass({
+
   getInitialState: function() {
     return {
       profile_img: {}
@@ -26,6 +27,7 @@ var Media = exports.Media = React.createClass({
       success:function(response) {
         console.log("Post Success: ", response.results);
         this.setState({ profile_img: response.results });
+        this.props.update_db_state_prop('profile_img', response.results);
       }.bind(this),
       error: function(error){
         console.log(error);
@@ -35,7 +37,7 @@ var Media = exports.Media = React.createClass({
 
   profile_img_upload_form: function() {
     return (
-      <form className="profile_img_frm" onSubmit={this.upload_profile_img} action="dashboard/media/profile_img/upload" encType="multipart/form-data" accept="image/*">
+      <form className="profile_img_frm" onSubmit={this.upload_profile_img} action="/dashboard/media/profile_img/upload" encType="multipart/form-data" accept="image/*">
         {/*<label htmlFor="profile_img">Choose profile image</label>*/}
         <input id="profile_img" type="file" name="profile_img" />
         <input type="submit" value="Upload" />
@@ -44,11 +46,14 @@ var Media = exports.Media = React.createClass({
   },
 
   profile_and_banner_img: function() {
-    var contentType = this.state.profile_img.contentType || this.props.media.profile_img.contentType;
-    var path = this.state.profile_img.path || this.props.media.profile_img.path;
-    var profile_img = (contentType)
-        ? "data:" + contentType + ";base64," + path
-        : "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg";
+    var profile_img;
+    if (this.state.profile_img.contentType && this.state.profile_img.path) {
+      profile_img = "data:" + this.state.profile_img.contentType + ";base64," + this.state.profile_img.path
+    } else if (this.props.media.profile_img) {
+      profile_img = "data:" + this.props.media.profile_img.contentType + ";base64," + this.props.media.profile_img.path
+    } else {
+      profile_img = "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg";
+    }
     return (
       <div className="row">
         <div className="float-left">
