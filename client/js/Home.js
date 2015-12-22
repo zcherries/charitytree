@@ -33,14 +33,14 @@ exports.Home = React.createClass({
             <form onSubmit={this.props.handleSearchSubmit} className="center-align col s4">
               <div className="center-align input-field col s4">
                 <input
-                htmlid="search"
-                type="search"
-                placeholder="Search..."
-                value={this.props.searchText}
-                onChange={this.props.updateInput}
-                required
+                  id="search"
+                  type="search"
+                  placeholder="Search..."
+                  value={this.props.searchText}
+                  onChange={this.props.updateInput}
+                  required
                  />
-                <label htmlfor="search"><i className="material-icons">search</i></label>
+                <label htmlFor="search"><i className="material-icons">search</i></label>
                 {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
               </div>
             </form>
@@ -50,8 +50,7 @@ exports.Home = React.createClass({
             </div>
 
             <div className="row center-align">
-                <a className="center-align waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}><i
-                  className="material-icons left"></i>Browse Categories</a>
+                <a className="center-align waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}>Browse Categories</a>
 
               <h1 className="center-align"> Make Giving Personal! </h1>
 
@@ -96,15 +95,15 @@ exports.Home = React.createClass({
                 <h4>Featured Projects!</h4>
                 <h6>list ones here</h6>
               </div>
-                /*<div className="row">
+              {/*<div className="row">
                 <div className="col s12 m2 l2">
                   <div className="center-align pinned" style={{maxWidth: "16%", zIndex: "100"}}>
                     <img className="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png" />
                     <img className="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png" />
                     <img className="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png" />
                   </div>
-                  </div>*/
-                </div>
+                  </div>
+                </div>*/}
             </div>
           </div>
         </div>
