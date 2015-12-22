@@ -340,3 +340,11 @@ main {
     display: inline-block;
     float: left;
 }
+
+.collection .collection-item {
+  line-height: 1rem;
+}
+
+.collapsible-body p {
+  padding: 0.5rem;
+}
