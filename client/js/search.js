@@ -13,7 +13,7 @@ var Search = exports.Search = React.createClass({
         <div className="row">
           <h2 className="center-align"> Find a cause to give to </h2>
           <div className="container center-align col s12">
-            <form onSubmit={this.handleSearchSubmit} className="center-align">
+            <form onSubmit={this.handleSearchSubmit}>
               <div className="center-align input-field col s5">
                 <input
                 htmlid="search"
@@ -140,7 +140,7 @@ var ProjectResults = React.createClass({
     }
     return(
       <div className="row">
-        <div className="col s12 m6 l4">
+        <div className="card medium">
           <h6>Project Search Results</h6>
           {projects ? projects : "No results to display"}
         </div>
@@ -171,16 +171,12 @@ var Project = React.createClass({
         </div>
 
         <div className="card-content">
-          <h6>{this.props.areas_of_focus}</h6>
+
           <div className="truncate">
             {this.props.info}
           </div>
         </div>
-        <div className="card-action">
-          <p>
-            <button className="btn-small btn-flat waves-effect waves-light" onClick={this.getProject}>Read more...</button>
-          </p>
-        </div>
+
 
       </div>
     );

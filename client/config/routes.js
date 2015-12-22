@@ -1,20 +1,20 @@
 //============Unauthenticated Routes===============/
-import {App} from '../js/App';
-import {Home} from '../js/Home';
-import {Browse} from '../js/browsePage.js';
+import {App} from '../js/app.js';
+import {Home} from '../js/home.js';
+import {Browse} from '../js/browse.js';
 import {Search} from '../js/search.js';
 import {Project} from '../js/project.js';
-import {Organization} from '../js/organizationpage.js';
+import {Organization} from '../js/organization.js';
 import {Login} from '../js/login.js';
 import {Signup} from '../js/signup.js';
 
 //============Authenticated Routes===============/
 import {Dashboard} from '../js/dashboard.js';
-import auth from '../utils/auth.js';
-import Logout from '../js/Logout.js';
+// import auth from '../utils/auth.js';
+import Logout from '../js/logout.js';
 
 function redirectToLogin(nextState, replaceState) {
-  if (!auth.loggedIn()) {
+  if (!loggedIn()) {
     replaceState({
       nextPathname: nextState.location.pathname
     }, '/login')
@@ -22,25 +22,38 @@ function redirectToLogin(nextState, replaceState) {
 }
 
 function redirectToDashboard(nextState, replaceState) {
-  /*if (auth.loggedIn()) {
-    replaceState(null, '/');
-  }*/
-}
+  if (loggedIn()) {
+    replaceState(null, '/dashboard');
+  }
+};
 
-export default {
+var loggedIn = exports.loggedIn = function () {
+  console.log('Token: ' + localStorage.token);
+  return !!localStorage.token;
+};
+
+exports.routes = {
   component: App,
   childRoutes: [
     { path: '/',
       getComponent: (location, cb) => {
+        require.ensure([], () => {
+          cb(null, Home);
+        });
+      }
+    },
+
+    { path: '/dashboard',
+      getComponent: (location, cb) => {
         // Share the path
         // Dynamically load the correct component
-        if (auth.loggedIn()) {
+        if (loggedIn()) {
           return require.ensure([], () => {
             cb(null, Dashboard);
           })
         }
         return require.ensure([], () => {
-          cb(null, Home);
+          cb(null, Login);
         })
       },
       // indexRoute: {
@@ -98,10 +111,10 @@ export default {
         });
       }
     },
-    { path: '/signup',
+    { path: '/login',
       getComponent: (location, cb) => {
         require.ensure([], () => {
-          cb(null, Signup);
+          cb(null, Login);
         });
       }
     },
@@ -141,10 +154,8 @@ export default {
     //    // ...
     //  ]
     //},
-
-
   ]
-}
+};
 
 
 //render((

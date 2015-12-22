@@ -1,19 +1,13 @@
 import React from 'react';
-import { Link, History } from 'react-router';
-var LocalStorageMixin = require('react-localstorage');
 
-import auth from '../utils/auth.js';
-console.log("App/auth.loggedIn():",auth.loggedIn());
 import {Navbar} from './navbar';
 
-exports.App = React.createClass({
-  displayName: 'App',
+import { loggedIn } from '../config/routes';
 
-  mixins: [History,LocalStorageMixin],
-
+var App = exports.App = React.createClass({
   getInitialState: function () {
     return {
-      loggedIn: auth.loggedIn(),
+      loggedIn: false,
       searchText: "",
       searchCriteria: [],
       searchResults: [],
@@ -25,22 +19,25 @@ exports.App = React.createClass({
     };
   },
 
+  isLoggedIn: function () {
+    this.setState({ loggedIn: loggedIn() });
+  },
+
   setUserType: function(e) {
     console.log(e.target.value);
     this.setState( {userType: e.target.value });
     this.props.history.pushState(null, `/signup`);
-
   },
 
-  updateAuth(loggedIn) {
-    this.setState({
-      loggedIn: !!loggedIn
-    });
-  },
+  // updateAuth(loggedIn) {
+  //   this.setState({
+  //     loggedIn: !!loggedIn
+  //   });
+  // },
 
   componentWillMount() {
-    auth.onChange = this.updateAuth;
-    auth.login();
+    // auth.onChange = this.updateAuth;
+    // auth.login();
   },
 
   componentDidMount: function () {
@@ -208,6 +205,7 @@ exports.App = React.createClass({
             userType: this.state.userType,
             currentProject: this.state.currentProject,
             //Functions
+            isLoggedIn: this.isLoggedIn,
             handleSearchButton: this.handleSearchButton,
             handleSearchSubmit: this.handleSearchSubmit,
             updateSearchCriteria: this.updateSearchCriteria,
