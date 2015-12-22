@@ -32,13 +32,20 @@ var connection = require('./db/connection.js');
 //   log_stdout.write(util.format(d) + '\n');
 // };
 
-io.on('connection', function(client) {
-  console.log('Client connected')
-  client.on('join', function(data) {
-    console.log('Message Received: ', data);
-    client.emit('reply', { message: 'this is the reply'});
+// io.on('connection', function(client) {
+//   console.log('Client connected')
+//   client.on('join', function(data) {
+//     console.log('Message Received: ', data);
+//     client.emit('reply', { message: 'this is the reply'});
+//   });
+// });
+
+var number = 7;
+
+var donationCycle = io.of('/donationCycle')
+  .on('connection', function(client) {
+    client.emit('join', number);
   });
-});
 
 //app.use('/client/js', express.static(path.join(__dirname, '../client/js')));
 app.use(express.static(path.join(__dirname, '../client')));
@@ -418,7 +425,7 @@ app.post('/post_search', function(req, res, next) {
     return capitalizeFirstLetter(aof);
   });
   // aofs.join('|');
-  // console.log("Aofs: " + aofs);
+  console.log("Aofs: ", req.body.aofs);
   Model.Organization.find({areas_of_focus: {$in: req.body.aofs}}, function (err, orgs) {
     if (err) {
       console.log(err);
@@ -428,7 +435,7 @@ app.post('/post_search', function(req, res, next) {
       // console.log("Orgs: ", orgs)
       orgs.forEach(function (org, idx) {
         if (org.profile_img.contentType) {
-          console.log("Org: ", org.profile_img.contentType);
+          // console.log("Org: ", org.profile_img.contentType);
           var img = new Buffer(org.profile_img.data).toString('base64');
           org.img = img;
         }
