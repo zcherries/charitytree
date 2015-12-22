@@ -66,7 +66,7 @@ var Login = exports.Login = React.createClass({
                   <label htmlFor="pwd">Password</label>
                   <input type="password" id="pwd" name="pwd" required onChange={this.pwdChange} />
                 </div>
-                <input type="submit" value="Submit" />
+                <button className="waves-effect waves-light btn" type="submit" >Submit</button>
                 {this.state.error && (
                   <p>Bad login information</p>
                 )}
@@ -77,11 +77,12 @@ var Login = exports.Login = React.createClass({
             <fieldset className="center-align">
               <header><h3>Signup</h3></header><hr/>
               <div>
-                <div className="userType">
-                  <button value="Organization" onClick={this.props.setUserType}>Organization</button>
-                </div>
-                <div className="userType">
-                  <button value="Donor" onClick={this.props.setUserType}>Donor</button>
+                <h5>Which would you like to sign up as?</h5>
+                <div className="row">
+                  <div className="userType">
+                    <button className="waves-effect waves-light btn" value="Organization" onClick={this.props.setUserType} style={{margin: '20px'}}>Organization</button>
+                    <button className="waves-effect waves-light btn" value="Donor" onClick={this.props.setUserType} style={{margin: '20px'}}>Donor</button>
+                  </div>
                 </div>
               </div>
             </fieldset>

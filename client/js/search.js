@@ -23,7 +23,7 @@ var Search = exports.Search = React.createClass({
                 onChange={this.updateInput}
                 required
                  />
-                <label htmlfor="search"><i className="material-icons">search</i></label>
+                <label htmlFor="search"><i className="material-icons">search</i></label>
                 {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
               </div>
             </form>
