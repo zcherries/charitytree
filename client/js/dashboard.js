@@ -9,9 +9,10 @@ import {DonorProfile} from './dashboard/donor/profile.js';
 import {Feed} from './dashboard/donor/feed.js';
 
 
-import {History} from 'react-router';
+// import {History} from 'react-router';
+// var feeder = io();
 
-var LocalStorageMixin = require('react-localstorage');
+// var LocalStorageMixin = require('react-localstorage');
 
 var Dashboard = exports.Dashboard = React.createClass({
   // displayName: 'Dashboard',
@@ -21,6 +22,7 @@ var Dashboard = exports.Dashboard = React.createClass({
   },
 
   componentDidMount: function() {
+    console.log('Dashboard Component is Mounted')
     this.getData();
   },
 
@@ -28,7 +30,7 @@ var Dashboard = exports.Dashboard = React.createClass({
     return {
       data: {},
       userType: '',
-      view: ''
+      view: 'profile'
     }
   },
 
@@ -42,7 +44,7 @@ var Dashboard = exports.Dashboard = React.createClass({
       url: '/dashboard_data',
       success: function(response) {
         console.log("Response data: ", response.results);
-        this.setState({ data: response.results, userType: response.userType, view: 'profile' });
+        this.setState({ data: response.results, userType: response.userType, view: this.state.view });
       }.bind(this),
       error: function(xhr, status, error){
         if (xhr.readyState == 0 || xhr.status == 0) {
@@ -77,7 +79,7 @@ var Dashboard = exports.Dashboard = React.createClass({
           profile_img: this.state.data.profile_img,
           content: this.state.data.media
         }
-        view = <Media postData={this.postData} media={media} />;
+        view = <Media postData={this.postData} media={media} update_db_state_prop={this.update_db_state_prop} />;
         break;
       case 'endorsements':
         view = <Endorsements postData={this.postData} endorsements={this.state.data.endorsements} />;
@@ -88,7 +90,7 @@ var Dashboard = exports.Dashboard = React.createClass({
     return (
       <div>
         <div className="db_menu"><OrgDashboardMenu updatePageView={this.updatePageView} /></div>
-        <div className="view">{view}</div>
+        <div className="view indent">{view}</div>
       </div>
     )
   },
@@ -126,6 +128,12 @@ var Dashboard = exports.Dashboard = React.createClass({
     )
   },
 
+  update_db_state_prop: function(prop, data) {
+    var state = this.state.data;
+    state[prop] = data;
+    this.setState({ data: state });
+  },
+
   updatePageView: function(view) {
     console.log(view);
     this.setState({ view: view });
@@ -150,13 +158,16 @@ var OrgDashboardMenu = React.createClass({
   render: function() {
     return (
       <div>
-        <ul>
-          <li><a href="#" onClick={this.goToPage}>Profile</a></li>
-          <li><a href="#" onClick={this.goToPage}>Projects</a></li>
-          <li><a href="#" onClick={this.goToPage}>Media</a></li>
-          <li><a href="#" onClick={this.goToPage}>Endorsements</a></li>
-          <li><a href="#" onClick={this.goToPage}>Find Donors</a></li>
-        </ul>
+        <div className="row">
+          <ul id="slide-out" className="side-nav fixed">
+            <li className="valign-wrapper"><i className="material-icons left valign">person_pin</i><a href="#" onClick={this.goToPage}>Profile</a></li>
+            <li className="valign-wrapper"><i className="material-icons left valign">perm_media</i><a href="#" onClick={this.goToPage}>Projects</a></li>
+            <li className="valign-wrapper"><i className="material-icons left valign">video_library</i><a href="#" onClick={this.goToPage}>Media</a></li>
+            <li className="valign-wrapper"><i className="material-icons left valign">stars</i><a href="#" onClick={this.goToPage}>Endorsements</a></li>
+            <li className="valign-wrapper"><i className="material-icons left valign">supervisor_account</i><a href="#" onClick={this.goToPage}>Find Donors</a></li>
+          </ul>
+            <a href="#" data-activates="slide-out" className="button-collapse"><i className="mdi-navigation-menu"></i></a>
+        </div>
       </div>
     )
   }

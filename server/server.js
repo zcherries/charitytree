@@ -1,7 +1,4 @@
 var express = require('express');
-var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
 
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -22,6 +19,11 @@ var Controller = require('./db/controllers');
 var Model = require('./db/models');
 var connection = require('./db/connection.js');
 
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+
 // var upload = multer({ dest: 'uploads/' })
 
 // var util = require('util');
@@ -40,12 +42,21 @@ var connection = require('./db/connection.js');
 //   });
 // });
 
-var number = 7;
+// var number = 7;
+//
+// var donationCycle = io.of('/donationCycle')
+//   .on('connection', function(client) {
+//     client.emit('join', number);
+//   });
 
-var donationCycle = io.of('/donationCycle')
-  .on('connection', function(client) {
-    client.emit('join', number);
-  });
+io.on('connection', function(client) {
+  console.log('Client is Connected');
+  client.on('test', function(data) {
+    console.log('Data: ', data);
+  })
+  // client.emit('logged in', ["I just logged in"]);
+  // client.emit('data', 7);
+})
 
 //app.use('/client/js', express.static(path.join(__dirname, '../client/js')));
 app.use(express.static(path.join(__dirname, '../client')));
@@ -319,6 +330,8 @@ app.post('/dashboard_data/profile', function(req, res, next) {
           { about: req.body.about, areas_of_focus: req.body.areas_of_focus },
           'name username about areas_of_focus');
     } else if (req.session.user.type === 'donor') {
+      console.log('Am a donor')
+      io.emit('data', 7);
       Controller.Donor.update(req, res, next, { _id: req.session.user.uid },
         { name: req.body.name, email: req.body.email, areas_of_focus: req.body.areas_of_focus },
         'name username email areas_of_focus');
@@ -356,7 +369,7 @@ app.post('/dashboard/projects/new', function(req, res, next) {
   }
 });
 
-app.post('dashboard/media/profile_img/upload', multer().single('profile_img'), function(req, res, next) {
+app.post('/dashboard/media/profile_img/upload', multer().single('profile_img'), function(req, res, next) {
   Model.Organization.findById({ _id: req.session.user.uid }, function(err, org) {
     if (err) { console.error(err); res.status(400).send('Could not retrieve data'); }
     else {
@@ -369,7 +382,11 @@ app.post('dashboard/media/profile_img/upload', multer().single('profile_img'), f
         org.profile_img.path = new Buffer(req.file.buffer).toString('base64');
         org.save(function(err, currOrg) {
           if (err) { console.error("Profile Image save error: ", err)}
-          res.status(201).send({ status: 201, results: {path: currOrg.profile_img.path, contentType: currOrg.profile_img.contentType} });
+          res.status(201).send({ status: 201, results: {
+            path: currOrg.profile_img.path,
+            contentType: currOrg.profile_img.contentType,
+            filename: currOrg.profile_img.filename }
+          });
         });
       // var img = new Buffer(org.profile_img.data).toString('base64');
       // res.contentType(org.profile_img.contentType);
