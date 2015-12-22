@@ -20,6 +20,7 @@ exports.Home = React.createClass({
           <div className="caption center-align shadow-white">
             <h3>See the lives changed by your donation!</h3>
             <h5 className="light grey-text text-lighten-3 shadow">Follow the impact of your money</h5>
+            <a className="center-align waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}>Browse Categories</a>
           </div>
         </div>
 
@@ -30,28 +31,24 @@ exports.Home = React.createClass({
               <h4> Search for a cause or Organization </h4>
             </div>
             <div className="center-align col s4">
-            <form onSubmit={this.props.handleSearchSubmit} className="center-align col s4">
-              <div className="center-align input-field col s4">
-                <input
-                htmlid="search"
-                type="search"
-                placeholder="Search..."
-                value={this.props.searchText}
-                onChange={this.props.updateInput}
-                required
-                 />
-                <label htmlfor="search"><i className="material-icons">search</i></label>
-                {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
-              </div>
-            </form>
-            </div>
-            <div className="center-align">
-            <h5>or</h5>
+              <form onSubmit={this.props.handleSearchSubmit} className="center-align col s4">
+                <div className="center-align input-field col s4">
+                  <input
+                  htmlId="search"
+                  type="search"
+                  placeholder="Search..."
+                  value={this.props.searchText}
+                  onChange={this.props.updateInput}
+                  required
+                   />
+                  <label htmlfor="search"><i className="material-icons">search</i></label>
+                  {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
+                </div>
+              </form>
             </div>
 
             <div className="row center-align">
-                <a className="center-align waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}><i
-                  className="material-icons left"></i>Browse Categories</a>
+
 
               <h1 className="center-align"> Make Giving Personal! </h1>
 
@@ -68,8 +65,7 @@ exports.Home = React.createClass({
               <div className="col s4">
                 <i className="material-icons large center yellow-text accent-3">supervisor_account</i>
                 <h4>Contribute in a meaningful way!</h4>
-                <h6>Charity tree is the closest thing to being there in person with the ability to see the impact of
-                  your donation!</h6>
+                <h6>See what your donation does through updates, pictures, video and more! No more wondering if your donation did any real good!</h6>
               </div>
 
             </div>
@@ -103,8 +99,8 @@ exports.Home = React.createClass({
                     <img className="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png" />
                     <img className="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png" />
                   </div>
-                  </div>*/
-                </div>
+                  </div>
+                </div>*/
             </div>
           </div>
         </div>

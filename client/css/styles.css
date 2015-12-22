@@ -340,3 +340,10 @@ main {
     display: inline-block;
     float: left;
 }
+.side-nav {
+  top: 67px;
+  width: 200px;
+}
+.indent {
+  padding-left: 200px;
+}
