@@ -2,14 +2,12 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 import { History } from 'react-router';
-import auth from '../utils/auth';
 
 import { Link } from 'react-router';
-var LocalStorageMixin = require('react-localstorage');
+// var LocalStorageMixin = require('react-localstorage');
 
 var Signup = exports.Signup = React.createClass({
-  displayName: 'Signup',
-  mixins: [ History, LocalStorageMixin ],
+  // mixins: [ History, LocalStorageMixin ],
 
   getInitialState: function() {
     return {
@@ -150,21 +148,10 @@ var Signup = exports.Signup = React.createClass({
       url: '/signup_post',
       data: formData,
       success: function(response) {
-        auth.signup(formData.username, response.token, function (loggedIn) {
-          console.log("Signup/signup/auth.login/loggedIn:",loggedIn);
-          if (!loggedIn) {
-            return this.setState({ error: true });
-          }
-          const {location} = this.props;
-          console.log("Signup/signup/location:",location);
-          if (location.state && location.state.nextPathname) {
-            this.history.replaceState(null, location.state.nextPathname);
-          } else {
-            this.history.replaceState(null, '/');
-          }
-        }.bind(this));
-        //navigate to dashboard page
-        //this.navigateToDashboard();
+        console.log(response);
+        localStorage.token = response.token;
+        this.props.isLoggedIn();
+        this.navigateToDashboard(); //navigate to dashboard page
         // window.location.href = "http://127.0.0.1:4000/dashboard"
       }.bind(this),
       error: function(xhr, status, err) {
@@ -178,7 +165,6 @@ var Signup = exports.Signup = React.createClass({
   },
 
   render: function() {
-    console.log("singup/render/this.props.userType:",this.props.userType);
     if (this.props.userType === 'Organization') {
       return this.showOrgSignupForm();
     } else if (this.props.userType === 'Donor') {
