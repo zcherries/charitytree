@@ -20,6 +20,7 @@ exports.Home = React.createClass({
           <div className="caption center-align shadow-white">
             <h3>See the lives changed by your donation!</h3>
             <h5 className="light grey-text text-lighten-3 shadow">Follow the impact of your money</h5>
+            <a className="center-align waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}>Browse Categories</a>
           </div>
         </div>
 
@@ -45,9 +46,6 @@ exports.Home = React.createClass({
               </div>
             </form>
             </div>
-            <div className="center-align">
-            <h5>or</h5>
-            </div>
 
             <div className="row center-align">
                 <a className="center-align waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}>Browse Categories</a>
@@ -67,8 +65,7 @@ exports.Home = React.createClass({
               <div className="col s4">
                 <i className="material-icons large center yellow-text accent-3">supervisor_account</i>
                 <h4>Contribute in a meaningful way!</h4>
-                <h6>Charity tree is the closest thing to being there in person with the ability to see the impact of
-                  your donation!</h6>
+                <h6>See what your donation does through updates, pictures, video and more! No more wondering if your donation did any real good!</h6>
               </div>
 
             </div>
