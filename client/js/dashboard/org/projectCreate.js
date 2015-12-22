@@ -4,8 +4,6 @@ var LocalStorageMixin = require('react-localstorage');
 
 
 var ProjectCreate = exports.ProjectCreate = React.createClass({
-  displayName: 'ProjectCreate',
-  mixins: [LocalStorageMixin],
   getInitialState: function () {
     return {
       title: "",
