@@ -22,14 +22,54 @@ function redirectToLogin(nextState, replaceState) {
 }
 
 function redirectToDashboard(nextState, replaceState) {
-  if (auth.loggedIn()) {
+  /*if (auth.loggedIn()) {
     replaceState(null, '/');
-  }
+  }*/
 }
 
 export default {
   component: App,
   childRoutes: [
+    { path: '/',
+      getComponent: (location, cb) => {
+        // Share the path
+        // Dynamically load the correct component
+        if (auth.loggedIn()) {
+          return require.ensure([], () => {
+            cb(null, Dashboard);
+          })
+        }
+        return require.ensure([], () => {
+          cb(null, Home);
+        })
+      },
+      // indexRoute: {
+      //   getComponent: (location, cb) => {
+      //     // Only load if we're logged in
+      //     if (auth.loggedIn()) {
+      //       return require.ensure([], () => {
+      //         cb(null, Dashboard);
+      //       })
+      //     }
+      //     return cb()
+      //   }
+      // },
+      //childRoutes: [
+      //  { onEnter: redirectToLogin,
+      //    childRoutes: [
+      //      // Protected nested routes for the dashboard
+      //      { path: '/page2',
+      //        getComponent: (location, cb) => {
+      //          require.ensure([], (require) => {
+      //            cb(null, require('../components/PageTwo'));
+      //          })
+      //        }
+      //      }
+      //      // ...
+      //    ]
+      //  }
+      //]
+    },
     { path: '/browse',
       getComponent: (location, cb) => {
         require.ensure([], () => {
@@ -102,46 +142,7 @@ export default {
     //  ]
     //},
 
-    { path: '/',
-      getComponent: (location, cb) => {
-        // Share the path
-        // Dynamically load the correct component
-        if (auth.loggedIn()) {
-          return require.ensure([], () => {
-            cb(null, Dashboard);
-          })
-        }
-        return require.ensure([], () => {
-          cb(null, Home);
-        })
-      },
-      // indexRoute: {
-      //   getComponent: (location, cb) => {
-      //     // Only load if we're logged in
-      //     if (auth.loggedIn()) {
-      //       return require.ensure([], () => {
-      //         cb(null, Dashboard);
-      //       })
-      //     }
-      //     return cb()
-      //   }
-      // },
-      //childRoutes: [
-      //  { onEnter: redirectToLogin,
-      //    childRoutes: [
-      //      // Protected nested routes for the dashboard
-      //      { path: '/page2',
-      //        getComponent: (location, cb) => {
-      //          require.ensure([], (require) => {
-      //            cb(null, require('../components/PageTwo'));
-      //          })
-      //        }
-      //      }
-      //      // ...
-      //    ]
-      //  }
-      //]
-    }
+
   ]
 }
 
