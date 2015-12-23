@@ -60,7 +60,7 @@ var OrgProfile = exports.OrgProfile = React.createClass({
               return <li key={idx}>{aof}</li>
             })}
           </ul>
-        <button onClick={this.editPage}>Edit</button>
+        <a className="waves-effect waves-light btn" onClick={this.editPage}>Edit</a>
       </div>
     )
   },

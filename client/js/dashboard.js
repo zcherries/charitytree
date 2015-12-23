@@ -122,7 +122,7 @@ var Dashboard = exports.Dashboard = React.createClass({
     return (
       <div>
         <div className="db_menu"><DonorDashboardMenu updatePageView={this.updatePageView} /></div>
-        <div className="view">{view}</div>
+        <div className="view indent">{view}</div>
       </div>
     )
   },
@@ -181,12 +181,15 @@ var DonorDashboardMenu = React.createClass({
   render: function() {
     return (
       <div>
-        <ul>
-          <li><a href="#" onClick={this.goToPage}>Profile</a></li>
-          <li><a href="#" onClick={this.goToPage}>Feed</a></li>
-          <li><a href="#" onClick={this.goToPage}>Activity</a></li>
-          <li><a href="#" onClick={this.goToPage}>Endorsements</a></li>
-        </ul>
+        <div className="row">
+          <ul id="slide-out" className="side-nav fixed">
+            <li className="valign-wrapper"><i className="material-icons left valign">person_pin</i><a href="#" onClick={this.goToPage}>Profile</a></li>
+            <li className="valign-wrapper"><i className="material-icons left valign">perm_media</i><a href="#" onClick={this.goToPage}>Feed</a></li>
+            <li className="valign-wrapper"><i className="material-icons left valign">video_library</i><a href="#" onClick={this.goToPage}>Activity</a></li>
+            <li className="valign-wrapper"><i className="material-icons left valign">stars</i><a href="#" onClick={this.goToPage}>Endorsements</a></li>
+          </ul>
+          <a href="#" data-activates="slide-out" className="button-collapse"><i className="mdi-navigation-menu"></i></a>
+        </div>
       </div>
     )
   }
