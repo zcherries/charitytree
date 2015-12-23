@@ -37,10 +37,14 @@ var Media = exports.Media = React.createClass({
 
   profile_img_upload_form: function() {
     return (
-      <form className="profile_img_frm" onSubmit={this.upload_profile_img} action="/dashboard/media/profile_img/upload" encType="multipart/form-data" accept="image/*">
-        {/*<label htmlFor="profile_img">Choose profile image</label>*/}
-        <input id="profile_img" type="file" name="profile_img" />
-        <input type="submit" value="Upload" />
+      <form className="file-field input-field profile_img_frm" onSubmit={this.upload_profile_img} action="/dashboard/media/profile_img/upload" encType="multipart/form-data" accept="image/*">
+        <div>
+          <div className="btn blue">
+            <span>Upload</span>
+            <input type="file" />
+          </div>
+
+        </div>
       </form>
     )
   },
@@ -220,7 +224,7 @@ var Upload = exports.Upload = React.createClass({
             <div className="box__input">
               <input className="box__file" type="file" name="media" id="file" data-multiple-caption="{count} files selected" multiple />
               <label htmlFor="file"><strong>Choose a file</strong><span className="box__dragndrop"> or drag it here</span>.</label>
-              <button className="box__button" type="submit">Upload</button>
+              <button className="box__button btn blue" type="submit">Upload</button>
             </div>
             <div className="box__uploading">Uploading&hellip;</div>
             <div className="box__success">Done!</div>

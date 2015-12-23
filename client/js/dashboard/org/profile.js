@@ -60,7 +60,7 @@ var OrgProfile = exports.OrgProfile = React.createClass({
               return <li key={idx}>{aof}</li>
             })}
           </ul>
-        <button onClick={this.editPage}>Edit</button>
+        <a className="waves-effect waves-light btn blue" onClick={this.editPage}>Edit</a>
       </div>
     )
   },
@@ -86,7 +86,7 @@ var OrgProfile = exports.OrgProfile = React.createClass({
                 <textarea id="aofs" className="materialize-textarea" ref="aofs" defaultValue={orgInfo.areas_of_focus.join("; ")}></textarea>
               </div>
             </div>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit" className="btn blue"/>
           </form>
         </div>
       </div>
