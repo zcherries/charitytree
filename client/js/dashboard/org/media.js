@@ -3,6 +3,9 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 var Media = exports.Media = React.createClass({
+  componentWillReceiveProps: function(nextProps) {
+    this.setState({ profile_img: nextProps.profile_img })
+  },
 
   getInitialState: function() {
     return {
@@ -12,21 +15,20 @@ var Media = exports.Media = React.createClass({
 
   upload_profile_img: function(e) {
     e.preventDefault();
-
     var $form = $('.' + e.target.className);
     var formData = new FormData($form.get(0));
-    console.log("Form data: ", formData);
+    // console.log("Form data: ", formData);
     $.ajax({
       method: 'POST',
       url: $form.attr('action'),
-      dataType: 'json',
+      // dataType: 'json',
       contentType: false,
       cache: false,
       processData: false,
       data: formData,
       success:function(response) {
         console.log("Post Success: ", response.results);
-        this.setState({ profile_img: response.results });
+        // this.setState({ profile_img: response.results });
         this.props.update_db_state_prop('profile_img', response.results);
       }.bind(this),
       error: function(error){
@@ -37,6 +39,7 @@ var Media = exports.Media = React.createClass({
 
   profile_img_upload_form: function() {
     return (
+<<<<<<< HEAD
       <form className="file-field input-field profile_img_frm" onSubmit={this.upload_profile_img} action="/dashboard/media/profile_img/upload" encType="multipart/form-data" accept="image/*">
         <div>
           <div className="btn blue">
@@ -45,6 +48,12 @@ var Media = exports.Media = React.createClass({
           </div>
 
         </div>
+=======
+      <form className="profile_img_frm" onSubmit={this.upload_profile_img} action="/dashboard/profile_img/upload" encType="multipart/form-data" accept="image/*">
+        {/*<label htmlFor="profile_img">Choose profile image</label>*/}
+        <input id="profile_img" type="file" name="profile_img" />
+        <input type="submit" value="Upload" />
+>>>>>>> 4b429a1f60c55173264841dbfddf318651cf90b2
       </form>
     )
   },
@@ -76,12 +85,23 @@ var Media = exports.Media = React.createClass({
     return (
       <div className="media-content">
         {this.profile_and_banner_img()}
+
         <div>
           <h5>Pictures</h5>
+          <ul>
+            {this.props.media.images.map(function(file, idx) {
+              return <li key={idx}><img src={'http://localhost:4000/dashboard_data/media/'+file} /></li>
+            })}
+          </ul>
         </div>
 
         <div>
           <h5>Videos</h5>
+          <ul>
+          {this.props.media.videos.map(function(file, idx) {
+            return <li key={idx}><video src={'http://localhost:4000/dashboard_data/media/'+file} controls></video></li>
+          })}
+          </ul>
         </div>
 
         <div className="upload_assorted">
@@ -169,7 +189,7 @@ var Upload = exports.Upload = React.createClass({
           url: $form.attr('action'),
           type: $form.attr('method'),
           data: ajaxData,
-          // dataType: 'json',
+          dataType: 'json',
           cache: false,
           contentType: false,
           processData: false,

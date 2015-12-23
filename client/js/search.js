@@ -5,7 +5,8 @@ import { TagContainer, Tag } from './tag_container.js';
 //var LocalStorageMixin = require('react-localstorage');
 
 var Search = exports.Search = React.createClass({
-  mixins: [ History ],
+  displayName: 'Search',
+  // mixins: [ History,LocalStorageMixin ],
   render: function () {
     return (
       <div>
@@ -91,6 +92,8 @@ var OrganizationResults = React.createClass({
 var Organization = React.createClass({
 
   setOrganization: function() {
+    localStorage.currentOrgID = this.props.org._id;
+    console.log('Set local storage organization')
     this.props.setOrganization(this.props.org);
     console.log('inside of search.js and localstorage is ', localStorage);
     localStorage.currentOrganization = this.props.org._id
