@@ -41,10 +41,10 @@ var Tag = exports.Tag = React.createClass({
   render: function () {
     return(
       <div
-        className="chipx valign hoverable tag-hand"
+        className="chipx hoverable tag-hand"
         textContent={this.props.text}
         onClick={this.removeTag}
-      ><i className="fa fa-close"></i>{this.props.text}
+      ><i className="fa fa-close" />{this.props.text}
       </div>
     );
   }
