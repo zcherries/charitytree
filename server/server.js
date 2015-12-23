@@ -9,11 +9,11 @@ var bcrypt = require('bcrypt-nodejs');
 
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
-var session_helpers = require('./helpers/session-helpers.js');
+// var session_helpers = require('./helpers/session-helpers.js');
 
 //var webpack = require('webpack');
 //var WebpackDevServer = require('webpack-dev-server');
-//var config = require('../webpack.config.js');
+// var config = require('../webpack.config.js');
 
 var Controller = require('./db/controllers');
 var Model = require('./db/models');
@@ -23,7 +23,20 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
+// import {Router, History} from 'react-router';
+// var Router = require('react-router');
+// var React = require('react');
+// var routes = require('../client/config/routes.js');
+console.log('Line 30')
+var IP = '127.0.0.1', PORT = 4000;
+console.log('Line 32')
 
+server.listen(PORT, IP);
+console.log('Line 35')
+// app.use('../client/js/', express.static(path.join(__dirname, '../client/js')));
+app.use(express.static(path.join(__dirname, '../client')));
+
+console.log('Line 39')
 // var upload = multer({ dest: 'uploads/' })
 
 // var util = require('util');
@@ -54,12 +67,10 @@ io.on('connection', function(client) {
   client.on('test', function(data) {
     console.log('Data: ', data);
   })
-  // client.emit('logged in', ["I just logged in"]);
-  // client.emit('data', 7);
-})
+  client.emit('logged in', ["I just logged in"]);
+});
 
 //app.use('/client/js', express.static(path.join(__dirname, '../client/js')));
-app.use(express.static(path.join(__dirname, '../client')));
 // app.use(require('morgan')('dev'));
 
 // session middleware
@@ -67,7 +78,7 @@ app.use(session({
   name: 'server-session-cookie-id',
   secret: '@%20%23&amp;',
   saveUninitialized: false,
-  resave: true,
+  resave: false,
   store: new FileStore({ retries: 50, reapInterval: 10000 }),
   cookie: { maxAge: 1000 * 60 * 60 }
 }));
@@ -85,7 +96,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse application/json
 app.use(bodyParser.json());
 
-var IP = '127.0.0.1', PORT = 4000;
+
 
 // function isObject(obj) {
 // 	return obj != null && typeof obj === 'object';
@@ -110,10 +121,10 @@ function capitalizeFirstLetter(string) {
 // app.use('/dashboard', session_helpers.validateSession);
 
 //================================== GET ====================================//
-app.get('/', function(req, res, next) {
-  console.log("Get Index Page");
-  res.send('index.html');
-});
+// app.get('/', function(req, res, next) {
+//   console.log("Get Index Page");
+//   res.send('index.html');
+// });
 
 app.get('/dashboard_data', function(req, res) {
   console.log("App.get/dashboard_data");
@@ -128,7 +139,7 @@ app.get('/dashboard_data', function(req, res) {
           if (err) throw err;
           else {
             // console.log(org)
-            var images = [], count = 0;
+            // var images = [], count = 0;
             // org.images.forEach(function(fileId, idx) {
             //   console.log("Index: ", idx)
             //   var buffer = new Buffer(0);
@@ -169,15 +180,20 @@ app.get('/dashboard_data', function(req, res) {
 app.get('/dashboard_data/projects', function(req, res, next) {
   if (req.session && req.session.user) {
     if (req.session.user.type === 'organization') {
-      Model.Organization.find({ _id: req.session.user.uid})
-      .select('projects').populate('projects').exec(function(err, projects) {
+      Model.Organization.findOne({ _id: req.session.user.uid })
+      .select('projects -_id').populate('projects').exec(function(err, projects) {
         if (err) throw err;
-        else { res.status(200).send({status: 200, results: projects }); }
+        else { res.status(200).send({ status: 200, results: projects }); }
       });
     }
   } else {
     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
   }
+});
+
+app.get('/dashboard_data/media/:id', function(req, res, next) {
+  var readstream = connection.gridfs.createReadStream({ _id: req.params.id });
+  readstream.pipe(res);
 });
 
 app.get('/image', function(req, res) {
@@ -192,22 +208,23 @@ app.get('/image', function(req, res) {
   }
 });
 
-app.get('/remove_media', function(req, res) {
-  var options = { filename: 'Sleep Away.mp3' }
-  // if (file_exists(options)) {
-  connection.gridfs.remove(options, function (err) {
-    if (err) console.log(err);
-    else {
-      console.log('success');
-      res.send('Successfully deleted ' + options.filename);
-    }
-  });
-  // }
-});
+// app.get('/remove_media', function(req, res) {
+//   var options = { filename: 'Wildlife.wmv' }
+//   // if (file_exists(options)) {
+//   connection.gridfs.remove(options, function (err) {
+//     if (err) console.log(err);
+//     else {
+//       console.log('success');
+//       res.send('Successfully deleted ' + options.filename);
+//     }
+//   });
+//   // }
+// });
 
-app.get('/get_browse', function(req, res, next) {
-  Controller.AoF.retrieve(req, res, next);
-});
+// app.get('/get_browse', function(req, res, next) {
+//   Controller.AoF.retrieve(req, res, next);
+//
+// });
 
 app.get('/organization_get/:id', function(req, res, next) {
  // console.log('Org ID: ', req.body.orgID);
@@ -339,15 +356,15 @@ app.post('/logout_post', function(req, res) {
 //   }
 // });
 
-app.post('/dashboard_data/profile', function(req, res, next) {
+app.post('/dashboard/profile', function(req, res, next) {
   if (req.session && req.session.user) {
     if (req.session.user.type === 'organization') {
+      io.emit('data', 'Organization that you follow has updated their profile');
         Controller.Organization.update(req, res, next, { _id: req.session.user.uid },
           { about: req.body.about, areas_of_focus: req.body.areas_of_focus },
           'name username about areas_of_focus');
     } else if (req.session.user.type === 'donor') {
       console.log('Am a donor')
-      io.emit('data', 7);
       Controller.Donor.update(req, res, next, { _id: req.session.user.uid },
         { name: req.body.name, email: req.body.email, areas_of_focus: req.body.areas_of_focus },
         'name username email areas_of_focus');
@@ -357,7 +374,7 @@ app.post('/dashboard_data/profile', function(req, res, next) {
   }
 });
 
-app.post('/dashboard/projects/new', function(req, res, next) {
+app.post('/dashboard/project/create', function(req, res, next) {
   if (req.session && req.session.user) {
       var newProject = req.body.projectData;
       newProject._org = req.session.user.uid;
@@ -385,7 +402,7 @@ app.post('/dashboard/projects/new', function(req, res, next) {
   }
 });
 
-app.post('/dashboard/media/profile_img/upload', multer().single('profile_img'), function(req, res, next) {
+app.post('/dashboard/profile_img/upload', multer().single('profile_img'), function(req, res, next) {
   Model.Organization.findById({ _id: req.session.user.uid }, function(err, org) {
     if (err) { console.error(err); res.status(400).send('Could not retrieve data'); }
     else {
@@ -491,10 +508,19 @@ app.post('/post_search', function(req, res, next) {
 //  res.sendFile(path.join(__dirname, '../client', 'index.html'));
 //});
 
+// app.get('*', function (req, res) { // This wildcard method handles all requests
+//     Router.run(routes, req.path, function (Handler, state) {
+//         var element = React.createElement(Handler);
+//         var html = React.renderToString(element);
+//         res.render('main', { content: html });
+//     });
+// });
+console.log('Got towards the end')
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
-app.get('*', function (req, res){
-  res.sendFile(path.resolve(__dirname, './../client', 'index.html'));
+app.get('*', function (req, res, next){
+  // res.sendFile(path.resolve(__dirname, './../client', 'index.html'));
+  res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
 //new WebpackDevServer(webpack(config), {
@@ -508,4 +534,3 @@ app.get('*', function (req, res){
 //
 //  console.log('Listening at localhost:4000');
 //});
-server.listen(PORT, IP);

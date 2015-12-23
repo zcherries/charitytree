@@ -5,17 +5,13 @@ var ReactDOM = require('react-dom');
 import {ProjectCreate} from './projectCreate.js'
 
 var Projects = exports.Projects = React.createClass({
-  compDidMount: function() {
-    this.getProjects();
-  },
-
-  componentDidMount: function() {
-    this.setState({ action: 'display' });
+  componentWillReceiveProps: function(nextProps) {
+    this.setState({ projects: nextProps.projects, action: 'display' })
   },
 
   getInitialState: function() {
     return {
-      action: '',
+      action: 'display',
       projects: []
     }
   },
@@ -26,7 +22,8 @@ var Projects = exports.Projects = React.createClass({
       url: '/dashboard_data/projects',
       success:function(response) {
         console.log("GET Success: ", response.results);
-        this.setState({ projects: response.results, action: 'display' });
+        // this.setState({ projects: response.results.projects, action: 'display' });
+        this.props.update_db_state_prop('projects', response.results.projects); //update dashboard state property
       }.bind(this),
       error: function(error){
         console.log(error);
@@ -50,17 +47,27 @@ var Projects = exports.Projects = React.createClass({
     });
   },
 
-  changeAction: function(e) {
+  create: function(e) {
     e.preventDefault();
     this.setState({ action: 'create' });
   },
 
-  createProject: function() {
-    console.log('Show Form');
-    return <div><ProjectCreate submitHandler={this.handleSubmit} /></div>
+  edit: function(e) {
+    e.preventDefault();
+    this.setState({ action: 'edit' });
   },
 
-  handleSubmit: function() {
+  createProject: function() {
+<<<<<<< HEAD
+    console.log('Show Form');
+    return <div><ProjectCreate submitHandler={this.handleSubmit} /></div>
+=======
+    console.log('Show Form')
+    return <div><ProjectCreate submitHandler={this.submitHandler} /></div>
+>>>>>>> 4b429a1f60c55173264841dbfddf318651cf90b2
+  },
+
+  submitHandler: function() {
     this.getProjects();
   },
 
@@ -69,7 +76,7 @@ var Projects = exports.Projects = React.createClass({
     console.log("Org Projects: ", org_projects);
     return (
       <div>
-        <h6><a href="#" onClick={this.changeAction}>Create a Project</a></h6>
+        <h6><a href="#" onClick={this.create}>Create a Project</a></h6>
         <div>
           {org_projects.map(function(project, idx) {
             return <ProjectBlurb key={idx} details={project} />

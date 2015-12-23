@@ -8,40 +8,13 @@ var Organization = exports.Organization = React.createClass({
   displayName: 'Organization',
   mixins: [ History, LocalStorageMixin ],
 
-  componentWillMount: function(){
-    $.ajax({
-        url:'/organization_get/'+localStorage.currentOrganization,
-        // dataType: 'json',
-        method: "GET",
-        success: function (data) {
-          console.log("on success with params.id and res.data is ", data);
-          this.setState({
-            org: data
-          });
-        }.bind(this),
-        error: function (xhr, status, err) {
-          console.error(xhr, status, err.toString());
-        }.bind(this)
-      });
-
-    console.log('inside of componentWillMount and state.org is ', this.state.org);
-
-
-  },
-
   getInitialState: function(){
-
     return {
       org: null
     };
-
   },
 
   componentDidMount: function() {
-    $('.scrollspy').scrollSpy();
-    $('.materialboxed').materialbox();
-    $('.tabs-wrapper .row').pushpin({ top: $('.tabs-wrapper').offset(1000).top });
-
     $.ajax({
         url:'/organization_get/'+localStorage.currentOrganization,
         // dataType: 'json',
@@ -58,6 +31,10 @@ var Organization = exports.Organization = React.createClass({
       });
 
     ('inside of componentDidMount and state.org is ', this.state.org);
+
+    $('.scrollspy').scrollSpy();
+    $('.materialboxed').materialbox();
+    $('.tabs-wrapper .row').pushpin({ top: $('.tabs-wrapper').offset(1000).top });
   },
 
   

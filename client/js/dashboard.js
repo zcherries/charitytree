@@ -42,7 +42,7 @@ var Dashboard = exports.Dashboard = React.createClass({
       },
       url: '/dashboard_data',
       success: function(response) {
-        console.log("Response data: ", response.results);
+        console.log("Response data: ", response);
         this.setState({ data: response.results, userType: response.userType, view: this.state.view });
       }.bind(this),
       error: function(xhr, status, error){
@@ -67,18 +67,22 @@ var Dashboard = exports.Dashboard = React.createClass({
           areas_of_focus: this.state.data.areas_of_focus,
           address: this.state.data.address
         };
-        console.log("About: " + orgInfo.about);
-        view = <OrgProfile postData={this.postData} orgInfo={orgInfo} />;
+        // orgInfo.about = "Will this change!!!"
+        console.log("Org Info About: " + orgInfo.about);
+        // console.log("State About: " + this.state.data.about);
+
+        view = <OrgProfile update_db_state_prop={this.update_db_state_prop} orgInfo={orgInfo} />;
         break;
       case 'projects':
-        view = <Projects postData={this.postData} projects={this.state.data.projects} />;
+        view = <Projects update_db_state_prop={this.update_db_state_prop} projects={this.state.data.projects} />;
         break;
       case 'media':
         var media = {
           profile_img: this.state.data.profile_img,
-          content: this.state.data.media
-        };
-        view = <Media postData={this.postData} media={media} update_db_state_prop={this.update_db_state_prop} />;
+          images: this.state.data.images,
+          videos: this.state.data.videos
+        }
+        view = <Media media={media} update_db_state_prop={this.update_db_state_prop} />;
         break;
       case 'endorsements':
         view = <Endorsements postData={this.postData} endorsements={this.state.data.endorsements} />;
@@ -129,7 +133,9 @@ var Dashboard = exports.Dashboard = React.createClass({
 
   update_db_state_prop: function(prop, data) {
     var state = this.state.data;
+    console.log('State before update: ', state[prop]);
     state[prop] = data;
+    console.log('State after update: ', state[prop]);
     this.setState({ data: state });
   },
 
