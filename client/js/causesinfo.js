@@ -58,7 +58,7 @@ exports.CausesInfo = [
     id: "health",
     title: "Health",
     tags: "Health",
-    img: "https://c1.staticflickr.com/5/4119/4931607222_92bf5fea5f_b.jpg",
+    img: "https://c2.staticflickr.com/6/5762/23811632042_314f2fcaa3_o.jpg",
     subcauses: [
       {id: "diseases", title: "Diseases, Disorders, and Disciplines", tags: "Diseases Disorders Disciplines"},
       {id: "patient_family_support", title: "Patient and Family Support", tags: "Patient Family Support"},
