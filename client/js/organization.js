@@ -7,6 +7,7 @@ var LocalStorageMixin = require('react-localstorage');
 var Organization = exports.Organization = React.createClass({
   displayName: 'Organization',
   mixins: [ History, LocalStorageMixin ],
+
   componentWillMount: function(){
     $.ajax({
         url:'/organization_get/'+localStorage.currentOrganization,
@@ -23,13 +24,16 @@ var Organization = exports.Organization = React.createClass({
         }.bind(this)
       });
 
+    console.log('inside of componentWillMount and state.org is ', this.state.org);
+
+
   },
 
   getInitialState: function(){
 
     return {
       org: null
-    }
+    };
 
   },
 
@@ -45,88 +49,24 @@ var Organization = exports.Organization = React.createClass({
         success: function (data) {
           console.log("on success with params.id and res.data is ", data);
           this.setState({
-            org: data
+            org: data.results
           });
         }.bind(this),
         error: function (xhr, status, err) {
           console.error(xhr, status, err.toString());
         }.bind(this)
       });
+
+    ('inside of componentDidMount and state.org is ', this.state.org);
   },
 
-  projects: {
-    past: [{
-      org: "Test Project Org",
-      info: "Info testing part",
-      start_date: "new years",
-      end_date: "halloween",
-      status: "Pending",
-      areas_of_focus: [],
-      amount: {
-        goal: 3000,
-        current: 1500
-      }
-    }, {
-      org: "Test Project Org",
-      info: "Info testing part",
-      start_date: "new years",
-      end_date: "halloween",
-      status: "Pending",
-      areas_of_focus: [],
-      amount: {
-        goal: 3000,
-        current: 1500
-      }
-    }, {
-      org: "Test Project Org",
-      info: "Info testing part",
-      start_date: "new years",
-      end_date: "halloween",
-      status: "Pending",
-      areas_of_focus: [],
-      amount: {
-        goal: 3000,
-        current: 1500
-      }
-    }],
-    current: [{
-      org: "Test Project Org",
-      info: "Info testing part",
-      start_date: "new years",
-      end_date: "halloween",
-      status: "Pending",
-      areas_of_focus: [],
-      amount: {
-        goal: 3000,
-        current: 1500
-      }
-    }, {
-      org: "Test Project Org",
-      info: "Info testing part",
-      start_date: "new years",
-      end_date: "halloween",
-      status: "Pending",
-      areas_of_focus: [],
-      amount: {
-        goal: 3000,
-        current: 1500
-      }
-    }, {
-      org: "Test Project Org",
-      info: "Info testing part",
-      start_date: "new years",
-      end_date: "halloween",
-      status: "Pending",
-      areas_of_focus: [],
-      amount: {
-        goal: 3000,
-        current: 1500
-      }
-    }]
-  },
+  
 
   render: function () {
-    var aofs = this.props.currentOrganization.areas_of_focus.map(function (aof, index) {
+
+    if(this.state.org){
+
+    var aofs = this.state.org.areas_of_focus.map(function (aof, index) {
       return (
         <div key={index} className="chip">
           <h6>{aof}</h6>
@@ -134,13 +74,11 @@ var Organization = exports.Organization = React.createClass({
       );
     });
 
-    var pastProject = this.projects.past.map(function (project, index) {
+    var pastProject = this.state.org.projects.map(function (project, index) {
       return (
         <div key={index}>
-          <div>the org is {project.org}</div>
+          <div>the org is {project._org}</div>
           <div>the info is {project.info}</div>
-          <div>this is the start_date {project.start_date}</div>
-          <div>the end_date {project.end_date}</div>
         </div>
       );
     });
@@ -162,7 +100,7 @@ var Organization = exports.Organization = React.createClass({
         {/*Header*/}
         <div id="location" className="center-align section scrollspy">
           <h1>
-            {this.props.currentOrganization.name}
+            {this.state.org.name}
           </h1>
           <i className="medium material-icons">room</i>
           <h5> {this.props.currentOrganization.address}</h5>
@@ -180,7 +118,7 @@ var Organization = exports.Organization = React.createClass({
               <div id="description" className="col s12 m10 push-m1 center-align section scrollspy flow-text">
                 <i className="medium material-icons space-above">description</i>
                 <h5> Description</h5>
-                <p>{this.props.currentOrganization.about}</p>
+                <p>{this.state.org.about}</p>
               </div>
 
             {/*Additional Info*/}
@@ -209,12 +147,12 @@ var Organization = exports.Organization = React.createClass({
                 <div className="left-align">{currentProjects}</div>
               </div>
 
-              {/*Past Projects*/}
+              {/*Past Projects
               <div id="past-projects" className="col s12 center-align section scrollspy">
                 <i className="medium material-icons space-above">assignment_turned_in</i>
                 <h2> Our Past Projects:</h2>
                 <div className="left-align">{pastProject}</div>
-              </div>
+              </div>*/}
 
               {/*Endorsements*/}
               <div id="endorsements" className="col s12 center-align section scrollspy">
@@ -232,6 +170,13 @@ var Organization = exports.Organization = React.createClass({
         </div>
       </div>
     );
+    }
+
+    else{
+      return (
+        <div>Nothing to display</div>
+        );
+    }
   }
 });
 
