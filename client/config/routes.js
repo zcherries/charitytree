@@ -37,7 +37,12 @@ exports.routes = {
   childRoutes: [
     { path: '/',
       getComponent: (location, cb) => {
-        require.ensure([], () => {
+        if (loggedIn()) {
+          return require.ensure([], () => {
+            cb(null, Dashboard);
+          })
+        }
+        return require.ensure([], () => {
           cb(null, Home);
         });
       }

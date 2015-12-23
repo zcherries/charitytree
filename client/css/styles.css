@@ -88,6 +88,10 @@ main {
   padding-left: 5px;
   padding-right: 5px; }
 
+.card {
+  cursor: pointer;
+}
+
 .cardx {
   position: relative;
   margin: 0.5rem 0 1rem 0;
@@ -173,6 +177,10 @@ main {
 .cardx .card-reveal .card-title {
   cursor: pointer;
   display: block; }
+
+.input-field {
+  width: 500px;
+}
 
 .input-field input[type=search] {
   display: block;
@@ -355,4 +363,60 @@ main {
 }
 .indent {
   padding-left: 200px;
+}
+.line-clamp
+{
+  display            : block;
+  display            : -webkit-box;
+  -webkit-box-orient : vertical;
+  position           : relative;
+
+  line-height        : 1.2;
+  overflow           : hidden;
+  text-overflow      : ellipsis;
+  padding            : 0 !important;
+}
+.line-clamp:after
+{
+  content    : '...';
+  text-align : right;
+  bottom     : 0;
+  right      : 0;
+  width      : 25%;
+  display    : block;
+  position   : absolute;
+  height     : calc(1em * 1.2);
+  background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
+}
+@supports (-webkit-line-clamp: 1)
+{
+  .line-clamp:after
+  {
+    display : none !important;
+  }
+}
+.line-clamp-1
+{
+  -webkit-line-clamp : 1;
+  height             : calc(1em * 1.2 * 1);
+}
+.line-clamp-2
+{
+  -webkit-line-clamp : 2;
+  height             : calc(1em * 1.2 * 2);
+}
+.line-clamp-3
+{
+  -webkit-line-clamp : 3;
+  height             : calc(1em * 1.2 * 3);
+}
+.line-clamp-4
+{
+  -webkit-line-clamp : 4;
+  height             : calc(1em * 1.2 * 4);
+}
+.line-clamp-5
+{
+  -webkit-line-clamp : 5;
+  height             : calc(1em * 1.2 * 5);
 }

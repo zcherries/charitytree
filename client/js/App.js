@@ -1,10 +1,15 @@
 import React from 'react';
-
-import {Navbar} from './navbar';
+import { History } from 'react-router';
+var LocalStorageMixin = require('react-localstorage');
 
 import { loggedIn } from '../config/routes';
+import {Navbar} from './navbar';
+
+
 
 var App = exports.App = React.createClass({
+  displayName: 'App',
+  mixins: [History, LocalStorageMixin],
   getInitialState: function () {
     return {
       loggedIn: false,
@@ -27,17 +32,6 @@ var App = exports.App = React.createClass({
     console.log(e.target.value);
     this.setState( {userType: e.target.value });
     this.props.history.pushState(null, `/signup`);
-  },
-
-  // updateAuth(loggedIn) {
-  //   this.setState({
-  //     loggedIn: !!loggedIn
-  //   });
-  // },
-
-  componentWillMount() {
-    // auth.onChange = this.updateAuth;
-    // auth.login();
   },
 
   componentDidMount: function () {

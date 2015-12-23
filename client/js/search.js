@@ -2,57 +2,62 @@
 var React = require('react');
 import { Link, History } from 'react-router';
 import { TagContainer, Tag } from './tag_container.js';
-var LocalStorageMixin = require('react-localstorage');
+//var LocalStorageMixin = require('react-localstorage');
 
 var Search = exports.Search = React.createClass({
-  displayName: 'Search',
-  mixins: [ History,LocalStorageMixin ],
+  mixins: [ History ],
   render: function () {
     return (
       <div>
         <div className="row">
-          <h2 className="center-align"> Find a cause to give to </h2>
-          <div className="container center-align col s12">
+          <h4 className="center-align"> Find a cause to give to </h4>
+
+          {/*Secondary Search Bar*/}
+          {/*<div className="container center-align col s12">
             <form onSubmit={this.handleSearchSubmit}>
               <div className="center-align input-field col s5">
                 <input
-                htmlid="search"
-                type="search"
-                placeholder="Search..."
-                value={this.props.searchText}
-                onChange={this.updateInput}
-                required
+                  htmlid="search"
+                  type="search"
+                  placeholder="Search..."
+                  value={this.props.searchText}
+                  onChange={this.updateInput}
+                  required
                  />
                 <label htmlFor="search"><i className="material-icons">search</i></label>
                 {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
               </div>
             </form>
+          </div>*/}
 
-          </div>
-          <div className="row col s12">
-            <h6 className="center-align">Search Tags</h6>
-            <div style={{minHeight:'25px'}} className="center-align">
+          {/*Search Tags*/}
+          <div className="col hide-on-small-only m1">
+            <div style={{minHeight:'25px'}} className="right-align">
+              <h5 className="">Tags</h5><hr/>
               <TagContainer
                 searchCriteria={this.props.searchCriteria}
                 removeSearchTag={this.props.removeSearchTag}/>
             </div>
           </div>
 
-          <div className="col s12 m8 push-m4">
-            <h5 className="center-align">Projects</h5>
-
+          {/*Project Search Results*/}
+          <div className="col s12 m8 push-m3">
+            <h5 className="center-align">Project Search Results</h5><hr/>
             <ProjectResults
               searchResultsProjects={this.props.searchResults.projects}
               getProject={this.props.getProject}
               setProject={this.props.setProject}/>
           </div>
-          <div className="col s12 m4 pull-m8">
-            <h5 className="center-align">Organizations</h5>
+
+          {/*Org Search Results*/}
+          <div className="col s12 m3 pull-m8">
+            <h5 className="center-align">Organizations</h5><hr/>
             <OrganizationResults
               searchResultOrgs={this.props.searchResults.orgs}
               setOrganization={this.props.setOrganization}
               searchResultOrgs={this.props.searchResults.orgs}/>
           </div>
+
         </div>
       </div>
     );
@@ -74,9 +79,8 @@ var OrganizationResults = React.createClass({
     return (
       <div>
         <div>
-          <h6>Organization Results</h6>
-          <div className="collection">
-            {org ? org : "No results to display"}
+          <div className="row">
+            {org ? org : <h5 className="center-align">No results to display</h5>}
           </div>
         </div>
       </div>
@@ -94,27 +98,26 @@ var Organization = React.createClass({
     var img = (this.props.org.img) ? "data:image/jpeg;base64," + this.props.org.img
         : "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg";
     return (
-      <div className="container">
-        <div className="cardx hoverable" onClick={this.setOrganization}>
-
-          <div className="card-image ">
-            <img src={img}/>
-            <span className="card-title shadow">
-              <h4>{this.props.org.name}</h4>
-            </span>
-          </div>
-
-          <div className="card-content truncate ">
-            <p>{this.props.org.about}</p>
-          </div>
-
-          {/*<div className="card-action">
-            <p>
-              <button className="btn-small btn-flat waves-effect waves-light" onClick={this.setOrganization}>Read more...</button>
-            </p>
-          </div>*/}
-
+      <div className="cardx hoverable" onClick={this.setOrganization}>
+        <div className="card-image ">
+          <img src={img}/>
+          <span className="card-title shadow">
+            <h4>{this.props.org.name}</h4>
+          </span>
         </div>
+
+        <div className="card-content">
+          <div className="line-clamp line-clamp-5">
+            {this.props.org.about}
+          </div>
+        </div>
+
+        {/*<div className="card-action">
+          <p>
+            <button className="btn-small btn-flat waves-effect waves-light" onClick={this.setOrganization}>Read more...</button>
+          </p>
+        </div>*/}
+
       </div>
     );
   }
@@ -140,14 +143,10 @@ var ProjectResults = React.createClass({
     }
     return(
       <div className="row">
-        <div className="card medium">
-          <h6>Project Search Results</h6>
-          {projects ? projects : "No results to display"}
-        </div>
+        {projects ? projects : <h5 className="center-align">No results to display</h5>}
       </div>
     );
   }
-
 });
 
 var Project = React.createClass({
@@ -162,21 +161,19 @@ var Project = React.createClass({
   render: function () {
 
     return (
-      <div className="card hoverable" onClick={this.setProject}>
+    <div className="col s12 m6 l4 card hoverable" onClick={this.setProject}>
         <div className="card-image">
-          <img src="http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg"/>
+          <img className="responsive-img" src="http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg"/>
             <span className="card-title shadow">
               {this.props.title}
             </span>
         </div>
 
         <div className="card-content">
-
-          <div className="truncate">
+          <div className="line-clamp line-clamp-5">
             {this.props.info}
           </div>
         </div>
-
 
       </div>
     );

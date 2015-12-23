@@ -1,4 +1,4 @@
-"use strict";
+  "use strict";
 var React = require('react');
 import { Link, History } from 'react-router';
 import { Login } from './login.js';
@@ -41,7 +41,8 @@ var Navbar = exports.Navbar = React.createClass({
               <Link to="/" className="brand-logo blue-text accent-3">Charity Tree</Link>
               <a href="#" data-activates="mobile-demo" className="button-collapse black-text"><i className="material-icons">menu</i></a>
               <ul className="right hide-on-med-and-down">
-                {/*Search Bar*/}
+
+                 {/*Search Bar*/}
                 <li>
                   <form onSubmit={this.handleSearchSubmit}>
                     <div className="input-field black-text">
@@ -57,6 +58,7 @@ var Navbar = exports.Navbar = React.createClass({
                     </div>
                   </form>
                 </li>
+
                 {/*Login/Signup*/}
                 <li>
                   {this.props.loggedIn ? (
@@ -65,6 +67,7 @@ var Navbar = exports.Navbar = React.createClass({
                     <Link className="waves-effect waves-light black-text" to="/login">Login/Signup</Link>
                   )}
                 </li>
+
                 {/*Browse Categories*/}
                 <li>
                   <Link className="waves-effect waves-light black-text" to="/browse">Browse Categories</Link>
@@ -89,6 +92,7 @@ var Navbar = exports.Navbar = React.createClass({
                     </div>
                   </form>
                 </li>
+
                 {/*Login/Signup*/}
                 <li>
                   {this.props.loggedIn ? (
@@ -97,6 +101,7 @@ var Navbar = exports.Navbar = React.createClass({
                     <Link className="waves-effect waves-light black-text" to="/login">Login/Signup</Link>
                   )}
                 </li>
+
                 {/*Browse Categories*/}
                 <li>
                   <Link className="waves-effect waves-light" to="/browse">Browse Categories</Link>
