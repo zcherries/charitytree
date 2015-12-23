@@ -209,6 +209,22 @@ app.get('/get_browse', function(req, res, next) {
   Controller.AoF.retrieve(req, res, next);
 });
 
+app.get('/organization_get/:id', function(req, res, next) {
+ // console.log('Org ID: ', req.body.orgID);
+ console.log("inside of server.js and req.params.id is ",req.params.id);
+
+ var id = req.params.id;
+
+ Model.Organization.findOne({ _id: id })
+ .populate('projects').exec(function(err, org) {
+   if (err) throw err;
+   else {
+     console.log('Retrieved Org', org)
+     res.status(200).send({status: 200, results: org });
+   }
+ });
+});
+
 //================================== POST ===================================//
 app.post('/signup_post', function(req, res, next) {
   console.log('Body: ', req.body);

@@ -88,6 +88,9 @@ var Organization = React.createClass({
 
   setOrganization: function() {
     this.props.setOrganization(this.props.org);
+    console.log('inside of search.js and localstorage is ', localStorage);
+    localStorage.currentOrganization = this.props.org._id
+    console.log('inside of search.js and localstorage.currOrg is ', localStorage.currentOrganization);
   },
 
   render: function () {
