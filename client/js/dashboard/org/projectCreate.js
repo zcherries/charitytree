@@ -181,13 +181,12 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
 
   submitForm: function () {
     $.ajax({
-      url: "/dashboard/projects/new",
+      url: "/dashboard/project/create",
       method: "POST",
       data: {projectData: this.state},
       success: function (response) {
         console.log(response);
-        this.props.submitHandler();
-        // console.log('Testing success time. Inside of success to AJAX')
+        this.props.submitHandler(); //from projects component
       }.bind(this),
       error: function (xhr, status, err) {
         console.error(xhr, status, err.toString());

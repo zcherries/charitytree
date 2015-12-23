@@ -26,7 +26,7 @@ var DonorProfile = exports.DonorProfile = React.createClass({
     console.log("Form Data:", formData);
     $.ajax({
       method: 'POST',
-      url: '/dashboard_data/profile',
+      url: '/dashboard/profile',
       data: formData,
       success: function(response) {
         console.log("Post Success: ", response.results);

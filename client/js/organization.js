@@ -6,11 +6,24 @@ var LocalStorageMixin = require('react-localstorage');
 
 var Organization = exports.Organization = React.createClass({
   displayName: 'Organization',
-  mixins: [ History, LocalStorageMixin ],
+  // mixins: [ History, LocalStorageMixin ],
   componentDidMount: function() {
     $('.scrollspy').scrollSpy();
     $('.materialboxed').materialbox();
     $('.tabs-wrapper .row').pushpin({ top: $('.tabs-wrapper').offset(1000).top });
+    console.log('Local Storage Org ID: ', localStorage.currentOrgID)
+    $.ajax({
+      method: 'GET',
+      url: '/organization_get',
+      dataType: 'json',
+      data: { orgID: localStorage.currentOrgID },
+      success:function(response) {
+        console.log("GET Success: ", response.results);
+      }.bind(this),
+      error: function(error){
+        console.log(error);
+      }
+    });
   },
 
   projects: {

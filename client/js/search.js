@@ -6,7 +6,7 @@ var LocalStorageMixin = require('react-localstorage');
 
 var Search = exports.Search = React.createClass({
   displayName: 'Search',
-  mixins: [ History,LocalStorageMixin ],
+  // mixins: [ History,LocalStorageMixin ],
   render: function () {
     return (
       <div>
@@ -87,6 +87,8 @@ var OrganizationResults = React.createClass({
 var Organization = React.createClass({
 
   setOrganization: function() {
+    localStorage.currentOrgID = this.props.org._id;
+    console.log('Set local storage organization')
     this.props.setOrganization(this.props.org);
   },
 
