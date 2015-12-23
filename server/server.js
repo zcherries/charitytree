@@ -47,14 +47,6 @@ console.log('Line 39')
 //   log_stdout.write(util.format(d) + '\n');
 // };
 
-// io.on('connection', function(client) {
-//   console.log('Client connected')
-//   client.on('join', function(data) {
-//     console.log('Message Received: ', data);
-//     client.emit('reply', { message: 'this is the reply'});
-//   });
-// });
-
 // var number = 7;
 //
 // var donationCycle = io.of('/donationCycle')

@@ -16,7 +16,6 @@ var OrgProfile = exports.OrgProfile = React.createClass({
   },
 
   componentWillReceiveProps: function(newProps) {
-    console.log('CWRP is firing');
     this.setState({ orgInfo: newProps.orgInfo, editing: false });
   },
 
