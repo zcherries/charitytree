@@ -51,8 +51,9 @@ var Login = exports.Login = React.createClass({
 
   render: function() {
     return (
-      <div className="div-signup-form container">
+      <div className="container">
         <div className="row">
+
           <div className="col s12 m6">
             <fieldset className="center-align">
               <header><h3>Login</h3></header><hr/>
@@ -87,6 +88,7 @@ var Login = exports.Login = React.createClass({
               </div>
             </fieldset>
           </div>
+
         </div>
       </div>
     )

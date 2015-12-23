@@ -8,24 +8,14 @@ import {Media} from './dashboard/org/media.js';
 import {DonorProfile} from './dashboard/donor/profile.js';
 import {Feed} from './dashboard/donor/feed.js';
 
-
-// import {History} from 'react-router';
+ import {History} from 'react-router';
+ var LocalStorageMixin = require('react-localstorage');
 // var feeder = io();
 
-// var LocalStorageMixin = require('react-localstorage');
 
 var Dashboard = exports.Dashboard = React.createClass({
-  // displayName: 'Dashboard',
-  // mixins: [ History, LocalStorageMixin ],
-  componentWillMount: function() {
-    this.props.isLoggedIn();
-  },
-
-  componentDidMount: function() {
-    console.log('Dashboard Component is Mounted')
-    this.getData();
-  },
-
+   displayName: 'Dashboard',
+   mixins: [ History, LocalStorageMixin ],
   getInitialState: function() {
     return {
       data: {},
@@ -33,6 +23,15 @@ var Dashboard = exports.Dashboard = React.createClass({
       view: 'profile'
     }
   },
+  componentWillMount: function() {
+    this.props.isLoggedIn();
+  },
+
+  componentDidMount: function() {
+    console.log('Dashboard Component is Mounted');
+    this.getData();
+  },
+
 
   getData: function() {
     console.log('Making AJAX request to server')
@@ -78,7 +77,7 @@ var Dashboard = exports.Dashboard = React.createClass({
         var media = {
           profile_img: this.state.data.profile_img,
           content: this.state.data.media
-        }
+        };
         view = <Media postData={this.postData} media={media} update_db_state_prop={this.update_db_state_prop} />;
         break;
       case 'endorsements':
@@ -166,7 +165,7 @@ var OrgDashboardMenu = React.createClass({
             <li className="valign-wrapper"><i className="material-icons left valign">stars</i><a href="#" onClick={this.goToPage}>Endorsements</a></li>
             <li className="valign-wrapper"><i className="material-icons left valign">supervisor_account</i><a href="#" onClick={this.goToPage}>Find Donors</a></li>
           </ul>
-            <a href="#" data-activates="slide-out" className="button-collapse"><i className="mdi-navigation-menu"></i></a>
+            <a href="#" data-activates="slide-out" className="button-collapse"><i className="mdi-navigation-menu"/></a>
         </div>
       </div>
     )
