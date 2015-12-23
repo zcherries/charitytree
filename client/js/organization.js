@@ -7,10 +7,51 @@ var LocalStorageMixin = require('react-localstorage');
 var Organization = exports.Organization = React.createClass({
   displayName: 'Organization',
   mixins: [ History, LocalStorageMixin ],
+  componentWillMount: function(){
+    $.ajax({
+        url:'/organization_get/'+localStorage.currentOrganization,
+        // dataType: 'json',
+        method: "GET",
+        success: function (data) {
+          console.log("on success with params.id and res.data is ", data);
+          this.setState({
+            org: data
+          });
+        }.bind(this),
+        error: function (xhr, status, err) {
+          console.error(xhr, status, err.toString());
+        }.bind(this)
+      });
+
+  },
+
+  getInitialState: function(){
+
+    return {
+      org: null
+    }
+
+  },
+
   componentDidMount: function() {
     $('.scrollspy').scrollSpy();
     $('.materialboxed').materialbox();
     $('.tabs-wrapper .row').pushpin({ top: $('.tabs-wrapper').offset(1000).top });
+
+    $.ajax({
+        url:'/organization_get/'+localStorage.currentOrganization,
+        // dataType: 'json',
+        method: "GET",
+        success: function (data) {
+          console.log("on success with params.id and res.data is ", data);
+          this.setState({
+            org: data
+          });
+        }.bind(this),
+        error: function (xhr, status, err) {
+          console.error(xhr, status, err.toString());
+        }.bind(this)
+      });
   },
 
   projects: {
@@ -105,7 +146,7 @@ var Organization = exports.Organization = React.createClass({
     });
 
 
-    var currentProjects = this.projects.current.map(function (project, index) {
+    var currentProjects = this.state.org.projects.map(function (project, index) {
       return (
         <div key={index}>
           <div>the org is {project.org}</div>
