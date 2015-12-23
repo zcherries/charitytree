@@ -16,7 +16,6 @@ main {
 }
 .input-field {
   position: relative;
-  min-width: 300px;
   overflow: hidden;
   margin-top: 1rem;
 }
@@ -178,7 +177,7 @@ main {
   cursor: pointer;
   display: block; }
 
-.input-field {
+.nav-search {
   width: 500px;
 }
 
@@ -359,7 +358,10 @@ main {
 
 .side-nav {
   top: 67px;
-  width: 200px;
+}
+.side-nav-width {
+  max-width: 230px;
+  min-width: 230px;
 }
 .indent {
   padding-left: 200px;

@@ -45,7 +45,7 @@ var Navbar = exports.Navbar = React.createClass({
                  {/*Search Bar*/}
                 <li>
                   <form onSubmit={this.handleSearchSubmit}>
-                    <div className="input-field black-text">
+                    <div className="input-field black-text nav-search">
                     <input
                         id="search"
                         type="search"
@@ -79,7 +79,7 @@ var Navbar = exports.Navbar = React.createClass({
                 {/*Search Bar*/}
                 <li>
                   <form onSubmit={this.handleSearchSubmit}>
-                    <div className="input-field black-text">
+                    <div className="input-field black-text side-nav-width">
                       <input
                         id="search"
                         type="search"
