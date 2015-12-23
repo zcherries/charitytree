@@ -28,7 +28,7 @@ exports.CausesInfo = [
     id: "community",
     title: "Community Development",
     tags: "Community Development",
-    img: "https://c1.staticflickr.com/9/8082/8380083742_098a5616b9_b.jpg",
+    img: "https://c2.staticflickr.com/6/5802/23894601766_8d375f7693_b.jpg",
     subcauses: [
       {id: "fundraising", title: "Fundraising", tags: "Fundraising"},
       {id: "community_foundations", title: "Community Foundations", tags: "Community Foundations"},

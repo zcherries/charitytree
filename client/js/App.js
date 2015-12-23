@@ -50,6 +50,10 @@ var App = exports.App = React.createClass({
     this.props.history.pushState(null, `/organization`);
   },
 
+  navigateToBrowsePage: function () {
+    this.props.history.pushState(null, `/browse`);
+  },
+
   navigateToProjectPage: function () {
     this.props.history.pushState(null, `/project`);
   },

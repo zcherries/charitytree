@@ -359,10 +359,11 @@ main {
 
 .side-nav {
   top: 67px;
+  width: 200px;
 }
 .side-nav-width {
-  max-width: 230px;
-  min-width: 230px;
+  max-width: 200px;
+  min-width: 200px;
 }
 .indent {
   padding-left: 200px;

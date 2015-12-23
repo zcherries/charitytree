@@ -17,10 +17,10 @@ exports.Home = React.createClass({
           <div className="parallax">
             <img src="https://c1.staticflickr.com/5/4142/4931601202_92f9bb7152_b.jpg"/>
           </div>
-          <div className="caption center-align shadow-white">
-            <h3>See the lives changed by your donation!</h3>
+          <div className="caption center-align ">
+            <h3 className="shadow-white">See the lives changed by your donation!</h3>
             <h5 className="light grey-text text-lighten-3 shadow">Follow the impact of your money</h5>
-            <a className="center-align waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}>Browse Categories</a>
+            <a className="waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}>Browse Categories</a>
           </div>
         </div>
 
