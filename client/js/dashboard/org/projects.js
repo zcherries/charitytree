@@ -56,7 +56,7 @@ var Projects = exports.Projects = React.createClass({
   },
 
   createProject: function() {
-    console.log('Show Form')
+    console.log('Show Form');
     return <div><ProjectCreate submitHandler={this.handleSubmit} /></div>
   },
 
@@ -66,7 +66,7 @@ var Projects = exports.Projects = React.createClass({
 
   showProjects: function() {
     var org_projects = this.state.projects.length ? this.state.projects : this.props.projects;
-    console.log("Org Projects: ", org_projects)
+    console.log("Org Projects: ", org_projects);
     return (
       <div>
         <h6><a href="#" onClick={this.changeAction}>Create a Project</a></h6>

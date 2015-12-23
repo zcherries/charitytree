@@ -77,18 +77,16 @@ var Navbar = exports.Navbar = React.createClass({
               {/*Side Navigation*/}
               <ul className="side-nav" id="mobile-demo">
                 {/*Search Bar*/}
-                <li>
+                <li className="search">
                   <form onSubmit={this.handleSearchSubmit}>
-                    <div className="input-field black-text side-nav-width">
+                    <div className="search-wrapper card input-field black-text">
                       <input
                         id="search"
                         type="search"
-                        placeholder="Search..."
                         value={this.props.searchText}
                         onChange={this.updateInput}
                         required />
-                      <label htmlFor="search" ><i className="material-icons black-text" >search</i></label>
-                      {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
+                      {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : <i className="material-icons black-text" >search</i> }
                     </div>
                   </form>
                 </li>
