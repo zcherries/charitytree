@@ -8,6 +8,15 @@ var Organization = exports.Organization = React.createClass({
   displayName: 'Organization',
   mixins: [ History, LocalStorageMixin ],
 
+  handleClick: function(project){
+    console.log('inside of project handleClick');
+    console.log('inside of handleClick project is', project);
+    // console.log('inside of handleClick index is', index);
+    localStorage.setItem('currProjObj', JSON.stringify(project));
+    this.props.navigateToProjectPage();
+
+  },
+
   getInitialState: function(){
 
     return {
@@ -72,15 +81,16 @@ var Organization = exports.Organization = React.createClass({
 
 
     var currentProjects = this.state.org.projects.map(function (project, index) {
+      var handleClickInside = this.handleClick.bind(this, project);
       return (
-        <div key={index}>
+        <div key={index} onClick={handleClickInside}>
           <div>the org is {project.org}</div>
           <div>the info is {project.info}</div>
           <div>this is the start_date {project.start_date}</div>
           <div>the end_date {project.end_date}</div>
         </div>
       );
-    });
+    },this);
 
     return (
       <div className="container">

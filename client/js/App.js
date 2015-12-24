@@ -214,7 +214,9 @@ var App = exports.App = React.createClass({
             getProject: this.getProject,
             setProject: this.setProject,
             setOrganization: this.setOrganization,
-            setUserType: this.setUserType
+            setUserType: this.setUserType,
+            navigateToProjectPage: this.navigateToProjectPage,
+            navigateToOrganizationPage: this.navigateToOrganizationPage
           }
         )}
       </div>

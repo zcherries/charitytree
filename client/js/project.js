@@ -15,8 +15,8 @@ var Project = exports.Project = React.createClass ({
   mixins: [ History,LocalStorageMixin ],
   componentWillMount: function(){
     // console.log('on project page and props.project is ', this.props.currentProject);
-    console.log('on proj page and props.searchResults is ', this.props.searchResults);
-    this.setCurrentOrg();
+    // console.log('on proj page and locStocurProjObj is ', JSON.parse(localStorage.getItem('currProjObj'));
+    // this.setCurrentOrg();
   },
 
   componentDidMount: function () {
@@ -49,7 +49,8 @@ var Project = exports.Project = React.createClass ({
     //   }
     // }.bind(this));
     // project = project[0];
-    var project = this.props.currentProject;
+    var project = JSON.parse(localStorage.getItem('currProjObj'));
+    var org = JSON.parse(localStorage.getItem('currOrgObj'));
 
     var needs;
 
@@ -76,7 +77,7 @@ var Project = exports.Project = React.createClass ({
         <div className="center-align">
           <h3>{project.title}</h3>
           <div onClick={this.navToOrg}>
-          <h4>the project.org is {this.props.currentOrganization.name}</h4>
+          <h4>the project.org is {org.name}</h4>
           </div>
         </div>
 
