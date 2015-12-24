@@ -3,17 +3,15 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 import { History } from 'react-router';
 // var LocalStorageMixin = require('react-localstorage');
-var feeder = io.connect('http://localhost:4000');
 var feedData = [];
-
-feeder.on('data', function(data) {
-  feedData.push(data);
+feeder.on('action', function(data) {
+  feedData.push({ message: data.message, attachment: data.attachment });
 });
 
 var Feed = exports.Feed = React.createClass({
   getInitialState: function() {
     return {
-      feedItem: ''
+      feedContent: []
     }
   },
 
@@ -26,7 +24,7 @@ var Feed = exports.Feed = React.createClass({
 
   componentWillUnmount: function(){
     console.log("Feed Component is unmounting")
-    // feeder.removeListener('data', this.updateFeed);
+    feeder.removeListener('action', this.updateFeed);
   },
 
   getFeed: function() {
@@ -35,15 +33,17 @@ var Feed = exports.Feed = React.createClass({
 
   updateFeed: function(data) {
     console.log('About to update feed with: ', data)
-    this.setState({ feedItem: data });
+    this.setState({ feedContent: data });
   },
 
   render: function() {
     return (
       <div>
-        {this.state.feedItem}
+        <h5>Feed</h5>
         <ul>
-
+          {this.state.feedContent.map(function(item, idx) {
+            return <li key={idx}>{item.message}</li>
+          })}
         </ul>
       </div>
     )

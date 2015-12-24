@@ -19,6 +19,8 @@ var Controller = require('./db/controllers');
 var Model = require('./db/models');
 var connection = require('./db/connection.js');
 
+var IP = '127.0.0.1', PORT = 4000;
+
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
@@ -27,43 +29,10 @@ var io = require('socket.io')(server);
 // var Router = require('react-router');
 // var React = require('react');
 // var routes = require('../client/config/routes.js');
-console.log('Line 30')
-var IP = '127.0.0.1', PORT = 4000;
-console.log('Line 32')
 
 server.listen(PORT, IP);
-console.log('Line 35')
 // app.use('../client/js/', express.static(path.join(__dirname, '../client/js')));
 app.use(express.static(path.join(__dirname, '../client')));
-
-console.log('Line 39')
-// var upload = multer({ dest: 'uploads/' })
-
-// var util = require('util');
-// var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
-// var log_stdout = process.stdout;
-// console.log = function(d) { //
-//   log_file.write(util.format(d) + '\n');
-//   log_stdout.write(util.format(d) + '\n');
-// };
-
-// var number = 7;
-//
-// var donationCycle = io.of('/donationCycle')
-//   .on('connection', function(client) {
-//     client.emit('join', number);
-//   });
-
-io.on('connection', function(client) {
-  console.log('Client is Connected');
-  client.on('test', function(data) {
-    console.log('Data: ', data);
-  })
-  client.emit('logged in', ["I just logged in"]);
-});
-
-//app.use('/client/js', express.static(path.join(__dirname, '../client/js')));
-// app.use(require('morgan')('dev'));
 
 // session middleware
 app.use(session({
@@ -71,14 +40,9 @@ app.use(session({
   secret: '@%20%23&amp;',
   saveUninitialized: false,
   resave: false,
-  store: new FileStore({ retries: 50, reapInterval: 10000 }),
+  store: new FileStore({ retries: 10 }),
   cookie: { maxAge: 1000 * 60 * 60 }
 }));
-
-// app.use(function printSession(req, res, next) {
-//   console.log('req.session', req.session);
-//   return next();
-// });
 
 //================================= PARSERS ==================================/
 
@@ -88,7 +52,54 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse application/json
 app.use(bodyParser.json());
 
+// var util = require('util');
+// var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+// var log_stdout = process.stdout;
+// console.log = function(d) { //
+//   log_file.write(util.format(d) + '\n');
+//   log_stdout.write(util.format(d) + '\n');
+// };
 
+var feed = io.of('/feed')
+.on('connection', function(client) {
+  console.log('client is connected');
+  client.on('follow', function(data) {
+    console.log('Follow Data: ', data);
+    Model.Donor.findOne({ _id: data.donor }, function(err, donor) {
+      if (donor.orgs_followed.indexOf(data.org) > -1) {
+        // donor.orgs_followed.push(data.org);
+        donor.save(function(err) {
+          if (err) throw err;
+          else {
+            console.log('Saving to donor')
+            client.emit('action', { message: 'You are now following an organization', attachment: '' });
+          }
+        });
+      }
+      // } else {
+      //   console.log('Donor is already following organization');
+      // }
+    });
+  });
+});
+
+// io.on('connection', function(client) {
+//   console.log('Client is Connected');
+//   client.on('test', function(data) {
+//     console.log('Data: ', data);
+//   })
+//   client.emit('logged in', ["I just logged in"]);
+// });
+
+//app.use('/client/js', express.static(path.join(__dirname, '../client/js')));
+// app.use(require('morgan')('dev'));
+
+
+
+// app.use(function printSession(req, res, next) {
+//   console.log('req.session', req.session);
+//   return next();
+// });
 
 // function isObject(obj) {
 // 	return obj != null && typeof obj === 'object';
@@ -213,10 +224,10 @@ app.get('/image', function(req, res) {
 //   // }
 // });
 
-// app.get('/get_browse', function(req, res, next) {
-//   Controller.AoF.retrieve(req, res, next);
-//
-// });
+app.get('/get_browse', function(req, res, next) {
+  // Controller.AoF.retrieve(req, res, next);
+
+});
 
 app.get('/organization_get/:id', function(req, res, next) {
  // console.log('Org ID: ', req.body.orgID);
@@ -507,9 +518,9 @@ app.post('/post_search', function(req, res, next) {
 //         res.render('main', { content: html });
 //     });
 // });
-console.log('Got towards the end')
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
+
 app.get('*', function (req, res, next){
   // res.sendFile(path.resolve(__dirname, './../client', 'index.html'));
   res.sendFile(path.join(__dirname, '../client/index.html'));

@@ -37,7 +37,25 @@ var Organization = exports.Organization = React.createClass({
     $('.tabs-wrapper .row').pushpin({ top: $('.tabs-wrapper').offset(1000).top });
   },
 
-  
+
+
+  followOrg: function(e) {
+    e.preventDefault();
+    console.log('donor: ' + localStorage.token, 'org: ' + localStorage.currentOrgID)
+    feeder.emit('follow', { donor: localStorage.token, org: localStorage.currentOrgID });
+    // $.ajax({
+    //   method: 'POST',
+    //   url: '/organization/follow',
+    //   dataType: 'json',
+    //   data: { orgID: localStorage.currentOrgID },
+    //   success: function(response) {
+    //     console.log("Follow Org Success: ", response)
+    //   },
+    //   error: function(xhr, status, response) {
+    //     console.log("Follow Org Error: ", xhr, status, response)
+    //   }
+    // })
+  },
 
   render: function () {
 
@@ -77,7 +95,8 @@ var Organization = exports.Organization = React.createClass({
         {/*Header*/}
         <div id="location" className="center-align section scrollspy">
           <h1>
-            {this.state.org.name}
+            {this.props.currentOrganization.name}
+            <button onClick={this.followOrg}>Follow</button>
           </h1>
           <i className="medium material-icons">room</i>
           <h5> {this.props.currentOrganization.address}</h5>
