@@ -93,6 +93,7 @@ var Organization = React.createClass({
 
   setOrganization: function() {
     localStorage.currentOrgID = this.props.org._id;
+    feeder.emit('follow', localStorage.token, localStorage.currentOrgID);
     console.log('Set local storage organization')
     this.props.setOrganization(this.props.org);
     console.log('inside of search.js and localstorage is ', localStorage);

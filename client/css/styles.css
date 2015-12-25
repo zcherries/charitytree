@@ -424,3 +424,13 @@ main {
   -webkit-line-clamp : 5;
   height             : calc(1em * 1.2 * 5);
 }
+
+/* Dashboard Project view */
+.btn_edit_project {
+  float: right;
+  visibility: hidden;
+}
+
+div.card:hover button{
+  visibility: visible;
+}

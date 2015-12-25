@@ -195,7 +195,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
   },
 
   render: function () {
-    return(
+    return (
       <div>
         <div className="container">
           <div className="row">

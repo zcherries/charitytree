@@ -35,6 +35,7 @@ var Login = exports.Login = React.createClass({
       success: function (response) {
         console.log(response);
         localStorage.token = response.token;
+        feeder.emit('login', response.token)
         this.props.isLoggedIn();
         this.navigateToDashboard();
         //navigate to dashboard page

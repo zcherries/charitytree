@@ -6,7 +6,7 @@ var LocalStorageMixin = require('react-localstorage');
 
 var Organization = exports.Organization = React.createClass({
   displayName: 'Organization',
-  mixins: [ History, LocalStorageMixin ],
+  // mixins: [ History, LocalStorageMixin ],
 
   getInitialState: function(){
     return {
@@ -42,19 +42,7 @@ var Organization = exports.Organization = React.createClass({
   followOrg: function(e) {
     e.preventDefault();
     console.log('donor: ' + localStorage.token, 'org: ' + localStorage.currentOrgID)
-    feeder.emit('follow', { donor: localStorage.token, org: localStorage.currentOrgID });
-    // $.ajax({
-    //   method: 'POST',
-    //   url: '/organization/follow',
-    //   dataType: 'json',
-    //   data: { orgID: localStorage.currentOrgID },
-    //   success: function(response) {
-    //     console.log("Follow Org Success: ", response)
-    //   },
-    //   error: function(xhr, status, response) {
-    //     console.log("Follow Org Error: ", xhr, status, response)
-    //   }
-    // })
+    feeder.emit('follow', localStorage.token, localStorage.currentOrgID);
   },
 
   render: function () {

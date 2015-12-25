@@ -4,7 +4,10 @@ var ReactDOM = require('react-dom');
 
 var Media = exports.Media = React.createClass({
   componentWillReceiveProps: function(nextProps) {
-    this.setState({ profile_img: nextProps.profile_img })
+    console.log("CWRP is firing", nextProps);
+    if (nextProps) {
+      this.setState({ profile_img: nextProps.media.profile_img })
+    }
   },
 
   getInitialState: function() {
@@ -15,6 +18,7 @@ var Media = exports.Media = React.createClass({
 
   upload_profile_img: function(e) {
     e.preventDefault();
+    this.setState({ editing: true });
     var $form = $('.' + e.target.className);
     var formData = new FormData($form.get(0));
     // console.log("Form data: ", formData);
@@ -27,7 +31,7 @@ var Media = exports.Media = React.createClass({
       processData: false,
       data: formData,
       success:function(response) {
-        console.log("Post Success: ", response.results);
+        console.log("Post Success: ", response);
         // this.setState({ profile_img: response.results });
         this.props.update_db_state_prop('profile_img', response.results);
       }.bind(this),
@@ -39,38 +43,28 @@ var Media = exports.Media = React.createClass({
 
   profile_img_upload_form: function() {
     return (
-<<<<<<< HEAD
-      <form className="file-field input-field profile_img_frm" onSubmit={this.upload_profile_img} action="/dashboard/media/profile_img/upload" encType="multipart/form-data" accept="image/*">
-        <div>
-          <div className="btn blue">
-            <span>Upload</span>
-            <input type="file" />
-          </div>
-
-        </div>
-=======
-      <form className="profile_img_frm" onSubmit={this.upload_profile_img} action="/dashboard/profile_img/upload" encType="multipart/form-data" accept="image/*">
-        {/*<label htmlFor="profile_img">Choose profile image</label>*/}
-        <input id="profile_img" type="file" name="profile_img" />
-        <input type="submit" value="Upload" />
->>>>>>> 4b429a1f60c55173264841dbfddf318651cf90b2
-      </form>
+      <div>
+        <form className="profile_img_frm" onSubmit={this.upload_profile_img} action="/dashboard/profile_img/upload" encType="multipart/form-data" accept="image/*">
+          {/*<label htmlFor="profile_img">Choose profile image</label>*/}
+            <input className="file-field" id="profile_img" type="file" name="profile_img" />
+            <input className="btn blue" type="submit" value="Upload" />
+        </form>
+      </div>
     )
   },
 
   profile_and_banner_img: function() {
-    var profile_img;
-    if (this.state.profile_img.contentType && this.state.profile_img.path) {
-      profile_img = "data:" + this.state.profile_img.contentType + ";base64," + this.state.profile_img.path
-    } else if (this.props.media.profile_img) {
-      profile_img = "data:" + this.props.media.profile_img.contentType + ";base64," + this.props.media.profile_img.path
-    } else {
-      profile_img = "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg";
-    }
+    console.log("State: ", this.state)
+
+    var profile_img = (this.state.profile_img['filename'] === undefined && this.props.media.profile_img === undefined)
+      ? "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg"
+      : (this.state.username) ? 'http://localhost:4000/dashboard_data/profile_img/'+ this.props.username + '/' + this.state.profile_img.filename
+      : 'http://localhost:4000/dashboard_data/profile_img/'+ this.props.username + '/' + this.props.media.profile_img.filename
     return (
       <div className="row">
         <div className="float-left">
           <h5>Profile Image</h5>
+          {/*<img className="profile_img" src={profile_img} />*/}
           <img className="profile_img" src={profile_img} />
           {this.profile_img_upload_form()}
         </div>

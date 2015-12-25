@@ -8,6 +8,10 @@ feeder.on('action', function(data) {
   feedData.push({ message: data.message, attachment: data.attachment });
 });
 
+feeder.on('getFeed', function(arrFeed) {
+  feedData = arrFeed || [];
+});
+
 var Feed = exports.Feed = React.createClass({
   getInitialState: function() {
     return {
@@ -17,7 +21,6 @@ var Feed = exports.Feed = React.createClass({
 
   componentWillMount: function() {
     console.log('Feed Component is Mounting')
-    feeder.emit('test', "Hello")
     this.updateFeed(feedData);
     // feeder.on('data', this.updateFeed);
   },
@@ -42,7 +45,7 @@ var Feed = exports.Feed = React.createClass({
         <h5>Feed</h5>
         <ul>
           {this.state.feedContent.map(function(item, idx) {
-            return <li key={idx}>{item.message}</li>
+            return <li key={idx}><span>{item.message}</span><span>{item.created_date}</span></li>
           })}
         </ul>
       </div>

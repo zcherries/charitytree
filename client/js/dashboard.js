@@ -9,13 +9,15 @@ import {DonorProfile} from './dashboard/donor/profile.js';
 import {Feed} from './dashboard/donor/feed.js';
 
  import {History} from 'react-router';
- var LocalStorageMixin = require('react-localstorage');
-// var feeder = io();
+ // var LocalStorageMixin = require('react-localstorage');
 
+// feeder.on('feedUpdate', function(count) {
+//   //show feed count
+// });
 
 var Dashboard = exports.Dashboard = React.createClass({
    displayName: 'Dashboard',
-   mixins: [ History, LocalStorageMixin ],
+  //  mixins: [ History, LocalStorageMixin ],
   getInitialState: function() {
     return {
       data: {},
@@ -31,7 +33,6 @@ var Dashboard = exports.Dashboard = React.createClass({
     console.log('Dashboard Component is Mounted');
     this.getData();
   },
-
 
   getData: function() {
     console.log('Making AJAX request to server')
@@ -67,9 +68,7 @@ var Dashboard = exports.Dashboard = React.createClass({
           areas_of_focus: this.state.data.areas_of_focus,
           address: this.state.data.address
         };
-        // orgInfo.about = "Will this change!!!"
         console.log("Org Info About: " + orgInfo.about);
-        // console.log("State About: " + this.state.data.about);
 
         view = <OrgProfile update_db_state_prop={this.update_db_state_prop} orgInfo={orgInfo} />;
         break;
@@ -82,7 +81,7 @@ var Dashboard = exports.Dashboard = React.createClass({
           images: this.state.data.images,
           videos: this.state.data.videos
         }
-        view = <Media media={media} update_db_state_prop={this.update_db_state_prop} />;
+        view = <Media username={this.state.data.username} media={media} update_db_state_prop={this.update_db_state_prop} />;
         break;
       case 'endorsements':
         view = <Endorsements postData={this.postData} endorsements={this.state.data.endorsements} />;
@@ -135,6 +134,7 @@ var Dashboard = exports.Dashboard = React.createClass({
     var state = this.state.data;
     console.log('State before update: ', state[prop]);
     state[prop] = data;
+    console.log('State: ', state);
     console.log('State after update: ', state[prop]);
     this.setState({ data: state });
   },

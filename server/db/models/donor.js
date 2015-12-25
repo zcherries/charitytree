@@ -22,9 +22,9 @@ var DonorSchema = new Schema({
   // areas_of_focus: [{ type: ObjectId, ref: 'AoF' }],
   areas_of_focus: [String],
   sponsored_projects: [{ type: ObjectId, ref: 'Project' }],
-  orgs_followed: [{ type: ObjectId, ref: 'Organization' }],
+  following: [{ type: ObjectId, ref: 'Organization' }],
   endorsements: [endorsementSchema],
-  feed: [{ content: Schema.Types.Mixed, created_date: Date }]
+  feed: [{ message: String, attachment: Schema.Types.Mixed, created_date: Date }]
 });
 
 DonorSchema.pre('save', function(next) {
