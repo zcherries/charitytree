@@ -1,43 +1,68 @@
 var express = require('express');
 
-var path = require('path');
-var bodyParser = require('body-parser');
-var fs = require('fs');
-var multer = require('multer');
-var streamifier = require('streamifier');
-var bcrypt = require('bcrypt-nodejs');
+var _db = require('./db/connection.js');
+var Controller = require('./db/controllers');
+var Model = require('./db/models');
 
 var session = require('express-session');
-var FileStore = require('session-file-store')(session);
+var MongoStore = require('connect-mongo')(session);
+// var FileStore = require('session-file-store')(session);
 // var session_helpers = require('./helpers/session-helpers.js');
+
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var multer = require('multer');
+
+var path = require('path');
+var fs = require('fs');
+var streamifier = require('streamifier');
+var bcrypt = require('bcrypt-nodejs');
 
 //var webpack = require('webpack');
 //var WebpackDevServer = require('webpack-dev-server');
 // var config = require('../webpack.config.js');
 
-var Controller = require('./db/controllers');
-var Model = require('./db/models');
-var connection = require('./db/connection.js');
+var IP = '127.0.0.1', PORT = 4000;
 
 var app = express();
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
+// var io = require('socket.io')(server);
+var feed = require('./socket.io.js')(server);
 
 // import {Router, History} from 'react-router';
 // var Router = require('react-router');
 // var React = require('react');
 // var routes = require('../client/config/routes.js');
-console.log('Line 30')
-var IP = '127.0.0.1', PORT = 4000;
-console.log('Line 32')
 
 server.listen(PORT, IP);
-console.log('Line 35')
-// app.use('../client/js/', express.static(path.join(__dirname, '../client/js')));
+
+//================================= MIDDLEWARE ==================================/
+
+//server static files
 app.use(express.static(path.join(__dirname, '../client')));
 
-console.log('Line 39')
-// var upload = multer({ dest: 'uploads/' })
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// parse application/json
+app.use(bodyParser.json());
+
+//parse cookies
+app.use(cookieParser());
+
+// session middleware
+app.use(session({
+  // name: 'server-session-cookie-id',
+  secret: '@%20%23&amp;',
+  saveUninitialized: false,
+  resave: false,
+  store: new MongoStore({
+    mongooseConnection: _db.connection
+  }),
+  // store: new FileStore({ retries: 50 }),
+  cookie: { maxAge: 3600000 }
+}));
+
 
 // var util = require('util');
 // var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
@@ -47,56 +72,22 @@ console.log('Line 39')
 //   log_stdout.write(util.format(d) + '\n');
 // };
 
+
 // io.on('connection', function(client) {
-//   console.log('Client connected')
-//   client.on('join', function(data) {
-//     console.log('Message Received: ', data);
-//     client.emit('reply', { message: 'this is the reply'});
-//   });
+//   console.log('Client is Connected');
+//   client.on('test', function(data) {
+//     console.log('Data: ', data);
+//   })
+//   client.emit('logged in', ["I just logged in"]);
 // });
-
-// var number = 7;
-//
-// var donationCycle = io.of('/donationCycle')
-//   .on('connection', function(client) {
-//     client.emit('join', number);
-//   });
-
-io.on('connection', function(client) {
-  console.log('Client is Connected');
-  client.on('test', function(data) {
-    console.log('Data: ', data);
-  })
-  client.emit('logged in', ["I just logged in"]);
-});
 
 //app.use('/client/js', express.static(path.join(__dirname, '../client/js')));
 // app.use(require('morgan')('dev'));
-
-// session middleware
-app.use(session({
-  name: 'server-session-cookie-id',
-  secret: '@%20%23&amp;',
-  saveUninitialized: false,
-  resave: false,
-  store: new FileStore({ retries: 50, reapInterval: 10000 }),
-  cookie: { maxAge: 1000 * 60 * 60 }
-}));
 
 // app.use(function printSession(req, res, next) {
 //   console.log('req.session', req.session);
 //   return next();
 // });
-
-//================================= PARSERS ==================================/
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// parse application/json
-app.use(bodyParser.json());
-
-
 
 // function isObject(obj) {
 // 	return obj != null && typeof obj === 'object';
@@ -192,13 +183,13 @@ app.get('/dashboard_data/projects', function(req, res, next) {
 });
 
 app.get('/dashboard_data/media/:id', function(req, res, next) {
-  var readstream = connection.gridfs.createReadStream({ _id: req.params.id });
+  var readstream = _db.gridfs.createReadStream({ _id: req.params.id });
   readstream.pipe(res);
 });
 
 app.get('/image', function(req, res) {
   var file_exists = function (options) {
-    connection.gridfs.exist(options, function (err, found) {
+    _db.gridfs.exist(options, function (err, found) {
       if (err) {
         console.error(err);
         return false;
@@ -211,7 +202,7 @@ app.get('/image', function(req, res) {
 // app.get('/remove_media', function(req, res) {
 //   var options = { filename: 'Wildlife.wmv' }
 //   // if (file_exists(options)) {
-//   connection.gridfs.remove(options, function (err) {
+//   _db.gridfs.remove(options, function (err) {
 //     if (err) console.log(err);
 //     else {
 //       console.log('success');
@@ -221,10 +212,9 @@ app.get('/image', function(req, res) {
 //   // }
 // });
 
-// app.get('/get_browse', function(req, res, next) {
-//   Controller.AoF.retrieve(req, res, next);
-//
-// });
+app.get('/get_orgs', function(req, res, next) {
+  Controller.Organization.retrieve(req, res, next);
+});
 
 app.get('/organization_get/:id', function(req, res, next) {
  // console.log('Org ID: ', req.body.orgID);
@@ -232,8 +222,8 @@ app.get('/organization_get/:id', function(req, res, next) {
 
  var id = req.params.id;
 
- Model.Organization.findOne({ _id: id })
- .populate('projects').exec(function(err, org) {
+ Model.Organization.findOne({ _id: id }).populate('projects')
+  .exec(function(err, org) {
    if (err) throw err;
    else {
      console.log('Retrieved Org', org)
@@ -242,6 +232,15 @@ app.get('/organization_get/:id', function(req, res, next) {
  });
 });
 
+app.get('/dashboard_data/profile_img/:user/:filename', function(req, res, next) {
+  console.log(req.params)
+  Model.Organization.findOne({ username: req.params.user }, function(err, org) {
+    if (err) { console.error(err); res.status(400).send('Could not retrieve data'); }
+    else {
+      streamifier.createReadStream(org.profile_img.data).pipe(res);
+    }
+  });
+});
 //================================== POST ===================================//
 app.post('/signup_post', function(req, res, next) {
   console.log('Body: ', req.body);
@@ -320,6 +319,7 @@ app.post('/login_post', function(req, res, next) {
             if (result) {
               //create session
               req.session.user = { uid: org._id, type: 'organization' };
+              console.log('Session has been set');
               res.send({ status: 201, token: req.session.user.uid });
             } else { //found org but password doesn't match
               res.status(400).send({ status: 400, message: "Invalid username/password combination" });
@@ -340,21 +340,6 @@ app.post('/logout_post', function(req, res) {
     res.status(201).send({status: 201, message: 'User has been logged out'});
   });
 });
-// app.post('/dashboard_data', function(req, res, next) {
-//   if (req.session && req.session.user) {
-//     if (req.session.user.type === 'organization') {
-//       if (req.body.view === 'about') {
-//         console.log("About: ", req.body.about)
-//         Controller.Organization.update(req, res, next, { _id: req.session.user.uid },
-//           { about: req.body.about, areas_of_focus: req.body.areas_of_focus });
-//       }
-//     } else if (req.session.user.type === 'donor') {
-//       Controller.Donor.update(req, res, next, { _id: req.session.user.uid });
-//     }
-//   } else {
-//     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
-//   }
-// });
 
 app.post('/dashboard/profile', function(req, res, next) {
   if (req.session && req.session.user) {
@@ -385,7 +370,7 @@ app.post('/dashboard/project/create', function(req, res, next) {
           Model.Organization.findOne({_id: req.session.user.uid}, function(err, org) {
             if (err) { throw err; }
             else {
-              org.projects.push(project);
+              org.projects.push(project); //save project to organization's array of projects
               org.save(function(err, org) {
                 if (err) { throw err; }
                 else {
@@ -412,11 +397,10 @@ app.post('/dashboard/profile_img/upload', multer().single('profile_img'), functi
         org.profile_img.data = req.file.buffer;
         org.profile_img.contentType = req.file.mimetype;
         org.profile_img.filename = req.file.originalname;
-        org.profile_img.path = new Buffer(req.file.buffer).toString('base64');
+        // org.profile_img.path = new Buffer(req.file.buffer).toString('base64');
         org.save(function(err, currOrg) {
-          if (err) { console.error("Profile Image save error: ", err)}
+          if (err) { console.error("Profile Image save error: ", err); }
           res.status(201).send({ status: 201, results: {
-            path: currOrg.profile_img.path,
             contentType: currOrg.profile_img.contentType,
             filename: currOrg.profile_img.filename }
           });
@@ -429,17 +413,17 @@ app.post('/dashboard/profile_img/upload', multer().single('profile_img'), functi
   });
 });
 
-app.post('/dashboard/media/upload', multer().array('media'), function(req, res, next) {
+app.post('/dashboard/org/media/upload', multer().array('media'), function(req, res, next) {
   console.log("Files: ", req.files);
   //  console.log("Body: ", req.body);
   req.files.forEach(function(file) {
     console.log(file);
     //generate an object id
-    var fileId = connection.types.ObjectId();
-    var writeStream = connection.gridfs.createWriteStream({
+    var fileId = _db.types.ObjectId();
+    var writeStream = _db.gridfs.createWriteStream({
       _id: fileId,
       length: Number(file.size),
-      chunkSize: 1024,
+      chunkSize: 1024 * 4,
       filename: file.originalname,
       content_type: file.mimetype,
       mode: 'w',
@@ -451,7 +435,7 @@ app.post('/dashboard/media/upload', multer().array('media'), function(req, res, 
     streamifier.createReadStream(file.buffer).pipe(writeStream);
     writeStream.on('close', function() {
       console.log("File write was successful");
-      //store fileId in media property of organization or project
+      //store fileId in media property of organization
       Model.Organization.findById({ _id: req.session.user.uid }, function(err, org) {
         if (err) { throw err; }
         else {
@@ -467,6 +451,47 @@ app.post('/dashboard/media/upload', multer().array('media'), function(req, res, 
       });
     });
   });
+});
+
+app.post("/dashboard/project/media/upload", multer().array('media'), function(req, res, next) {
+  console.log("Files: ", req.files);
+  console.log("Body: ", req.body);
+  res.status(201).send({ status: 201, message: "Media upload successful." });
+
+  // req.files.forEach(function(file) {
+  //   //generate an object id
+  //   var fileId = _db.types.ObjectId();
+  //   var writeStream = _db.gridfs.createWriteStream({
+  //     _id: fileId,
+  //     length: Number(file.size),
+  //     chunkSize: 1024 * 4,
+  //     filename: file.originalname,
+  //     content_type: file.mimetype,
+  //     mode: 'w',
+  //     metadata: {
+  //       org: req.session.user.uid
+  //     }
+  //   });
+  //
+  //   streamifier.createReadStream(file.buffer).pipe(writeStream);
+  //   writeStream.on('close', function() {
+  //     console.log("File write was successful");
+  //     //store fileId in media property of organization
+  //     Model.Project.findById({ _id: req.session.user.uid }, function(err, project) {
+  //       if (err) { throw err; }
+  //       else {
+  //         if (file.mimetype.slice(0, 6) === 'image/') { project.images.push(fileId); }
+  //         else if (file.mimetype.slice(0, 6) === 'video/') { project.videos.push(fileId); }
+  //         project.save(function(err, updatedProject) {
+  //           if (err) { throw err; }
+  //           else {
+  //             res.status(201).send({ status: 201, message: "Media upload successful." });
+  //           }
+  //         });
+  //       }
+  //     });
+  //   });
+  // });
 });
 
 app.post('/post_search', function(req, res, next) {
@@ -515,9 +540,9 @@ app.post('/post_search', function(req, res, next) {
 //         res.render('main', { content: html });
 //     });
 // });
-console.log('Got towards the end')
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
+
 app.get('*', function (req, res, next){
   // res.sendFile(path.resolve(__dirname, './../client', 'index.html'));
   res.sendFile(path.join(__dirname, '../client/index.html'));

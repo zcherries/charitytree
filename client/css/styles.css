@@ -424,3 +424,27 @@ main {
   -webkit-line-clamp : 5;
   height             : calc(1em * 1.2 * 5);
 }
+
+/* Dashboard Project view */
+.projects-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.project-blurb {
+  width: 400px;
+  height: 400px;
+}
+
+div.project-options {
+  display: none;
+}
+
+div.card:hover .project-options {
+  display: block;
+}
+
+.project-blurb .box__input label {
+  height: 364px;
+}

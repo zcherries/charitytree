@@ -6,7 +6,7 @@ var LocalStorageMixin = require('react-localstorage');
 
 var Organization = exports.Organization = React.createClass({
   displayName: 'Organization',
-  mixins: [ History, LocalStorageMixin ],
+  // mixins: [ History, LocalStorageMixin ],
 
   getInitialState: function(){
     return {
@@ -37,7 +37,13 @@ var Organization = exports.Organization = React.createClass({
     $('.tabs-wrapper .row').pushpin({ top: $('.tabs-wrapper').offset(1000).top });
   },
 
-  
+
+
+  followOrg: function(e) {
+    e.preventDefault();
+    console.log('donor: ' + localStorage.token, 'org: ' + localStorage.currentOrgID)
+    feeder.emit('follow', localStorage.token, localStorage.currentOrgID);
+  },
 
   render: function () {
 
@@ -77,7 +83,8 @@ var Organization = exports.Organization = React.createClass({
         {/*Header*/}
         <div id="location" className="center-align section scrollspy">
           <h1>
-            {this.state.org.name}
+            {this.props.currentOrganization.name}
+            <button onClick={this.followOrg}>Follow</button>
           </h1>
           <i className="medium material-icons">room</i>
           <h5> {this.props.currentOrganization.address}</h5>

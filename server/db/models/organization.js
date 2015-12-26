@@ -15,13 +15,13 @@ var OrganizationSchema = new Schema({
     data: Buffer,
     contentType: String,
     filename: String,
-    path: String
   },
   images: [ObjectId],
   videos: [ObjectId],
   projects: [{ type: ObjectId, ref: 'Project' }],
-  endorsements: [{ type: ObjectId, ref: 'Donor' }]
-  // img: { type: String, default: '' }
+  endorsements: [{ type: ObjectId, ref: 'Donor' }],
+  followers: [{ type: ObjectId, ref: 'Donor' }],
+  feed: [{ message: String, attachment: Schema.Types.Mixed, created_date: Date }]
 });
 
 // OrganizationSchema.add({ about: String });

@@ -33,7 +33,8 @@ var ProjectSchema = new Schema({
   //faqs: [{title: String, description: String}],
   updates: [{ title: String, date: Date, description: String }],
   sponsors: [{ type: ObjectId, ref: 'Donor' }],
-  media: [ObjectId]
+  images: [ObjectId],
+  videos: [ObjectId]
 });
 
 NeedSchema.pre('save', function(next) {
