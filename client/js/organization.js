@@ -6,7 +6,16 @@ var LocalStorageMixin = require('react-localstorage');
 
 var Organization = exports.Organization = React.createClass({
   displayName: 'Organization',
-  // mixins: [ History, LocalStorageMixin ],
+  mixins: [ History, LocalStorageMixin ],
+
+  handleClick: function(project){
+    console.log('inside of project handleClick');
+    console.log('inside of handleClick project is', project);
+    // console.log('inside of handleClick index is', index);
+    localStorage.setItem('currProjObj', JSON.stringify(project));
+    this.props.navigateToProjectPage();
+
+  },
 
   getInitialState: function(){
     return {
@@ -20,10 +29,15 @@ var Organization = exports.Organization = React.createClass({
         // dataType: 'json',
         method: "GET",
         success: function (data) {
-          console.log("on success with params.id and res.data is ", data);
+          console.log("on success in did with params.id and res.data is ", data);
+
+          localStorage.setItem('currOrgObj', JSON.stringify(data.results));
+
           this.setState({
-            org: data.results
+            org: JSON.parse(localStorage.getItem('currOrgObj'))
           });
+
+          console.log('inside of success of did and localStorage.currOrgObj is ', localStorage.currOrgObj);
         }.bind(this),
         error: function (xhr, status, err) {
           console.error(xhr, status, err.toString());
@@ -48,6 +62,7 @@ var Organization = exports.Organization = React.createClass({
   render: function () {
 
     if(this.state.org){
+      {console.log('inside render and this.state.org is', JSON.stringify(this.state.org));}
 
     var aofs = this.state.org.areas_of_focus.map(function (aof, index) {
       return (
@@ -68,15 +83,16 @@ var Organization = exports.Organization = React.createClass({
 
 
     var currentProjects = this.state.org.projects.map(function (project, index) {
+      var handleClickInside = this.handleClick.bind(this, project);
       return (
-        <div key={index}>
+        <div key={index} onClick={handleClickInside}>
           <div>the org is {project.org}</div>
           <div>the info is {project.info}</div>
           <div>this is the start_date {project.start_date}</div>
           <div>the end_date {project.end_date}</div>
         </div>
       );
-    });
+    },this);
 
     return (
       <div className="container">
@@ -87,7 +103,7 @@ var Organization = exports.Organization = React.createClass({
             <button onClick={this.followOrg}>Follow</button>
           </h1>
           <i className="medium material-icons">room</i>
-          <h5> {this.props.currentOrganization.address}</h5>
+          <h5> {}</h5>
         </div>
         <div className="row">
           <div className="col s12 m10 l10">
@@ -154,12 +170,10 @@ var Organization = exports.Organization = React.createClass({
         </div>
       </div>
     );
-    }
-
-    else{
-      return (
-        <div>Nothing to display</div>
-        );
+    }else{
+      return(
+        <div>nothing to display</div>
+        )
     }
   }
 });
