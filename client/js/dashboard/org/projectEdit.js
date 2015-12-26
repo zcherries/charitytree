@@ -8,47 +8,47 @@ var ProjectEdit = exports.ProjectEdit = React.createClass({
           <div className="row">
             <fieldset>
               <legend>
-                <h1>Create a new Project</h1>
+                <h1>{this.props.project.title}</h1>
               </legend>
               <form className="col s12">
                 <div className="row">
                   {/*Project Title*/}
                   <div className="input-field col s12 m6">
-                    <input id="project_title" type="text" className="validate" required value={this.state.title} onChange={this.updateTitle}/>
+                    <input id="project_title" type="text" className="validate" required defaultValue={this.props.project.title} />
                     <label htmlFor="project_title">Project Title</label>
                   </div>
                   {/*Target Funding Amount*/}
                   <div className="input-field col s12 m6">
-                    <input id="goal" type="number" className="validate" value={this.state.amount.goal} onChange={this.updateGoalAmount} />
+                    <input id="goal" type="number" className="validate" defaultValue={this.props.project.amount.goal} />
                     <label htmlFor="goal">Target Funding Amount</label>
                   </div>
                   {/*End Date*/}
                   <div className="input-field col s12">
-                    <input id="end_date" type="date" className="datepicker" value={this.props.endDateText} onClick={this.updateEndDate} />
+                    <input id="end_date" type="date" className="datepicker" defaultValue={this.props.project.end_date}  />
                     <label htmlFor="end_date">Projected End Date</label>
                   </div>
                   {/*Project Info*/}
                   <div className="input-field col s12">
-                    <textarea id="info" className="materialize-textarea" value={this.state.info} onChange={this.updateInfo} />
+                    <textarea id="info" className="materialize-textarea" defaultValue={this.props.project.info} />
                     <label htmlFor="info">Info</label>
                   </div>
                 </div>
               </form>
             </fieldset>
 
-            <h3>Select Project Areas of Focus</h3>
+            <h3>Areas of Focus</h3>
             <CategorySelect addRemoveCat={this.addRemoveCat} />
 
             <h3>Add Project Needs</h3>
             <Needs
-              needs={this.state.needs_list}
+              needs={this.props.project.needs_list}
               addNeed={this.addNeed}
               updateNeedTitle={this.updateNeedTitle}
               updateNeedDescription={this.updateNeedDescription}
               updateNeedCost={this.updateNeedCost}
               updateNeedQuantity={this.updateNeedQuantity}
             />
-            <a className="waves-effect waves-light btn float right" onClick={this.submitForm}><i className="material-icons right">label_outline</i>Next Step</a>
+            <a className="waves-effect waves-light btn float right" onClick={this.submitForm}><i className="material-icons right">label_outline</i>Submit</a>
           </div>
 
         </div>

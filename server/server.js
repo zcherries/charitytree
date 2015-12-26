@@ -1,20 +1,20 @@
 var express = require('express');
 
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-
+var _db = require('./db/connection.js');
 var Controller = require('./db/controllers');
 var Model = require('./db/models');
-var _db = require('./db/connection.js');
 
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 // var FileStore = require('session-file-store')(session);
 // var session_helpers = require('./helpers/session-helpers.js');
 
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var multer = require('multer');
+
 var path = require('path');
 var fs = require('fs');
-var multer = require('multer');
 var streamifier = require('streamifier');
 var bcrypt = require('bcrypt-nodejs');
 
@@ -22,14 +22,11 @@ var bcrypt = require('bcrypt-nodejs');
 //var WebpackDevServer = require('webpack-dev-server');
 // var config = require('../webpack.config.js');
 
-
-
 var IP = '127.0.0.1', PORT = 4000;
 
 var app = express();
 var server = require('http').Server(app);
 // var io = require('socket.io')(server);
-
 var feed = require('./socket.io.js')(server);
 
 // import {Router, History} from 'react-router';
@@ -67,7 +64,6 @@ app.use(session({
 }));
 
 
-
 // var util = require('util');
 // var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
 // var log_stdout = process.stdout;
@@ -87,8 +83,6 @@ app.use(session({
 
 //app.use('/client/js', express.static(path.join(__dirname, '../client/js')));
 // app.use(require('morgan')('dev'));
-
-
 
 // app.use(function printSession(req, res, next) {
 //   console.log('req.session', req.session);
@@ -228,8 +222,8 @@ app.get('/organization_get/:id', function(req, res, next) {
 
  var id = req.params.id;
 
- Model.Organization.findOne({ _id: id })
- .populate('projects').exec(function(err, org) {
+ Model.Organization.findOne({ _id: id }).populate('projects')
+  .exec(function(err, org) {
    if (err) throw err;
    else {
      console.log('Retrieved Org', org)
@@ -346,21 +340,6 @@ app.post('/logout_post', function(req, res) {
     res.status(201).send({status: 201, message: 'User has been logged out'});
   });
 });
-// app.post('/dashboard_data', function(req, res, next) {
-//   if (req.session && req.session.user) {
-//     if (req.session.user.type === 'organization') {
-//       if (req.body.view === 'about') {
-//         console.log("About: ", req.body.about)
-//         Controller.Organization.update(req, res, next, { _id: req.session.user.uid },
-//           { about: req.body.about, areas_of_focus: req.body.areas_of_focus });
-//       }
-//     } else if (req.session.user.type === 'donor') {
-//       Controller.Donor.update(req, res, next, { _id: req.session.user.uid });
-//     }
-//   } else {
-//     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
-//   }
-// });
 
 app.post('/dashboard/profile', function(req, res, next) {
   if (req.session && req.session.user) {
@@ -391,7 +370,7 @@ app.post('/dashboard/project/create', function(req, res, next) {
           Model.Organization.findOne({_id: req.session.user.uid}, function(err, org) {
             if (err) { throw err; }
             else {
-              org.projects.push(project);
+              org.projects.push(project); //save project to organization's array of projects
               org.save(function(err, org) {
                 if (err) { throw err; }
                 else {
@@ -434,7 +413,7 @@ app.post('/dashboard/profile_img/upload', multer().single('profile_img'), functi
   });
 });
 
-app.post('/dashboard/media/upload', multer().array('media'), function(req, res, next) {
+app.post('/dashboard/org/media/upload', multer().array('media'), function(req, res, next) {
   console.log("Files: ", req.files);
   //  console.log("Body: ", req.body);
   req.files.forEach(function(file) {
@@ -444,7 +423,7 @@ app.post('/dashboard/media/upload', multer().array('media'), function(req, res, 
     var writeStream = _db.gridfs.createWriteStream({
       _id: fileId,
       length: Number(file.size),
-      chunkSize: 1024,
+      chunkSize: 1024 * 4,
       filename: file.originalname,
       content_type: file.mimetype,
       mode: 'w',
@@ -456,7 +435,7 @@ app.post('/dashboard/media/upload', multer().array('media'), function(req, res, 
     streamifier.createReadStream(file.buffer).pipe(writeStream);
     writeStream.on('close', function() {
       console.log("File write was successful");
-      //store fileId in media property of organization or project
+      //store fileId in media property of organization
       Model.Organization.findById({ _id: req.session.user.uid }, function(err, org) {
         if (err) { throw err; }
         else {
@@ -472,6 +451,47 @@ app.post('/dashboard/media/upload', multer().array('media'), function(req, res, 
       });
     });
   });
+});
+
+app.post("/dashboard/project/media/upload", multer().array('media'), function(req, res, next) {
+  console.log("Files: ", req.files);
+  console.log("Body: ", req.body);
+  res.status(201).send({ status: 201, message: "Media upload successful." });
+
+  // req.files.forEach(function(file) {
+  //   //generate an object id
+  //   var fileId = _db.types.ObjectId();
+  //   var writeStream = _db.gridfs.createWriteStream({
+  //     _id: fileId,
+  //     length: Number(file.size),
+  //     chunkSize: 1024 * 4,
+  //     filename: file.originalname,
+  //     content_type: file.mimetype,
+  //     mode: 'w',
+  //     metadata: {
+  //       org: req.session.user.uid
+  //     }
+  //   });
+  //
+  //   streamifier.createReadStream(file.buffer).pipe(writeStream);
+  //   writeStream.on('close', function() {
+  //     console.log("File write was successful");
+  //     //store fileId in media property of organization
+  //     Model.Project.findById({ _id: req.session.user.uid }, function(err, project) {
+  //       if (err) { throw err; }
+  //       else {
+  //         if (file.mimetype.slice(0, 6) === 'image/') { project.images.push(fileId); }
+  //         else if (file.mimetype.slice(0, 6) === 'video/') { project.videos.push(fileId); }
+  //         project.save(function(err, updatedProject) {
+  //           if (err) { throw err; }
+  //           else {
+  //             res.status(201).send({ status: 201, message: "Media upload successful." });
+  //           }
+  //         });
+  //       }
+  //     });
+  //   });
+  // });
 });
 
 app.post('/post_search', function(req, res, next) {
