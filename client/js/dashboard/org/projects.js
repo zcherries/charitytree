@@ -58,13 +58,9 @@ var Projects = exports.Projects = React.createClass({
   },
 
   createProject: function() {
-<<<<<<< HEAD
     console.log('Show Form');
     return <div><ProjectCreate submitHandler={this.handleSubmit} /></div>
-=======
-    console.log('Show Form')
-    return <div><ProjectCreate submitHandler={this.submitHandler} /></div>
->>>>>>> 4b429a1f60c55173264841dbfddf318651cf90b2
+
   },
 
   submitHandler: function() {
