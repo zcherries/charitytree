@@ -90,10 +90,9 @@ var OrganizationResults = React.createClass({
 });
 
 var Organization = React.createClass({
-
   setOrganization: function() {
     localStorage.currentOrgID = this.props.org._id;
-    feeder.emit('follow', localStorage.token, localStorage.currentOrgID);
+    feeder.emit('follow', this.props.org._id);
     console.log('Set local storage organization')
     this.props.setOrganization(this.props.org);
     console.log('inside of search.js and localstorage is ', localStorage);
@@ -102,7 +101,7 @@ var Organization = React.createClass({
   },
 
   render: function () {
-    var img = (this.props.org.img) ? "data:image/jpeg;base64," + this.props.org.img
+    var img = (this.props.org.profile_img) ? "http://localhost:4000/organization/profile_img/" + this.props.org._id
         : "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg";
     return (
       <div className="cardx hoverable" onClick={this.setOrganization}>

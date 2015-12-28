@@ -232,6 +232,19 @@ app.get('/organization_get/:id', function(req, res, next) {
  });
 });
 
+app.get('/organization/profile_img/:id', function(req, res, next) {
+ Model.Organization.findById(req.params.id, function(err, org) {
+   if (err) throw err;
+   else {
+     if (org) {
+       streamifier.createReadStream(org.profile_img.data).pipe(res);
+     } else {
+       res.status(400).send({status: 400, message: "Error"})
+     }
+   }
+ });
+});
+
 app.get('/dashboard_data/profile_img/:user/:filename', function(req, res, next) {
   console.log(req.params)
   Model.Organization.findOne({ username: req.params.user }, function(err, org) {

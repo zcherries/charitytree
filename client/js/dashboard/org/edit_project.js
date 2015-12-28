@@ -232,14 +232,14 @@ var ProjectEdit = exports.ProjectEdit = React.createClass({
 
             <h3>Project Needs</h3>
             <Needs
-              needs={this.state.needs_list}
+              needs={this.props.project.needs_list}
               addNeed={this.addNeed}
               updateNeedTitle={this.updateNeedTitle}
               updateNeedDescription={this.updateNeedDescription}
               updateNeedCost={this.updateNeedCost}
               updateNeedQuantity={this.updateNeedQuantity}
             />
-            <a className="waves-effect waves-light btn float right" onClick={this.submitForm}><i className="material-icons right">label_outline</i>Next Step</a>
+            <button className="waves-effect waves-light btn float right" onClick={this.submitForm}><i className="material-icons right">label_outline</i>Submit</button>
           </div>
 
         </div>
