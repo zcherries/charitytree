@@ -2,7 +2,7 @@ import React from 'react';
 import { CausesInfo } from '../../causesinfo.js';
 var LocalStorageMixin = require('react-localstorage');
 
-var ProjectCreate = exports.ProjectCreate = React.createClass({
+var ProjectEdit = exports.ProjectEdit = React.createClass({
   getInitialState: function () {
     return {
       title: "",
@@ -32,7 +32,6 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
 
   componentDidMount: function() {
     //$('.datepicker').pickadate('clear');
-    $('.form')
     $('.collapsible').collapsible({
       accordion: true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
@@ -158,7 +157,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
           endDateText: endDateText
         });
         console.log("onset/this.state.end_date:", self.state.end_date);
-        //this.close();
+        this.close();
       }
     });
     //console.log("ProjectCreate/updateEndDate/endDate:",endDate[0]);
@@ -180,7 +179,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
 
   submitForm: function () {
     $.ajax({
-      url: "/dashboard/project/create",
+      url: "/dashboard/project/update",
       method: "POST",
       data: {projectData: this.state},
       success: function (response) {
@@ -196,50 +195,53 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
   render: function () {
     return (
       <div>
-        <div className="row">
-          <fieldset>
-            <legend>
-              <h1>Create a new Project</h1>
-            </legend>
-            <form className="col s12">
-              <div className="row">
-                {/*Project Title*/}
-                <div className="input-field col s12 m6">
-                  <input id="project_title" type="text" className="validate" required value={this.state.title} onChange={this.updateTitle}/>
-                  <label className={this.state.title ? "active" : ""} htmlFor="project_title">Project Title</label>
+        <div className="container">
+          <div className="row">
+            <fieldset>
+              <legend>
+                <h1>{this.props.project.title}</h1>
+              </legend>
+              <form className="col s12">
+                <div className="row">
+                  {/*Project Title*/}
+                  <div className="input-field col s12 m6">
+                    <input id="project_title" type="text" className="validate" required defaultValue={this.props.project.title} onChange={this.updateTitle} />
+                    <label htmlFor="project_title">Project Title</label>
+                  </div>
+                  {/*Target Funding Amount*/}
+                  <div className="input-field col s12 m6">
+                    <input id="goal" type="number" className="validate" defaultValue={this.props.project.amount.goal} onChange={this.updateGoalAmount} />
+                    <label htmlFor="goal">Target Funding Amount</label>
+                  </div>
+                  {/*End Date*/}
+                  <div className="input-field col s12">
+                    <input id="end_date" type="date" className="datepicker" defaultValue={this.props.project.end_date} onClick={this.updateEndDate} />
+                    <label htmlFor="end_date">Projected End Date</label>
+                  </div>
+                  {/*Project Info*/}
+                  <div className="input-field col s12">
+                    <textarea id="info" className="materialize-textarea" defaultValue={this.props.project.info} onChange={this.updateInfo} />
+                    <label htmlFor="info">Info</label>
+                  </div>
                 </div>
-                {/*Target Funding Amount*/}
-                <div className="input-field col s12 m6">
-                  <input id="goal" type="number" className="validate" value={this.state.amount.goal} onChange={this.updateGoalAmount} />
-                  <label className={this.state.amount.goal ? "active" : ""} htmlFor="goal">Target Funding Amount</label>
-                </div>
-                {/*End Date*/}
-                <div className="input-field col s12">
-                  <input id="end_date" type="date" className="datepicker" value={this.props.endDateText} onClick={this.updateEndDate} />
-                  <label className={this.props.endDateText ? "active" : ""} htmlFor="end_date">Projected End Date</label>
-                </div>
-                {/*Project Info*/}
-                <div className="input-field col s12">
-                  <textarea id="info" className="materialize-textarea" value={this.state.info} onChange={this.updateInfo} />
-                  <label className={this.state.info ? "active" : ""} htmlFor="info">Info</label>
-                </div>
-              </div>
-            </form>
-          </fieldset>
+              </form>
+            </fieldset>
 
-          <h3>Select Project Areas of Focus</h3>
-          <CategorySelect addRemoveCat={this.addRemoveCat} />
+            <h3>Areas of Focus</h3>
+            <CategorySelect addRemoveCat={this.addRemoveCat} aofs={this.props.project.areas_of_focus} />
 
-          <h3>Add Project Needs</h3>
-          <Needs
-            needs={this.state.needs_list}
-            addNeed={this.addNeed}
-            updateNeedTitle={this.updateNeedTitle}
-            updateNeedDescription={this.updateNeedDescription}
-            updateNeedCost={this.updateNeedCost}
-            updateNeedQuantity={this.updateNeedQuantity}
-          />
-          <a className="waves-effect waves-light btn float right" onClick={this.submitForm}><i className="material-icons right">label_outline</i>Next Step</a>
+            <h3>Project Needs</h3>
+            <Needs
+              needs={this.state.needs_list}
+              addNeed={this.addNeed}
+              updateNeedTitle={this.updateNeedTitle}
+              updateNeedDescription={this.updateNeedDescription}
+              updateNeedCost={this.updateNeedCost}
+              updateNeedQuantity={this.updateNeedQuantity}
+            />
+            <a className="waves-effect waves-light btn float right" onClick={this.submitForm}><i className="material-icons right">label_outline</i>Next Step</a>
+          </div>
+
         </div>
       </div>
     );
@@ -258,6 +260,7 @@ var CategorySelect = React.createClass({
           causeSubcauses={cause.subcauses}
           tags={cause.tags}
           addRemoveCat={this.props.addRemoveCat}
+          aofs={this.props.aofs}
         />
       );
     }.bind(this));
@@ -298,6 +301,7 @@ var MajCategory = React.createClass({
           title={subcause.title}
           tags={subcause.tags}
           addRemoveCat={this.props.addRemoveCat}
+          aofs={this.props.aofs}
         />
       );
     }.bind(this));
@@ -317,7 +321,7 @@ var MajCategory = React.createClass({
               onChange={this.props.addRemoveCat}
               value={this.props.tags}
             />
-            <label className={this.props.tags ? "active" : ""} htmlFor={this.props.causeID} >
+            <label htmlFor={this.props.causeID} >
               {this.props.causeTitle}
             </label>
           </p>
@@ -331,16 +335,20 @@ var MajCategory = React.createClass({
 
 var MinCategory = React.createClass({
   render: function () {
-    return(
+    var minCat = (this.props.aofs.indexOf(this.props.tags) > -1)
+      ? <input type="checkbox" id={this.props.subCauseID}
+        onChange={this.props.addRemoveCat}
+        value={this.props.tags} defaultChecked
+        />
+      : <input type="checkbox" id={this.props.subCauseID}
+          onChange={this.props.addRemoveCat}
+          value={this.props.tags}
+        />
+    return (
       <div className="col s12 m4">
         <p>
-          <input
-            type="checkbox"
-            id={this.props.subCauseID}
-            onChange={this.props.addRemoveCat}
-            value={this.props.tags}
-          />
-          <label className={this.props.tags ? "active" : ""} htmlFor={this.props.subCauseID}>{this.props.title}</label>
+          {minCat}
+          <label htmlFor={this.props.subCauseID}>{this.props.title}</label>
         </p>
       </div>
     );
@@ -460,7 +468,7 @@ var Need = React.createClass({
                     className="validate"
                     maxLength="20"
                   />
-                    <label className={this.props.needTitle ? "active" : ""} htmlFor="need_title">Need Title</label>
+                    <label htmlFor="need_title">Need Title</label>
                 </div>
               </div>
 
@@ -473,7 +481,7 @@ var Need = React.createClass({
                     id="need_description"
                     type="text"
                     maxLength="120"/>
-                  <label className={this.props.needDescription ? "active" : ""} htmlFor="need_description">Need Description</label>
+                  <label htmlFor="need_description">Need Description</label>
                 </div>
               </div>
 
@@ -488,7 +496,7 @@ var Need = React.createClass({
                     className="validate"
                     maxLength="6"
                   />
-                  <label className={this.props.needCost ? "active" : ""} htmlFor="need_cost">Need Cost</label>
+                  <label htmlFor="need_cost">Need Cost</label>
                 </div>
               </div>
 
@@ -503,7 +511,7 @@ var Need = React.createClass({
                     className="validate"
                     maxLength="5"
                   />
-                  <label className={this.props.needQuantityNeeded ? "active" : ""} htmlFor="need_quantity">Need Quantity</label>
+                  <label htmlFor="need_quantity">Need Quantity</label>
                 </div>
               </div>
 

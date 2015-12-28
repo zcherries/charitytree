@@ -45,14 +45,12 @@ var Media = exports.Media = React.createClass({
 
   profile_img_upload_form: function() {
     return (
-      <div>
-        <form className="profile_img_frm" onSubmit={this.upload_profile_img} action="/dashboard/profile_img/upload" encType="multipart/form-data" accept="image/*">
-          {/*<label htmlFor="profile_img">Choose profile image</label>*/}
-            <input className="file-field" id="profile_img" type="file" name="profile_img" />
-            <input className="btn blue" type="submit" value="Upload" />
-        </form>
-      </div>
-    )
+      <form className="profile_img_frm" onSubmit={this.upload_profile_img} action="/dashboard/profile_img/upload" encType="multipart/form-data" accept="image/*">
+        {/*<label htmlFor="profile_img">Choose profile image</label>*/}
+          <input className="file-field" id="profile_img" type="file" name="profile_img" />
+          <input className="btn blue" type="submit" value="Upload" />
+      </form>
+    );
   },
 
   profile_and_banner_img: function() {
@@ -93,7 +91,7 @@ var Media = exports.Media = React.createClass({
           <h5>Videos</h5>
           <ul>
           {this.props.media.videos.map(function(file, idx) {
-            return <li key={idx}><video src={'http://localhost:4000/dashboard_data/media/'+file} controls></video></li>
+            return <li key={idx}><video src={'http://localhost:4000/dashboard_data/media/'+file} controls /></li>
           })}
           </ul>
         </div>

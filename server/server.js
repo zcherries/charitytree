@@ -333,8 +333,7 @@ app.post('/login_post', function(req, res, next) {
   });
 });
 
-app.post('/logout_post', function(req, res) {
-  console.log('here')
+app.post('/logout_post', function(req, res, next) {
   req.session.destroy(function(err) {
     console.log('destroyed session')
     res.status(201).send({status: 201, message: 'User has been logged out'});
@@ -453,45 +452,45 @@ app.post('/dashboard/org/media/upload', multer().array('media'), function(req, r
   });
 });
 
-app.post("/dashboard/project/media/upload", multer().array('media'), function(req, res, next) {
+app.post('/dashboard/project/media/upload', multer().array('media'), function(req, res, next) {
   console.log("Files: ", req.files);
   console.log("Body: ", req.body);
   res.status(201).send({ status: 201, message: "Media upload successful." });
 
-  // req.files.forEach(function(file) {
-  //   //generate an object id
-  //   var fileId = _db.types.ObjectId();
-  //   var writeStream = _db.gridfs.createWriteStream({
-  //     _id: fileId,
-  //     length: Number(file.size),
-  //     chunkSize: 1024 * 4,
-  //     filename: file.originalname,
-  //     content_type: file.mimetype,
-  //     mode: 'w',
-  //     metadata: {
-  //       org: req.session.user.uid
-  //     }
-  //   });
-  //
-  //   streamifier.createReadStream(file.buffer).pipe(writeStream);
-  //   writeStream.on('close', function() {
-  //     console.log("File write was successful");
-  //     //store fileId in media property of organization
-  //     Model.Project.findById({ _id: req.session.user.uid }, function(err, project) {
-  //       if (err) { throw err; }
-  //       else {
-  //         if (file.mimetype.slice(0, 6) === 'image/') { project.images.push(fileId); }
-  //         else if (file.mimetype.slice(0, 6) === 'video/') { project.videos.push(fileId); }
-  //         project.save(function(err, updatedProject) {
-  //           if (err) { throw err; }
-  //           else {
-  //             res.status(201).send({ status: 201, message: "Media upload successful." });
-  //           }
-  //         });
-  //       }
-  //     });
-  //   });
-  // });
+  req.files.forEach(function(file) {
+    //generate an object id
+    var fileId = _db.types.ObjectId();
+    var writeStream = _db.gridfs.createWriteStream({
+      _id: fileId,
+      length: Number(file.size),
+      chunkSize: 1024 * 4,
+      filename: file.originalname,
+      content_type: file.mimetype,
+      mode: 'w',
+      metadata: {
+        org: req.session.user.uid
+      }
+    });
+
+    streamifier.createReadStream(file.buffer).pipe(writeStream);
+    writeStream.on('close', function() {
+      console.log("File write was successful");
+      //store fileId in images/videos property of project
+      Model.Project.findById({ _id: req.body.project }, function(err, project) {
+        if (err) { throw err; }
+        else {
+          if (file.mimetype.slice(0, 6) === 'image/') { project.images.push(fileId); }
+          else if (file.mimetype.slice(0, 6) === 'video/') { project.videos.push(fileId); }
+          project.save(function(err, updatedProject) {
+            if (err) { throw err; }
+            else {
+              res.status(201).send({ status: 201, message: "Media upload successful." });
+            }
+          });
+        }
+      });
+    });
+  });
 });
 
 app.post('/post_search', function(req, res, next) {
@@ -528,6 +527,10 @@ app.post('/post_search', function(req, res, next) {
   });
 });
 
+app.post('/dashboard/project/update', function(req, res, next) {
+  console.log("Body: ", req.body);
+  res.send('Success')
+});
 //app.get('/', function(req, res) {
 //  console.log("Get Index Page");
 //  res.sendFile(path.join(__dirname, '../client', 'index.html'));
