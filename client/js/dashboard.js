@@ -9,13 +9,15 @@ import {DonorProfile} from './dashboard/donor/profile.js';
 import {Feed} from './dashboard/donor/feed.js';
 
  import {History} from 'react-router';
- var LocalStorageMixin = require('react-localstorage');
-// var feeder = io();
+ // var LocalStorageMixin = require('react-localstorage');
 
+// feeder.on('feedUpdate', function(count) {
+//   //show feed count
+// });
 
 var Dashboard = exports.Dashboard = React.createClass({
    displayName: 'Dashboard',
-   mixins: [ History, LocalStorageMixin ],
+  //  mixins: [ History, LocalStorageMixin ],
   getInitialState: function() {
     return {
       data: {},
@@ -32,7 +34,6 @@ var Dashboard = exports.Dashboard = React.createClass({
     this.getData();
   },
 
-
   getData: function() {
     console.log('Making AJAX request to server')
     $.ajax({
@@ -42,7 +43,7 @@ var Dashboard = exports.Dashboard = React.createClass({
       },
       url: '/dashboard_data',
       success: function(response) {
-        console.log("Response data: ", response.results);
+        console.log("Response data: ", response);
         this.setState({ data: response.results, userType: response.userType, view: this.state.view });
       }.bind(this),
       error: function(xhr, status, error){
@@ -67,18 +68,20 @@ var Dashboard = exports.Dashboard = React.createClass({
           areas_of_focus: this.state.data.areas_of_focus,
           address: this.state.data.address
         };
-        console.log("About: " + orgInfo.about);
-        view = <OrgProfile postData={this.postData} orgInfo={orgInfo} />;
+        console.log("Org Info About: " + orgInfo.about);
+
+        view = <OrgProfile update_db_state_prop={this.update_db_state_prop} orgInfo={orgInfo} />;
         break;
       case 'projects':
-        view = <Projects postData={this.postData} projects={this.state.data.projects} />;
+        view = <Projects update_db_state_prop={this.update_db_state_prop} projects={this.state.data.projects} />;
         break;
       case 'media':
         var media = {
           profile_img: this.state.data.profile_img,
-          content: this.state.data.media
-        };
-        view = <Media postData={this.postData} media={media} update_db_state_prop={this.update_db_state_prop} />;
+          images: this.state.data.images,
+          videos: this.state.data.videos
+        }
+        view = <Media username={this.state.data.username} media={media} update_db_state_prop={this.update_db_state_prop} />;
         break;
       case 'endorsements':
         view = <Endorsements postData={this.postData} endorsements={this.state.data.endorsements} />;
@@ -122,14 +125,17 @@ var Dashboard = exports.Dashboard = React.createClass({
     return (
       <div>
         <div className="db_menu"><DonorDashboardMenu updatePageView={this.updatePageView} /></div>
-        <div className="view">{view}</div>
+        <div className="view indent">{view}</div>
       </div>
     )
   },
 
   update_db_state_prop: function(prop, data) {
     var state = this.state.data;
+    console.log('State before update: ', state[prop]);
     state[prop] = data;
+    console.log('State: ', state);
+    console.log('State after update: ', state[prop]);
     this.setState({ data: state });
   },
 
@@ -158,7 +164,7 @@ var OrgDashboardMenu = React.createClass({
     return (
       <div>
         <div className="row">
-          <ul id="slide-out" className="side-nav fixed">
+          <ul id="slide-out" className="side-nav fixed waves-effect waves-light">
             <li className="valign-wrapper"><i className="material-icons left valign">person_pin</i><a href="#" onClick={this.goToPage}>Profile</a></li>
             <li className="valign-wrapper"><i className="material-icons left valign">perm_media</i><a href="#" onClick={this.goToPage}>Projects</a></li>
             <li className="valign-wrapper"><i className="material-icons left valign">video_library</i><a href="#" onClick={this.goToPage}>Media</a></li>
@@ -181,12 +187,15 @@ var DonorDashboardMenu = React.createClass({
   render: function() {
     return (
       <div>
-        <ul>
-          <li><a href="#" onClick={this.goToPage}>Profile</a></li>
-          <li><a href="#" onClick={this.goToPage}>Feed</a></li>
-          <li><a href="#" onClick={this.goToPage}>Activity</a></li>
-          <li><a href="#" onClick={this.goToPage}>Endorsements</a></li>
-        </ul>
+        <div className="row">
+          <ul id="slide-out" className="side-nav fixed waves-effect waves-light">
+            <li className="valign-wrapper"><i className="material-icons left valign">person_pin</i><a href="#" onClick={this.goToPage}>Profile</a></li>
+            <li className="valign-wrapper"><i className="material-icons left valign">question_answer</i><a href="#" onClick={this.goToPage}>Feed</a></li>
+            <li className="valign-wrapper"><i className="material-icons left valign">video_library</i><a href="#" onClick={this.goToPage}>Activity</a></li>
+            <li className="valign-wrapper"><i className="material-icons left valign">stars</i><a href="#" onClick={this.goToPage}>Endorsements</a></li>
+          </ul>
+          <a href="#" data-activates="slide-out" className="button-collapse"><i className="mdi-navigation-menu medium"></i></a>
+        </div>
       </div>
     )
   }

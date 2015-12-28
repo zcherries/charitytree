@@ -9,9 +9,11 @@ const Logout = React.createClass({
       type: 'POST',
       url: '/logout_post',
       success: function (response) {
+        feeder.emit('disconnect');
         localStorage.clear();
         this.props.isLoggedIn();
-        this.props.history.pushState(null, `/`);
+        // this.props.history.pushState(null, `/`);
+        window.location.href = 'http://localhost:4000'
         // }.bind(this), 1000);
       }.bind(this),
       error: function (xhr, status, err) {

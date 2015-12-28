@@ -2,11 +2,23 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 import { History } from 'react-router';
-var LocalStorageMixin = require('react-localstorage');
+// var LocalStorageMixin = require('react-localstorage');
 
 var OrgProfile = exports.OrgProfile = React.createClass({
   // displayName: 'OrgProfile',
   // mixins: [ History, LocalStorageMixin ],
+  componentWillMount: function() {
+    // console.log('Profile component is mounting')
+  },
+
+  componentDidMount: function() {
+    // console.log('Profile component did mount')
+  },
+
+  componentWillReceiveProps: function(newProps) {
+    this.setState({ orgInfo: newProps.orgInfo, editing: false });
+  },
+
   getInitialState: function() {
     return {
       editing: false,
@@ -18,11 +30,12 @@ var OrgProfile = exports.OrgProfile = React.createClass({
     console.log("Form Data:", formData);
     $.ajax({
       method: 'POST',
-      url: '/dashboard_data/profile',
+      url: '/dashboard/profile',
       data: formData,
       success:function(response) {
         console.log("Post Success: ", response.results);
-        this.setState({ orgInfo: response.results, editing: false });
+        // this.setState({ orgInfo: response.results, editing: false });
+        this.props.update_db_state_prop('about', response.results.about);
       }.bind(this),
       error: function(error){
         console.log(error);
@@ -60,7 +73,7 @@ var OrgProfile = exports.OrgProfile = React.createClass({
               return <li key={idx}>{aof}</li>
             })}
           </ul>
-        <button onClick={this.editPage}>Edit</button>
+        <a className="waves-effect waves-light btn blue" onClick={this.editPage}>Edit</a>
       </div>
     )
   },
@@ -86,7 +99,7 @@ var OrgProfile = exports.OrgProfile = React.createClass({
                 <textarea id="aofs" className="materialize-textarea" ref="aofs" defaultValue={orgInfo.areas_of_focus.join("; ")}></textarea>
               </div>
             </div>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit" className="btn blue"/>
           </form>
         </div>
       </div>

@@ -26,7 +26,7 @@ var DonorProfile = exports.DonorProfile = React.createClass({
     console.log("Form Data:", formData);
     $.ajax({
       method: 'POST',
-      url: '/dashboard_data/profile',
+      url: '/dashboard/profile',
       data: formData,
       success: function(response) {
         console.log("Post Success: ", response.results);
@@ -72,7 +72,7 @@ var DonorProfile = exports.DonorProfile = React.createClass({
               return <li key={idx}>{aof}</li>
             })}
           </ul>
-        <button onClick={this.editPage}>Edit</button>
+        <button className="waves-effect waves-light btn blue"onClick={this.editPage}>Edit</button>
       </div>
     )
   },
@@ -111,7 +111,7 @@ var DonorProfile = exports.DonorProfile = React.createClass({
                   <textarea id="aofs" className="materialize-textarea" ref="aofs" defaultValue={donorInfo.areas_of_focus.join("; ")}></textarea>
                 </div>
               </div>
-              <input type="submit" value="Submit" />
+              <input type="submit" value="Submit" className="waves-effect waves-light btn blue"/>
             </form>
           </div>
       </div>

@@ -28,7 +28,7 @@ exports.CausesInfo = [
     id: "community",
     title: "Community Development",
     tags: "Community Development",
-    img: "https://c1.staticflickr.com/9/8082/8380083742_098a5616b9_b.jpg",
+    img: "https://c2.staticflickr.com/6/5802/23894601766_8d375f7693_b.jpg",
     subcauses: [
       {id: "fundraising", title: "Fundraising", tags: "Fundraising"},
       {id: "community_foundations", title: "Community Foundations", tags: "Community Foundations"},
@@ -58,7 +58,7 @@ exports.CausesInfo = [
     id: "health",
     title: "Health",
     tags: "Health",
-    img: "https://c1.staticflickr.com/5/4119/4931607222_92bf5fea5f_b.jpg",
+    img: "https://c2.staticflickr.com/6/5762/23811632042_314f2fcaa3_o.jpg",
     subcauses: [
       {id: "diseases", title: "Diseases, Disorders, and Disciplines", tags: "Diseases Disorders Disciplines"},
       {id: "patient_family_support", title: "Patient and Family Support", tags: "Patient Family Support"},
@@ -121,7 +121,7 @@ exports.CausesInfo = [
     id: "research",
     title: "Research and Public Policy",
     tags: "Research Public Policy",
-    img: "https://c1.staticflickr.com/5/4073/4931004261_af5c021afb_b.jpg",
+    img: "https://c2.staticflickr.com/6/5669/23887902966_7688ccc04f_o.jpg",
     subcauses: [
       {id: "science_technology_research", title: "Non-Medical Science & Technology Research", tags: "Science Technology Research"},
       {id: "medical_research", title: "Medical Research", tags: "Medical Research"},

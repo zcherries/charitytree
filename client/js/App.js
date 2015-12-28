@@ -50,6 +50,10 @@ var App = exports.App = React.createClass({
     this.props.history.pushState(null, `/organization`);
   },
 
+  navigateToBrowsePage: function () {
+    this.props.history.pushState(null, `/browse`);
+  },
+
   navigateToProjectPage: function () {
     this.props.history.pushState(null, `/project`);
   },
@@ -208,7 +212,9 @@ var App = exports.App = React.createClass({
             getProject: this.getProject,
             setProject: this.setProject,
             setOrganization: this.setOrganization,
-            setUserType: this.setUserType
+            setUserType: this.setUserType,
+            navigateToProjectPage: this.navigateToProjectPage,
+            navigateToOrganizationPage: this.navigateToOrganizationPage
           }
         )}
       </div>

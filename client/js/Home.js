@@ -17,10 +17,10 @@ exports.Home = React.createClass({
           <div className="parallax">
             <img src="https://c1.staticflickr.com/5/4142/4931601202_92f9bb7152_b.jpg"/>
           </div>
-          <div className="caption center-align shadow-white">
-            <h3>See the lives changed by your donation!</h3>
+          <div className="caption center-align ">
+            <h3 className="shadow-white">See the lives changed by your donation!</h3>
             <h5 className="light grey-text text-lighten-3 shadow">Follow the impact of your money</h5>
-            <a className="center-align waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}>Browse Categories</a>
+            <a className="waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}>Browse Categories</a>
           </div>
         </div>
 
@@ -31,24 +31,23 @@ exports.Home = React.createClass({
               <h4> Search for a cause or Organization </h4>
             </div>
             <div className="center-align col s4">
-            <form onSubmit={this.props.handleSearchSubmit} className="center-align col s4">
-              <div className="center-align input-field col s4">
-                <input
-                  id="search"
-                  type="search"
-                  placeholder="Search..."
-                  value={this.props.searchText}
-                  onChange={this.props.updateInput}
-                  required
-                 />
-                <label htmlFor="search"><i className="material-icons">search</i></label>
-                {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
-              </div>
-            </form>
+              <form onSubmit={this.props.handleSearchSubmit} className="center-align col s4">
+                <div className="center-align input-field col s4">
+                  <input
+                    id="search"
+                    type="search"
+                    placeholder="Search..."
+                    value={this.props.searchText}
+                    onChange={this.props.updateInput}
+                    required
+                   />
+                  <label htmlFor="search"><i className="material-icons">search</i></label>
+                  {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
+                </div>
+              </form>
             </div>
 
             <div className="row center-align">
-                <a className="center-align waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}>Browse Categories</a>
 
               <h1 className="center-align"> Make Giving Personal! </h1>
 

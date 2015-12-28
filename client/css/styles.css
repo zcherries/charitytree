@@ -246,8 +246,8 @@ main {
 }
 
 .box__file {
-  width: 0.1px;
-	height: 0.1px;
+  width: 10.1px;
+	height: 5.1px;
 	opacity: 0;
 	overflow: hidden;
 	position: absolute;
@@ -258,10 +258,11 @@ main {
     font-size: 1.25em;
     font-weight: 700;
     color: white;
-    background-color: teal;
+    background-color: #6495ED;
     opacity: 0.5;
     display: inline-block;
     cursor: pointer;
+    padding: 100px;
 }
 
 .box__file:focus + label,
@@ -270,8 +271,8 @@ main {
 }
 
 .box__file:focus + label {
-  outline: 1px dotted #000;
-	outline: -webkit-focus-ring-color auto 5px;
+  /*outline: 1px dotted #000;*/
+	/*outline: -webkit-focus-ring-color auto 5px;*/
 }
 
 .box__file + label * {
@@ -284,7 +285,7 @@ main {
 
 .box.has-advanced-upload {
   background-color: white;
-  outline: 2px dashed teal;
+  /*outline: 2px dashed teal;*/
   outline-offset: -10px;
 }
 
@@ -358,10 +359,11 @@ main {
 
 .side-nav {
   top: 67px;
+  width: 200px;
 }
 .side-nav-width {
-  max-width: 230px;
-  min-width: 230px;
+  max-width: 200px;
+  min-width: 200px;
 }
 .indent {
   padding-left: 200px;
@@ -421,4 +423,28 @@ main {
 {
   -webkit-line-clamp : 5;
   height             : calc(1em * 1.2 * 5);
+}
+
+/* Dashboard Project view */
+.projects-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.project-blurb {
+  width: 400px;
+  height: 400px;
+}
+
+div.project-options {
+  display: none;
+}
+
+div.card:hover .project-options {
+  display: block;
+}
+
+.project-blurb .box__input label {
+  height: 364px;
 }
