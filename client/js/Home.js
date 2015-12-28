@@ -39,9 +39,7 @@ exports.Home = React.createClass({
                     placeholder="Search..."
                     value={this.props.searchText}
                     onChange={this.props.updateInput}
-                    required
-                   />
-                  <label htmlFor="search"><i className="material-icons">search</i></label>
+                    required />
                   {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
                 </div>
               </form>

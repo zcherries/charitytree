@@ -111,7 +111,7 @@ var Organization = exports.Organization = React.createClass({
 
               {/*Image 1*/}
               <div className="col s12">
-                <img className="center-image responsive-img materialboxed" src="https://c1.staticflickr.com/5/4140/4930996357_8c6f018343_z.jpg"/>
+                <img className="image" src={this.state.org.profile_img.filename} />
               </div>
 
               {/*Org Description*/}
