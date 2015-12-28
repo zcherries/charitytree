@@ -12,9 +12,8 @@ var Organization = exports.Organization = React.createClass({
     console.log('inside of project handleClick');
     console.log('inside of handleClick project is', project);
     // console.log('inside of handleClick index is', index);
-    localStorage.setItem('currProjObj', JSON.stringify(project));
+    localStorage.setItem('currProjObj', project._id);
     this.props.navigateToProjectPage();
-
   },
 
   getInitialState: function(){
@@ -24,20 +23,21 @@ var Organization = exports.Organization = React.createClass({
   },
 
   componentDidMount: function() {
+    console.log('inside of orgpage at beg of cdm');
     $.ajax({
         url:'/organization_get/'+localStorage.currentOrganization,
         // dataType: 'json',
         method: "GET",
         success: function (data) {
-          console.log("on success in did with params.id and res.data is ", data);
+          console.log("on success in did with params.id and res.data is ", data.results);
 
-          localStorage.setItem('currOrgObj', JSON.stringify(data.results));
+          // localStorage.setItem('currOrgObj', JSON.stringify(data.results));
 
           this.setState({
-            org: JSON.parse(localStorage.getItem('currOrgObj'))
+            org: data.results
           });
 
-          console.log('inside of success of did and localStorage.currOrgObj is ', localStorage.currOrgObj);
+          console.log('inside of success of did and this.state.org ', this.state.org);
         }.bind(this),
         error: function (xhr, status, err) {
           console.error(xhr, status, err.toString());
@@ -62,7 +62,7 @@ var Organization = exports.Organization = React.createClass({
   render: function () {
 
     if(this.state.org){
-      {console.log('inside render and this.state.org is', JSON.stringify(this.state.org));}
+      {console.log('inside render of orgpage and this.state.org is', JSON.stringify(this.state.org));}
 
     var aofs = this.state.org.areas_of_focus.map(function (aof, index) {
       return (
@@ -99,7 +99,7 @@ var Organization = exports.Organization = React.createClass({
         {/*Header*/}
         <div id="location" className="center-align section scrollspy">
           <h1>
-            {this.props.currentOrganization.name}
+            {this.state.org.name}
             <button onClick={this.followOrg}>Follow</button>
           </h1>
           <i className="medium material-icons">room</i>
@@ -111,7 +111,7 @@ var Organization = exports.Organization = React.createClass({
 
               {/*Image 1*/}
               <div className="col s12">
-                <img className="image" src={this.state.org.profile_img.filename} />
+                {/*<img className="image" src={this.state.org.profile_img.filename} />*/}
               </div>
 
               {/*Org Description*/}

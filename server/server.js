@@ -5,7 +5,7 @@ var Controller = require('./db/controllers');
 var Model = require('./db/models');
 
 var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+var MongoStore = require('connect-mongo/es5')(session);
 // var FileStore = require('session-file-store')(session);
 // var session_helpers = require('./helpers/session-helpers.js');
 
@@ -228,6 +228,22 @@ app.get('/organization_get/:id', function(req, res, next) {
    else {
      console.log('Retrieved Org', org)
      res.status(200).send({status: 200, results: org });
+   }
+ });
+});
+
+app.get('/project_get/:id', function(req, res, next) {
+ // console.log('Org ID: ', req.body.orgID);
+ console.log("inside of server.js and req.params.id is ",req.params.id);
+
+ var id = req.params.id;
+
+ Model.Project.findOne({ _id: id }).populate('_org')
+  .exec(function(err, project) {
+   if (err) throw err;
+   else {
+     console.log('Retrieved Project', project)
+     res.status(200).send({status: 200, results: project });
    }
  });
 });
