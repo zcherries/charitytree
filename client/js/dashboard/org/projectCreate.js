@@ -1,6 +1,5 @@
 import React from 'react';
 import { CausesInfo } from '../../causesinfo.js';
-var LocalStorageMixin = require('react-localstorage');
 
 var ProjectCreate = exports.ProjectCreate = React.createClass({
   getInitialState: function () {
@@ -31,8 +30,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
   },
 
   componentDidMount: function() {
-    //$('.datepicker').pickadate('clear');
-    $('.form')
+    $('.form');
     $('.collapsible').collapsible({
       accordion: true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
@@ -102,7 +100,6 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
   },
 
   addRemoveCat: function (e) {
-    //console.log("project/e.target.checked/:",e.target.checked);
     var aof = this.state.areas_of_focus;
     if (e.target.checked) {
       if(aof.indexOf(e.target.value) === -1) {
@@ -113,7 +110,6 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
         aof.splice(aof.indexOf(e.target.value), 1);
       }
     }
-    //console.log("ProjectCreate/addRemoveCat/aof:",aof);
     this.setState({
       areas_of_focus: aof
     });
@@ -131,7 +127,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 5, // Creates a dropdown of 15 years to control year
-      closeOnSelect: true,
+      //closeOnSelect: true,
       onStart: function () {
         console.log('Hello there :)')
       },
