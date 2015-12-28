@@ -2,14 +2,16 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-import {MediaUpload} from '../media_upload.js'
 import {ProjectCreate} from './projectCreate.js'
-import {ProjectEdit} from './projectEdit.js'
+import {ProjectEdit} from './edit_project.js'
+import {MediaUpload} from '../media_upload.js'
 
 var Projects = exports.Projects = React.createClass({
   componentWillReceiveProps: function(nextProps) {
     if (this.props.projects.length !== nextProps.projects.length) {
       this.setState({ projects: nextProps.projects, action: 'display' })
+    } else {
+      this.setState({ action: 'display' });
     }
   },
 
@@ -111,7 +113,7 @@ var ProjectBlurb = React.createClass({
     }
   },
 
-  edit: function(e) {
+  editProject: function(e) {
     e.preventDefault();
     this.props.edit(this.props.project);
   },
@@ -120,7 +122,6 @@ var ProjectBlurb = React.createClass({
     e.preventDefault();
     this.setState({ display: false });
     $('.box__input').addClass('size-to-fit');
-    console.log('Resized')
   },
 
   display: function(e) {
@@ -134,7 +135,7 @@ var ProjectBlurb = React.createClass({
           <p>{"Total Donors: " + this.props.project.total_donors_participating}</p>
         </div>
         <div className="card-action project-options">
-          <a href="#">Update</a>
+          <a href="#" onClick={this.editProject}>Update</a>
           <a href="#" onClick={this.changeDisplay}>Upload Media</a>
         </div>
       </div>

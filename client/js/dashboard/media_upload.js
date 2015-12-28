@@ -78,10 +78,8 @@ var MediaUpload = exports.MediaUpload = React.createClass({
           complete: function() {
             $form.removeClass('is-uploading');
           },
-          success: function(data) {
-            $form.addClass( data.success == true ? 'is-success' : 'is-error' );
-            if (!data.success)
-              console.log(data.error);
+          success: function(response) {
+            $form.addClass( response.status == 201 ? 'is-success' : 'is-error' );
           },
           error: function() {
             // Log the error, show an alert, whatever works for you
@@ -109,14 +107,14 @@ var MediaUpload = exports.MediaUpload = React.createClass({
     },
 
     render: function () {
-      console.log(this.props)
       return (
         <div className="form-media-upload">
           <form className="box" method="post" action={this.props.action} encType="multipart/form-data">
-            <div className="box__input">
+            <div className="box__input project-card">
               <input className="box__file" type="file" name="media" id="file" accept="image/*,video/*" data-multiple-caption="{count} files selected" multiple />
               <label htmlFor="file"><strong>Choose a file</strong><span className="box__dragndrop"> or drag it here</span>.</label>
               <button className="box__button btn blue" type="submit">Upload</button>
+              {/*For uploading media to a project*/}
               <input name="project" type="hidden" defaultValue={this.props.project} />
             </div>
             <div className="box__uploading">Uploading&hellip;</div>
