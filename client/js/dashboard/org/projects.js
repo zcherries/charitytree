@@ -82,7 +82,14 @@ var Projects = exports.Projects = React.createClass({
         <h6><a href="#" onClick={this.create}>Create a Project</a></h6>
         <div className="projects-container">
           {org_projects.map(function(project, idx) {
-            return <ProjectBlurb key={idx} project={project} edit={this.edit} />
+            return (
+              <ProjectBlurb
+                key={idx}
+                project={project}
+                edit={this.edit}
+                setProject={this.props.setProject}
+              />
+            );
           }.bind(this))}
         </div>
       </div>
@@ -113,6 +120,10 @@ var ProjectBlurb = React.createClass({
     }
   },
 
+  setProject: function(){
+    this.props.setProject(this.props.project);
+  },
+
   editProject: function(e) {
     e.preventDefault();
     this.props.edit(this.props.project);
@@ -127,7 +138,7 @@ var ProjectBlurb = React.createClass({
   display: function(e) {
     return (
       <div className="project-blurb card blue-grey darken-1">
-        <div className="card-content white-text">
+        <div className="card-content white-text" onClick={this.setProject}>
           <span className="card-title">{this.props.project.title}</span>
           <p>{"Description: " + this.props.project.info}</p>
           <p>{"Status: " + this.props.project.status}</p>

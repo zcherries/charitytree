@@ -1,23 +1,14 @@
 "use strict";
 var React = require('react');
+import {History} from 'react-router';
 
 import {OrgProfile} from './dashboard/org/profile.js';
 import {Projects} from './dashboard/org/projects.js';
 import {Media} from './dashboard/org/media.js';
-
 import {DonorProfile} from './dashboard/donor/profile.js';
 import {Feed} from './dashboard/donor/feed.js';
 
- import {History} from 'react-router';
- // var LocalStorageMixin = require('react-localstorage');
-
-// feeder.on('feedUpdate', function(count) {
-//   //show feed count
-// });
-
 var Dashboard = exports.Dashboard = React.createClass({
-   displayName: 'Dashboard',
-  //  mixins: [ History, LocalStorageMixin ],
   getInitialState: function() {
     return {
       data: {},
@@ -72,7 +63,11 @@ var Dashboard = exports.Dashboard = React.createClass({
         view = <OrgProfile update_db_state_prop={this.update_db_state_prop} orgInfo={orgInfo} />;
         break;
       case 'projects':
-        view = <Projects update_db_state_prop={this.update_db_state_prop} projects={this.state.data.projects} />;
+        view = <Projects
+          update_db_state_prop={this.update_db_state_prop}
+          projects={this.state.data.projects}
+          setProject={this.props.setProject}
+        />;
         break;
       case 'media':
         var media = {

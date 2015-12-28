@@ -13,24 +13,6 @@ var Search = exports.Search = React.createClass({
         <div className="row">
           <h4 className="center-align"> Find a cause to give to </h4>
 
-          {/*Secondary Search Bar*/}
-          {/*<div className="container center-align col s12">
-            <form onSubmit={this.handleSearchSubmit}>
-              <div className="center-align input-field col s5">
-                <input
-                  htmlid="search"
-                  type="search"
-                  placeholder="Search..."
-                  value={this.props.searchText}
-                  onChange={this.updateInput}
-                  required
-                 />
-                <label htmlFor="search"><i className="material-icons">search</i></label>
-                {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
-              </div>
-            </form>
-          </div>*/}
-
           {/*Search Tags*/}
           <div className="col hide-on-small-only m1">
             <div style={{minHeight:'25px'}} className="right-align">
@@ -117,12 +99,6 @@ var Organization = React.createClass({
             {this.props.org.about}
           </div>
         </div>
-
-        {/*<div className="card-action">
-          <p>
-            <button className="btn-small btn-flat waves-effect waves-light" onClick={this.setOrganization}>Read more...</button>
-          </p>
-        </div>*/}
 
       </div>
     );
