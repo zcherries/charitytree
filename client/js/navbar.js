@@ -4,7 +4,7 @@ import { Link, History } from 'react-router';
 import { Login } from './login.js';
 import { Signup } from './signup.js';
 
-var Navbar = exports.Navbar = React.createClass({
+exports.Navbar = React.createClass({
   updateInput: function (e) {
     this.props.updateInput(e.target.value);
   },
@@ -19,7 +19,6 @@ var Navbar = exports.Navbar = React.createClass({
   },
 
   componentDidMount: function () {
-    console.log('Mounted')
     $('.modal-trigger').leanModal({
         dismissible: true, // Modal can be dismissed by clicking outside of the modal
         opacity: 0, // Opacity of modal background
@@ -29,17 +28,31 @@ var Navbar = exports.Navbar = React.createClass({
         //complete: function() { alert('Closed'); } // Callback for Modal close
       }
     );
+    $(".dropdown-button").dropdown({hover: true});
   },
 
   render: function () {
-    //console.log("Navbar/render/this.props.loggedIn:",this.props.loggedIn);
     return (
       <div>
         <div className="navbar-fixed">
+          {/*Dashboard Dropdown*/}
+          {this.props.loggedIn ? (
+            <ul id="dropdown1" className="dropdown-content">
+              <li>
+                <Link className="waves-effect waves-light black-text" to="/dashboard">Dashboard</Link>
+              </li>
+              <li className="divider"/>
+              <li>
+                <Link className="waves-effect waves-light black-text" to="/logout">Logout</Link>
+              </li>
+            </ul>
+          ) : "" }
           <nav>
             <div className="nav-wrapper grey lighten-5">
               <Link to="/" className="brand-logo blue-text accent-3">Charity Tree</Link>
               <a href="#" data-activates="mobile-demo" className="button-collapse black-text"><i className="material-icons">menu</i></a>
+
+              {/*Navigation*/}
               <ul className="right hide-on-med-and-down">
 
                  {/*Search Bar*/}
@@ -59,19 +72,22 @@ var Navbar = exports.Navbar = React.createClass({
                   </form>
                 </li>
 
-                {/*Login/Signup*/}
-                <li>
-                  {this.props.loggedIn ? (
-                    <Link className="waves-effect waves-light black-text" to="/logout">Logout</Link>
-                  ) : (
-                    <Link className="waves-effect waves-light black-text" to="/login">Login/Signup</Link>
-                  )}
-                </li>
-
                 {/*Browse Categories*/}
                 <li>
                   <Link className="waves-effect waves-light black-text" to="/browse">Browse Categories</Link>
                 </li>
+
+                {/*Login/Signup or Dashboard Dropdown*/}
+                {this.props.loggedIn ? (
+                  <li>
+                    <a className="dropdown-button black-text" data-activates="dropdown1">Dashboard<i className="material-icons black-text right">arrow_drop_down</i></a>
+                  </li>
+                ) : (
+                  <li>
+                    <Link className="waves-effect waves-light black-text" to="/login">Login/Signup</Link>
+                  </li>
+                )}
+
               </ul>
 
               {/*Side Navigation*/}
@@ -105,6 +121,7 @@ var Navbar = exports.Navbar = React.createClass({
                   <Link className="waves-effect waves-light" to="/browse">Browse Categories</Link>
                 </li>
               </ul>
+
             </div>
           </nav>
         </div>

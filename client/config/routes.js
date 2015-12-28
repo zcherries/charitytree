@@ -10,23 +10,7 @@ import {Signup} from '../js/signup.js';
 
 //============Authenticated Routes===============/
 import {Dashboard} from '../js/dashboard.js';
-// import auth from '../utils/auth.js';
 import Logout from '../js/logout.js';
-
-// var App = require('../js/app.js');
-// var Home = require('../js/home.js');
-// var Browse = require('../js/browse.js');
-// var Search = require('../js/search.js');
-// var Project = require('../js/project.js');
-// var Organization = require('../js/organization.js');
-// var Login = require('../js/login.js');
-// var Signup = require('../js/signup.js');
-//
-// //============Authenticated Routes===============/
-// var Dashboard = require('../js/dashboard.js');
-// var Logout = require('../js/logout.js');
-
-
 
 function redirectToLogin(nextState, replaceState) {
   if (!loggedIn()) {
@@ -40,7 +24,7 @@ function redirectToDashboard(nextState, replaceState) {
   if (loggedIn()) {
     replaceState(null, '/dashboard');
   }
-};
+}
 
 var loggedIn = exports.loggedIn = function () {
   console.log('Token: ' + localStorage.token);
@@ -52,11 +36,6 @@ exports.routes = {
   childRoutes: [
     { path: '/',
       getComponent: (location, cb) => {
-        if (loggedIn()) {
-          return require.ensure([], () => {
-            cb(null, Dashboard);
-          })
-        }
         return require.ensure([], () => {
           cb(null, Home);
         });
@@ -183,7 +162,6 @@ exports.routes = {
     //},
   ]
 };
-
 
 //render((
 //  <Router history={history}>
