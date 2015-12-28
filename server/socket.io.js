@@ -56,7 +56,6 @@ module.exports = function(server) {
             Model.Donor.findById(donorID, function(err, donor) {
               if (err) throw err;
               if (donor.following.indexOf(orgID) === -1) {
-                console.log('Got Here')
                 org.followers.push(donorID);
                 org.feed.push({ message: donor.username + ' started following you', created_date: now });
                 donor.following.push(orgID);
