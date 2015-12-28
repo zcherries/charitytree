@@ -69,7 +69,6 @@ var Dashboard = exports.Dashboard = React.createClass({
           address: this.state.data.address
         };
         console.log("Org Info About: " + orgInfo.about);
-
         view = <OrgProfile update_db_state_prop={this.update_db_state_prop} orgInfo={orgInfo} />;
         break;
       case 'projects':
