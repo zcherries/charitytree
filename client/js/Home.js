@@ -1,8 +1,22 @@
 import React from 'react';
+import { Link, History } from 'react-router';
 
 import {Footer} from './footer.js';
 
 exports.Home = React.createClass({
+  updateInput: function (e) {
+    this.props.updateInput(e.target.value);
+  },
+
+  clearInput: function (e) {
+    this.props.updateInput("");
+  },
+
+  handleSearchSubmit: function (e) {
+    e.preventDefault();
+    this.props.handleSearchSubmit();
+  },
+
   componentDidMount: function () {
     $('.parallax').parallax();
     $(".button-collapse").sideNav();
@@ -20,7 +34,7 @@ exports.Home = React.createClass({
           <div className="caption center-align ">
             <h3 className="shadow-white">See the lives changed by your donation!</h3>
             <h5 className="light grey-text text-lighten-3 shadow">Follow the impact of your money</h5>
-            <a className="waves-effect waves-light btn light-blue darken-3" onClick={this.props.navigateToBrowsePage}>Browse Categories</a>
+            <Link className="waves-effect waves-light btn light-blue darken-3" to="/browse">Browse Categories</Link>
           </div>
         </div>
 
@@ -31,14 +45,14 @@ exports.Home = React.createClass({
               <h4> Search for a cause or Organization </h4>
             </div>
             <div className="center-align col s4">
-              <form onSubmit={this.props.handleSearchSubmit} className="center-align col s4">
+              <form onSubmit={this.handleSearchSubmit} className="center-align col s4">
                 <div className="center-align input-field col s4">
                   <input
                     id="search"
                     type="search"
                     placeholder="Search..."
                     value={this.props.searchText}
-                    onChange={this.props.updateInput}
+                    onChange={this.updateInput}
                     required />
                   {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
                 </div>

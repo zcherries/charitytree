@@ -206,6 +206,7 @@ var App = exports.App = React.createClass({
             //Functions
             isLoggedIn: this.isLoggedIn,
             handleSearchButton: this.handleSearchButton,
+            updateInput: this.updateInput,
             handleSearchSubmit: this.handleSearchSubmit,
             updateSearchCriteria: this.updateSearchCriteria,
             removeBrowseTag: this.removeBrowseTag,
