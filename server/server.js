@@ -29,6 +29,8 @@ var server = require('http').Server(app);
 // var io = require('socket.io')(server);
 var feed = require('./socket.io.js')(server);
 
+console.log(feed)
+
 // import {Router, History} from 'react-router';
 // var Router = require('react-router');
 // var React = require('react');
@@ -216,6 +218,12 @@ app.get('/image', function(req, res) {
 
 app.get('/get_orgs', function(req, res, next) {
   Controller.Organization.retrieve(req, res, next);
+//   Model.Organization.findOne({username: 'goodguys'}, function(err, org) {
+//     if (err) throw err;
+//     else {
+//       res.send(org);
+//     }
+//   })
 });
 
 app.get('/organization_get/:id', function(req, res, next) {
@@ -382,7 +390,8 @@ app.post('/dashboard/profile', function(req, res, next) {
           org.save(function(err, updatedOrg) {
             if (err) throw err;
             else {
-              feed.emit('org_update', updatedOrg._id, {message: updatedOrg.name + ' has updated their profile', attachment: ''});
+              console.log('About to emit');
+              feed.emit('org_update', {message: updatedOrg.name + ' has updated their profile', attachment: ''});
               res.status(201).send({ status: 201, results: updatedOrg });
             }
           });
@@ -548,31 +557,20 @@ app.post('/dashboard/project/media/upload', multer().array('media'), function(re
 app.post('/post_search', function(req, res, next) {
   var aofs = req.body.aofs.map(function (aof) {
     // return '(\\b' + aof + '\\b)';
-    return capitalizeFirstLetter(aof);
+    // return capitalizeFirstLetter(aof);
+    return new RegExp('^' + aof.toLowerCase() + '/i');
   });
   // aofs.join('|');
-  console.log("Aofs: ", req.body.aofs);
-  Model.Organization.find({areas_of_focus: {$in: req.body.aofs}}, function (err, orgs) {
+  console.log("Aofs: ", aofs);
+  Model.Organization.find({areas_of_focus: {$in: req.body.aofs}}, '-profile_img.data', function (err, orgs) {
     if (err) {
       console.log(err);
       res.status(400).send('Could not retrieve data');
-    }
-    else {
-      // console.log("Orgs: ", orgs)
-      orgs.forEach(function (org, idx) {
-        if (org.profile_img.contentType) {
-          // console.log("Org: ", org.profile_img.contentType);
-          var img = new Buffer(org.profile_img.data).toString('base64');
-          org.img = img;
-        }
-      });
+    } else {
       Model.Project.find({areas_of_focus: {$in: req.body.aofs}}, function (err, projects) {
         if (err) throw err;
         else {
-          // res.contentType(org.contentType);
-          // res.contentType('multipart/mixed');
-          res.status(201).send({status: 201, results: {orgs: orgs, projects: projects}});
-          // res.send()
+          res.status(201).send({ status: 201, results: {orgs: orgs, projects: projects} });
         }
       });
     }

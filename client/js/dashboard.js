@@ -135,14 +135,12 @@ var Dashboard = exports.Dashboard = React.createClass({
 
   update_db_state_prop: function(changes) {
     var state = this.state.data;
+    console.log('State before update: ', state);
     for (var prop in changes) {
-      if (prop in state) {
-        state[prop] = changes[prop];
-      }
+      state[prop] = changes[prop];
     }
-    // console.log('State before update: ', state[prop]);
     // console.log('State: ', state);
-    // console.log('State after update: ', state[prop]);
+    console.log('State after update: ', state);
     this.setState({ data: state });
   },
 
