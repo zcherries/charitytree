@@ -77,7 +77,9 @@ var DonorProfile = exports.DonorProfile = React.createClass({
         <h5>Areas of Focus</h5>
           <ul>
             {donorInfo.areas_of_focus.map(function(aof, idx) {
-              return <li key={idx}>{aof}</li>
+              return (<div>
+              <li key={idx}><i className="tiny material-icons">label</i>{aof}</li>
+              </div>)
             })}
           </ul>
         <button className="waves-effect waves-light btn blue"onClick={this.editPage}>Edit</button>
