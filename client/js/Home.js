@@ -50,17 +50,17 @@ exports.Home = React.createClass({
               <h1 className="center-align"> Make Giving Personal! </h1>
 
               <div className="col s4">
-                <i className="material-icons large center yellow-text accent-3">lock_outline</i>
+                <i className="material-icons large center blue-text accent-3">lock_outline</i>
                 <h4>Find Organizations you can trust!</h4>
                 <h6>Each organization on Charity tree is vetted and required to show you where your money is spent!</h6>
               </div>
               <div className="col s4">
-                <i className="material-icons large center yellow-text accent-3">toc</i>
+                <i className="material-icons large center blue-text accent-3">toc</i>
                 <h4>Be a part of a project!</h4>
                 <h6>Donate to specific needs on projects locally and around the world!</h6>
               </div>
               <div className="col s4">
-                <i className="material-icons large center yellow-text accent-3">supervisor_account</i>
+                <i className="material-icons large center blue-text accent-3">supervisor_account</i>
                 <h4>Contribute in a meaningful way!</h4>
                 <h6>See what your donation does through updates, pictures, video and more! No more wondering if your donation did any real good!</h6>
               </div>
@@ -106,9 +106,9 @@ exports.Home = React.createClass({
           <div className="parallax">
             <img src="https://c1.staticflickr.com/5/4116/4931019303_2f386bffb7_b.jpg"/>
           </div>
-          <div className="caption center-align shadow-white">
-            <h3>See the lives changed by your donation!</h3>
-            <h5 className="light grey-text text-lighten-3 shadow">Be a part of a project!</h5>
+          <div className="caption left-align shadow-white">
+            <h3>Know where your money is going!</h3>
+            <h5 className="light grey-text text-lighten-3 shadow">See the impact!</h5>
           </div>
         </div>
 
