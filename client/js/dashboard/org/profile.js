@@ -74,7 +74,9 @@ var OrgProfile = exports.OrgProfile = React.createClass({
         <h5>Areas of Focus</h5>
           <ul>
             {orgInfo.areas_of_focus.map(function(aof, idx) {
-              return <li key={idx}>{aof}</li>
+              return (<div>
+              <li key={idx}><i className="tiny material-icons">done</i>{aof}</li>
+              </div>)
             })}
           </ul>
         <a className="waves-effect waves-light btn blue" onClick={this.editPage}>Edit</a>
