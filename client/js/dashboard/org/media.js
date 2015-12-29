@@ -7,7 +7,7 @@ import {MediaUpload} from '../media_upload.js'
 var Media = exports.Media = React.createClass({
   componentWillReceiveProps: function(nextProps) {
     console.log("CWRP is firing", nextProps);
-    if (nextProps) {
+    if (nextProps.media.profile_img) {
       this.setState({ profile_img: nextProps.media.profile_img })
     }
   },

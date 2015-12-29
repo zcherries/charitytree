@@ -63,11 +63,11 @@ module.exports = function(server) {
                   donor.feed.push({ message: 'You started following ' + org.name, created_date: now });
                   org.save(function(err) {
                     if (err) throw err;
-                    donor.save(function(err) {
+                    donor.save(function(err, updatedDonor) {
                       if (err) throw err;
                       else {
                         console.log('Saving to donor')
-                        client.emit('getFeed', donor.feed);
+                        client.emit('getFeed', updatedDonor.feed);
                       }
                     });
                   });
@@ -120,7 +120,8 @@ module.exports = function(server) {
       });
     });
 
-    client.on('org_update', function(orgID, data) {
+    feed.on('org_update', function(orgID, data) {
+      console.log('In Org Update')
       Model.Organization.findById(orgID, function(err, org) {
         if (err) throw err;
         if (org) {
@@ -130,8 +131,10 @@ module.exports = function(server) {
               donor.feed.push({ message: data.message, created_date: new Date() });
               donor.save(function(err) {
                 if (err) throw err;
+                console.log('Org has updated its about');
                 clients.forEach(function(cl) {
                   // client.emit('action', data);
+                  console.log('Org has updated an image');
                   if (cl['user'] === donor._id) { //if client is connected
                     feed.to(client[0]).emit('getFeed', donor.feed);
                   }
