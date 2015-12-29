@@ -93,7 +93,7 @@ var Organization = React.createClass({
 
   setOrganization: function() {
     localStorage.currentOrgID = this.props.org._id;
-    feeder.emit('follow', localStorage.token, localStorage.currentOrgID);
+    // feeder.emit('follow', localStorage.token, localStorage.currentOrgID);
     console.log('Set local storage organization')
     this.props.setOrganization(this.props.org);
     console.log('inside of search.js and localstorage is ', localStorage);
@@ -158,8 +158,12 @@ var ProjectResults = React.createClass({
 
 var Project = React.createClass({
   setProject: function(){
+    console.log('inside of search.js in set project');
+        console.log('inside of search.js and localStorage.currentProjID is ', localStorage.currentProjID);
+
+    localStorage.currentProjID = this.props.projectId;  
     this.props.setProject(this.props.project);
-  },
+},
 
   getProject: function() {
     this.props.getProject(this.props.projectId);

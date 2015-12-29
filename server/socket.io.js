@@ -46,37 +46,37 @@ module.exports = function(server) {
     });
 
     //this is a donor action
-    client.on('follow', function(donorID, orgID) {
-      console.log('Follow Data: ', donorID, orgID);
-      var now = Date.now();
-      Model.Organization.findById(orgID, function(err, org) {
-        if (err) throw err;
-        else {
-          if (org.followers.indexOf(donorID) === -1) {
-            Model.Donor.findById(donorID, function(err, donor) {
-              if (err) throw err;
-              if (donor.following.indexOf(orgID) === -1) {
-                console.log('Got Here')
-                org.followers.push(donorID);
-                org.feed.push({ message: donor.username + ' started following you', created_date: now });
-                donor.following.push(orgID);
-                donor.feed.push({ message: 'You started following ' + org.name, created_date: now });
-                org.save(function(err) {
-                  if (err) throw err;
-                  donor.save(function(err) {
-                    if (err) throw err;
-                    else {
-                      console.log('Saving to donor')
-                      client.emit('getFeed', donor.feed);
-                    }
-                  });
-                });
-              }
-            });
-          }
-        }
-      });
-    });
+    // client.on('follow', function(donorID, orgID) {
+    //   console.log('Follow Data: ', donorID, orgID);
+    //   var now = Date.now();
+    //   Model.Organization.findById(orgID, function(err, org) {
+    //     if (err) throw err;
+    //     else {
+    //       if (org.followers.indexOf(donorID) === -1) {
+    //         Model.Donor.findById(donorID, function(err, donor) {
+    //           if (err) throw err;
+    //           if (donor.following.indexOf(orgID) === -1) {
+    //             console.log('Got Here')
+    //             org.followers.push(donorID);
+    //             org.feed.push({ message: donor.username + ' started following you', created_date: now });
+    //             donor.following.push(orgID);
+    //             donor.feed.push({ message: 'You started following ' + org.name, created_date: now });
+    //             org.save(function(err) {
+    //               if (err) throw err;
+    //               donor.save(function(err) {
+    //                 if (err) throw err;
+    //                 else {
+    //                   console.log('Saving to donor')
+    //                   client.emit('getFeed', donor.feed);
+    //                 }
+    //               });
+    //             });
+    //           }
+    //         });
+    //       }
+    //     }
+    //   });
+    // });
 
     var union = function(/*arrays*/) {
       var args = [].slice.call(arguments), result = [];
