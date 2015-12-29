@@ -109,20 +109,13 @@ var Organization = exports.Organization = React.createClass({
           }
         </div>
         <div className="row">
+          {/*Follow Button*/}
           <div className="col s2 push-s10 pinned" style={{top: "110px", zIndex: "1"}}>
             <a className="btn-floating btn-large btn tooltipped waves-effect waves-light light-blue darken-3" onClick={this.followOrg} data-position="left" data-delay="50" data-tooltip="Follow Organization"><i className="material-icons">group_add</i></a>
           </div>
-          <div className="col hide-on-small-only m2 push-m10">
-            {/*ScrollSpy*/}
-            <ScrollSpyListItems
-              address={this.state.org.address}
-            />
-          </div>
 
-          <div className="col s12 m10 pull-m2">
+          <div className="col s12 m10 l11">
             <div className="row">
-
-
 
               {/*Image 1*/}
               <div className="col s12">
@@ -179,6 +172,12 @@ var Organization = exports.Organization = React.createClass({
             </div>
           </div>
 
+          {/*ScrollSpy*/}
+          <div className="col hide-on-small-only m2 l1">
+            <ScrollSpyListItems
+              address={this.state.org.address}
+            />
+          </div>
         </div>
       </div>
     );
