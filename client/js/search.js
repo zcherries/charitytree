@@ -2,11 +2,8 @@
 var React = require('react');
 import { Link, History } from 'react-router';
 import { TagContainer, Tag } from './tag_container.js';
-//var LocalStorageMixin = require('react-localstorage');
 
 var Search = exports.Search = React.createClass({
-  displayName: 'Search',
-  // mixins: [ History,LocalStorageMixin ],
   render: function () {
     return (
       <div>
@@ -74,7 +71,7 @@ var OrganizationResults = React.createClass({
 var Organization = React.createClass({
   setOrganization: function() {
     localStorage.currentOrgID = this.props.org._id;
-    feeder.emit('follow', this.props.org._id);
+    // feeder.emit('follow', localStorage.token, localStorage.currentOrgID);
     console.log('Set local storage organization')
     this.props.setOrganization(this.props.org);
     console.log('inside of search.js and localstorage is ', localStorage);
@@ -133,8 +130,12 @@ var ProjectResults = React.createClass({
 
 var Project = React.createClass({
   setProject: function(){
+    console.log('inside of search.js in set project');
+        console.log('inside of search.js and localStorage.currentProjID is ', localStorage.currentProjID);
+
+    localStorage.currentProjID = this.props.projectId;  
     this.props.setProject(this.props.project);
-  },
+},
 
   getProject: function() {
     this.props.getProject(this.props.projectId);

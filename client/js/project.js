@@ -33,7 +33,7 @@ var Project = exports.Project = React.createClass ({
     console.log('inside of project at beginning of componentDidMount');
 
     $.ajax({
-        url:'/project_get/'+localStorage.currProjObj,
+        url:'/project_get/'+localStorage.currentProjID,
         // dataType: 'json',
         method: "GET",
         success: function (data) {

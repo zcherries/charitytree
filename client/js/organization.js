@@ -13,6 +13,7 @@ var Organization = exports.Organization = React.createClass({
     console.log('inside of handleClick project is', project);
     // console.log('inside of handleClick index is', index);
     localStorage.setItem('currProjObj', project._id);
+    console.log('Project._id is ', project._id);
     this.props.navigateToProjectPage();
   },
 
