@@ -81,7 +81,9 @@ exports.Media = React.createClass({
           <h5>Pictures</h5>
           <ul>
             {this.props.media.images.map(function(file, idx) {
-              return <li key={idx}><img src={'http://localhost:4000/dashboard_data/media/'+file} /></li>
+              return <div>
+              <li className="float-left" key={idx}><img src={'http://localhost:4000/dashboard_data/media/'+file} /></li>
+              </div>
             })}
           </ul>
         </div>
