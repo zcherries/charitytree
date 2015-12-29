@@ -448,3 +448,15 @@ div.card:hover .project-options {
 .project-blurb .box__input label {
   height: 364px;
 }
+
+/* Dashboard - Donor Activity */
+.btn-endorse {
+  display: none
+}
+.btn-endorse:hover {
+  display: inline
+}
+
+.org-blurb:hover .btn-endorse {
+  display: inline
+}

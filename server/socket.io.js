@@ -55,21 +55,23 @@ module.exports = function(server) {
           if (org.followers.indexOf(donorID) === -1) {
             Model.Donor.findById(donorID, function(err, donor) {
               if (err) throw err;
-              if (donor.following.indexOf(orgID) === -1) {
-                org.followers.push(donorID);
-                org.feed.push({ message: donor.username + ' started following you', created_date: now });
-                donor.following.push(orgID);
-                donor.feed.push({ message: 'You started following ' + org.name, created_date: now });
-                org.save(function(err) {
-                  if (err) throw err;
-                  donor.save(function(err) {
+              if (donor) {
+                if (donor.following.indexOf(orgID) === -1) {
+                  org.followers.push(donorID);
+                  org.feed.push({ message: donor.username + ' started following you', created_date: now });
+                  donor.following.push(orgID);
+                  donor.feed.push({ message: 'You started following ' + org.name, created_date: now });
+                  org.save(function(err) {
                     if (err) throw err;
-                    else {
-                      console.log('Saving to donor')
-                      client.emit('getFeed', donor.feed);
-                    }
+                    donor.save(function(err) {
+                      if (err) throw err;
+                      else {
+                        console.log('Saving to donor')
+                        client.emit('getFeed', donor.feed);
+                      }
+                    });
                   });
-                });
+                }
               }
             });
           }
@@ -118,6 +120,30 @@ module.exports = function(server) {
       });
     });
 
+    client.on('org_update', function(orgID, data) {
+      Model.Organization.findById(orgID, function(err, org) {
+        if (err) throw err;
+        if (org) {
+          org.followers.forEach(function(follower) {
+            Model.Donor.findById(follower, function(err, donor) {
+              //update donor feed
+              donor.feed.push({ message: data.message, created_date: new Date() });
+              donor.save(function(err) {
+                if (err) throw err;
+                clients.forEach(function(cl) {
+                  // client.emit('action', data);
+                  if (cl['user'] === donor._id) { //if client is connected
+                    feed.to(client[0]).emit('getFeed', donor.feed);
+                  }
+                });
+              });
+            });
+          });
+        }
+      });
+    });
+
   });
 
+  return feed;
 }

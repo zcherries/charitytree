@@ -16,6 +16,7 @@ var OrgProfile = exports.OrgProfile = React.createClass({
   },
 
   componentWillReceiveProps: function(newProps) {
+    console.log('CWRP is fired ', newProps)
     this.setState({ orgInfo: newProps.orgInfo, editing: false });
   },
 
@@ -35,7 +36,10 @@ var OrgProfile = exports.OrgProfile = React.createClass({
       success:function(response) {
         console.log("Post Success: ", response.results);
         // this.setState({ orgInfo: response.results, editing: false });
-        this.props.update_db_state_prop('about', response.results.about);
+        this.props.update_db_state_prop({
+          'about': response.results.about,
+          'areas_of_focus': response.results.areas_of_focus
+        });
       }.bind(this),
       error: function(error){
         console.log(error);

@@ -156,7 +156,9 @@ app.get('/dashboard_data', function(req, res) {
           } //end else
         });
     } else if (req.session.user.type === 'donor') {
-      Model.Donor.findOne({ _id: req.session.user.uid }).select('-password').exec(function(err, donor) {
+      Model.Donor.findOne({ _id: req.session.user.uid }).select('-password')
+        .populate('sponsored_projects following endorsements')
+        .exec(function(err, donor) {
         if (err) { console.log(err); }
         else {
           res.send({ status: 200, results: donor, userType: req.session.user.type });
@@ -356,15 +358,36 @@ app.post('/logout_post', function(req, res, next) {
 app.post('/dashboard/profile', function(req, res, next) {
   if (req.session && req.session.user) {
     if (req.session.user.type === 'organization') {
-      io.emit('data', 'Organization that you follow has updated their profile');
-        Controller.Organization.update(req, res, next, { _id: req.session.user.uid },
-          { about: req.body.about, areas_of_focus: req.body.areas_of_focus },
-          'name username about areas_of_focus');
+      Model.Organization.findById(req.session.user.uid, 'name username about areas_of_focus', function(err, org) {
+        if (err) throw err;
+        if (org) {
+          org.about = req.body.about;
+          org.areas_of_focus = req.body.areas_of_focus;
+          org.save(function(err, updatedOrg) {
+            if (err) throw err;
+            else {
+              feed.emit('org_update', updatedOrg._id, {message: updatedOrg.name + ' has updated their profile', attachment: ''});
+              res.status(201).send({ status: 201, results: updatedOrg });
+            }
+          });
+        }
+      });
     } else if (req.session.user.type === 'donor') {
-      console.log('Am a donor')
-      Controller.Donor.update(req, res, next, { _id: req.session.user.uid },
-        { name: req.body.name, email: req.body.email, areas_of_focus: req.body.areas_of_focus },
-        'name username email areas_of_focus');
+      Model.Donor.findById(req.session.user.uid, 'name username email areas_of_focus', function(err, donor) {
+        if (err) throw err;
+        if (donor) {
+          donor.name = req.body.name;
+          donor.email = req.body.email;
+          donor.areas_of_focus = req.body.areas_of_focus;
+          donor.save(function(err, updatedDonor) {
+            if (err) throw err;
+            else { res.status(201).send({ status: 201, results: updatedDonor }); }
+          });
+        }
+      });
+      // Controller.Donor.update(req, res, next, { _id: req.session.user.uid },
+      //   { name: req.body.name, email: req.body.email, areas_of_focus: req.body.areas_of_focus },
+      //   'name username email areas_of_focus');
     }
   } else {
     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });

@@ -30,7 +30,7 @@ var Projects = exports.Projects = React.createClass({
       success:function(response) {
         console.log("GET Success: ", response.results);
         // this.setState({ projects: response.results.projects, action: 'display' });
-        this.props.update_db_state_prop('projects', response.results.projects); //update dashboard state property
+        this.props.update_db_state_prop({ 'projects': response.results.projects }); //update dashboard state property
       }.bind(this),
       error: function(error){
         console.log(error);
