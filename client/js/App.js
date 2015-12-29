@@ -169,6 +169,7 @@ var App = exports.App = React.createClass({
       currentOrganization: this.state.currentOrganization,
       currentProject: project
     });
+    localStorage.projectId = this.state.projectId;
     this.navigateToProjectPage();
   },
 
