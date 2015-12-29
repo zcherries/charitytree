@@ -34,8 +34,13 @@ var Organization = exports.Organization = React.createClass({
           this.setState({
             org: data.results
           });
-
           console.log('inside of success of did and this.state.org ', this.state.org);
+
+          //Initialize Materialize Components
+          $('.materialboxed').materialbox();
+          $('.tooltipped').tooltip({delay: 50});
+          $('.scrollspy').scrollSpy();
+
         }.bind(this),
         error: function (xhr, status, err) {
           console.error(xhr, status, err.toString());
@@ -44,22 +49,20 @@ var Organization = exports.Organization = React.createClass({
 
     console.log('inside of componentDidMount and state.org is ', this.state.org);
 
-    $('.materialboxed').materialbox();
-    $('.tabs-wrapper .row').pushpin({ top: $('.tabs-wrapper').offset(1000).top });
   },
 
 
 
   followOrg: function(e) {
     e.preventDefault();
-    console.log('donor: ' + localStorage.token, 'org: ' + localStorage.currentOrgID)
+    console.log('donor: ' + localStorage.token, 'org: ' + localStorage.currentOrgID);
     feeder.emit('follow', localStorage.token, localStorage.currentOrgID);
   },
 
   render: function () {
 
     if(this.state.org){
-      {console.log('inside render of orgpage and this.state.org is', JSON.stringify(this.state.org));}
+      {console.log('inside render of orgpage and this.state.org is', this.state.org);}
 
     var aofs = this.state.org.areas_of_focus.map(function (aof, index) {
       return (
@@ -97,14 +100,29 @@ var Organization = exports.Organization = React.createClass({
         <div id="location" className="center-align section scrollspy">
           <h1>
             {this.state.org.name}
-            <button onClick={this.followOrg}>Follow</button>
           </h1>
-          <i className="medium material-icons">room</i>
-          <h5> {}</h5>
+          {this.state.org.address ?
+            <div>
+              <i className="medium material-icons">room</i>
+              <h5>{this.state.org.address}</h5>
+            </div> : ""
+          }
         </div>
         <div className="row">
-          <div className="col s12 m10 l10">
+          <div className="col s2 push-s10 pinned" style={{top: "110px", zIndex: "1"}}>
+            <a className="btn-floating btn-large btn tooltipped waves-effect waves-light light-blue darken-3" onClick={this.followOrg} data-position="left" data-delay="50" data-tooltip="Follow Organization"><i className="material-icons">group_add</i></a>
+          </div>
+          <div className="col hide-on-small-only m2 push-m10">
+            {/*ScrollSpy*/}
+            <ScrollSpyListItems
+              address={this.state.org.address}
+            />
+          </div>
+
+          <div className="col s12 m10 pull-m2">
             <div className="row">
+
+
 
               {/*Image 1*/}
               <div className="col s12">
@@ -144,12 +162,12 @@ var Organization = exports.Organization = React.createClass({
                 <div className="left-align">{currentProjects}</div>
               </div>
 
-              {/*Past Projects
+              {/*Past Projects*/}
               <div id="past-projects" className="col s12 center-align section scrollspy">
                 <i className="medium material-icons space-above">assignment_turned_in</i>
-                <h2> Our Past Projects:</h2>
+                <h2>Our Past Projects:</h2>
                 <div className="left-align">{pastProject}</div>
-              </div>*/}
+              </div>
 
               {/*Endorsements*/}
               <div id="endorsements" className="col s12 center-align section scrollspy">
@@ -160,10 +178,7 @@ var Organization = exports.Organization = React.createClass({
 
             </div>
           </div>
-          <div className="col hide-on-small-only m2 l2">
-            {/*ScrollSpy*/}
-            <ScrollSpyListItems />
-          </div>
+
         </div>
       </div>
     );
@@ -176,19 +191,19 @@ var Organization = exports.Organization = React.createClass({
 });
 
 var ScrollSpyListItems = React.createClass({
-  componentDidMount: function() {
-    $('.scrollspy').scrollSpy();
-  },
   render: function () {
     return(
       <div className="toc-wrapper pinned" >
         <div>
           <ul className="section table-of-contents">
-            <li>
-              <a href="#location">
-                Location
-              </a>
-            </li>
+            {this.props.address ?
+              <li>
+                <a href="#location">
+                  Location
+                </a>
+              </li> : ""
+            }
+
             <li>
               <a href="#description">
                 Description
