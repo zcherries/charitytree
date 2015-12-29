@@ -24,7 +24,6 @@ var Project = exports.Project = React.createClass ({
 
     $.ajax({
         url:'/project_get/'+localStorage.projectId,
-        // dataType: 'json',
         method: "GET",
         success: function (data) {
           console.log("on success in projdid with params.id and res.data is ", data.results);
@@ -40,7 +39,8 @@ var Project = exports.Project = React.createClass ({
         }.bind(this)
       });
     $('.materialboxed').materialbox();
-    $('ul.tabs').tabs('select_tab', 'tab_id');
+    $('ul.tabs').tabs(); //both of these needed
+    $('ul.tabs').tabs('select_tab', 'tab_id'); //both of these needed
 
     console.log('inside of componentDidMount and state.project is ', this.state.project);
   },
@@ -73,7 +73,6 @@ var Project = exports.Project = React.createClass ({
     // }.bind(this));
     // project = project[0];
     if(this.state.project) {
-
       var project = this.state.project;
       // var org = JSON.parse(localStorage.getItem('currOrgObj'));
 

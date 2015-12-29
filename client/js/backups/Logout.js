@@ -1,6 +1,5 @@
-import { History } from 'react-router';
 import React from 'react';
-// import auth from '../utils/auth';
+import { History } from 'react-router';
 
 const Logout = React.createClass({
   mixins: [ History ],
@@ -13,8 +12,7 @@ const Logout = React.createClass({
         localStorage.clear();
         this.props.isLoggedIn();
         // this.props.history.pushState(null, `/`);
-        window.location.href = 'http://localhost:4000'
-        // }.bind(this), 1000);
+        window.location.href = 'http://localhost:4000';
       }.bind(this),
       error: function (xhr, status, err) {
         console.log("Error posting to: " + xhr, status, err.toString());

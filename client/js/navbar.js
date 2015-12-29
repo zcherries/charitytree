@@ -17,18 +17,22 @@ exports.Navbar = React.createClass({
     e.preventDefault();
     this.props.handleSearchSubmit();
   },
-
-  componentDidMount: function () {
-    $('.modal-trigger').leanModal({
-        dismissible: true, // Modal can be dismissed by clicking outside of the modal
-        opacity: 0, // Opacity of modal background
-        in_duration: 300, // Transition in duration
-        out_duration: 200, // Transition out duration
-        //ready: function() { alert('Ready'); }, // Callback for Modal open
-        //complete: function() { alert('Closed'); } // Callback for Modal close
-      }
-    );
-    $(".dropdown-button").dropdown({hover: true});
+  
+  logout: function () {
+    $.ajax({
+      type: 'POST',
+      url: '/logout_post',
+      success: function (response) {
+        feeder.emit('disconnect');
+        localStorage.clear();
+        //this.props.isLoggedIn();
+        //this.props.history.pushState(null, "/");
+        window.location.href = 'http://localhost:4000';
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.log("Error posting to: " + xhr, status, err.toString());
+      }.bind(this)
+    });
   },
 
   render: function () {
@@ -38,12 +42,9 @@ exports.Navbar = React.createClass({
           {/*Dashboard Dropdown*/}
           {this.props.loggedIn ? (
             <ul id="dropdown1" className="dropdown-content">
-              <li>
-                <Link className="waves-effect waves-light black-text" to="/dashboard">Dashboard</Link>
-              </li>
               <li className="divider"/>
               <li>
-                <Link className="waves-effect waves-light black-text" to="/logout">Logout</Link>
+                <a className="waves-effect waves-light black-text" onClick={this.logout}>Logout</a>
               </li>
             </ul>
           ) : "" }
@@ -80,7 +81,7 @@ exports.Navbar = React.createClass({
                 {/*Login/Signup or Dashboard Dropdown*/}
                 {this.props.loggedIn ? (
                   <li>
-                    <a className="dropdown-button black-text" data-activates="dropdown1">Dashboard<i className="material-icons black-text right">arrow_drop_down</i></a>
+                    <Link className="dropdown-button black-text" data-activates="dropdown1" to="/dashboard">Dashboard<i className="material-icons black-text right">arrow_drop_down</i></Link>
                   </li>
                 ) : (
                   <li>

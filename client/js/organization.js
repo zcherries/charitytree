@@ -27,12 +27,9 @@ var Organization = exports.Organization = React.createClass({
     console.log('inside of orgpage at beg of cdm');
     $.ajax({
         url:'/organization_get/'+localStorage.currentOrganization,
-        // dataType: 'json',
         method: "GET",
         success: function (data) {
           console.log("on success in did with params.id and res.data is ", data.results);
-
-          // localStorage.setItem('currOrgObj', JSON.stringify(data.results));
 
           this.setState({
             org: data.results
@@ -45,9 +42,8 @@ var Organization = exports.Organization = React.createClass({
         }.bind(this)
       });
 
-    ('inside of componentDidMount and state.org is ', this.state.org);
+    console.log('inside of componentDidMount and state.org is ', this.state.org);
 
-    $('.scrollspy').scrollSpy();
     $('.materialboxed').materialbox();
     $('.tabs-wrapper .row').pushpin({ top: $('.tabs-wrapper').offset(1000).top });
   },
@@ -180,6 +176,9 @@ var Organization = exports.Organization = React.createClass({
 });
 
 var ScrollSpyListItems = React.createClass({
+  componentDidMount: function() {
+    $('.scrollspy').scrollSpy();
+  },
   render: function () {
     return(
       <div className="toc-wrapper pinned" >
