@@ -1,10 +1,9 @@
 "use strict";
 var React = require('react');
-var ReactDOM = require('react-dom');
 
 import {MediaUpload} from '../media_upload.js'
 
-var Media = exports.Media = React.createClass({
+exports.Media = React.createClass({
   componentWillReceiveProps: function(nextProps) {
     console.log("CWRP is firing", nextProps);
     if (nextProps.media.profile_img) {
@@ -57,7 +56,7 @@ var Media = exports.Media = React.createClass({
     var profile_img = (this.state.profile_img['filename'] === undefined && this.props.media.profile_img === undefined)
       ? "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg"
       : (this.state.username) ? 'http://localhost:4000/dashboard_data/profile_img/'+ this.props.username + '/' + this.state.profile_img.filename
-      : 'http://localhost:4000/dashboard_data/profile_img/'+ this.props.username + '/' + this.props.media.profile_img.filename
+      : 'http://localhost:4000/dashboard_data/profile_img/'+ this.props.username + '/' + this.props.media.profile_img.filename;
     return (
       <div className="row">
         <div className="float-left">
