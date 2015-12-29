@@ -2,8 +2,8 @@ import React from 'react';
 import { History } from 'react-router';
 var LocalStorageMixin = require('react-localstorage');
 
-import { loggedIn } from '../config/routes';
-import {Navbar} from './navbar';
+import { loggedIn } from '../config/routes.js';
+import {Navbar} from './navbar.js';
 
 
 
@@ -191,6 +191,7 @@ var App = exports.App = React.createClass({
       <div>
         <Navbar
           loggedIn={this.state.loggedIn}
+          isLoggedIn={this.isLoggedIn}
           searchText={this.state.searchText}
           updateInput={this.updateInput}
           handleSearchSubmit={this.handleSearchSubmit}/>

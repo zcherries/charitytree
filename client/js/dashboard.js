@@ -24,6 +24,10 @@ var Dashboard = exports.Dashboard = React.createClass({
   componentDidMount: function() {
     console.log('Dashboard Component is Mounted');
     this.getData();
+    $(".dropdown-button").dropdown({
+      hover: true,
+      belowOrigin: true
+    });
   },
 
   getData: function() {

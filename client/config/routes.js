@@ -10,7 +10,11 @@ import {Signup} from '../js/signup.js';
 
 //============Authenticated Routes===============/
 import {Dashboard} from '../js/dashboard.js';
-import Logout from '../js/logout.js';
+//import Logout from '../js/logout.js';
+
+var loggedIn = exports.loggedIn = function () {
+  return !!localStorage.token;
+};
 
 function redirectToLogin(nextState, replaceState) {
   if (!loggedIn()) {
@@ -25,11 +29,6 @@ function redirectToDashboard(nextState, replaceState) {
     replaceState(null, '/dashboard');
   }
 }
-
-var loggedIn = exports.loggedIn = function () {
-  console.log('Token: ' + localStorage.token);
-  return !!localStorage.token;
-};
 
 exports.routes = {
   component: App,
