@@ -5,13 +5,16 @@ import { History } from 'react-router';
 var LocalStorageMixin = require('react-localstorage');
 
 var DonorProfile = exports.DonorProfile = React.createClass({
-  // displayName: 'DonorProfile',
-  // mixins: [ History, LocalStorageMixin ],
   getInitialState: function() {
     return {
       editing: false,
       donorInfo: {}
     }
+  },
+
+  componentWillReceiveProps: function(newProps) {
+    console.log('CWRP is fired ', newProps)
+    this.setState({ donorInfo: newProps.donorInfo, editing: false });
   },
 
   componentWillMount: function() {
@@ -30,7 +33,12 @@ var DonorProfile = exports.DonorProfile = React.createClass({
       data: formData,
       success: function(response) {
         console.log("Post Success: ", response.results);
-        this.setState({ donorInfo: response.results, editing: false });
+        // this.setState({ donorInfo: response.results, editing: false });
+        this.props.update_db_state_prop({
+          'name': response.results.name,
+          'email': response.results.email,
+          'areas_of_focus': response.results.areas_of_focus
+        });
       }.bind(this),
       error: function(error){
         console.log(error);

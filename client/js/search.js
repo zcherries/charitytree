@@ -3,7 +3,7 @@ var React = require('react');
 import { Link, History } from 'react-router';
 import { TagContainer, Tag } from './tag_container.js';
 
-var Search = exports.Search = React.createClass({
+exports.Search = React.createClass({
   render: function () {
     return (
       <div>
@@ -71,11 +71,10 @@ var OrganizationResults = React.createClass({
 var Organization = React.createClass({
   setOrganization: function() {
     localStorage.currentOrgID = this.props.org._id;
-    // feeder.emit('follow', localStorage.token, localStorage.currentOrgID);
-    console.log('Set local storage organization')
+    console.log('Set local storage organization');
     this.props.setOrganization(this.props.org);
     console.log('inside of search.js and localstorage is ', localStorage);
-    localStorage.currentOrganization = this.props.org._id
+    localStorage.currentOrganization = this.props.org._id;
     console.log('inside of search.js and localstorage.currOrg is ', localStorage.currentOrganization);
   },
 

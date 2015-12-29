@@ -7,6 +7,7 @@ import {Projects} from './dashboard/org/projects.js';
 import {Media} from './dashboard/org/media.js';
 import {DonorProfile} from './dashboard/donor/profile.js';
 import {Feed} from './dashboard/donor/feed.js';
+import {Activity} from './dashboard/donor/activity.js';
 
 var Dashboard = exports.Dashboard = React.createClass({
   getInitialState: function() {
@@ -102,16 +103,20 @@ var Dashboard = exports.Dashboard = React.createClass({
           areas_of_focus: this.state.data.areas_of_focus,
           profile_img: this.state.data.profile_img
         };
-        view = <DonorProfile postData={this.postData} donorInfo={donorInfo} />;
+        view = <DonorProfile update_db_state_prop={this.update_db_state_prop} donorInfo={donorInfo} />;
         break;
       case 'feed':
-        view = <Feed postData={this.postData} feed={this.state.data.projects} />;
+        view = <Feed update_db_state_prop={this.update_db_state_prop} feed={this.state.data.projects} />;
         break;
       case 'activity':
-        view = <Activity orgs_followed={this.state.data.orgs_followed} sponsorships={this.state.data.sponsored_projects} />;
+        view = <Activity
+          update_db_state_prop={this.update_db_state_prop}
+          sponsorships={this.state.data.sponsored_projects}
+          following={this.state.data.following}
+          endorsements={this.state.data.endorsements} />;
         break;
       case 'endorsements':
-        view = <Endorsements postData={this.postData} endorsements={this.state.data.endorsements} />;
+        view = <Endorsements />;
         break;
       default:
         view = <div></div>
@@ -124,12 +129,16 @@ var Dashboard = exports.Dashboard = React.createClass({
     )
   },
 
-  update_db_state_prop: function(prop, data) {
+  update_db_state_prop: function(changes) {
     var state = this.state.data;
-    console.log('State before update: ', state[prop]);
-    state[prop] = data;
-    console.log('State: ', state);
-    console.log('State after update: ', state[prop]);
+    for (var prop in changes) {
+      if (prop in state) {
+        state[prop] = changes[prop];
+      }
+    }
+    // console.log('State before update: ', state[prop]);
+    // console.log('State: ', state);
+    // console.log('State after update: ', state[prop]);
     this.setState({ data: state });
   },
 

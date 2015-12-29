@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema, ObjectId = Schema.Types.ObjectId;
 
 var endorsementSchema = new Schema({
+  title: { type: String, trim: true },
   review: { type: String, trim: true },
   rating: Number,
   review_date: Date,

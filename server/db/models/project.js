@@ -18,6 +18,7 @@ var ProjectSchema = new Schema({
   created_date: Date,
   start_date: Date,
   end_date: Date,
+  last_updated: Date,
   status: String,
   is_complete: Boolean,
   title: String,
@@ -38,7 +39,7 @@ var ProjectSchema = new Schema({
 });
 
 NeedSchema.pre('save', function(next) {
-  var now = Date();
+  var now = new Date();
   if (!this.created_date) {
     this.created_date = now;
   }
@@ -47,10 +48,11 @@ NeedSchema.pre('save', function(next) {
 });
 
 ProjectSchema.pre('save', function(next) {
-  var now = Date();
-  if (!this.updated_on) {
+  var now = new Date();
+  if (this.created_date == null) {
     this.created_date = now;
   }
+  this.last_updated = now;
   next();
 })
 //set up relationship between needs items and the donor who purchased them - org needs to see what donor donated what so it can push relevant updates

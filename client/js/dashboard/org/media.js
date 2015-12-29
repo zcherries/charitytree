@@ -35,7 +35,7 @@ var Media = exports.Media = React.createClass({
       success:function(response) {
         console.log("Post Success: ", response);
         // this.setState({ profile_img: response.results });
-        this.props.update_db_state_prop('profile_img', response.results);
+        this.props.update_db_state_prop({'profile_img': response.results});
       }.bind(this),
       error: function(error){
         console.log(error);
