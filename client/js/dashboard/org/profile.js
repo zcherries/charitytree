@@ -57,7 +57,7 @@ var OrgProfile = exports.OrgProfile = React.createClass({
     var formData = {
       about: ReactDOM.findDOMNode(this.refs.about).value,
       areas_of_focus: (ReactDOM.findDOMNode(this.refs.aofs).value).trim()
-        .replace(/\s|;\s*|\r\n|\r|\n/g,"/b$117/").split("/b$117/")
+        .replace(/\s|;\s|\r\n|\r|\n/g,"/b$117/").split("/b$117/")
     }
     this.update(formData);
   },
