@@ -49,7 +49,7 @@ exports.Navbar = React.createClass({
           ) : "" }
           <nav>
             <div className="nav-wrapper grey lighten-5">
-              <Link to="/" className="brand-logo blue-text accent-3">Charity Tree</Link>
+              <Link to="/" className="brand-logo blue-text thin accent-3">Charity Tree</Link>
               <a href="#" data-activates="mobile-demo" className="button-collapse black-text"><i className="material-icons">menu</i></a>
 
               {/*Navigation*/}

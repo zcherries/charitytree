@@ -93,7 +93,7 @@ exports.Home = React.createClass({
           </div>
         </div>
 
-        <div className="section grey">
+        <div className="section grey lighten-4">
           <p className="grey-text text-darken-3 lighten-3" />
           <div className="container">
             <div className="row center-align">
