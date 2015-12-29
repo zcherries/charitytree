@@ -5,10 +5,12 @@ import { History } from 'react-router';
 // var LocalStorageMixin = require('react-localstorage');
 var feedData = [];
 feeder.on('action', function(data) {
+  console.log('Action triggered: ', data);
   feedData.push({ message: data.message, attachment: data.attachment });
 });
 
 feeder.on('getFeed', function(arrFeed) {
+  console.log('Get Feed triggered: ', arrFeed);
   feedData = arrFeed || [];
 });
 

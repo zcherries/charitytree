@@ -27,7 +27,7 @@ var OrganizationSchema = new Schema({
 // OrganizationSchema.add({ about: String });
 
 OrganizationSchema.pre('save', function(next) {
-  var now = Date();
+  var now = new Date();
   if (this.signup_date == null) {
     this.signup_date = now;
   }
