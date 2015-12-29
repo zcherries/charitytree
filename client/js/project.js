@@ -19,10 +19,40 @@ var Project = exports.Project = React.createClass ({
     // this.setCurrentOrg();
   },
 
+  getInitialState: function(){
+    return {
+      project: null
+    };
+  },
+
   componentDidMount: function () {
     $('.materialboxed').materialbox();
     $('ul.tabs').tabs();
     $('ul.tabs').tabs('select_tab', 'tab_id');
+
+    console.log('inside of project at beginning of componentDidMount');
+
+    $.ajax({
+        url:'/project_get/'+localStorage.currProjObj,
+        // dataType: 'json',
+        method: "GET",
+        success: function (data) {
+          console.log("on success in projdid with params.id and res.data is ", data.results);
+
+          // localStorage.setItem('currOrgObj', JSON.stringify(data.results));
+
+          this.setState({
+            project: data.results
+          });
+
+          console.log('inside of success of projdid and this.state.project ', this.state.project);
+        }.bind(this),
+        error: function (xhr, status, err) {
+          console.error(xhr, status, err.toString());
+        }.bind(this)
+      });
+
+    ('inside of componentDidMount and state.project is ', this.state.project);
   },
 
   setCurrentOrg: function(){
@@ -38,10 +68,12 @@ var Project = exports.Project = React.createClass ({
   },
 
   navToOrg: function(){
+    localStorage.setItem('currOrgObj', this.state.project._org._id);
     this.props.navigateToOrganizationPage();
   },
 
   render: function() {
+
     //console.log("Project/this.props.searchResults.projects: ", this.props.searchResults.projects);
     // var project = this.props.searchResults.projects.filter(function(project){
     //   if(project._id === this.props.projectId) {
@@ -49,8 +81,10 @@ var Project = exports.Project = React.createClass ({
     //   }
     // }.bind(this));
     // project = project[0];
-    var project = JSON.parse(localStorage.getItem('currProjObj'));
-    var org = JSON.parse(localStorage.getItem('currOrgObj'));
+    if(this.state.project){
+
+    var project = this.state.project;
+    // var org = JSON.parse(localStorage.getItem('currOrgObj'));
 
     var needs;
 
@@ -77,7 +111,7 @@ var Project = exports.Project = React.createClass ({
         <div className="center-align">
           <h3>{project.title}</h3>
           <div onClick={this.navToOrg}>
-          <h4>the project.org is {org.name}</h4>
+          <h4>the project.org is {this.state.project._org.name}</h4>
           </div>
         </div>
 
@@ -115,7 +149,7 @@ var Project = exports.Project = React.createClass ({
               <div id="description" className="col s12">{project.info}</div>
               <div id="updates" className="col s12">
                 <h5>Updates</h5>
-                <p>Knausgaard PBR&B organic, pickled skateboard etsy freegan vice green juice tacos. Small batch YOLO gluten-free humblebrag etsy skateboard. Freegan normcore selvage stumptown williamsburg pinterest marfa. 90's ramps aesthetic, cliche farm-to-table kickstarter narwhal YOLO whatever small batch mustache. Schlitz mlkshk yr, etsy craft beer keffiyeh single-origin coffee. XOXO kickstarter flannel, fingerstache PBR&B tousled wayfarers kale chips ramps kitsch craft beer. Blue bottle put a bird on it deep v DIY, four loko retro distillery.
+                <p>Knausgaard PBR&B organic, pickled skateboard etsy freegan vice green juice tacos. Small batch YOLO gluten-free humblebrag etsy skateboard. Freegan normcore selvage stumptown williamsburg pinterest marfa. 90s ramps aesthetic, cliche farm-to-table kickstarter narwhal YOLO whatever small batch mustache. Schlitz mlkshk yr, etsy craft beer keffiyeh single-origin coffee. XOXO kickstarter flannel, fingerstache PBR&B tousled wayfarers kale chips ramps kitsch craft beer. Blue bottle put a bird on it deep v DIY, four loko retro distillery.
                 </p>
               </div>
 
@@ -128,7 +162,14 @@ var Project = exports.Project = React.createClass ({
         </div>
      </div>
     );
+    }else{
+      return(
+        <div>Nothing to display</div>
+        );
+    }
   }
+
+
 });
 
 var Needs = React.createClass({

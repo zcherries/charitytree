@@ -5,7 +5,7 @@ var Controller = require('./db/controllers');
 var Model = require('./db/models');
 
 var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+var MongoStore = require('connect-mongo/es5')(session);
 // var FileStore = require('session-file-store')(session);
 // var session_helpers = require('./helpers/session-helpers.js');
 
@@ -233,14 +233,30 @@ app.get('/organization_get/:id', function(req, res, next) {
 });
 
 app.get('/organization/profile_img/:id', function(req, res, next) {
- Model.Organization.findById(req.params.id, function(err, org) {
+  Model.Organization.findById(req.params.id, function (err, org) {
+    if (err) throw err;
+    else {
+      if (org) {
+        streamifier.createReadStream(org.profile_img.data).pipe(res);
+      } else {
+        res.status(400).send({status: 400, message: "Error"})
+      }
+    }
+  });
+});
+
+app.get('/project_get/:id', function(req, res, next) {
+ // console.log('Org ID: ', req.body.orgID);
+ console.log("inside of server.js and req.params.id is ",req.params.id);
+
+ var id = req.params.id;
+
+ Model.Project.findOne({ _id: id }).populate('_org')
+  .exec(function(err, project) {
    if (err) throw err;
    else {
-     if (org) {
-       streamifier.createReadStream(org.profile_img.data).pipe(res);
-     } else {
-       res.status(400).send({status: 400, message: "Error"})
-     }
+     console.log('Retrieved Project', project)
+     res.status(200).send({status: 200, results: project });
    }
  });
 });
