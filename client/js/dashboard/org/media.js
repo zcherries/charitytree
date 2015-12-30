@@ -79,22 +79,28 @@ exports.Media = React.createClass({
 
         <div>
           <h5>Pictures</h5>
-          <ul>
+          <div className="media-pg-images">
             {this.props.media.images.map(function(file, idx) {
-              return <div>
-              <li className="float-left" key={idx}><img src={'http://localhost:4000/dashboard_data/media/'+file} /></li>
-              </div>
+              return (
+                <div key={idx} className="media-pg-image">
+                  <img className="media-pg-img" src={'http://localhost:4000/dashboard_data/media/'+file} />
+                </div>
+              );
             })}
-          </ul>
+          </div>
         </div>
 
         <div>
           <h5>Videos</h5>
-          <ul>
+          <div className="media-pg-videos">
           {this.props.media.videos.map(function(file, idx) {
-            return <li key={idx}><video src={'http://localhost:4000/dashboard_data/media/'+file} controls /></li>
+            return (
+              <div key={idx} className="media-pg-video">
+                <video className="media-pg-vid" src={'http://localhost:4000/dashboard_data/media/'+file} controls />
+              </div>
+            )
           })}
-          </ul>
+          </div>
         </div>
 
         <div className="upload_assorted">

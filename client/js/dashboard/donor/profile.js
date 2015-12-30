@@ -13,7 +13,7 @@ var DonorProfile = exports.DonorProfile = React.createClass({
   },
 
   componentWillReceiveProps: function(newProps) {
-    console.log('CWRP is fired ', newProps)
+    console.log('CWRP is fired ', newProps);
     this.setState({ donorInfo: newProps.donorInfo, editing: false });
   },
 
@@ -56,12 +56,12 @@ var DonorProfile = exports.DonorProfile = React.createClass({
     var formData = {
       name: {
         first: ReactDOM.findDOMNode(this.refs.first_name).value,
-        last: ReactDOM.findDOMNode(this.refs.last_name).value,
+        last: ReactDOM.findDOMNode(this.refs.last_name).value
       },
       email: ReactDOM.findDOMNode(this.refs.email).value,
       areas_of_focus: (ReactDOM.findDOMNode(this.refs.aofs).value).trim()
         .replace(/;\s*|\s|\r\n|\r|\n/g,"/b$117/").split("/b$117/")
-    }
+    };
     this.update(formData);
   },
 
@@ -77,9 +77,9 @@ var DonorProfile = exports.DonorProfile = React.createClass({
         <h5>Areas of Focus</h5>
           <ul>
             {donorInfo.areas_of_focus.map(function(aof, idx) {
-              return (<div>
-              <li key={idx}><i className="tiny material-icons">done</i>{aof}</li>
-              </div>)
+              return (
+                <li key={idx}><i className="tiny material-icons">label</i>{aof}</li>
+              );
             })}
           </ul>
         <button className="waves-effect waves-light btn blue"onClick={this.editPage}>Edit</button>
@@ -118,14 +118,14 @@ var DonorProfile = exports.DonorProfile = React.createClass({
               <div className="row">
                 <div className="input-field col s12">
                   <label htmlFor="aofs">Areas of Focus</label>
-                  <textarea id="aofs" className="materialize-textarea" ref="aofs" defaultValue={donorInfo.areas_of_focus.join("; ")}></textarea>
+                  <textarea id="aofs" className="materialize-textarea" ref="aofs" defaultValue={donorInfo.areas_of_focus.join("; ")}/>
                 </div>
               </div>
               <input type="submit" value="Submit" className="waves-effect waves-light btn blue"/>
             </form>
           </div>
       </div>
-    )
+    );
   },
 
   render: function() {
