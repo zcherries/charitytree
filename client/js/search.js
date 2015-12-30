@@ -10,15 +10,16 @@ exports.Search = React.createClass({
         <div className="row">
           <h4 className="center-align"> Find a cause to give to </h4>
 
-          {/*Search Tags*/}
-          <div className="col hide-on-small-only m1">
-            <div style={{minHeight:'25px'}} className="right-align">
-              <h5 className="">Tags</h5><hr/>
-              <TagContainer
-                searchCriteria={this.props.searchCriteria}
-                removeSearchTag={this.props.removeSearchTag}/>
+            <div className="center-align col s6 grey lighten-2">
+          <h5 className="center col s8"> Tags</h5>
+
+                <TagContainer
+                    searchCriteria={this.props.searchCriteria}
+                    removeSearchTag={this.props.removeSearchTag}/>
             </div>
-          </div>
+
+          {/*Search Tags*/}
+
 
           {/*Project Search Results*/}
           <div className="col s12 m8 push-m3">
@@ -132,7 +133,7 @@ var Project = React.createClass({
     console.log('inside of search.js in set project');
         console.log('inside of search.js and localStorage.currentProjID is ', localStorage.currentProjID);
 
-    localStorage.currentProjID = this.props.projectId;  
+    localStorage.currentProjID = this.props.projectId;
     this.props.setProject(this.props.project);
 },
 

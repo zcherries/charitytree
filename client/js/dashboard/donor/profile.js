@@ -78,7 +78,7 @@ var DonorProfile = exports.DonorProfile = React.createClass({
           <ul>
             {donorInfo.areas_of_focus.map(function(aof, idx) {
               return (<div>
-              <li key={idx}><i className="tiny material-icons">label</i>{aof}</li>
+              <li key={idx}><i className="tiny material-icons">done</i>{aof}</li>
               </div>)
             })}
           </ul>

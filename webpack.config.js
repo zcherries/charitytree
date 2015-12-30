@@ -32,7 +32,7 @@ module.exports = {
 //  module: {
 //    loaders: [{
 //      test: /\.jsx?$/,
-//      loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015'],
+//      loaders: ['react-hot', 'babel-loader?presets[]=react,presets[]=es2015'],
 //      include: path.join(__dirname, 'client'),
 //      exclude: /node_modules/
 //    },
