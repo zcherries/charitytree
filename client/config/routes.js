@@ -7,6 +7,7 @@ import {Project} from '../js/project.js';
 import {Organization} from '../js/organization.js';
 import {Login} from '../js/login.js';
 import {Signup} from '../js/signup.js';
+import {Donate} from '../js/donate.js';
 
 //============Authenticated Routes===============/
 import {Dashboard} from '../js/dashboard.js';
@@ -99,6 +100,13 @@ exports.routes = {
       getComponent: (location, cb) => {
         require.ensure([], () => {
           cb(null, Project);
+        });
+      }
+    },
+    { path: '/donate',
+      getComponent: (location, cb) => {
+        require.ensure([], () => {
+          cb(null, Donate);
         });
       }
     },

@@ -145,7 +145,6 @@ module.exports = function(server) {
         }
       });
     });
-
   });
 
   return feed;

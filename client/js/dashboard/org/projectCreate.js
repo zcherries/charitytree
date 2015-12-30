@@ -1,5 +1,5 @@
 import React from 'react';
-import { CausesInfo } from '../../causesinfo.js';
+import { CausesInfo } from '../../causesInfo.js';
 
 var ProjectCreate = exports.ProjectCreate = React.createClass({
   getInitialState: function () {
@@ -19,6 +19,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
         description: "",
         cost: null,
         quantity_needed: null,
+        number_purchased: 0,
         active: "active"
       }],
       total_donors_participating: 0,
