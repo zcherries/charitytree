@@ -1,8 +1,7 @@
 import React from 'react';
 import { CausesInfo } from '../../causesInfo.js';
-var LocalStorageMixin = require('react-localstorage');
 
-var ProjectEdit = exports.ProjectEdit = React.createClass({
+exports.ProjectEdit = React.createClass({
   getInitialState: function () {
     return {
       title: "",
@@ -125,7 +124,7 @@ var ProjectEdit = exports.ProjectEdit = React.createClass({
     })
   },
 
-  updateEndDate: function (e) {
+  updateEndDate: function () {
     var self = this;
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
@@ -335,15 +334,17 @@ var MajCategory = React.createClass({
 
 var MinCategory = React.createClass({
   render: function () {
-    var minCat = (this.props.aofs.indexOf(this.props.tags) > -1)
-      ? <input type="checkbox" id={this.props.subCauseID}
+    var minCat = (this.props.aofs.indexOf(this.props.tags) > -1) ? (
+      <input type="checkbox" id={this.props.subCauseID}
         onChange={this.props.addRemoveCat}
         value={this.props.tags} defaultChecked
-        />
-      : <input type="checkbox" id={this.props.subCauseID}
-          onChange={this.props.addRemoveCat}
-          value={this.props.tags}
-        />
+      />
+    ) : (
+      <input type="checkbox" id={this.props.subCauseID}
+        onChange={this.props.addRemoveCat}
+        value={this.props.tags}
+      />
+    );
     return (
       <div className="col s12 m4">
         <p>

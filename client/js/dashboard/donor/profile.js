@@ -2,9 +2,8 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 import { History } from 'react-router';
-var LocalStorageMixin = require('react-localstorage');
 
-var DonorProfile = exports.DonorProfile = React.createClass({
+exports.DonorProfile = React.createClass({
   getInitialState: function() {
     return {
       editing: false,

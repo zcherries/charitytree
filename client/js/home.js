@@ -8,7 +8,7 @@ exports.Home = React.createClass({
     this.props.updateInput(e.target.value);
   },
 
-  clearInput: function (e) {
+  clearInput: function () {
     this.props.updateInput("");
   },
 

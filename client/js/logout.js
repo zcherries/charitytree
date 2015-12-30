@@ -7,7 +7,7 @@ const Logout = React.createClass({
     $.ajax({
       type: 'POST',
       url: '/logout_post',
-      success: function (response) {
+      success: function () {
         feeder.emit('disconnect');
         localStorage.clear();
         this.props.isLoggedIn();

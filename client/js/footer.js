@@ -3,7 +3,7 @@ var React = require('react');
 import { Router, Route, Link, IndexRoute } from 'react-router';
 
 
-var Footer = exports.Footer = React.createClass({
+exports.Footer = React.createClass({
   render: function () {
     return (
       <footer className="page-footer grey lighten-5">
@@ -26,7 +26,6 @@ var Footer = exports.Footer = React.createClass({
         <div className="footer-copyright">
           <div className="container black-text">
             © 2015 Charity Collective
-            {/*<a className="black-text right" href="#!">More Links</a>*/}
           </div>
         </div>
       </footer>

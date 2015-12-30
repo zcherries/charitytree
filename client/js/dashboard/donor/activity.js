@@ -1,11 +1,7 @@
 "use strict";
-
-// Total Amount Donated
-//Projects Sponsored
-
 var React = require('react');
 
-var Activity = exports.Activity = React.createClass({
+exports.Activity = React.createClass({
   getInitialState: function() {
     return {
       action: '',
@@ -31,7 +27,7 @@ var Activity = exports.Activity = React.createClass({
           <h5>Projects Sponsored</h5>
           <ul>
             {this.props.sponsorships.map(function(project, idx) {
-              return <li><ProjectBlurb project={project} /></li>
+              return <li key={idx}><ProjectBlurb project={project} /></li>
             })}
           </ul>
         </div>
@@ -39,7 +35,7 @@ var Activity = exports.Activity = React.createClass({
           <h5>Following</h5>
           <ul>
             {this.props.following.map(function(org, idx) {
-              return <li><OrgBlurb org={org} endorse={this.endorse}/></li>
+              return <li key={idx}><OrgBlurb org={org} endorse={this.endorse}/></li>
             })}
           </ul>
         </div>
@@ -136,7 +132,7 @@ var Endorsement = exports.Endorsements = React.createClass({
       <div>
         <form className="">
           <input id="title" name="title" required onChange={this.updateTitle} />
-          <textarea className="" onChange={this.updateReview} required></textarea>
+          <textarea className="" onChange={this.updateReview} required/>
           <button className="btn blue" onClick={this.submitEndorsement}>Submit</button>
         </form>
       </div>
