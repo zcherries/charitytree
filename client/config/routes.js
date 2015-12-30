@@ -7,13 +7,7 @@ import {Project} from '../js/project.js';
 import {Organization} from '../js/organization.js';
 import {Login} from '../js/login.js';
 import {Signup} from '../js/signup.js';
-<<<<<<< HEAD
 import {Donate} from '../js/donate.js';
-=======
-import {Donate} from '../js/donation.js';
-
->>>>>>> resolve conflict
-
 //============Authenticated Routes===============/
 import {Dashboard} from '../js/dashboard.js';
 
