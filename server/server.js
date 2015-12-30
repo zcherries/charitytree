@@ -57,7 +57,7 @@ app.use(session({
     mongooseConnection: _db.connection
   }),
   // store: new FileStore({ retries: 50 }),
-  cookie: { maxAge: 3600000 }
+  cookie: { maxAge: 14 * 24 * 3600000 }
 }));
 
 
@@ -106,13 +106,7 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-// app.use('/dashboard', session_helpers.validateSession);
-
 //================================== GET ====================================//
-// app.get('/', function(req, res, next) {
-//   console.log("Get Index Page");
-//   res.send('index.html');
-// });
 
 app.get('/dashboard_data', function(req, res) {
   console.log("App.get/dashboard_data");
@@ -122,7 +116,7 @@ app.get('/dashboard_data', function(req, res) {
     if (req.session.user.type === 'organization') {
       Model.Organization.findOne({_id: req.session.user.uid}).select('-password -profile_img.data')
         .populate('projects endorsements').exec(function(err, org) {
-          if (err) throw err;
+          if (err) {throw err;}
           else {
             // console.log(org)
             // var images = [], count = 0;
@@ -148,7 +142,7 @@ app.get('/dashboard_data', function(req, res) {
             //   });
             // });
             res.status(200).send({status: 200, results: org, userType: req.session.user.type });
-          } //end else
+          }
         });
     } else if (req.session.user.type === 'donor') {
       Model.Donor.findOne({ _id: req.session.user.uid }).select('-password')
@@ -387,11 +381,11 @@ app.post('/dashboard/profile', function(req, res, next) {
         if (org) {
           org.about = req.body.about;
           org.areas_of_focus = req.body.areas_of_focus;
-          org.feed.push({ user: updatedOrg.name, message: 'updated their profile', attachment: '', created_date: new Date() })
+          org.feed.push({ user: updatedOrg.name, message: 'updated their profile', attachment: '', created_date: new Date() });
           org.save(function(err, updatedOrg) {
             if (err) throw err;
             else {
-              console.log('Made update')
+              console.log('Made update');
               // feed.emit('org_update', updatedOrg._id, {message: updatedOrg.name + ' has updated their profile', attachment: ''});
               res.status(201).send({ status: 201, results: updatedOrg });
             }
@@ -618,15 +612,3 @@ app.get('*', function (req, res, next){
   // res.sendFile(path.resolve(__dirname, './../client', 'index.html'));
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
-
-//new WebpackDevServer(webpack(config), {
-//  publicPath: config.output.publicPath,
-//  hot: true,
-//  historyApiFallback: true
-//}).listen(4000, 'localhost', function (err, result) {
-//  if (err) {
-//    console.log(err);
-//  }
-//
-//  console.log('Listening at localhost:4000');
-//});

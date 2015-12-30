@@ -1,12 +1,11 @@
 "use strict";
 var React = require('react');
-var ReactDOM = require('react-dom');
 
 import {ProjectCreate} from './projectCreate.js'
 import {ProjectEdit} from './edit_project.js'
 import {MediaUpload} from '../media_upload.js'
 
-var Projects = exports.Projects = React.createClass({
+exports.Projects = React.createClass({
   componentWillReceiveProps: function(nextProps) {
     if (this.props.projects.length !== nextProps.projects.length) {
       this.setState({ projects: nextProps.projects, action: 'display' })
@@ -79,8 +78,13 @@ var Projects = exports.Projects = React.createClass({
     var org_projects = this.state.projects.length ? this.state.projects : this.props.projects;
     return (
       <div>
-        <h6><a href="#" onClick={this.create}>Create a Project</a></h6>
-        <div className="projects-container">
+        <div style={{height: "15px"}}></div>
+        <div className="center">
+          <a className="waves-effect waves-light btn-large light-blue darken-3"onClick={this.create}><i className="material-icons left">add</i>Create a new Project for your organization</a>
+        </div>
+        <div style={{height: "5px"}}></div>
+
+        <div className="row">
           {org_projects.map(function(project, idx) {
             return (
               <ProjectBlurb
@@ -99,13 +103,13 @@ var Projects = exports.Projects = React.createClass({
   render: function() {
     switch (this.state.action) {
       case 'display':
-        return this.showProjects()
+        return this.showProjects();
         break;
       case 'create':
-        return this.createProject()
+        return this.createProject();
         break;
       case 'edit':
-        return this.editProject()
+        return this.editProject();
         break;
       default:
       return this.showProjects()
@@ -132,22 +136,27 @@ var ProjectBlurb = React.createClass({
   changeDisplay: function(e) {
     e.preventDefault();
     this.setState({ display: false });
-    $('.box__input').addClass('size-to-fit');
+    //$('.box__input').addClass('size-to-fit');
   },
 
-  display: function(e) {
+  display: function() {
     return (
-      <div className="project-blurb card blue-grey darken-1">
-        <div className="card-content white-text" onClick={this.setProject}>
-          <span className="card-title">{this.props.project.title}</span>
-          <p>{"Description: " + this.props.project.info}</p>
-          <p>{"Status: " + this.props.project.status}</p>
-          <p>{"Created: " + this.props.project.created_date}</p>
-          <p>{"Total Donors: " + this.props.project.total_donors_participating}</p>
-        </div>
-        <div className="card-action project-options">
-          <a href="#" onClick={this.editProject}>Update</a>
-          <a href="#" onClick={this.changeDisplay}>Upload Media</a>
+      <div className="col s12 m6 l4">
+        <div className="card medium">
+          <div className="card-image">
+            <img src={""}/>
+            <span className="card-title">{this.props.project.title}</span>
+          </div>
+          <div className="card-content" onClick={this.setProject}>
+            <p>{"Description: " + this.props.project.info}</p>
+            <p>{"Status: " + this.props.project.status}</p>
+            <p>{"Created: " + this.props.project.created_date}</p>
+            <p>{"Total Donors: " + this.props.project.total_donors_participating}</p>
+          </div>
+          <div className="card-action center-align text">
+            <a onClick={this.editProject}>Update</a>
+            <a onClick={this.changeDisplay}>Upload Media</a>
+          </div>
         </div>
       </div>
     )

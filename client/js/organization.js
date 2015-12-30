@@ -24,17 +24,14 @@ var Organization = exports.Organization = React.createClass({
   },
 
   componentDidMount: function() {
-    console.log('inside of orgpage at beg of cdm');
     $.ajax({
         url:'/organization_get/'+localStorage.currentOrganization,
         method: "GET",
         success: function (data) {
-          console.log("on success in did with params.id and res.data is ", data.results);
 
           this.setState({
             org: data.results
           });
-          console.log('inside of success of did and this.state.org ', this.state.org);
 
           //Initialize Materialize Components
           $('.materialboxed').materialbox();
@@ -46,12 +43,7 @@ var Organization = exports.Organization = React.createClass({
           console.error(xhr, status, err.toString());
         }.bind(this)
       });
-
-    console.log('inside of componentDidMount and state.org is ', this.state.org);
-
   },
-
-
 
   followOrg: function(e) {
     e.preventDefault();
@@ -60,7 +52,6 @@ var Organization = exports.Organization = React.createClass({
   },
 
   render: function () {
-
     if(this.state.org){
       {console.log('inside render of orgpage and this.state.org is', this.state.org);}
 

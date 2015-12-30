@@ -41,6 +41,10 @@ var Dashboard = exports.Dashboard = React.createClass({
         console.log("Response data: ", response);
         feeder.emit('getFeed', response.results._id)
         this.setState({ data: response.results, userType: response.userType, view: this.state.view });
+        $(".dropdown-button").dropdown({
+          hover: true,
+          belowOrigin: true
+        });
       }.bind(this),
       error: function(xhr, status, error){
         if (xhr.readyState == 0 || xhr.status == 0) {

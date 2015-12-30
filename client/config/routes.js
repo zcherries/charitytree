@@ -1,6 +1,6 @@
 //============Unauthenticated Routes===============/
 import {App} from '../js/App.js';
-import {Home} from '../js/Home.js';
+import {Home} from '../js/home.js';
 import {Browse} from '../js/browse.js';
 import {Search} from '../js/search.js';
 import {Project} from '../js/project.js';
@@ -11,27 +11,11 @@ import {Donate} from '../js/donate.js';
 
 //============Authenticated Routes===============/
 import {Dashboard} from '../js/dashboard.js';
-//import Logout from '../js/logout.js';
 
 var loggedIn = exports.loggedIn = function () {
+
   return !!localStorage.token;
 };
-
-function redirectToLogin(nextState, replaceState) {
-  if (!loggedIn()) {
-    replaceState({
-      nextPathname: nextState.location.pathname
-    }, '/login')
-  }
-}
-
-function redirectToDonate(nextState, replaceState) {
-  if (!loggedIn()) {
-    replaceState({
-      nextPathname: nextState.location.pathname
-    }, '/donate')
-  }
-}
 
 function redirectToDashboard(nextState, replaceState) {
   if (loggedIn()) {
@@ -62,36 +46,8 @@ exports.routes = {
         return require.ensure([], () => {
           cb(null, Login);
         })
-      }//,
-      // indexRoute: {
-      //   getComponent: (location, cb) => {
-      //     // Only load if we're logged in
-      //     if (auth.loggedIn()) {
-      //       return require.ensure([], () => {
-      //         cb(null, Dashboard);
-      //       })
-      //     }
-      //     return cb()
-      //   }
-      // },
-      //childRoutes: [
-      //  { onEnter: redirectToLogin,
-      //    childRoutes: [
-      //      // Protected nested routes for the dashboard
-      //      { path: '/page2',
-      //        getComponent: (location, cb) => {
-      //          require.ensure([], (require) => {
-      //            cb(null, require('../components/PageTwo'));
-      //          })
-      //        }
-      //      }
-      //      // ...
-      //    ]
-      //  }
-      //]
+      }
     },
-
-
     { onEnter: redirectToDashboard,
       childRoutes: [
         // Unauthenticated routes
@@ -103,10 +59,8 @@ exports.routes = {
             })
           }
         }
-        // ...
       ]
     },
-
     {
       path: '/donate',
       getComponent: (location, cb) => {
@@ -122,7 +76,6 @@ exports.routes = {
         })
       }
     },
-
     { path: '/browse',
       getComponent: (location, cb) => {
         require.ensure([], () => {
@@ -158,6 +111,13 @@ exports.routes = {
         });
       }
     },
+    { path: '/logout',
+      getComponent: (location, cb) => {
+        require.ensure([], () => {
+          cb(null, Home);
+        });
+      }
+    },
     { path: '/signup',
       getComponent: (location, cb) => {
         require.ensure([], () => {
@@ -171,34 +131,6 @@ exports.routes = {
           cb(null, Organization);
         });
       }
-    },
-
-    //{ onEnter: redirectToLogin,
-    //  childRoutes: [
-    //    // Protected routes that don't share the dashboard UI
-    //    { path: '/user/:id',
-    //      getComponent: (location, cb) => {
-    //        require.ensure([], (require) => {
-    //          cb(null, require('../js/User'));
-    //        })
-    //      }
-    //    }
-    //    // ...
-    //  ]
-    //},
+    }
   ]
 };
-
-//render((
-//  <Router history={history}>
-//    <Route path="/" component={App}>
-//      <IndexRoute component={Index} />
-//      <Route path="Login" component={Login} />
-//      <Route path="Signup" component={Signup} />
-//      <Route path="browse" component={Browse} />
-//      <Route path="search" component={Search} />
-//      <Route path="project" component={Project} />
-//      <Route path="organization" component={Organization} />
-//    </Route>
-//  </Router>
-//), document.getElementById('app'));

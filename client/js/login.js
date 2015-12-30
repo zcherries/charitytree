@@ -3,10 +3,7 @@ var React = require('react');
 import { History } from 'react-router';
 import { Signup } from './signup.js';
 
-// import { Link } from 'react-router';
-
-var Login = exports.Login = React.createClass({
-
+exports.Login = React.createClass({
   getInitialState: function() {
     return {
       username: '',
@@ -38,16 +35,11 @@ var Login = exports.Login = React.createClass({
         // feeder.emit('getFeed', response.token)
         this.props.isLoggedIn();
         this.navigateToDashboard();
-        //navigate to dashboard page
-        // window.location.href = "http://127.0.0.1:4000/dashboard"
       }.bind(this),
       error: function (xhr, status, err) {
         console.log("Error posting to: " + xhr, status, err.toString());
       }.bind(this)
     });
-    // var frm = document.getElementById('loginForm');
-    // frm.reset();
-    // return false;
   },
 
   render: function() {

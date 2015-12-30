@@ -74,7 +74,7 @@ exports.Media = React.createClass({
 
   render: function() {
     return (
-      <div className="media-content">
+      <div className="container">
         {this.profile_and_banner_img()}
 
         <div>
