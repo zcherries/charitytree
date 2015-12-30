@@ -16,7 +16,7 @@ exports.Media = React.createClass({
       profile_img: {}
     }
   },
-  
+
   componentDidMount: function() {
     $('.materialboxed').materialbox();
   },
@@ -47,16 +47,26 @@ exports.Media = React.createClass({
   },
 
   profile_img_upload_form: function() {
-    return (
-      <form
-        onSubmit={this.upload_profile_img}
-        action="/dashboard/profile_img/upload"
-        encType="multipart/form-data"
-        accept="image/*">
-        {/*<label htmlFor="profile_img">Choose profile image</label>*/}
-        <input className="" id="profile_img" type="file" name="profile_img" />
-        <input className="btn blue" type="submit" value="Upload Profile Image" />
-      </form>
+    return ( <div className="container">
+        <form
+          className="center-align col s9"
+          onSubmit={this.upload_profile_img}
+          action="/dashboard/profile_img/upload"
+          encType="multipart/form-data"
+          accept="image/*">
+            <div className="file-field input-field">
+              <div className="btn blue">
+                <span>File</span>
+                <input type="file" />
+              </div>
+              <div className="file-path-wrapper">
+                <input className="file-path validate" type="text" />
+              </div>
+            </div>
+        </form>
+
+        <input className="row marginTop center-align btn blue col s3" type="submit" value="Upload" />
+    </div>
     );
   },
 
