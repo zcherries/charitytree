@@ -19,19 +19,18 @@ var Dashboard = exports.Dashboard = React.createClass({
   },
   componentWillMount: function() {
     this.props.isLoggedIn();
-  },
-
-  componentDidMount: function() {
-    console.log('Dashboard Component is Mounted');
-    this.getData();
     $(".dropdown-button").dropdown({
       hover: true,
       belowOrigin: true
     });
+    $(".button-collapse").sideNav();
+  },
+
+  componentDidMount: function() {
+    this.getData();
   },
 
   getData: function() {
-    console.log('Making AJAX request to server')
     $.ajax({
       method: 'GET',
       beforeSend: function(request) {
@@ -40,6 +39,7 @@ var Dashboard = exports.Dashboard = React.createClass({
       url: '/dashboard_data',
       success: function(response) {
         console.log("Response data: ", response);
+        feeder.emit('getFeed', response.results._id)
         this.setState({ data: response.results, userType: response.userType, view: this.state.view });
       }.bind(this),
       error: function(xhr, status, error){
@@ -64,7 +64,6 @@ var Dashboard = exports.Dashboard = React.createClass({
           areas_of_focus: this.state.data.areas_of_focus,
           address: this.state.data.address
         };
-        console.log("Org Info About: " + orgInfo.about);
         view = <OrgProfile update_db_state_prop={this.update_db_state_prop} orgInfo={orgInfo} />;
         break;
       case 'projects':
@@ -79,7 +78,7 @@ var Dashboard = exports.Dashboard = React.createClass({
           profile_img: this.state.data.profile_img,
           images: this.state.data.images,
           videos: this.state.data.videos
-        }
+        };
         view = <Media username={this.state.data.username} media={media} update_db_state_prop={this.update_db_state_prop} />;
         break;
       case 'endorsements':
@@ -90,8 +89,8 @@ var Dashboard = exports.Dashboard = React.createClass({
     }
     return (
       <div>
-        <div className="db_menu"><OrgDashboardMenu updatePageView={this.updatePageView} /></div>
-        <div className="view indent">{view}</div>
+        <div className="dashboard-menu"><OrgDashboardMenu updatePageView={this.updatePageView} /></div>
+        <div className="dashboard-view indent">{view}</div>
       </div>
     )
   },
@@ -110,7 +109,7 @@ var Dashboard = exports.Dashboard = React.createClass({
         view = <DonorProfile update_db_state_prop={this.update_db_state_prop} donorInfo={donorInfo} />;
         break;
       case 'feed':
-        view = <Feed update_db_state_prop={this.update_db_state_prop} feed={this.state.data.projects} />;
+        view = <Feed username={this.state.data.username} feed={this.state.data.projects} />;
         break;
       case 'activity':
         view = <Activity
@@ -127,22 +126,19 @@ var Dashboard = exports.Dashboard = React.createClass({
     }
     return (
       <div>
-        <div className="db_menu"><DonorDashboardMenu updatePageView={this.updatePageView} /></div>
-        <div className="view indent">{view}</div>
+        <div className="dashboard-menu"><DonorDashboardMenu updatePageView={this.updatePageView} /></div>
+        <div className="dashboard-view indent">{view}</div>
       </div>
     )
   },
 
   update_db_state_prop: function(changes) {
     var state = this.state.data;
+    console.log('State before update: ', state);
     for (var prop in changes) {
-      if (prop in state) {
-        state[prop] = changes[prop];
-      }
+      state[prop] = changes[prop];
     }
-    // console.log('State before update: ', state[prop]);
-    // console.log('State: ', state);
-    // console.log('State after update: ', state[prop]);
+    console.log('State after update: ', state);
     this.setState({ data: state });
   },
 
@@ -170,16 +166,14 @@ var OrgDashboardMenu = React.createClass({
   render: function() {
     return (
       <div>
-        <div className="row">
-          <ul id="slide-out" className="side-nav fixed waves-effect waves-light">
-            <li className="valign-wrapper"><i className="material-icons left valign">person_pin</i><a href="#" onClick={this.goToPage}>Profile</a></li>
-            <li className="valign-wrapper"><i className="material-icons left valign">perm_media</i><a href="#" onClick={this.goToPage}>Projects</a></li>
-            <li className="valign-wrapper"><i className="material-icons left valign">video_library</i><a href="#" onClick={this.goToPage}>Media</a></li>
-            <li className="valign-wrapper"><i className="material-icons left valign">stars</i><a href="#" onClick={this.goToPage}>Endorsements</a></li>
-            <li className="valign-wrapper"><i className="material-icons left valign">supervisor_account</i><a href="#" onClick={this.goToPage}>Find Donors</a></li>
-          </ul>
-            <a href="#" data-activates="slide-out" className="button-collapse"><i className="mdi-navigation-menu"/></a>
-        </div>
+        <ul id="slide-out" className="side-nav fixed waves-effect waves-light">
+          <li className="valign-wrapper"><i className="material-icons left valign">person_pin</i><a onClick={this.goToPage}>Profile</a></li>
+          <li className="valign-wrapper"><i className="material-icons left valign">perm_media</i><a onClick={this.goToPage}>Projects</a></li>
+          <li className="valign-wrapper"><i className="material-icons left valign">video_library</i><a onClick={this.goToPage}>Media</a></li>
+          <li className="valign-wrapper"><i className="material-icons left valign">stars</i><a onClick={this.goToPage}>Endorsements</a></li>
+          <li className="valign-wrapper"><i className="material-icons left valign">supervisor_account</i><a onClick={this.goToPage}>Find Donors</a></li>
+        </ul>
+        <a data-activates="slide-out" className="button-collapse"><i className="mdi-navigation-menu"/></a>
       </div>
     )
   }
@@ -194,15 +188,13 @@ var DonorDashboardMenu = React.createClass({
   render: function() {
     return (
       <div>
-        <div className="row">
-          <ul id="slide-out" className="side-nav fixed waves-effect waves-light">
-            <li className="valign-wrapper"><i className="material-icons left valign">person_pin</i><a href="#" onClick={this.goToPage}>Profile</a></li>
-            <li className="valign-wrapper"><i className="material-icons left valign">question_answer</i><a href="#" onClick={this.goToPage}>Feed</a></li>
-            <li className="valign-wrapper"><i className="material-icons left valign">video_library</i><a href="#" onClick={this.goToPage}>Activity</a></li>
-            <li className="valign-wrapper"><i className="material-icons left valign">stars</i><a href="#" onClick={this.goToPage}>Endorsements</a></li>
-          </ul>
-          <a href="#" data-activates="slide-out" className="button-collapse"><i className="mdi-navigation-menu medium"></i></a>
-        </div>
+        <ul id="slide-out" className="side-nav fixed waves-effect waves-light">
+          <li className="valign-wrapper"><i className="material-icons left valign">person_pin</i><a onClick={this.goToPage}>Profile</a></li>
+          <li className="valign-wrapper"><i className="material-icons left valign">question_answer</i><a onClick={this.goToPage}>Feed</a></li>
+          <li className="valign-wrapper"><i className="material-icons left valign">video_library</i><a onClick={this.goToPage}>Activity</a></li>
+          <li className="valign-wrapper"><i className="material-icons left valign">stars</i><a onClick={this.goToPage}>Endorsements</a></li>
+        </ul>
+        <a data-activates="slide-out" className="button-collapse"><i className="mdi-navigation-menu medium"/></a>
       </div>
     )
   }

@@ -12,8 +12,8 @@ var MediaUpload = exports.MediaUpload = React.createClass({
       var $form = $('.box');
       var $input = $form.find('input[type="file"]'), $label = $form.find('label');
       var showFiles = function(files) {
-           $label.text(files.length > 1 ? ($input.attr('data-multiple-caption') || '').replace( '{count}', files.length ) : files[ 0 ].name);
-         };
+        $label.text(files.length > 1 ? ($input.attr('data-multiple-caption') || '').replace( '{count}', files.length ) : files[0].name);
+      };
 
       if (isAdvancedUpload) { $form.addClass('has-advanced-upload'); }
 
@@ -77,9 +77,14 @@ var MediaUpload = exports.MediaUpload = React.createClass({
           processData: false,
           complete: function() {
             $form.removeClass('is-uploading');
+            $form[0].reset();
+            // var frm = document.getElementById('loginForm');
+            // frm.reset();
+            return false;
           },
           success: function(response) {
             $form.addClass( response.status == 201 ? 'is-success' : 'is-error' );
+            $input.val("");
           },
           error: function() {
             // Log the error, show an alert, whatever works for you

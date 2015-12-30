@@ -21,7 +21,12 @@ var OrganizationSchema = new Schema({
   projects: [{ type: ObjectId, ref: 'Project' }],
   endorsements: [{ type: ObjectId, ref: 'Donor' }],
   followers: [{ type: ObjectId, ref: 'Donor' }],
-  feed: [{ message: String, attachment: Schema.Types.Mixed, created_date: Date }]
+  feed: [{ user: String,
+           message: String,
+          attachment: Schema.Types.Mixed,
+          attachment_type: String,
+          created_date: Date
+        }]
 });
 
 // OrganizationSchema.add({ about: String });

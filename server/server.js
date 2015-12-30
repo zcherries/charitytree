@@ -29,6 +29,7 @@ var server = require('http').Server(app);
 // var io = require('socket.io')(server);
 var feed = require('./socket.io.js')(server);
 
+feed.emit('test')
 // import {Router, History} from 'react-router';
 // var Router = require('react-router');
 // var React = require('react');
@@ -123,8 +124,6 @@ app.get('/dashboard_data', function(req, res) {
   if (req.session && req.session.user) {
     console.log('In session')
     if (req.session.user.type === 'organization') {
-      // console.log('Organization')
-      // console.log('User ID: ', req.session.user.uid)
       Model.Organization.findOne({_id: req.session.user.uid}).select('-password -profile_img.data')
         .populate('projects endorsements').exec(function(err, org) {
           if (err) throw err;
@@ -157,7 +156,7 @@ app.get('/dashboard_data', function(req, res) {
         });
     } else if (req.session.user.type === 'donor') {
       Model.Donor.findOne({ _id: req.session.user.uid }).select('-password')
-        .populate('sponsored_projects following endorsements')
+        // .populate('sponsored_projects following endorsements')
         .exec(function(err, donor) {
         if (err) { console.log(err); }
         else {
@@ -185,6 +184,7 @@ app.get('/dashboard_data/projects', function(req, res, next) {
 });
 
 app.get('/dashboard_data/media/:id', function(req, res, next) {
+  //req.params.id is the fileId of file stored in gridfs
   var readstream = _db.gridfs.createReadStream({ _id: req.params.id });
   readstream.pipe(res);
 });
@@ -215,7 +215,16 @@ app.get('/image', function(req, res) {
 // });
 
 app.get('/get_orgs', function(req, res, next) {
-  Controller.Organization.retrieve(req, res, next);
+  // Controller.Organization.retrieve(req, res, next,{username: 'goodguys'});
+  Model.Organization.findOne({username: 'goodguys'}, function(err, org) {
+    if (err) throw err;
+    else {
+      org.followers = [];
+      org.save(function(err, updatedOrg) {
+        res.send(updatedOrg);
+      })
+    }
+  })
 });
 
 app.get('/organization_get/:id', function(req, res, next) {
@@ -379,10 +388,12 @@ app.post('/dashboard/profile', function(req, res, next) {
         if (org) {
           org.about = req.body.about;
           org.areas_of_focus = req.body.areas_of_focus;
+          org.feed.push({ user: updatedOrg.name, message: 'updated their profile', attachment: '', created_date: new Date() })
           org.save(function(err, updatedOrg) {
             if (err) throw err;
             else {
-              feed.emit('org_update', updatedOrg._id, {message: updatedOrg.name + ' has updated their profile', attachment: ''});
+              console.log('Made update')
+              // feed.emit('org_update', updatedOrg._id, {message: updatedOrg.name + ' has updated their profile', attachment: ''});
               res.status(201).send({ status: 201, results: updatedOrg });
             }
           });
@@ -442,24 +453,24 @@ app.post('/dashboard/profile_img/upload', multer().single('profile_img'), functi
   Model.Organization.findById({ _id: req.session.user.uid }, function(err, org) {
     if (err) { console.error(err); res.status(400).send('Could not retrieve data'); }
     else {
-      console.log('Org Name: ', org.name);
-      console.log("Files: ", req.file);
-      // console.log("Body: ", req.body);
-        org.profile_img.data = req.file.buffer;
-        org.profile_img.contentType = req.file.mimetype;
-        org.profile_img.filename = req.file.originalname;
-        // org.profile_img.path = new Buffer(req.file.buffer).toString('base64');
-        org.save(function(err, currOrg) {
-          if (err) { console.error("Profile Image save error: ", err); }
-          res.status(201).send({ status: 201, results: {
-            contentType: currOrg.profile_img.contentType,
-            filename: currOrg.profile_img.filename }
-          });
+      org.profile_img.data = req.file.buffer;
+      org.profile_img.contentType = req.file.mimetype;
+      org.profile_img.filename = req.file.originalname;
+      org.feed.push({
+        user: org.name,
+        message: 'changed profile image',
+        attachment: 'http://localhost:4000/organization/profile_img/'+ org._id,
+        attachment_type: 'image',
+        created_date: new Date()
+      });
+      org.save(function(err, currOrg) {
+        if (err) { console.error("Profile Image save error: ", err); }
+        console.log(currOrg.feed)
+        res.status(201).send({ status: 201, results: {
+          contentType: currOrg.profile_img.contentType,
+          filename: currOrg.profile_img.filename }
         });
-      // var img = new Buffer(org.profile_img.data).toString('base64');
-      // res.contentType(org.profile_img.contentType);
-      // console.log(org.profile_img.data);
-      // res.send(img);
+      });
     }
   });
 });
@@ -492,6 +503,13 @@ app.post('/dashboard/org/media/upload', multer().array('media'), function(req, r
         else {
           if (file.mimetype.slice(0, 6) === 'image/') { org.images.push(fileId); }
           else if (file.mimetype.slice(0, 6) === 'video/') { org.videos.push(fileId); }
+          org.feed.push({
+            user: org.name,
+            message: 'uploaded a new ' + file.mimetype.slice(0, 5),
+            attachment: 'http://localhost:4000/dashboard_data/media/'+ fileId,
+            attachment_type: file.mimetype.slice(0, 5),
+            created_date: new Date()
+          });
           org.save(function(err, updatedOrg) {
             if (err) { throw err; }
             else {
@@ -505,10 +523,8 @@ app.post('/dashboard/org/media/upload', multer().array('media'), function(req, r
 });
 
 app.post('/dashboard/project/media/upload', multer().array('media'), function(req, res, next) {
-  console.log("Files: ", req.files);
-  console.log("Body: ", req.body);
-  res.status(201).send({ status: 201, message: "Media upload successful." });
-
+  // console.log("Files: ", req.files);
+  // console.log("Body: ", req.body);
   req.files.forEach(function(file) {
     //generate an object id
     var fileId = _db.types.ObjectId();
@@ -536,6 +552,18 @@ app.post('/dashboard/project/media/upload', multer().array('media'), function(re
           project.save(function(err, updatedProject) {
             if (err) { throw err; }
             else {
+              Model.Organization.findById(project._org || req.session.user.uid, function(err, org) {
+                if (err) throw err;
+                if (org) {
+                  org.feed.push({
+                    user: org.name,
+                    message: 'uploaded a new '+ file.mimetype.slice(0, 5) + ' for project: ' + project.title,
+                    attachment: 'http://localhost:4000/dashboard_data/media/'+ fileId,
+                    attachment_type: file.mimetype.slice(0, 5),
+                    created_date: new Date()
+                  });
+                }
+              });
               res.status(201).send({ status: 201, message: "Media upload successful." });
             }
           });
@@ -548,31 +576,20 @@ app.post('/dashboard/project/media/upload', multer().array('media'), function(re
 app.post('/post_search', function(req, res, next) {
   var aofs = req.body.aofs.map(function (aof) {
     // return '(\\b' + aof + '\\b)';
-    return capitalizeFirstLetter(aof);
+    // return capitalizeFirstLetter(aof);
+    return new RegExp('^' + aof.toLowerCase() + '/i');
   });
   // aofs.join('|');
-  console.log("Aofs: ", req.body.aofs);
-  Model.Organization.find({areas_of_focus: {$in: req.body.aofs}}, function (err, orgs) {
+  console.log("Aofs: ", aofs);
+  Model.Organization.find({areas_of_focus: {$in: req.body.aofs}}, '-profile_img.data', function (err, orgs) {
     if (err) {
       console.log(err);
       res.status(400).send('Could not retrieve data');
-    }
-    else {
-      // console.log("Orgs: ", orgs)
-      orgs.forEach(function (org, idx) {
-        if (org.profile_img.contentType) {
-          // console.log("Org: ", org.profile_img.contentType);
-          var img = new Buffer(org.profile_img.data).toString('base64');
-          org.img = img;
-        }
-      });
+    } else {
       Model.Project.find({areas_of_focus: {$in: req.body.aofs}}, function (err, projects) {
         if (err) throw err;
         else {
-          // res.contentType(org.contentType);
-          // res.contentType('multipart/mixed');
-          res.status(201).send({status: 201, results: {orgs: orgs, projects: projects}});
-          // res.send()
+          res.status(201).send({ status: 201, results: {orgs: orgs, projects: projects} });
         }
       });
     }

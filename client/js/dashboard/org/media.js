@@ -1,13 +1,12 @@
 "use strict";
 var React = require('react');
-var ReactDOM = require('react-dom');
 
 import {MediaUpload} from '../media_upload.js'
 
-var Media = exports.Media = React.createClass({
+exports.Media = React.createClass({
   componentWillReceiveProps: function(nextProps) {
     console.log("CWRP is firing", nextProps);
-    if (nextProps) {
+    if (nextProps.media.profile_img) {
       this.setState({ profile_img: nextProps.media.profile_img })
     }
   },
@@ -57,7 +56,7 @@ var Media = exports.Media = React.createClass({
     var profile_img = (this.state.profile_img['filename'] === undefined && this.props.media.profile_img === undefined)
       ? "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg"
       : (this.state.username) ? 'http://localhost:4000/dashboard_data/profile_img/'+ this.props.username + '/' + this.state.profile_img.filename
-      : 'http://localhost:4000/dashboard_data/profile_img/'+ this.props.username + '/' + this.props.media.profile_img.filename
+      : 'http://localhost:4000/dashboard_data/profile_img/'+ this.props.username + '/' + this.props.media.profile_img.filename;
     return (
       <div className="row">
         <div className="float-left">
@@ -80,20 +79,28 @@ var Media = exports.Media = React.createClass({
 
         <div>
           <h5>Pictures</h5>
-          <ul>
+          <div className="media-pg-images">
             {this.props.media.images.map(function(file, idx) {
-              return <li key={idx}><img src={'http://localhost:4000/dashboard_data/media/'+file} /></li>
+              return (
+                <div key={idx} className="media-pg-image">
+                  <img className="media-pg-img" src={'http://localhost:4000/dashboard_data/media/'+file} />
+                </div>
+              )
             })}
-          </ul>
+          </div>
         </div>
 
         <div>
           <h5>Videos</h5>
-          <ul>
+          <div className="media-pg-videos">
           {this.props.media.videos.map(function(file, idx) {
-            return <li key={idx}><video src={'http://localhost:4000/dashboard_data/media/'+file} controls /></li>
+            return (
+              <div key={idx} className="media-pg-video">
+                <video className="media-pg-vid" src={'http://localhost:4000/dashboard_data/media/'+file} controls />
+              </div>
+            )
           })}
-          </ul>
+          </div>
         </div>
 
         <div className="upload_assorted">

@@ -4,19 +4,9 @@ var ReactDOM = require('react-dom');
 import { History } from 'react-router';
 // var LocalStorageMixin = require('react-localstorage');
 
-var OrgProfile = exports.OrgProfile = React.createClass({
-  // displayName: 'OrgProfile',
-  // mixins: [ History, LocalStorageMixin ],
-  componentWillMount: function() {
-    // console.log('Profile component is mounting')
-  },
-
-  componentDidMount: function() {
-    // console.log('Profile component did mount')
-  },
-
+exports.OrgProfile = React.createClass({
   componentWillReceiveProps: function(newProps) {
-    console.log('CWRP is fired ', newProps)
+    console.log('CWRP is fired ', newProps);
     this.setState({ orgInfo: newProps.orgInfo, editing: false });
   },
 
@@ -57,8 +47,8 @@ var OrgProfile = exports.OrgProfile = React.createClass({
     var formData = {
       about: ReactDOM.findDOMNode(this.refs.about).value,
       areas_of_focus: (ReactDOM.findDOMNode(this.refs.aofs).value).trim()
-        .replace(/\s|;\s*|\r\n|\r|\n/g,"/b$117/").split("/b$117/")
-    }
+        .replace(/\s|;\s|\r\n|\r|\n/g,"/b$117/").split("/b$117/")
+    };
     this.update(formData);
   },
 
@@ -74,9 +64,11 @@ var OrgProfile = exports.OrgProfile = React.createClass({
         <h5>Areas of Focus</h5>
           <ul>
             {orgInfo.areas_of_focus.map(function(aof, idx) {
-              return (<div>
-              <li key={idx}><i className="tiny material-icons">done</i>{aof}</li>
-              </div>)
+              return (
+                <div key={idx}>
+                  <li><i className="tiny material-icons">done</i>{aof}</li>
+                </div>
+              )
             })}
           </ul>
         <a className="waves-effect waves-light btn blue" onClick={this.editPage}>Edit</a>
@@ -96,13 +88,13 @@ var OrgProfile = exports.OrgProfile = React.createClass({
             <div className="row">
               <div className="input-field col s12">
                 <label htmlFor="about">About</label>
-                <textarea id="about" className="materialize-textarea" ref="about" defaultValue={orgInfo.about} required></textarea>
+                <textarea id="about" className="materialize-textarea" ref="about" defaultValue={orgInfo.about} required/>
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
                 <label htmlFor="aofs">Areas of Focus</label>
-                <textarea id="aofs" className="materialize-textarea" ref="aofs" defaultValue={orgInfo.areas_of_focus.join("; ")}></textarea>
+                <textarea id="aofs" className="materialize-textarea" ref="aofs" defaultValue={orgInfo.areas_of_focus.join("; ")}/>
               </div>
             </div>
             <input type="submit" value="Submit" className="btn blue"/>
