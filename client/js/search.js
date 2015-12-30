@@ -11,16 +11,14 @@ exports.Search = React.createClass({
           <h3 className="center-align condensed light"> Find a cause to give to </h3>
 
           {/*Search Tags*/}
-            <div className="center-align col s12">
-                <TagContainer
-                    searchCriteria={this.props.searchCriteria}
-                    removeSearchTag={this.props.removeSearchTag}/>
-            </div>
-
-
+          <div className="center-align col s12">
+            <TagContainer
+              searchCriteria={this.props.searchCriteria}
+              removeSearchTag={this.props.removeSearchTag}/>
+          </div>
 
           {/*Project Search Results*/}
-          <div className="col s12 m8 push-m4">
+          <div className="col s12 m8 push-m4 l9 push-l3">
             <h5 className="center-align condensed light">Project Search Results</h5><hr/>
             <ProjectResults
               searchResultsProjects={this.props.searchResults.projects}
@@ -29,7 +27,7 @@ exports.Search = React.createClass({
           </div>
 
           {/*Org Search Results*/}
-          <div className="col s12 m4 pull-m8">
+          <div className="col s12 m4 pull-m8 l3 pull-l9">
             <h5 className="center-align condensed light">Organizations</h5><hr/>
             <OrganizationResults
               searchResultOrgs={this.props.searchResults.orgs}
@@ -56,11 +54,9 @@ var OrganizationResults = React.createClass({
       }.bind(this));
     }
     return (
-      <div>
-        <div>
-          <div className="row">
-            {org ? org : <h5 className="center-align">No results to display</h5>}
-          </div>
+      <div className="container">
+        <div className="row">
+          {org ? org : <h5 className="center-align">No results to display</h5>}
         </div>
       </div>
     );
