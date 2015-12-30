@@ -344,7 +344,7 @@ var Needs = React.createClass({
   },
 
   render: function () {
-    let needsLength = this.props.needs.length;
+    let needsLength = this.props.needs.length - 1;
     let needs = this.props.needs.map(function(need, index) {
       return (
         <Need
@@ -355,7 +355,7 @@ var Needs = React.createClass({
           needCost={need.cost}
           needQuantityNeeded={need.quantity_needed}
           active={need.active}
-          last={needsLength === index ? true : false}
+          last={needsLength === index}
           addNeed={this.props.addNeed}
           updateNeedTitle={this.props.updateNeedTitle}
           updateNeedDescription={this.props.updateNeedDescription}
