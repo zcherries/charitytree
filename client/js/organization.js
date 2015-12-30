@@ -55,133 +55,129 @@ var Organization = exports.Organization = React.createClass({
     if(this.state.org){
       {console.log('inside render of orgpage and this.state.org is', this.state.org);}
 
-    var aofs = this.state.org.areas_of_focus.map(function (aof, index) {
-      return (
-        <div key={index} className="chip">
-          <h6>{aof}</h6>
-        </div>
-      );
-    });
-
-    var pastProject = this.state.org.projects.map(function (project, index) {
-      return (
-        <div key={index}>
-          <div>the org is {project._org}</div>
-          <div>the info is {project.info}</div>
-        </div>
-      );
-    });
-      //<div key={index} onClick={handleClickInside}>
-      //  <div>the org is {project.org}</div>
-      //  <div>the info is {project.info}</div>
-      //  <div>this is the start_date {project.start_date}</div>
-      //  <div>the end_date {project.end_date}</div>
-      //</div>
-
-    var currentProjects = this.state.org.projects.map(function (project, index) {
-      var handleClickInside = this.handleClick.bind(this, project);
-      return (
-        <li className="collection-item avatar">
-          <img src="images/yuna.jpg" alt="" className="circle"/>
-          <span className="title">Title</span>
-          <p>First Line <br/>
-            Second Line
-          </p>
-          <a href="#!" className="secondary-content"><i className="material-icons">grade</i></a>
-        </li>
-      );
-    },this);
-
-    return (
-      <div className="container">
-        {/*Header*/}
-        <div id="location" className="center-align section scrollspy">
-          <h1>
-            {this.state.org.name}
-          </h1>
-          {this.state.org.address ?
-            <div>
-              <i className="medium material-icons">room</i>
-              <h5>{this.state.org.address}</h5>
-            </div> : ""
-          }
-        </div>
-        <div className="row">
-          {/*Follow Button*/}
-          <div className="col s2 push-s10 pinned" style={{top: "110px", zIndex: "1"}}>
-            <a className="btn-floating btn-large btn tooltipped waves-effect waves-light light-blue darken-3" onClick={this.followOrg} data-position="left" data-delay="50" data-tooltip="Follow Organization"><i className="material-icons">group_add</i></a>
+      var aofs = this.state.org.areas_of_focus.map(function (aof, index) {
+        return (
+          <div key={index} className="chip">
+            <h6>{aof}</h6>
           </div>
+        );
+      });
 
-          <div className="col s12 m10 l11">
+      var currentProjects = this.state.org.projects.map(function (project, index) {
+        //var handleClickInside = this.handleClick.bind(this, project);
+        return (
+          <li className="collection-item avatar" key={index} onClick={this.handleClick}>
+            <img src="images/yuna.jpg" className="circle"/>
+            <span className="title"><h5>{project.title}</h5></span>
+            <div className="line-clamp line-clamp-1">{project.info}</div>
+
             <div className="row">
+              <div className="col s6"><p>Start Date: {project.start_date}</p></div>
+              <div className="col s6"><p>End Date: {project.end_date}</p></div>
+            </div>
+          </li>
+        );
+      },this);
 
-              {/*Image 1*/}
-              <div className="col s12">
-                {/*<img className="image" src={this.state.org.profile_img.filename} />*/}
+      var pastProject = this.state.org.projects.map(function (project, index) {
+        return (
+          <div key={index}>
+            <div>the org is {project._org}</div>
+            <div>the info is {project.info}</div>
+          </div>
+        );
+      });
+
+      return (
+        <div className="container">
+          {/*Header*/}
+          <div id="location" className="center-align section scrollspy">
+            <h1>
+              {this.state.org.name}
+            </h1>
+            {this.state.org.address ?
+              <div>
+                <i className="medium material-icons">room</i>
+                <h5>{this.state.org.address}</h5>
+              </div> : ""
+            }
+          </div>
+          <div className="row">
+            {/*Follow Button*/}
+            <div className="col s2 push-s10 pinned" style={{top: "110px", zIndex: "1"}}>
+              <a className="btn-floating btn-large btn tooltipped waves-effect waves-light light-blue darken-3" onClick={this.followOrg} data-position="left" data-delay="50" data-tooltip="Follow Organization"><i className="material-icons">group_add</i></a>
+            </div>
+
+            <div className="col s12 m10 l11">
+              <div className="row">
+
+                {/*Image 1*/}
+                <div className="col s12">
+                  {/*<img className="image" src={this.state.org.profile_img.filename} />*/}
+                </div>
+
+                {/*Org Description*/}
+                <div id="description" className="col s12 m10 push-m1 center-align section scrollspy flow-text">
+                  <i className="medium material-icons space-above">description</i>
+                  <h5> Description</h5>
+                  <p>{this.state.org.about}</p>
+                </div>
+
+                {/*Additional Info*/}
+                <div className="col s12 m5 l6">
+                  <blockquote>Additional info here about what the Org Cares about. Boom and there goes the dynamite</blockquote>
+                </div>
+
+                {/*Image 2*/}
+                <div className="col s12 m7 l6">
+                  <img className="responsive-img materialboxed circle" src="https://c1.staticflickr.com/5/4116/4931019303_2f386bffb7_z.jpg"/>
+                </div>
               </div>
 
-              {/*Org Description*/}
-              <div id="description" className="col s12 m10 push-m1 center-align section scrollspy flow-text">
-                <i className="medium material-icons space-above">description</i>
-                <h5> Description</h5>
-                <p>{this.state.org.about}</p>
-              </div>
+              <div className="row">
+                {/*Areas of Focus*/}
+                <div id="aofs" className="col s12 m10 push-m1 pull-m1 center-align section scrollspy">
+                  <i className="medium material-icons space-above">location_searching</i>
+                  <h4> Areas of focus:</h4>
+                  {aofs}
+                </div>
 
-              {/*Additional Info*/}
-              <div className="col s12 m5 l6">
-                <blockquote>Additional info here about what the Org Cares about. Boom and there goes the dynamite</blockquote>
-              </div>
+                {/*Current Project*/}
+                <div id="current-projects" className="col s12 center-align section scrollspy">
+                  <i className="medium material-icons space-above">assignment_late</i>
+                  <h2> Our Current Projects:</h2>
+                  <ul className="collection">
+                    {currentProjects}
+                  </ul>
+                </div>
 
-              {/*Image 2*/}
-              <div className="col s12 m7 l6">
-                <img className="responsive-img materialboxed circle" src="https://c1.staticflickr.com/5/4116/4931019303_2f386bffb7_z.jpg"/>
+                {/*Past Projects*/}
+                <div id="past-projects" className="col s12 center-align section scrollspy">
+                  <i className="medium material-icons space-above">assignment_turned_in</i>
+                  <h2>Our Past Projects:</h2>
+                  <div className="left-align">{pastProject}</div>
+                </div>
+
+                {/*Endorsements*/}
+                <div id="endorsements" className="col s12 center-align section scrollspy">
+                  <i className="medium material-icons space-above">verified_user</i>
+                  <h2> Endorsements:</h2>
+                  <div className="left-align">Various Endorsements</div>
+                </div>
+
               </div>
             </div>
 
-            <div className="row">
-              {/*Areas of Focus*/}
-              <div id="aofs" className="col s12 m10 push-m1 pull-m1 center-align section scrollspy">
-                <i className="medium material-icons space-above">location_searching</i>
-                <h4> Areas of focus:</h4>
-                {aofs}
-              </div>
-
-              {/*Current Project*/}
-              <div id="current-projects" className="col s12 center-align section scrollspy">
-                <i className="medium material-icons space-above">assignment_late</i>
-                <h2> Our Current Projects:</h2>
-                <ul className="collection">
-                  {currentProjects}
-                </ul>
-              </div>
-
-              {/*Past Projects*/}
-              <div id="past-projects" className="col s12 center-align section scrollspy">
-                <i className="medium material-icons space-above">assignment_turned_in</i>
-                <h2>Our Past Projects:</h2>
-                <div className="left-align">{pastProject}</div>
-              </div>
-
-              {/*Endorsements*/}
-              <div id="endorsements" className="col s12 center-align section scrollspy">
-                <i className="medium material-icons space-above">verified_user</i>
-                <h2> Endorsements:</h2>
-                <div className="left-align">Various Endorsements</div>
-              </div>
-
+            {/*ScrollSpy*/}
+            <div className="col hide-on-small-only m2 l1">
+              <ScrollSpyListItems
+                address={this.state.org.address}
+              />
             </div>
           </div>
-
-          {/*ScrollSpy*/}
-          <div className="col hide-on-small-only m2 l1">
-            <ScrollSpyListItems
-              address={this.state.org.address}
-            />
-          </div>
         </div>
-      </div>
-    );
-    }else{
+      );
+    } else {
       return(
         <div>nothing to display</div>
         )

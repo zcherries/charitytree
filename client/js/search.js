@@ -20,7 +20,7 @@ exports.Search = React.createClass({
 
 
           {/*Project Search Results*/}
-          <div className="col s12 m8 push-m3">
+          <div className="col s12 m8 push-m4">
             <h5 className="center-align condensed light">Project Search Results</h5><hr/>
             <ProjectResults
               searchResultsProjects={this.props.searchResults.projects}
@@ -29,7 +29,7 @@ exports.Search = React.createClass({
           </div>
 
           {/*Org Search Results*/}
-          <div className="col s12 m3 pull-m8">
+          <div className="col s12 m4 pull-m8">
             <h5 className="center-align condensed light">Organizations</h5><hr/>
             <OrganizationResults
               searchResultOrgs={this.props.searchResults.orgs}
