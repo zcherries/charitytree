@@ -61,22 +61,22 @@ exports.Home = React.createClass({
 
             <div className="row center-align">
 
-              <h1 className="center-align"> Make Giving Personal! </h1>
+              <h1 className="center-align condensed light"> Make Giving Personal! </h1>
 
               <div className="col s4">
-                <i className="material-icons large center blue-text accent-3">lock_outline</i>
-                <h4>Find Organizations you can trust!</h4>
-                <h6>Each organization on Charity tree is vetted and required to show you where your money is spent!</h6>
+                <i className="material-icons large center blue-text accent-3">favorite</i>
+                <h4 className="condensed light">Find Organizations you can trust!</h4>
+                <h6 className="condensed light">Each organization on Charity tree is vetted and required to show you where your money is spent!</h6>
               </div>
               <div className="col s4">
-                <i className="material-icons large center blue-text accent-3">toc</i>
-                <h4>Be a part of a project!</h4>
-                <h6>Donate to specific needs on projects locally and around the world!</h6>
+                <i className="material-icons large center blue-text accent-3 condensed light">toc</i>
+                <h4 className="condensed light">Be a part of a project!</h4>
+                <h6 className="condensed light">Donate to specific needs on projects locally and around the world! </h6>
               </div>
               <div className="col s4">
-                <i className="material-icons large center blue-text accent-3">supervisor_account</i>
-                <h4>Contribute in a meaningful way!</h4>
-                <h6>See what your donation does through updates, pictures, video and more! No more wondering if your donation made a real change!</h6>
+                <i className="material-icons large center blue-text accent-3 condensed light">supervisor_account</i>
+                <h4 className="condensed light">Contribute in a meaningful way!</h4>
+                <h6 className="condensed light">See what your donation does through updates, pictures, video, documentation and more! No more wondering if your donation made a real change!</h6>
               </div>
 
             </div>
@@ -87,8 +87,8 @@ exports.Home = React.createClass({
           <div className="parallax">
             <img src="https://c1.staticflickr.com/5/4073/4931587174_a40ebdf2f5_b.jpg"/>
           </div>
-          <div className="caption left-align shadow-white">
-            <h3 className="">“Real change, inspiring results!”</h3>
+          <div className="caption left-align shadow">
+            <h3 className="condensed light grey-text text-lighten-3 shadow">Real change, inspiring results!</h3>
             <h5 className="valign left-align light grey-text text-lighten-3 shadow">Be a part of something great</h5>
           </div>
         </div>
@@ -120,9 +120,9 @@ exports.Home = React.createClass({
           <div className="parallax">
             <img src="https://c1.staticflickr.com/5/4116/4931019303_2f386bffb7_b.jpg"/>
           </div>
-          <div className="caption left-align shadow-white">
-            <h3>Know where your money is going!</h3>
-            <h5 className="light grey-text text-lighten-3 shadow">See the impact!</h5>
+          <div className="caption bottom center-align">
+            <h3 className="condensed light">Know where your money is going!</h3>
+            <h5 className="condensed light light grey-text text-lighten-3 shadow">See the impact!</h5>
           </div>
         </div>
 

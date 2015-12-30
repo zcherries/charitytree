@@ -8,6 +8,13 @@ main {
   flex: 1 0 auto;
 }
 
+.logoGreen {
+  margin-left: 122px;
+}
+.navLogo {
+  max-height: 64px;
+}
+
 .input-field input[type=search] {
   display: block;
   line-height: inherit;

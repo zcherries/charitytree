@@ -48,7 +48,7 @@ var Signup = exports.Signup = React.createClass({
           </div>
 
           <div className="row">
-            <input type="submit" value="Submit" />
+            <input className="waves-effect waves-light btn blue" type="submit" value="Submit" />
           </div>
         </form>
       </div>
@@ -57,7 +57,7 @@ var Signup = exports.Signup = React.createClass({
 
   showDonorSignupForm: function() {
     return (
-      <div className="div-signup-form">
+      <div className="div-signup-form col s12">
         <form id="signupForm" className="col s12" onSubmit={this.signup}>
           <div className="row">
             <div className="input-field col s6">
@@ -102,7 +102,7 @@ var Signup = exports.Signup = React.createClass({
           </div>
 
           <div className="row">
-            <input type="submit" value="Submit" />
+            <input className="waves-effect waves-light btn blue" type="submit" value="Submit" />
           </div>
         </form>
       </div>
