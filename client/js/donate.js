@@ -119,6 +119,7 @@ exports.Donate = React.createClass({
               <h5>Total Donation: ${this.state.donationTotal}</h5>
             </div>
           </div>
+<<<<<<< HEAD
 
           {/*Payment Form*/}
           <div className="container">
@@ -153,6 +154,41 @@ exports.Donate = React.createClass({
           </div>
         </form>
         <div style={{height: "150px"}}></div>
+=======
+
+          {/*Payment Form*/}
+          <div className="container">
+            <div className="row">
+              <div className="input-field col s12">
+                <input id="cc_number" type="number" max="9999999999999999999" className="validate"/>
+                <label htmlFor="number">Card Number</label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col s12">
+                <div className="row">
+                  <div className="input-field col s6">
+                    <input id="expiration" type="text" className="validate"/>
+                    <label htmlFor="expiration">Expiration Date</label>
+                  </div>
+                  <div className="input-field col s6">
+                    <input id="csc" type="number" max="999" className="validate"/>
+                    <label htmlFor="csc">CSC(3-digits)</label>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="input-field col s12">
+                    <input id="address" type="text" className="validate"/>
+                    <label htmlFor="address">Address</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a className="waves-effect waves-light btn right-align"><i className="material-icons left">send</i>Submit</a>
+          </div>
+
+        </form>
+>>>>>>> [feature]new form
       </div>
     );
   }
