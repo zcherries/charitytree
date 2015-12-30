@@ -111,13 +111,6 @@ exports.routes = {
         });
       }
     },
-    { path: '/logout',
-      getComponent: (location, cb) => {
-        require.ensure([], () => {
-          cb(null, Home);
-        });
-      }
-    },
     { path: '/signup',
       getComponent: (location, cb) => {
         require.ensure([], () => {

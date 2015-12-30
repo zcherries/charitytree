@@ -9,7 +9,7 @@ import {DonorProfile} from './dashboard/donor/profile.js';
 import {Feed} from './dashboard/donor/feed.js';
 import {Activity} from './dashboard/donor/activity.js';
 
-var Dashboard = exports.Dashboard = React.createClass({
+exports.Dashboard = React.createClass({
   getInitialState: function() {
     return {
       data: {},
@@ -19,10 +19,6 @@ var Dashboard = exports.Dashboard = React.createClass({
   },
   componentWillMount: function() {
     this.props.isLoggedIn();
-    $(".dropdown-button").dropdown({
-      hover: true,
-      belowOrigin: true
-    });
     $(".button-collapse").sideNav();
   },
 
