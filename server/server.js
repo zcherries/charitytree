@@ -29,8 +29,7 @@ var server = require('http').Server(app);
 // var io = require('socket.io')(server);
 var feed = require('./socket.io.js')(server);
 
-console.log(feed)
-
+feed.emit('test')
 // import {Router, History} from 'react-router';
 // var Router = require('react-router');
 // var React = require('react');
@@ -125,8 +124,6 @@ app.get('/dashboard_data', function(req, res) {
   if (req.session && req.session.user) {
     console.log('In session')
     if (req.session.user.type === 'organization') {
-      // console.log('Organization')
-      // console.log('User ID: ', req.session.user.uid)
       Model.Organization.findOne({_id: req.session.user.uid}).select('-password -profile_img.data')
         .populate('projects endorsements').exec(function(err, org) {
           if (err) throw err;
@@ -159,7 +156,7 @@ app.get('/dashboard_data', function(req, res) {
         });
     } else if (req.session.user.type === 'donor') {
       Model.Donor.findOne({ _id: req.session.user.uid }).select('-password')
-        .populate('sponsored_projects following endorsements')
+        // .populate('sponsored_projects following endorsements')
         .exec(function(err, donor) {
         if (err) { console.log(err); }
         else {
@@ -217,13 +214,16 @@ app.get('/image', function(req, res) {
 // });
 
 app.get('/get_orgs', function(req, res, next) {
-  Controller.Organization.retrieve(req, res, next);
-//   Model.Organization.findOne({username: 'goodguys'}, function(err, org) {
-//     if (err) throw err;
-//     else {
-//       res.send(org);
-//     }
-//   })
+  // Controller.Organization.retrieve(req, res, next,{username: 'goodguys'});
+  Model.Organization.findOne({username: 'goodguys'}, function(err, org) {
+    if (err) throw err;
+    else {
+      org.followers = [];
+      org.save(function(err, updatedOrg) {
+        res.send(updatedOrg);
+      })
+    }
+  })
 });
 
 app.get('/organization_get/:id', function(req, res, next) {
@@ -387,11 +387,12 @@ app.post('/dashboard/profile', function(req, res, next) {
         if (org) {
           org.about = req.body.about;
           org.areas_of_focus = req.body.areas_of_focus;
+          org.feed.push({ user: updatedOrg.name, message: 'updated their profile', attachment: '', created_date: new Date() })
           org.save(function(err, updatedOrg) {
             if (err) throw err;
             else {
-              console.log('About to emit');
-              feed.emit('org_update', {message: updatedOrg.name + ' has updated their profile', attachment: ''});
+              console.log('Made update')
+              // feed.emit('org_update', updatedOrg._id, {message: updatedOrg.name + ' has updated their profile', attachment: ''});
               res.status(201).send({ status: 201, results: updatedOrg });
             }
           });
@@ -451,24 +452,19 @@ app.post('/dashboard/profile_img/upload', multer().single('profile_img'), functi
   Model.Organization.findById({ _id: req.session.user.uid }, function(err, org) {
     if (err) { console.error(err); res.status(400).send('Could not retrieve data'); }
     else {
-      console.log('Org Name: ', org.name);
-      console.log("Files: ", req.file);
-      // console.log("Body: ", req.body);
-        org.profile_img.data = req.file.buffer;
-        org.profile_img.contentType = req.file.mimetype;
-        org.profile_img.filename = req.file.originalname;
-        // org.profile_img.path = new Buffer(req.file.buffer).toString('base64');
-        org.save(function(err, currOrg) {
-          if (err) { console.error("Profile Image save error: ", err); }
-          res.status(201).send({ status: 201, results: {
-            contentType: currOrg.profile_img.contentType,
-            filename: currOrg.profile_img.filename }
-          });
+      org.profile_img.data = req.file.buffer;
+      org.profile_img.contentType = req.file.mimetype;
+      org.profile_img.filename = req.file.originalname;
+      org.feed.push({ user: org.name, message: 'updated their profile image',
+        attachment: 'http://localhost:4000/organization/profile_img/'+ org._id, created_date: new Date() })
+      org.save(function(err, currOrg) {
+        if (err) { console.error("Profile Image save error: ", err); }
+        console.log(currOrg.feed)
+        res.status(201).send({ status: 201, results: {
+          contentType: currOrg.profile_img.contentType,
+          filename: currOrg.profile_img.filename }
         });
-      // var img = new Buffer(org.profile_img.data).toString('base64');
-      // res.contentType(org.profile_img.contentType);
-      // console.log(org.profile_img.data);
-      // res.send(img);
+      });
     }
   });
 });
@@ -501,6 +497,7 @@ app.post('/dashboard/org/media/upload', multer().array('media'), function(req, r
         else {
           if (file.mimetype.slice(0, 6) === 'image/') { org.images.push(fileId); }
           else if (file.mimetype.slice(0, 6) === 'video/') { org.videos.push(fileId); }
+          org.feed.push({})
           org.save(function(err, updatedOrg) {
             if (err) { throw err; }
             else {

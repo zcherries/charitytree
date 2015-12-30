@@ -19,6 +19,11 @@ var Dashboard = exports.Dashboard = React.createClass({
   },
   componentWillMount: function() {
     this.props.isLoggedIn();
+    $(".dropdown-button").dropdown({
+      hover: true,
+      belowOrigin: true
+    });
+    $(".button-collapse").sideNav();
   },
 
   componentDidMount: function() {
@@ -26,7 +31,6 @@ var Dashboard = exports.Dashboard = React.createClass({
   },
 
   getData: function() {
-    console.log('Making AJAX request to server');
     $.ajax({
       method: 'GET',
       beforeSend: function(request) {
@@ -35,12 +39,8 @@ var Dashboard = exports.Dashboard = React.createClass({
       url: '/dashboard_data',
       success: function(response) {
         console.log("Response data: ", response);
+        feeder.emit('getFeed', response.results._id)
         this.setState({ data: response.results, userType: response.userType, view: this.state.view });
-        $(".dropdown-button").dropdown({
-          hover: true,
-          belowOrigin: true
-        });
-        $(".button-collapse").sideNav();
       }.bind(this),
       error: function(xhr, status, error){
         if (xhr.readyState == 0 || xhr.status == 0) {
@@ -64,7 +64,6 @@ var Dashboard = exports.Dashboard = React.createClass({
           areas_of_focus: this.state.data.areas_of_focus,
           address: this.state.data.address
         };
-        console.log("Org Info About: " + orgInfo.about);
         view = <OrgProfile update_db_state_prop={this.update_db_state_prop} orgInfo={orgInfo} />;
         break;
       case 'projects':
@@ -110,7 +109,7 @@ var Dashboard = exports.Dashboard = React.createClass({
         view = <DonorProfile update_db_state_prop={this.update_db_state_prop} donorInfo={donorInfo} />;
         break;
       case 'feed':
-        view = <Feed update_db_state_prop={this.update_db_state_prop} feed={this.state.data.projects} />;
+        view = <Feed username={this.state.data.username} feed={this.state.data.projects} />;
         break;
       case 'activity':
         view = <Activity
@@ -139,7 +138,6 @@ var Dashboard = exports.Dashboard = React.createClass({
     for (var prop in changes) {
       state[prop] = changes[prop];
     }
-    // console.log('State: ', state);
     console.log('State after update: ', state);
     this.setState({ data: state });
   },

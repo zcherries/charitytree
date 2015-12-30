@@ -22,7 +22,7 @@ var DonorSchema = new Schema({
   profile_img: { data: Buffer, contentType: String },
   // areas_of_focus: [{ type: ObjectId, ref: 'AoF' }],
   areas_of_focus: [String],
-  sponsored_projects: [{ type: ObjectId, ref: 'Project' }],
+  sponsored_projects: [{ project: { type: ObjectId, ref: 'Project' }, donation: Number }],
   following: [{ type: ObjectId, ref: 'Organization' }],
   endorsements: [endorsementSchema],
   feed: [{ message: String, attachment: Schema.Types.Mixed, created_date: Date }]
