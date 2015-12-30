@@ -155,9 +155,9 @@ var ProjectBlurb = React.createClass({
             <p>{"Created: " + this.props.project.created_date}</p>
             <p>{"Total Donors: " + this.props.project.total_donors_participating}</p>
           </div>
-          <div className="card-action center-align text">
-            <a onClick={this.editProject}>Update</a>
-            <a onClick={this.changeDisplay}>Upload Media</a>
+          <div className="card-action center-align">
+            <a className="blue-text" onClick={this.editProject}>Update</a>
+            <a className="blue-text" onClick={this.changeDisplay}>Upload Media</a>
           </div>
         </div>
       </div>
