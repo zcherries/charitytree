@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link, History } from 'react-router';
 
-import { TagContainer, Tag } from './tag_container.js';
-import { CausesInfo } from './causesinfo.js';
+import { TagContainer, Tag } from './tagContainer.js';
+import { CausesInfo } from './causesInfo.js';
+import { Needs } from './needs.js';
 var LocalStorageMixin = require('react-localstorage');
 
 //var ReactIntl = require('react-intl');
@@ -23,7 +24,7 @@ var Project = exports.Project = React.createClass ({
     console.log('inside of project at beginning of componentDidMount');
 
     $.ajax({
-        url:'/project_get/'+localStorage.projectId,
+        url:'/project_get/'+localStorage.currentProjID,
         method: "GET",
         success: function (data) {
           console.log("on success in projdid with params.id and res.data is ", data.results);
@@ -32,15 +33,15 @@ var Project = exports.Project = React.createClass ({
             project: data.results
           });
 
+          $('.materialboxed').materialbox();
+          $('ul.tabs').tabs(); //both of these needed
+          $('ul.tabs').tabs('select_tab', 'tab_id'); //both of these needed
           console.log('inside of success of projdid and this.state.project ', this.state.project);
         }.bind(this),
         error: function (xhr, status, err) {
           console.error(xhr, status, err.toString());
         }.bind(this)
       });
-    $('.materialboxed').materialbox();
-    $('ul.tabs').tabs(); //both of these needed
-    $('ul.tabs').tabs('select_tab', 'tab_id'); //both of these needed
 
     console.log('inside of componentDidMount and state.project is ', this.state.project);
   },
@@ -89,7 +90,10 @@ var Project = exports.Project = React.createClass ({
               description={need.description}
               cost={need.cost}
               quantity_needed={need.quantity_needed}
-              number_purchased={need.number_purchased}/>
+              number_purchased={need.number_purchased}
+              navigateToDonate={this.props.navigateToDonate}
+              project={this.state.project}
+            />
           );
         }.bind(this));
       }
@@ -157,28 +161,5 @@ var Project = exports.Project = React.createClass ({
         <div>Nothing to display</div>
       );
     }
-  }
-
-
-});
-
-var Needs = React.createClass({
-
-  render: function() {
-    console.log("Needs/render/this.props:",this.props);
-    return (
-      <div className="card blue-grey darken-1">
-        <div className="card-content white-text">
-          <span className="card-title">{this.props.title}</span>
-          <p>description: {this.props.description}</p>
-          <p>cost: {this.props.cost}</p>
-          <p>needed: {this.props.quantity_needed}</p>
-          <p>purchased: {this.props.number_purchased}</p>
-        </div>
-        <div className="card-action">
-          <a href="#">Buy Shoes for Kids</a>
-        </div>
-      </div>
-    );
   }
 });

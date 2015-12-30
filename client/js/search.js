@@ -1,7 +1,7 @@
 "use strict";
 var React = require('react');
 import { Link, History } from 'react-router';
-import { TagContainer, Tag } from './tag_container.js';
+import { TagContainer, Tag } from './tagContainer.js';
 
 exports.Search = React.createClass({
   render: function () {

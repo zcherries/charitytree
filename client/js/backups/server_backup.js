@@ -15,11 +15,11 @@ var bcrypt = require('bcrypt-nodejs');
 //var webpack = require('webpack');
 //var WebpackDevServer = require('webpack-dev-server');
 //var config = require('../client/webpack.config.js');
-var Controller = require('./db/controllers');
-var Model = require('./db/models');
-var connection = require('./db/connection.js');
-var organizations = require('./resources/organizations.js');
-var project = require('./resources/projects.js');
+var Controller = require('./../../../server/db/controllers/index');
+var Model = require('./../../../server/db/models/index');
+var connection = require('./../../../server/db/connection.js');
+var organizations = require('./../../../server/resources/organizations.js');
+var project = require('./../../../server/resources/projects.js');
 
 // var upload = multer({ dest: 'uploads/' })
 // var busboy = require('connect-busboy');
