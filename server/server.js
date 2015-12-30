@@ -57,9 +57,20 @@ app.use(session({
     mongooseConnection: _db.connection
   }),
   // store: new FileStore({ retries: 50 }),
-  cookie: { maxAge: 14 * 24 * 3600000 }
+  cookie: { maxAge: 3600000 }
 }));
 
+// app.use('/dashboard_data/*', function validateSession (req, res, next) {
+//   console.log('Validation Starts')
+//   console.log('Req.Path: ', req.path)
+//   console.log(req.session.user)
+//   if (req.session && req.session.user) {
+//     next();
+//   } else {
+//     console.log('Redirecting...')
+//     res.redirect(301, '/');
+//   }
+// });
 
 // var util = require('util');
 // var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
@@ -108,8 +119,7 @@ function capitalizeFirstLetter(string) {
 
 //================================== GET ====================================//
 
-app.get('/dashboard_data', function(req, res) {
-  console.log("App.get/dashboard_data");
+app.get('/dashboard_data', function(req, res, next) {
   // console.log('body: ', req.headers)
   if (req.session && req.session.user) {
     console.log('In session');
@@ -118,29 +128,6 @@ app.get('/dashboard_data', function(req, res) {
         .populate('projects endorsements').exec(function(err, org) {
           if (err) {throw err;}
           else {
-            // console.log(org)
-            // var images = [], count = 0;
-            // org.images.forEach(function(fileId, idx) {
-            //   console.log("Index: ", idx)
-            //   var buffer = new Buffer(0);
-            //   var readstream = connection.gridfs.createReadStream({ _id: fileId });
-            //
-            //   readstream.on('data', function(chunk) {
-            //     buffer = Buffer.concat([buffer, chunk]);
-            //   });
-            //
-            //   readstream.on('error', function (err) {
-            //     console.log('An error occurred!', err);
-            //     throw err;
-            //   });
-            //
-            //   readstream.on('close', function() {
-            //     images[idx] = buffer.toString('base64');
-            //     if (org.images.length === ++count) {
-            //       res.status(200).send({status: 200, results: org, imgs: images });
-            //     }
-            //   });
-            // });
             res.status(200).send({status: 200, results: org, userType: req.session.user.type });
           }
         });
@@ -156,6 +143,8 @@ app.get('/dashboard_data', function(req, res) {
     }
   } else {
     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
+    // console.log('Redirecting...')
+    // res.redirect(301, '/logout');
   }
 });
 
@@ -220,14 +209,11 @@ app.get('/get_orgs', function(req, res, next) {
 app.get('/organization_get/:id', function(req, res, next) {
  // console.log('Org ID: ', req.body.orgID);
  console.log("inside of server.js and req.params.id is ",req.params.id);
-
  var id = req.params.id;
-
- Model.Organization.findOne({ _id: id }).populate('projects')
-  .exec(function(err, org) {
+ Model.Organization.findOne({ _id: id }).select('-password -feed -profile_img.data')
+  .populate('projects').exec(function(err, org) {
    if (err) throw err;
    else {
-     console.log('Retrieved Org', org);
      res.status(200).send({status: 200, results: org });
    }
  });
@@ -249,9 +235,7 @@ app.get('/organization/profile_img/:id', function(req, res, next) {
 app.get('/project_get/:id', function(req, res, next) {
  // console.log('Org ID: ', req.body.orgID);
  console.log("inside of server.js and req.params.id is ",req.params.id);
-
  var id = req.params.id;
-
  Model.Project.findOne({ _id: id }).populate('_org')
   .exec(function(err, project) {
    if (err) throw err;
@@ -370,6 +354,28 @@ app.post('/logout_post', function(req, res, next) {
     }
     console.log('destroyed session');
     res.status(201).send({status: 201, message: 'User has been logged out'});
+  });
+});
+
+app.post('/organization/follow/:id', function(req, res, next) {
+  console.log('In Server Follow: ' + req.params.id);
+  Model.Organization.findById(req.params.id, function(err, org) {
+    if (err) { console.error(err); }
+    if (org) {
+      Model.Donor.findById(req.session.user.uid, function(err, donor) {
+        if (err) { console.error(err); }
+        if (donor) {
+          org.followers.push(req.session.user.uid);
+          org.save(function(err) {
+            if (err) { console.error(err); }
+            donor.following.push(org._id);
+            donor.save(function() {
+              res.status(201).send({status: 201, message: 'Success'});
+            });
+          });
+        }
+      });
+    }
   });
 });
 
@@ -574,18 +580,20 @@ app.post('/post_search', function(req, res, next) {
   });
   // aofs.join('|');
   console.log("Aofs: ", aofs);
-  Model.Organization.find({areas_of_focus: {$in: req.body.aofs}}, '-profile_img.data', function (err, orgs) {
-    if (err) {
-      console.log(err);
-      res.status(400).send('Could not retrieve data');
-    } else {
-      Model.Project.find({areas_of_focus: {$in: req.body.aofs}}, function (err, projects) {
-        if (err) throw err;
-        else {
-          res.status(201).send({ status: 201, results: {orgs: orgs, projects: projects} });
-        }
-      });
-    }
+  Model.Organization.find({areas_of_focus: {$in: req.body.aofs}})
+    .select('-password -feed -profile_img.data')
+    .exec(function (err, orgs) {
+      if (err) {
+        console.error(err);
+        res.status(400).send('Could not retrieve data');
+      } else {
+        Model.Project.find({areas_of_focus: {$in: req.body.aofs}}, function (err, projects) {
+          if (err) throw err;
+          else {
+            res.status(201).send({ status: 201, results: {orgs: orgs, projects: projects} });
+          }
+        });
+      }
   });
 });
 

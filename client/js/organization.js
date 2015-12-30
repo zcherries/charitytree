@@ -25,10 +25,9 @@ var Organization = exports.Organization = React.createClass({
 
   componentDidMount: function() {
     $.ajax({
-        url:'/organization_get/'+localStorage.currentOrganization,
+        url:'/organization_get/' + localStorage.currentOrganization,
         method: "GET",
         success: function (data) {
-
           this.setState({
             org: data.results
           });
@@ -45,10 +44,24 @@ var Organization = exports.Organization = React.createClass({
       });
   },
 
+  componentWillMount: function() {
+    console.log('CWM fires: ', this.props.currentOrganization);
+  },
+
   followOrg: function(e) {
     e.preventDefault();
-    console.log('donor: ' + localStorage.token, 'org: ' + localStorage.currentOrgID);
-    feeder.emit('follow', localStorage.token, localStorage.currentOrgID);
+    var org = this.state.org._id || this.props.currentOrganization._id;
+    feeder.emit('follow', localStorage.token, org);
+    
+    // $.ajax({
+    //   method: 'POST',
+    //   url: '/organization/follow/' + org,
+    //   success: function(response) {
+    //   }.bind(this),
+    //   error: function(xhr, status) {
+    //     console.log("Error:", xhr, status)
+    //   }.bind(this)
+    // });
   },
 
   render: function () {

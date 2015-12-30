@@ -94,7 +94,7 @@ var MediaUpload = exports.MediaUpload = React.createClass({
 
       var nonModernAjax = function() {
         var iframeName  = 'uploadiframe' + new Date().getTime();
-            $iframe = $('<iframe name="' + iframeName + '" style="display: none;"></iframe>');
+        var $iframe = $('<iframe name="' + iframeName + '" style="display: none;"></iframe>');
 
         $('body').append($iframe);
         $form.attr('target', iframeName);
@@ -105,6 +105,7 @@ var MediaUpload = exports.MediaUpload = React.createClass({
             .addClass(data.success == true ? 'is-success' : 'is-error')
             .removeAttr('target');
           if (!data.success) $errorMsg.text(data.error);
+          
           $form.removeAttr('target');
           $iframe.remove();
         });

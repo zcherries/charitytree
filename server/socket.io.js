@@ -94,21 +94,21 @@ module.exports = function(server) {
           }
         }
         else {
-          // Model.Organization.findById(token, function(err, org) {
-          //   if (err) throw err;
-          //   if (org) {
-          //     for (var i = 0; i < org.followers.length; i++) {
-          //       (function(donorID, idx) {
-          //         Model.Donor.findById(donorID, function(err, donor) {
-          //           feed_sources[idx] = donor.feed;
-          //           if (feed_sources.length === org.followers.length) {
-          //             client.emit('storeFeed', flatten(feed_sources));
-          //           }
-          //         });
-          //       })(org.followers[i], i)
-          //     }
-          //   }
-          // });
+          Model.Organization.findById(token, function(err, org) {
+            if (err) throw err;
+            if (org) {
+              for (var i = 0; i < org.followers.length; i++) {
+                (function(donorID, idx) {
+                  Model.Donor.findById(donorID, function(err, donor) {
+                    feed_sources[idx] = donor.feed;
+                    if (feed_sources.length === org.followers.length) {
+                      client.emit('storeFeed', flatten(feed_sources));
+                    }
+                  });
+                })(org.followers[i], i)
+              }
+            }
+          });
         }
       });
     });
@@ -140,8 +140,16 @@ module.exports = function(server) {
               if (donor) {
                 if (donor.following.indexOf(orgID) === -1) {
                   org.followers.push(donorID);
+                  org.feed.push({
+                    user: donor.name.first + " " + donor.name.last,
+                    message: "started following you",
+                    created_date: now
+                  });
                   donor.following.push(orgID);
-                  donor.feed.push({ message: 'You started following ' + org.name, created_date: now });
+                  donor.feed.push({
+                    message: 'started following ' + org.name,
+                    created_date: now
+                  });
                   org.save(function(err) {
                     if (err) throw err;
                     donor.save(function(err, updatedDonor) {
@@ -155,6 +163,68 @@ module.exports = function(server) {
               }
             });
           }
+        }
+      });
+    });
+
+    //this is a donor action
+    client.on('donation', function(donorID, projectID, amount) {
+      var now = new Date();
+      Model.Donor.findById(donorID, function(err, donor) {
+        if (err) throw err;
+        if (donor) {
+          donor.feed.push({
+            message: "donated " + amount + "to " + project.title,
+            created_date: now
+          });
+          donor.save(function(err) {
+            if (err) { console.error(err); }
+            else {
+              Model.Project.findById(projectID, function(err, project) {
+                if (err) throw err;
+                if (project) {
+                  Model.Organization.findById(project._org, function(err, org) {
+                    if (err) throw err;
+                    if (org) {
+                      org.feed.push({
+                        user: donor.name.first + " " + donor.name.last,
+                        message: "donated " + amount + "to " + project.title,
+                        created_date: now
+                      });
+                      org.save();
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    });
+
+    //donor action
+    client.on('endorsement', function(donorID, orgID) {
+      var now = new Date();
+      Model.Donor.findById(donorID, function(err, donor) {
+        if (err) throw err;
+        if (donor) {
+          donor.feed.push({
+            message: 'endorsed' + org.name,
+            created_date: now
+          });
+          donor.save(function(err) {
+            Model.Organization.findById(orgID, function(err, org) {
+              if (err) throw err;
+              if (org) {
+                org.feed.push({
+                  user: donor.name.first + " " + donor.name.last,
+                  message: "endorsed you",
+                  created_date: now
+                });
+                org.save();
+              }
+            });
+          });
         }
       });
     });
@@ -215,5 +285,7 @@ module.exports = function(server) {
       });
     });
   });
+
   return feed;
+
 };

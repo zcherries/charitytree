@@ -4,7 +4,7 @@ var ReactDOM = require('react-dom');
 import { History } from 'react-router';
 // var LocalStorageMixin = require('react-localstorage');
 
-var DonorFeed = exports.DonorFeed = React.createClass({
+var OrgFeed = exports.OrgFeed = React.createClass({
   getInitialState: function() {
     return {
       feedContent: feedData
@@ -33,18 +33,18 @@ var DonorFeed = exports.DonorFeed = React.createClass({
               }
 
               return (
-                <tbody key={idx}>
-                  <tr className="feed-row">
+                <tbody>
+                  <tr key={idx} className="feed-row">
                     <td className="feed-username">
-                      <strong>{this.props.username !== item.user ? item.user : "You"}</strong>
+                      <strong>{item.hasOwnProperty('user') ? item.user : "You"}</strong>
                     </td>
                     <td className="feed-date">{item.created_date}</td>
                   </tr>
                   <tr>
-                    <td className="feed-message" colSpan="2">{item.message}</td>
+                    <td className="feed-message" colspan="2">{item.message}</td>
                   </tr>
                   <tr>
-                    <td className="feed-attachment" colSpan="2">{attachment}</td>
+                    <td className="feed-attachment" colspan="2">{attachment}</td>
                   </tr>
                 </tbody>
               )

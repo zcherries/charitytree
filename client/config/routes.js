@@ -7,6 +7,7 @@ import {Project} from '../js/project.js';
 import {Organization} from '../js/organization.js';
 import {Login} from '../js/login.js';
 import {Signup} from '../js/signup.js';
+import {Logout} from '../js/logout.js';
 import {Donate} from '../js/donate.js';
 
 //============Authenticated Routes===============/
@@ -114,7 +115,7 @@ exports.routes = {
     { path: '/logout',
       getComponent: (location, cb) => {
         require.ensure([], () => {
-          cb(null, Home);
+          cb(null, Logout);
         });
       }
     },
