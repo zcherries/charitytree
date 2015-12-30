@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link, History } from 'react-router';
-
 import { DonateNeeds } from './needs.js';
-
 exports.Donate = React.createClass({
   getInitialState: function () {
     return {
@@ -16,10 +14,8 @@ exports.Donate = React.createClass({
   updateNumberPurchased: function (need) {
     var needs = this.state.needs_list;
     var originalQuantityNeeded = this.state.project.needs_list[need.arrIndex].quantity_needed;
-
     needs[need.arrIndex].number_purchased = Number(need.number_purchased);
     needs[need.arrIndex].quantity_needed = originalQuantityNeeded - need.number_purchased;
-
     this.setState({
       needs_list: needs
     });
@@ -32,7 +28,6 @@ exports.Donate = React.createClass({
     }).reduce(function (previous, current) {
       return previous += current;
     }, 0);
-
     var donationTotal = this.state.needs_list.map(function (need) {
       return need.cost * need.number_purchased || 0;
     }).reduce(function (previous, current) {
@@ -55,18 +50,21 @@ exports.Donate = React.createClass({
           need.number_purchased = 0;
           return need;
         });
-
         this.setState({
           project: data.results,
           needs_list: needs_list
         });
         console.log('inside of success of projdid and needs_list ', needs_list);
-        $('select').material_select();
+        $('input#cc_number, input#csc').characterCounter();
       }.bind(this),
       error: function (xhr, status, err) {
         console.error(xhr, status, err.toString());
       }.bind(this)
     });
+  },
+
+  handleSubmit: function(e){
+    e.preventDefault();
   },
 
   render: function () {
@@ -83,15 +81,14 @@ exports.Donate = React.createClass({
               originalQuantityNeeded={this.state.project.needs_list[index].quantity_needed}
               quantity_needed={need.quantity_needed}
               number_purchased={need.number_purchased}
-              updateNumberPurchased={this.updateNumberPurchased}
-            />
+              updateNumberPurchased={this.updateNumberPurchased}/>
           );
         }.bind(this));
       }
     }
     return(
       <div className="container">
-        <h4 className="center-align">Select the quantity of each need you'd like to contribute to:</h4>
+        <h4 className="center-align">Select the quantity of each need you would like to contribute to:</h4>
 
         {/*Totals*/}
         <div className="row">
@@ -107,25 +104,55 @@ exports.Donate = React.createClass({
         </div>
 
         {/*Needs Form*/}
-        <form action="">
+        <form  onSubmit={this.handleSubmit}>
           {needs ? needs : <div>Nothing to display</div>}
+
+          {/*Totals*/}
+          <div className="row">
+            <div className="col s4">
+              <h4>{this.state.project.title}</h4>
+            </div>
+            <div className="col s4">
+              <h5>Total Quantity: {this.state.quantityTotal}</h5>
+            </div>
+            <div className="col s4 right-align">
+              <h5>Total Donation: ${this.state.donationTotal}</h5>
+            </div>
+          </div>
+
+          {/*Payment Form*/}
+          <div className="container">
+            <h5>Enter your payment information:</h5>
+            <div className="row">
+              <div className="input-field col s12 count">
+                <input id="cc_number" type="number" maxLength="16" className="validate"/>
+                <label htmlFor="number">Card Number</label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col s12">
+                <div className="row">
+                  <div className="input-field col s6">
+                    <input id="expiration" type="text" className="validate"/>
+                    <label htmlFor="expiration">Expiration Date</label>
+                  </div>
+                  <div className="input-field col s6 count">
+                    <input id="csc" type="number" maxLength="3" className="validate"/>
+                    <label htmlFor="csc">CSC(3-digits)</label>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="input-field col s12">
+                    <input id="address" type="text" className="validate"/>
+                    <label htmlFor="address">Address</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a className="waves-effect waves-light btn right"><i className="material-icons left">send</i>Submit</a>
+          </div>
         </form>
-
-        {/*Totals*/}
-        <div className="row">
-          <div className="col s4">
-            <h4>{this.state.project.title}</h4>
-          </div>
-          <div className="col s4">
-            <h5>Total Quantity: {this.state.quantityTotal}</h5>
-          </div>
-          <div className="col s4 right-align">
-            <h5>Total Donation: ${this.state.donationTotal}</h5>
-          </div>
-        </div>
-
-        {/*Payment Form*/}
-
+        <div style={{height: "150px"}}></div>
       </div>
     );
   }
