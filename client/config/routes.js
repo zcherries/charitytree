@@ -25,6 +25,14 @@ function redirectToLogin(nextState, replaceState) {
   }
 }
 
+function redirectToDonate(nextState, replaceState) {
+  if (!loggedIn()) {
+    replaceState({
+      nextPathname: nextState.location.pathname
+    }, '/donate')
+  }
+}
+
 function redirectToDashboard(nextState, replaceState) {
   if (loggedIn()) {
     replaceState(null, '/dashboard');
@@ -54,7 +62,7 @@ exports.routes = {
         return require.ensure([], () => {
           cb(null, Login);
         })
-      },
+      }//,
       // indexRoute: {
       //   getComponent: (location, cb) => {
       //     // Only load if we're logged in
@@ -82,6 +90,39 @@ exports.routes = {
       //  }
       //]
     },
+
+
+    { onEnter: redirectToDashboard,
+      childRoutes: [
+        // Unauthenticated routes
+        // Redirect to dashboard if user is already logged in
+        { path: '/login',
+          getComponent: (location, cb) => {
+            require.ensure([], () => {
+              cb(null, Login);
+            })
+          }
+        }
+        // ...
+      ]
+    },
+
+    {
+      path: '/donate',
+      getComponent: (location, cb) => {
+        // Share the path
+        // Dynamically load the correct component
+        if (loggedIn()) {
+          return require.ensure([], () => {
+            cb(null, Donate);
+          })
+        }
+        return require.ensure([], () => {
+          cb(null, Login);
+        })
+      }
+    },
+
     { path: '/browse',
       getComponent: (location, cb) => {
         require.ensure([], () => {
@@ -110,13 +151,6 @@ exports.routes = {
         });
       }
     },
-    { path: '/logout',
-      getComponent: (location, cb) => {
-        require.ensure([], () => {
-          cb(null, Logout);
-        });
-      }
-    },
     { path: '/login',
       getComponent: (location, cb) => {
         require.ensure([], () => {
@@ -137,21 +171,6 @@ exports.routes = {
           cb(null, Organization);
         });
       }
-    },
-
-    { onEnter: redirectToDashboard,
-      childRoutes: [
-        // Unauthenticated routes
-        // Redirect to dashboard if user is already logged in
-        { path: '/login',
-          getComponent: (location, cb) => {
-            require.ensure([], () => {
-              cb(null, Login);
-            })
-          }
-        }
-        // ...
-      ]
     },
 
     //{ onEnter: redirectToLogin,
