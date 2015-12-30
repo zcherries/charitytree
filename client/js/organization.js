@@ -62,31 +62,41 @@ var Organization = exports.Organization = React.createClass({
           </div>
         );
       });
+      console.log("Organization/render/currentProjects/this.state.org.projects:",this.state.org.projects);
 
       var currentProjects = this.state.org.projects.map(function (project, index) {
-        //var handleClickInside = this.handleClick.bind(this, project);
         return (
           <li className="collection-item avatar" key={index} onClick={this.handleClick}>
-            <img src="images/yuna.jpg" className="circle"/>
+            <img src={project.images[0] || "./images/FEATURE-Leaf-300_tcm18-150961.jpg"} className="circlex"/>
             <span className="title"><h5>{project.title}</h5></span>
-            <div className="line-clamp line-clamp-1">{project.info}</div>
+            <div className="line-clamp line-clamp-2">{project.info}</div>
 
             <div className="row">
-              <div className="col s6"><p>Start Date: {project.start_date}</p></div>
-              <div className="col s6"><p>End Date: {project.end_date}</p></div>
+              <div className="col s6 space-above">
+                <p><strong>Start Date:</strong></p><br/><p>{project.start_date}</p></div>
+              <div className="col s6 space-above">
+                <p><strong>End Date:</strong></p><br/><p>{project.end_date}</p></div>
             </div>
           </li>
         );
-      },this);
+      }.bind(this));
 
       var pastProject = this.state.org.projects.map(function (project, index) {
         return (
-          <div key={index}>
-            <div>the org is {project._org}</div>
-            <div>the info is {project.info}</div>
-          </div>
+          <li className="collection-item avatar" key={index} onClick={this.handleClick}>
+            <img src={project.images[0] || "./images/FEATURE-Leaf-300_tcm18-150961.jpg"} className="circlex"/>
+            <span className="title"><h5>{project.title}</h5></span>
+            <div className="line-clamp line-clamp-2">{project.info}</div>
+
+            <div className="row">
+              <div className="col s6 space-above">
+                <p><strong>Start Date:</strong></p><br/><p>{project.start_date}</p></div>
+              <div className="col s6 space-above">
+                <p><strong>End Date:</strong></p><br/><p>{project.end_date}</p></div>
+            </div>
+          </li>
         );
-      });
+      }.bind(this));
 
       return (
         <div className="container">
@@ -145,7 +155,7 @@ var Organization = exports.Organization = React.createClass({
                 {/*Current Project*/}
                 <div id="current-projects" className="col s12 center-align section scrollspy">
                   <i className="medium material-icons space-above">assignment_late</i>
-                  <h2> Our Current Projects:</h2>
+                  <h2>Our Current Projects:</h2>
                   <ul className="collection">
                     {currentProjects}
                   </ul>
@@ -155,13 +165,15 @@ var Organization = exports.Organization = React.createClass({
                 <div id="past-projects" className="col s12 center-align section scrollspy">
                   <i className="medium material-icons space-above">assignment_turned_in</i>
                   <h2>Our Past Projects:</h2>
-                  <div className="left-align">{pastProject}</div>
+                  <ul className="collection">
+                    {pastProject}
+                  </ul>
                 </div>
 
                 {/*Endorsements*/}
                 <div id="endorsements" className="col s12 center-align section scrollspy">
                   <i className="medium material-icons space-above">verified_user</i>
-                  <h2> Endorsements:</h2>
+                  <h2>Endorsements:</h2>
                   <div className="left-align">Various Endorsements</div>
                 </div>
 
