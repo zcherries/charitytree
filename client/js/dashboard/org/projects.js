@@ -80,7 +80,9 @@ exports.Projects = React.createClass({
       <div>
         <div style={{height: "15px"}}></div>
         <div className="center">
-          <a className="waves-effect waves-light btn-large light-blue darken-3"onClick={this.create}><i className="material-icons left">add</i>Create a new Project for your organization</a>
+          <a className="waves-effect waves-light btn-large light-blue darken-3 hide-on-med-and-down"onClick={this.create}><i className="material-icons left">add</i>Create a new Project for your organization</a>
+          <a className="waves-effect waves-light btn-large light-blue darken-3 hide-on-small-only hide-on-large-only"onClick={this.create}><i className="material-icons left">add</i>Create a new Project</a>
+          <a className="waves-effect waves-light btn-large light-blue darken-3 hide-on-med-and-up"onClick={this.create}><i className="material-icons left">add</i>New Project</a>
         </div>
         <div style={{height: "5px"}}></div>
 
@@ -136,7 +138,7 @@ var ProjectBlurb = React.createClass({
   changeDisplay: function(e) {
     e.preventDefault();
     this.setState({ display: false });
-    //$('.box__input').addClass('size-to-fit');
+    $('.box__input').addClass('size-to-fit');
   },
 
   display: function() {
