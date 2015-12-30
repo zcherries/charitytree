@@ -11,7 +11,7 @@ exports.Search = React.createClass({
           <h3 className="center-align condensed light"> Find a cause to give to </h3>
 
           {/*Search Tags*/}
-            <div className="center-align col s12 blue">
+            <div className="center-align col s12">
                 <TagContainer
                     searchCriteria={this.props.searchCriteria}
                     removeSearchTag={this.props.removeSearchTag}/>
