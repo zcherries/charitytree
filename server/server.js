@@ -6,9 +6,6 @@ var Model = require('./db/models');
 
 var session = require('express-session');
 var MongoStore = require('connect-mongo/es5')(session);
-// var FileStore = require('session-file-store')(session);
-// var session_helpers = require('./helpers/session-helpers.js');
-
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var multer = require('multer');
@@ -29,7 +26,6 @@ var server = require('http').Server(app);
 // var io = require('socket.io')(server);
 var feed = require('./socket.io.js')(server);
 
-feed.emit('test')
 // import {Router, History} from 'react-router';
 // var Router = require('react-router');
 // var React = require('react');
@@ -122,7 +118,7 @@ app.get('/dashboard_data', function(req, res) {
   console.log("App.get/dashboard_data");
   // console.log('body: ', req.headers)
   if (req.session && req.session.user) {
-    console.log('In session')
+    console.log('In session');
     if (req.session.user.type === 'organization') {
       Model.Organization.findOne({_id: req.session.user.uid}).select('-password -profile_img.data')
         .populate('projects endorsements').exec(function(err, org) {
@@ -237,7 +233,7 @@ app.get('/organization_get/:id', function(req, res, next) {
   .exec(function(err, org) {
    if (err) throw err;
    else {
-     console.log('Retrieved Org', org)
+     console.log('Retrieved Org', org);
      res.status(200).send({status: 200, results: org });
    }
  });
@@ -266,14 +262,14 @@ app.get('/project_get/:id', function(req, res, next) {
   .exec(function(err, project) {
    if (err) throw err;
    else {
-     console.log('Retrieved Project', project)
+     console.log('Retrieved Project', project);
      res.status(200).send({status: 200, results: project });
    }
  });
 });
 
 app.get('/dashboard_data/profile_img/:user/:filename', function(req, res, next) {
-  console.log(req.params)
+  console.log(req.params);
   Model.Organization.findOne({ username: req.params.user }, function(err, org) {
     if (err) { console.error(err); res.status(400).send('Could not retrieve data'); }
     else {
@@ -375,7 +371,10 @@ app.post('/login_post', function(req, res, next) {
 
 app.post('/logout_post', function(req, res, next) {
   req.session.destroy(function(err) {
-    console.log('destroyed session')
+    if (err) {
+      console.error("err",err);
+    }
+    console.log('destroyed session');
     res.status(201).send({status: 201, message: 'User has been logged out'});
   });
 });

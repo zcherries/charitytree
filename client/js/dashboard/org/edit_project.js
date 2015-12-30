@@ -1,5 +1,5 @@
 import React from 'react';
-import { CausesInfo } from '../../causesinfo.js';
+import { CausesInfo } from '../../causesInfo.js';
 var LocalStorageMixin = require('react-localstorage');
 
 var ProjectEdit = exports.ProjectEdit = React.createClass({

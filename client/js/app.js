@@ -50,6 +50,10 @@ var App = exports.App = React.createClass({
     this.props.history.pushState(null, `/organization`);
   },
 
+  navigateToDonate: function () {
+    this.props.history.pushState(null, `/donate`);
+  },
+
   navigateToBrowsePage: function () {
     this.props.history.pushState(null, `/browse`);
   },
@@ -206,6 +210,7 @@ var App = exports.App = React.createClass({
             userType: this.state.userType,
             currentProject: this.state.currentProject,
             //Functions
+            navigateToDonate: this.navigateToDonate,
             isLoggedIn: this.isLoggedIn,
             handleSearchButton: this.handleSearchButton,
             updateInput: this.updateInput,

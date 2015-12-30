@@ -85,7 +85,7 @@ exports.Media = React.createClass({
                 <div key={idx} className="media-pg-image">
                   <img className="media-pg-img" src={'http://localhost:4000/dashboard_data/media/'+file} />
                 </div>
-              )
+              );
             })}
           </div>
         </div>

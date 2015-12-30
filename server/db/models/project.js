@@ -54,11 +54,10 @@ ProjectSchema.pre('save', function(next) {
   }
   this.last_updated = now;
   next();
-})
+});
 //set up relationship between needs items and the donor who purchased them - org needs to see what donor donated what so it can push relevant updates
 
 //what else in this schema needs to be required
 var Project = mongoose.model('Project', ProjectSchema);
 
 module.exports = Project;
-// module.exports = ProjectSchema;

@@ -1,8 +1,8 @@
 //display list of areas of focus
 import React from 'react';
 import { Link, History } from 'react-router';
-import { TagContainer, Tag } from './tag_container.js';
-import { CausesInfo } from './causesinfo.js';
+import { TagContainer, Tag } from './../tagContainer.js';
+import { CausesInfo } from './../causesInfo.js';
 
 const Browse = exports.Browse = React.createClass({
   mixins: [ History ],
