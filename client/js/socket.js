@@ -11,9 +11,9 @@ feeder.on('storeFeed', function(arrFeed) {
 });
 
 feeder.on('updateFeed', function(arrFeed) {
-  console.log('Being called')
+  console.log('Being called');
   if (arrFeed.length) {
-    console.log('Got new updates')
+    console.log('Got new updates');
     feedData = feedData.concat(arrFeed);
   }
 });

@@ -13,9 +13,9 @@ var Upload = exports.Upload = React.createClass({
     };
   },
 
-  onOpenClick: function () {
-    this.refs.dropzone.open();
-  },
+  //onOpenClick: function () {
+  //  this.refs.dropzone.open();
+  //},
 
   render: function () {
     return (
@@ -28,7 +28,7 @@ var Upload = exports.Upload = React.createClass({
           </div>
           <div className="box__uploading">Uploading&hellip;</div>
           <div className="box__success">Done!</div>
-          <div className="box__error">Error! <span></span>.</div>
+          <div className="box__error">Error!</div>
         </form>
       </div>
     );

@@ -120,7 +120,7 @@ var Organization = exports.Organization = React.createClass({
                 <p>{this.state.org.about}</p>
               </div>
 
-            {/*Additional Info*/}
+              {/*Additional Info*/}
               <div className="col s12 m5 l6">
                 <blockquote>Additional info here about what the Org Cares about. Boom and there goes the dynamite</blockquote>
               </div>

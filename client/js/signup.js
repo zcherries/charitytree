@@ -4,11 +4,8 @@ var ReactDOM = require('react-dom');
 import { History } from 'react-router';
 
 import { Link } from 'react-router';
-// var LocalStorageMixin = require('react-localstorage');
 
-var Signup = exports.Signup = React.createClass({
-  // mixins: [ History, LocalStorageMixin ],
-
+exports.Signup = React.createClass({
   getInitialState: function() {
     return {
       error: false

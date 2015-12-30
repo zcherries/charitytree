@@ -123,7 +123,7 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
     })
   },
 
-  updateEndDate: function (e) {
+  updateEndDate: function () {
     var self = this;
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month

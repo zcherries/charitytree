@@ -1,4 +1,3 @@
-//display list of areas of focus
 import React from 'react';
 import { Link, History } from 'react-router';
 import { TagContainer, Tag } from './tagContainer.js';
