@@ -45,11 +45,17 @@ exports.Login = React.createClass({
   render: function() {
     return (
       <div className="container">
+      <br />
+        <h5 className="thin">
+          “As an organization when my donors see the end results of what their money did, it only encourages more giving, and more gets done - Charity Tree makes that easy for us!” -non-profit
+        </h5>
+        <br />
+        <br />
         <div className="row">
 
           <div className="col s12 m6">
             <fieldset className="center-align">
-              <header><h3>Login</h3></header><hr/>
+              <header><h3 className="condensed light">Login</h3></header><hr/>
               <form id="loginForm" onSubmit={this.login}>
                 <div className="input-field">
                   <label htmlFor="username">Username</label>
@@ -59,7 +65,7 @@ exports.Login = React.createClass({
                   <label htmlFor="pwd">Password</label>
                   <input type="password" id="pwd" name="pwd" required onChange={this.pwdChange} />
                 </div>
-                <button className="waves-effect waves-light btn" type="submit" >Submit</button>
+                <button className="waves-effect waves-light btn blue" type="submit" >Submit</button>
                 {this.state.error && (
                   <p>Bad login information</p>
                 )}
@@ -69,13 +75,13 @@ exports.Login = React.createClass({
 
           <div className="col s12 m6">
             <fieldset className="center-align">
-              <header><h3>Signup</h3></header><hr/>
+              <header><h3 className="condensed light">Signup</h3></header><hr/>
               <div>
-                <h5>Which would you like to sign up as?</h5>
+                <h5 className="condensed light">Which would you like to sign up as?</h5>
                 <div className="row">
                   <div className="userType">
-                    <button className="waves-effect waves-light btn" value="Organization" onClick={this.props.setUserType} style={{margin: '20px'}}>Organization</button>
-                    <button className="waves-effect waves-light btn" value="Donor" onClick={this.props.setUserType} style={{margin: '20px'}}>Donor</button>
+                    <button className="waves-effect waves-light btn blue" value="Organization" onClick={this.props.setUserType} style={{margin: '20px'}}>Organization</button>
+                    <button className="waves-effect waves-light btn blue" value="Donor" onClick={this.props.setUserType} style={{margin: '20px'}}>Donor</button>
                   </div>
                 </div>
               </div>
