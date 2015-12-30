@@ -16,6 +16,10 @@ exports.Media = React.createClass({
       profile_img: {}
     }
   },
+  
+  componentDidMount: function() {
+    $('.materialboxed').materialbox();
+  },
 
   upload_profile_img: function(e) {
     e.preventDefault();
@@ -44,10 +48,14 @@ exports.Media = React.createClass({
 
   profile_img_upload_form: function() {
     return (
-      <form className="profile_img_frm" onSubmit={this.upload_profile_img} action="/dashboard/profile_img/upload" encType="multipart/form-data" accept="image/*">
+      <form
+        onSubmit={this.upload_profile_img}
+        action="/dashboard/profile_img/upload"
+        encType="multipart/form-data"
+        accept="image/*">
         {/*<label htmlFor="profile_img">Choose profile image</label>*/}
-          <input className="file-field" id="profile_img" type="file" name="profile_img" />
-          <input className="btn blue" type="submit" value="Upload" />
+        <input className="" id="profile_img" type="file" name="profile_img" />
+        <input className="btn blue" type="submit" value="Upload Profile Image" />
       </form>
     );
   },
@@ -59,15 +67,16 @@ exports.Media = React.createClass({
       : 'http://localhost:4000/dashboard_data/profile_img/'+ this.props.username + '/' + this.props.media.profile_img.filename;
     return (
       <div className="row">
-        <div className="float-left">
-          <h5>Profile Image</h5>
-          {/*<img className="profile_img" src={profile_img} />*/}
-          <img className="profile_img" src={profile_img} />
-          {this.profile_img_upload_form()}
+        <div className="col s12 center-align">
+          <h4>Profile Image</h4>
+          <div>
+            {this.profile_img_upload_form()}
+          </div>
+          <img className="materialboxed responsive-img center-image" src={profile_img} />
         </div>
-        <div className="float-left">
+        {/*<div className="col s12">
           <h5>Banner Image</h5>
-        </div>
+        </div>*/}
       </div>
     )
   },
@@ -77,34 +86,36 @@ exports.Media = React.createClass({
       <div className="container">
         {this.profile_and_banner_img()}
 
-        <div>
-          <h5>Pictures</h5>
-          <div className="media-pg-images">
+        <div className="center-align">
+          <h4>Pictures</h4>
+          <div className="row">
             {this.props.media.images.map(function(file, idx) {
               return (
-                <div key={idx} className="media-pg-image">
-                  <img className="media-pg-img" src={'http://localhost:4000/dashboard_data/media/'+file} />
+                <div key={idx} className="col s12 m6 l4">
+                  <img className="materialboxed responsive-img" src={'http://localhost:4000/dashboard_data/media/'+file} />
                 </div>
               );
             })}
           </div>
         </div>
 
-        <div>
-          <h5>Videos</h5>
-          <div className="media-pg-videos">
+        <div className="center-align">
+          <h4>Videos</h4>
+          <div className="row">
           {this.props.media.videos.map(function(file, idx) {
             return (
-              <div key={idx} className="media-pg-video">
-                <video className="media-pg-vid" src={'http://localhost:4000/dashboard_data/media/'+file} controls />
+              <div key={idx} className="col s12 m6 l4">
+                <video className="responsive-video" controls >
+                  <source src={'http://localhost:4000/dashboard_data/media/'+file}/>
+                </video>
               </div>
-            )
+            );
           })}
           </div>
         </div>
 
-        <div className="upload_assorted">
-          <h5>Upload Media</h5>
+        <div className="row center-align">
+          <h4>Upload Picture or Video</h4>
           <MediaUpload action={"/dashboard/org/media/upload"} />
         </div>
       </div>

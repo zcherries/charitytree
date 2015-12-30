@@ -113,20 +113,18 @@ var MediaUpload = exports.MediaUpload = React.createClass({
 
     render: function () {
       return (
-        <div className="form-media-upload">
-          <form className="box" method="post" action={this.props.action} encType="multipart/form-data">
-            <div className="box__input project-card">
-              <input className="box__file" type="file" name="media" id="file" accept="image/*,video/*" data-multiple-caption="{count} files selected" multiple />
-              <label htmlFor="file"><strong>Choose a file</strong><span className="box__dragndrop"> or drag it here</span>.</label>
-              <button className="box__button btn blue" type="submit">Upload</button>
-              {/*For uploading media to a project*/}
-              <input name="project" type="hidden" defaultValue={this.props.project} />
-            </div>
-            <div className="box__uploading">Uploading&hellip;</div>
-            <div className="box__success">Done!</div>
-            <div className="box__error">Error! <span></span>.</div>
-          </form>
-        </div>
+        <form className="box" method="post" action={this.props.action} encType="multipart/form-data">
+          <button className="box__button btn blue" type="submit">Upload</button>
+          <div className="box__input project-card">
+            <input className="box__file" type="file" name="media" id="file" accept="image/*,video/*" data-multiple-caption="{count} files selected" multiple />
+            <label htmlFor="file"><strong>Choose a file</strong><span className="box__dragndrop"> or drag it here</span>.</label>
+            {/*For uploading media to a project*/}
+            <input name="project" type="hidden" defaultValue={this.props.project} />
+          </div>
+          <div className="box__uploading">Uploading&hellip;</div>
+          <div className="box__success">Done!</div>
+          <div className="box__error">Error! <span></span>.</div>
+        </form>
       );
     }
 });
