@@ -76,7 +76,7 @@ exports.Home = React.createClass({
               <div className="col s4">
                 <i className="material-icons large center blue-text accent-3">supervisor_account</i>
                 <h4>Contribute in a meaningful way!</h4>
-                <h6>See what your donation does through updates, pictures, video and more! No more wondering if your donation did any real good!</h6>
+                <h6>See what your donation does through updates, pictures, video and more! No more wondering if your donation made a real change!</h6>
               </div>
 
             </div>
