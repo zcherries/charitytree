@@ -47,6 +47,14 @@ exports.Navbar = React.createClass({
               </li>
             </ul>
           ) : "" }
+          {this.props.loggedIn ? (
+            <ul id="dropdown2" className="dropdown-content">
+              <li className="divider"/>
+              <li>
+                <a className="waves-effect waves-light black-text" onClick={this.logout}>Logout</a>
+              </li>
+            </ul>
+          ) : "" }
 
           <nav>
             <div className="nav-wrapper grey lighten-5">
@@ -115,7 +123,7 @@ exports.Navbar = React.createClass({
                 {/*Login/Signup or Dashboard Dropdown*/}
                 {this.props.loggedIn ? (
                   <li>
-                    <Link className="dropdown-button black-text" data-activates="dropdown1" to="/dashboard">Dashboard<i className="material-icons black-text right">arrow_drop_down</i></Link>
+                    <Link className="dropdown-button black-text" data-activates="dropdown2" to="/dashboard">Dashboard<i className="material-icons black-text right">arrow_drop_down</i></Link>
                   </li>
                 ) : (
                   <li>
