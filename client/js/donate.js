@@ -106,6 +106,13 @@ exports.Donate = React.createClass({
         {/*Needs Form*/}
         <form  onSubmit={this.handleSubmit}>
           {needs ? needs : <div>Nothing to display</div>}
+          {/*Additional Donation*/}
+          <div className="row">
+            <label htmlFor="additional_donation">Specify Additional Donation Amount</label>
+            <div className="input-field col s12">
+              <input id="additional_donation" type="number" min="0" className="validate"/>
+            </div>
+          </div>
 
           {/*Totals*/}
           <div className="row">

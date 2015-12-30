@@ -1,7 +1,7 @@
 import React from 'react';
 import { CausesInfo } from '../../causesInfo.js';
 
-var ProjectCreate = exports.ProjectCreate = React.createClass({
+exports.ProjectCreate = React.createClass({
   getInitialState: function () {
     return {
       title: "",
@@ -192,12 +192,9 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
 
   render: function () {
     return (
-      <div>
+      <div className="container">
         <div className="row">
-          <fieldset>
-            <legend>
-              <h1>Create a new Project</h1>
-            </legend>
+            <h1>Create a new Project</h1>
             <form className="col s12">
               <div className="row">
                 {/*Project Title*/}
@@ -210,11 +207,15 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
                   <input id="goal" type="number" className="validate" value={this.state.amount.goal} onChange={this.updateGoalAmount} />
                   <label className={this.state.amount.goal ? "active" : ""} htmlFor="goal">Target Funding Amount</label>
                 </div>
+              </div>
+              <div className="row">
                 {/*End Date*/}
                 <div className="input-field col s12">
                   <input id="end_date" type="date" className="datepicker" value={this.props.endDateText} onClick={this.updateEndDate} />
                   <label className={this.props.endDateText ? "active" : ""} htmlFor="end_date">Projected End Date</label>
                 </div>
+              </div>
+              <div className="row">
                 {/*Project Info*/}
                 <div className="input-field col s12">
                   <textarea id="info" className="materialize-textarea" value={this.state.info} onChange={this.updateInfo} />
@@ -222,7 +223,6 @@ var ProjectCreate = exports.ProjectCreate = React.createClass({
                 </div>
               </div>
             </form>
-          </fieldset>
 
           <h3>Select Project Areas of Focus</h3>
           <CategorySelect addRemoveCat={this.addRemoveCat} />
@@ -268,21 +268,6 @@ var CategorySelect = React.createClass({
     );
   }
 });
-
-//<ul class="collapsible popout" data-collapsible="accordion">
-//  <li>
-//    <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
-//    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-//  </li>
-//  <li>
-//    <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
-//    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-//  </li>
-//  <li>
-//    <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
-//    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-//  </li>
-//</ul>
 
 var MajCategory = React.createClass({
 
@@ -359,6 +344,7 @@ var Needs = React.createClass({
   },
 
   render: function () {
+    let needsLength = this.props.needs.length;
     let needs = this.props.needs.map(function(need, index) {
       return (
         <Need
@@ -369,6 +355,7 @@ var Needs = React.createClass({
           needCost={need.cost}
           needQuantityNeeded={need.quantity_needed}
           active={need.active}
+          last={needsLength === index ? true : false}
           addNeed={this.props.addNeed}
           updateNeedTitle={this.props.updateNeedTitle}
           updateNeedDescription={this.props.updateNeedDescription}
@@ -469,7 +456,8 @@ var Need = React.createClass({
                     onChange={this.updateNeedDescription}
                     id="need_description"
                     type="text"
-                    maxLength="120"/>
+                    maxLength="120"
+                  />
                   <label className={this.props.needDescription ? "active" : ""} htmlFor="need_description">Need Description</label>
                 </div>
               </div>
