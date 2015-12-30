@@ -1,6 +1,6 @@
-  "use strict";
 var React = require('react');
 import { Link, History } from 'react-router';
+
 import { Login } from './login.js';
 import { Signup } from './signup.js';
 
@@ -9,7 +9,7 @@ exports.Navbar = React.createClass({
     this.props.updateInput(e.target.value);
   },
 
-  clearInput: function (e) {
+  clearInput: function () {
     this.props.updateInput("");
   },
 
@@ -22,11 +22,9 @@ exports.Navbar = React.createClass({
     $.ajax({
       type: 'POST',
       url: '/logout_post',
-      success: function (response) {
+      success: function () {
         feeder.emit('disconnect');
         localStorage.clear();
-        //this.props.isLoggedIn();
-        //this.props.history.pushState(null, "/");
         window.location.href = 'http://localhost:4000';
       }.bind(this),
       error: function (xhr, status, err) {
@@ -39,6 +37,7 @@ exports.Navbar = React.createClass({
     return (
       <div>
         <div className="navbar-fixed">
+
           {/*Dashboard Dropdown*/}
           {this.props.loggedIn ? (
             <ul id="dropdown1" className="dropdown-content">
@@ -48,6 +47,7 @@ exports.Navbar = React.createClass({
               </li>
             </ul>
           ) : "" }
+
           <nav>
             <div className="nav-wrapper grey lighten-5">
               <Link to="/" className="brand-logo blue-text thin accent-3">Charity Tree</Link>
@@ -88,7 +88,6 @@ exports.Navbar = React.createClass({
                     <Link className="waves-effect waves-light black-text" to="/login">Login/Signup</Link>
                   </li>
                 )}
-
               </ul>
 
               {/*Side Navigation*/}
@@ -103,24 +102,26 @@ exports.Navbar = React.createClass({
                         value={this.props.searchText}
                         onChange={this.updateInput}
                         required />
-                      {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : <i className="material-icons black-text" >search</i> }
+                      {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : <i className="material-icons black-text" >search</i>}
                     </div>
                   </form>
-                </li>
-
-                {/*Login/Signup*/}
-                <li>
-                  {this.props.loggedIn ? (
-                    <Link className="waves-effect waves-light black-text" to="/logout">Logout</Link>
-                  ) : (
-                    <Link className="waves-effect waves-light black-text" to="/login">Login/Signup</Link>
-                  )}
                 </li>
 
                 {/*Browse Categories*/}
                 <li>
                   <Link className="waves-effect waves-light" to="/browse">Browse Categories</Link>
                 </li>
+
+                {/*Login/Signup or Dashboard Dropdown*/}
+                {this.props.loggedIn ? (
+                  <li>
+                    <Link className="dropdown-button black-text" data-activates="dropdown1" to="/dashboard">Dashboard<i className="material-icons black-text right">arrow_drop_down</i></Link>
+                  </li>
+                ) : (
+                  <li>
+                    <Link className="waves-effect waves-light black-text" to="/login">Login/Signup</Link>
+                  </li>
+                )}
               </ul>
 
             </div>

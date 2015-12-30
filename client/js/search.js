@@ -144,7 +144,8 @@ var Project = React.createClass({
   render: function () {
 
     return (
-    <div className="col s12 m6 l4 card hoverable" onClick={this.setProject}>
+    <div className="col s12 m6 l4" onClick={this.setProject}>
+      <div className="card hoverable">
         <div className="card-image">
           <img className="responsive-img" src="http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg"/>
             <span className="card-title shadow">
@@ -159,6 +160,7 @@ var Project = React.createClass({
         </div>
 
       </div>
+    </div>
     );
   }
 });

@@ -56,7 +56,7 @@ exports.OrgProfile = React.createClass({
     var orgInfo = Object.keys(this.state.orgInfo).length ? this.state.orgInfo : this.props.orgInfo;
     console.log(orgInfo.areas_of_focus.join("; "));
     return (
-      <div className="float-left">
+      <div className="container">
         <h3>{orgInfo.name}</h3>
           <h6>{'@'+orgInfo.username}</h6>
           <h5>About</h5>
@@ -79,27 +79,25 @@ exports.OrgProfile = React.createClass({
   editMode: function() {
     var orgInfo = Object.keys(this.state.orgInfo).length ? this.state.orgInfo : this.props.orgInfo;
     return (
-      <div className="float-left">
+      <div className="container">
         <h3>{orgInfo.name}</h3>
         <h5>{orgInfo.username}</h5>
 
-        <div className="div-profile-edit-form">
-          <form id="profileEdit" className="col s12" onSubmit={this.handleSubmit}>
-            <div className="row">
-              <div className="input-field col s12">
-                <label htmlFor="about">About</label>
-                <textarea id="about" className="materialize-textarea" ref="about" defaultValue={orgInfo.about} required/>
-              </div>
+        <form id="profileEdit" onSubmit={this.handleSubmit}>
+          <div className="row">
+            <div className="input-field col s12">
+              <textarea id="about" className="materialize-textarea" ref="about" defaultValue={orgInfo.about} required/>
+              <label htmlFor="about">About</label>
             </div>
-            <div className="row">
-              <div className="input-field col s12">
-                <label htmlFor="aofs">Areas of Focus</label>
-                <textarea id="aofs" className="materialize-textarea" ref="aofs" defaultValue={orgInfo.areas_of_focus.join("; ")}/>
-              </div>
+          </div>
+          <div className="row">
+            <div className="input-field col s12">
+              <textarea id="aofs" className="materialize-textarea" ref="aofs" defaultValue={orgInfo.areas_of_focus.join("; ")}/>
+              <label htmlFor="aofs">Areas of Focus</label>
             </div>
-            <input type="submit" value="Submit" className="btn blue"/>
-          </form>
-        </div>
+          </div>
+          <input type="submit" value="Submit" className="btn blue"/>
+        </form>
       </div>
     )
   },

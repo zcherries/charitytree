@@ -1,12 +1,12 @@
-body {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
+/*body {*/
+  /*display: flex;*/
+  /*min-height: 100vh;*/
+  /*flex-direction: column;*/
+/*}*/
 
-main {
-  flex: 1 0 auto;
-}
+/*main {*/
+  /*flex: 1 0 auto;*/
+/*}*/
 
 .input-field input[type=search] {
   display: block;
@@ -89,6 +89,12 @@ main {
 
 .card {
   cursor: pointer;
+}
+a.blue-card {
+  color: #0277bd !important;
+}
+a.blue-card:hover {
+  color: #0288d1 !important;
 }
 
 .cardx {
@@ -338,14 +344,14 @@ main {
 }
 
 /* Dashboard Styles */
-.dashboard-menu, .dashboard-view {
-  float: left;
-}
+/*.dashboard-menu, .dashboard-view {*/
+  /*float: left;*/
+/*}*/
 
-.dashboard-view {
-  margin-left: 2%;
-  width: 80%;
-}
+/*.dashboard-view {*/
+  /*margin-left: 2%;*/
+  /*width: 80%;*/
+/*}*/
 
 .profile_img {
   width: 150px;
@@ -415,21 +421,9 @@ main {
   display: block;
 }
 
-/* Dashboard Project view */
-.projects-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.project-blurb {
-  width: 400px;
-  height: 400px;
-}
-
-div.project-options {
-  display: none;
-}
+/*div.project-options {*/
+  /*display: none;*/
+/*}*/
 
 div.card:hover .project-options {
   display: block;
@@ -452,37 +446,37 @@ div.card:hover .project-options {
 }
 
 /* Media Page */
-.media-content {
-  width: 90%;
-}
+/*.media-content {*/
+  /*width: 90%;*/
+/*}*/
 
-.media-pg-images {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.media-pg-image {
-  width: 220px;
-  height: 220px;
-}
-.media-pg-img {
-  width: 200px;
-  height: 200px;
-}
+/*.media-pg-images {*/
+  /*display: flex;*/
+  /*justify-content: space-between;*/
+  /*flex-wrap: wrap;*/
+/*}*/
+/*.media-pg-image {*/
+  /*width: 220px;*/
+  /*height: 220px;*/
+/*}*/
+/*.media-pg-img {*/
+  /*width: 200px;*/
+  /*height: 200px;*/
+/*}*/
 
-.media-pg-videos {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.media-pg-video {
-  width: 330px;
-  height: 260px;
-}
-.media-pg-vid {
-  width: 320px;
-  height: 240px;
-}
+/*.media-pg-videos {*/
+  /*display: flex;*/
+  /*justify-content: space-between;*/
+  /*flex-wrap: wrap;*/
+/*}*/
+/*.media-pg-video {*/
+  /*width: 330px;*/
+  /*height: 260px;*/
+/*}*/
+/*.media-pg-vid {*/
+  /*width: 320px;*/
+  /*height: 240px;*/
+/*}*/
 
 table.feed td {
   margin: 0;
