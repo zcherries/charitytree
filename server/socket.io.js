@@ -124,6 +124,7 @@ module.exports = function(server) {
       // })
       delete clients[client.id];
       console.log('Client with id: ' + client.id  + ' has logged out');
+      client.emit('stopPolling');
     });
 
     //this is a donor action

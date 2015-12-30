@@ -184,6 +184,7 @@ app.get('/dashboard_data/projects', function(req, res, next) {
 });
 
 app.get('/dashboard_data/media/:id', function(req, res, next) {
+  //req.params.id is the fileId of file stored in gridfs
   var readstream = _db.gridfs.createReadStream({ _id: req.params.id });
   readstream.pipe(res);
 });
@@ -455,8 +456,13 @@ app.post('/dashboard/profile_img/upload', multer().single('profile_img'), functi
       org.profile_img.data = req.file.buffer;
       org.profile_img.contentType = req.file.mimetype;
       org.profile_img.filename = req.file.originalname;
-      org.feed.push({ user: org.name, message: 'updated their profile image',
-        attachment: 'http://localhost:4000/organization/profile_img/'+ org._id, created_date: new Date() })
+      org.feed.push({
+        user: org.name,
+        message: 'changed profile image',
+        attachment: 'http://localhost:4000/organization/profile_img/'+ org._id,
+        attachment_type: 'image',
+        created_date: new Date()
+      });
       org.save(function(err, currOrg) {
         if (err) { console.error("Profile Image save error: ", err); }
         console.log(currOrg.feed)
@@ -497,7 +503,13 @@ app.post('/dashboard/org/media/upload', multer().array('media'), function(req, r
         else {
           if (file.mimetype.slice(0, 6) === 'image/') { org.images.push(fileId); }
           else if (file.mimetype.slice(0, 6) === 'video/') { org.videos.push(fileId); }
-          org.feed.push({})
+          org.feed.push({
+            user: org.name,
+            message: 'uploaded a new ' + file.mimetype.slice(0, 5),
+            attachment: 'http://localhost:4000/dashboard_data/media/'+ fileId,
+            attachment_type: file.mimetype.slice(0, 5),
+            created_date: new Date()
+          });
           org.save(function(err, updatedOrg) {
             if (err) { throw err; }
             else {
@@ -511,10 +523,8 @@ app.post('/dashboard/org/media/upload', multer().array('media'), function(req, r
 });
 
 app.post('/dashboard/project/media/upload', multer().array('media'), function(req, res, next) {
-  console.log("Files: ", req.files);
-  console.log("Body: ", req.body);
-  res.status(201).send({ status: 201, message: "Media upload successful." });
-
+  // console.log("Files: ", req.files);
+  // console.log("Body: ", req.body);
   req.files.forEach(function(file) {
     //generate an object id
     var fileId = _db.types.ObjectId();
@@ -542,6 +552,18 @@ app.post('/dashboard/project/media/upload', multer().array('media'), function(re
           project.save(function(err, updatedProject) {
             if (err) { throw err; }
             else {
+              Model.Organization.findById(project._org || req.session.user.uid, function(err, org) {
+                if (err) throw err;
+                if (org) {
+                  org.feed.push({
+                    user: org.name,
+                    message: 'uploaded a new '+ file.mimetype.slice(0, 5) + ' for project: ' + project.title,
+                    attachment: 'http://localhost:4000/dashboard_data/media/'+ fileId,
+                    attachment_type: file.mimetype.slice(0, 5),
+                    created_date: new Date()
+                  });
+                }
+              });
               res.status(201).send({ status: 201, message: "Media upload successful." });
             }
           });

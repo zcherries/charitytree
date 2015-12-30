@@ -89,8 +89,8 @@ var Dashboard = exports.Dashboard = React.createClass({
     }
     return (
       <div>
-        <div className="db_menu"><OrgDashboardMenu updatePageView={this.updatePageView} /></div>
-        <div className="view indent">{view}</div>
+        <div className="dashboard-menu"><OrgDashboardMenu updatePageView={this.updatePageView} /></div>
+        <div className="dashboard-view indent">{view}</div>
       </div>
     )
   },
@@ -126,8 +126,8 @@ var Dashboard = exports.Dashboard = React.createClass({
     }
     return (
       <div>
-        <div className="db_menu"><DonorDashboardMenu updatePageView={this.updatePageView} /></div>
-        <div className="view indent">{view}</div>
+        <div className="dashboard-menu"><DonorDashboardMenu updatePageView={this.updatePageView} /></div>
+        <div className="dashboard-view indent">{view}</div>
       </div>
     )
   },
