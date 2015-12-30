@@ -50,7 +50,7 @@ exports.Navbar = React.createClass({
 
           <nav>
             <div className="nav-wrapper grey lighten-5">
-              <Link to="/" className="brand-logo blue-text thin accent-3" ><img className="navLogo" src="https://c2.staticflickr.com/6/5686/23763181510_cb1c05227f_o.jpg" /></Link>
+              <Link to="/" className="brand-logo blue-text thin accent-3" ><img className="navLogo" src="https://c2.staticflickr.com/6/5697/23990114051_04ab0c6e33_b.jpg" /></Link>
               <a href="#" data-activates="mobile-demo" className="button-collapse black-text"><i className="material-icons">menu</i></a>
 
               {/*Navigation*/}
