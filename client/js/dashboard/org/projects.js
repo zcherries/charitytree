@@ -144,10 +144,10 @@ var ProjectBlurb = React.createClass({
   display: function() {
     return (
       <div className="col s12 m6 l4">
-        <div className="card medium">
+        <div className="card small">
           <div className="card-image">
-            <img src={""}/>
-            <span className="card-title">{this.props.project.title}</span>
+
+            <h5 className="black-text center">{this.props.project.title}</h5>
           </div>
           <div className="card-content" onClick={this.setProject}>
             <p>{"Description: " + this.props.project.info}</p>

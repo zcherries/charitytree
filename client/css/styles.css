@@ -14,6 +14,9 @@
 .navLogo {
   max-height: 64px;
 }
+.marginTop {
+  margin-top: 20px;
+}
 
 .input-field input[type=search] {
   display: block;
