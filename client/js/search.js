@@ -8,22 +8,20 @@ exports.Search = React.createClass({
     return (
       <div>
         <div className="row">
-          <h4 className="center-align"> Find a cause to give to </h4>
+          <h3 className="center-align condensed light"> Find a cause to give to </h3>
 
-            <div className="center-align col s6 grey lighten-2">
-          <h5 className="center col s8"> Tags</h5>
-
+          {/*Search Tags*/}
+            <div className="center-align col s12 blue">
                 <TagContainer
                     searchCriteria={this.props.searchCriteria}
                     removeSearchTag={this.props.removeSearchTag}/>
             </div>
 
-          {/*Search Tags*/}
 
 
           {/*Project Search Results*/}
           <div className="col s12 m8 push-m3">
-            <h5 className="center-align">Project Search Results</h5><hr/>
+            <h5 className="center-align condensed light">Project Search Results</h5><hr/>
             <ProjectResults
               searchResultsProjects={this.props.searchResults.projects}
               getProject={this.props.getProject}
@@ -32,7 +30,7 @@ exports.Search = React.createClass({
 
           {/*Org Search Results*/}
           <div className="col s12 m3 pull-m8">
-            <h5 className="center-align">Organizations</h5><hr/>
+            <h5 className="center-align condensed light">Organizations</h5><hr/>
             <OrganizationResults
               searchResultOrgs={this.props.searchResults.orgs}
               setOrganization={this.props.setOrganization}
