@@ -23,9 +23,9 @@ var OrganizationSchema = new Schema({
   followers: [{ type: ObjectId, ref: 'Donor' }],
   feed: [{ user: String,
            message: String,
-          attachment: Schema.Types.Mixed,
-          attachment_type: String,
-          created_date: Date
+           attachment: Schema.Types.Mixed,
+           attachment_type: String,
+           created_date: Date
         }]
 });
 
