@@ -20,7 +20,7 @@ exports.DonorFeed = React.createClass({
     return (
       <div className="container center-align">
         <h3>Feed</h3>
-        <div>
+        <div className="row">
           {this.state.feedContent.map(function (item, idx) {
             var attachment = '';
             if (item.attachment_type === 'image') {
@@ -32,25 +32,27 @@ exports.DonorFeed = React.createClass({
             }
 
             return (
-              <ul className="collection with-header left-align" key={idx}>
-                <li className="collection-header">
-                  <div className="row">
-                    <div className="col s12">
-                      <h4>{item.user === this.props.user ? "You" : item.user}</h4>
+              <div className="col s12 l6" key={idx}>
+                <ul className="collection with-header left-align">
+                  <li className="collection-header">
+                    <div className="row">
+                      <div className="col s8">
+                        <h4>{item.user === this.props.user ? "You" : item.user}</h4>
+                      </div>
+                      <div className="col s4">
+                        <p><strong>{moment(item.created_date).format('MMM D, YYYY')}</strong><br/><strong>{moment(item.created_date).format('hh:mm A')}</strong></p>
+                      </div>
+                      <div className="col s12">
+                        <p>{item.message}</p>
+                      </div>
                     </div>
-                    <div className="col s8">
-                      <p>{item.message}</p>
-                    </div>
-                    <div className="col s4">
-                      <p><strong>{moment(item.created_date).format('MMMM D, YYYY - hh:mm A')}</strong></p>
-                    </div>
-                  </div>
-                </li>
-                <li className="collection-item">
-                  <div>{attachment}</div>
-                </li>
-              </ul>
-            )
+                  </li>
+                  <li className="collection-item">
+                    <div>{attachment}</div>
+                  </li>
+                </ul>
+              </div>
+            );
           }.bind(this))}
         </div>
       </div>

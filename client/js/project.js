@@ -115,7 +115,7 @@ exports.Project = React.createClass ({
 
           <div className="row">
             <div className="col s12 m8">
-              <img className="responsive-img materialboxed" src="http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg" />
+              <img className="responsive-img materialboxed" style={{margin: "auto"}} src="http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg" />
             </div>
             <div className="col s12 m4">
               <h3>Goal: ${project.amount.goal}</h3>
@@ -144,7 +144,10 @@ exports.Project = React.createClass ({
                     <li className="tab col s3"><a href="#comments">Comments</a></li>
                   </ul>
                 </div>
-                <div id="description" className="col s12">{project.info}</div>
+                <div id="description" className="col s12">
+                  <h5>Description</h5>
+                  {project.info}
+                </div>
                 <div id="updates" className="col s12">
                   <h5>Updates</h5>
                   <p>Knausgaard PBR&B organic, pickled skateboard etsy freegan vice green juice tacos. Small batch YOLO gluten-free humblebrag etsy skateboard. Freegan normcore selvage stumptown williamsburg pinterest marfa. 90s ramps aesthetic, cliche farm-to-table kickstarter narwhal YOLO whatever small batch mustache. Schlitz mlkshk yr, etsy craft beer keffiyeh single-origin coffee. XOXO kickstarter flannel, fingerstache PBR&B tousled wayfarers kale chips ramps kitsch craft beer. Blue bottle put a bird on it deep v DIY, four loko retro distillery.
