@@ -58,8 +58,8 @@ exports.OrgProfile = React.createClass({
     console.log(orgInfo.areas_of_focus.join("; "));
     return (
       <div className="container">
-        <h3>{orgInfo.name}</h3>
-          <h6>{'@'+orgInfo.username}</h6>
+        <h3 className="center">{orgInfo.name}</h3>
+          <h6 className="center">{'@'+orgInfo.username}</h6>
           <h5>About</h5>
           <p>{orgInfo.about}</p>
         <h5>Areas of Focus</h5>
@@ -88,13 +88,13 @@ exports.OrgProfile = React.createClass({
           <div className="row">
             <div className="input-field col s12">
               <textarea id="about" className="materialize-textarea" ref="about" defaultValue={orgInfo.about} required/>
-              <label htmlFor="about">About</label>
+              <label htmlFor="about"></label>
             </div>
           </div>
           <div className="row">
             <div className="input-field col s12">
               <textarea id="aofs" className="materialize-textarea" ref="aofs" defaultValue={orgInfo.areas_of_focus.join("; ")}/>
-              <label htmlFor="aofs">Areas of Focus</label>
+              <label htmlFor="aofs"></label>
             </div>
           </div>
           <input type="submit" value="Submit" className="btn blue"/>
