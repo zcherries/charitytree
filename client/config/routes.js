@@ -1,5 +1,5 @@
 //============Unauthenticated Routes===============/
-import {App} from '../js/App.js';
+import {App} from '../js/app.js';
 import {Home} from '../js/home.js';
 import {Browse} from '../js/browse.js';
 import {Search} from '../js/search.js';
