@@ -1,7 +1,8 @@
 "use strict";
-
-var React = require('react');
+import React from 'react';
 import { History } from 'react-router';
+import moment from 'moment';
+moment().format();
 var LocalStorageMixin = require('react-localstorage');
 
 var Organization = exports.Organization = React.createClass({
@@ -53,7 +54,8 @@ var Organization = exports.Organization = React.createClass({
 
   render: function () {
     if(this.state.org){
-      {console.log('inside render of orgpage and this.state.org is', this.state.org);}
+      var today = new Date();
+      moment(this.state.org.projects[0].end_date).diff(today);
 
       var aofs = this.state.org.areas_of_focus.map(function (aof, index) {
         return (
@@ -61,10 +63,11 @@ var Organization = exports.Organization = React.createClass({
             <h6>{aof}</h6>
           </div>
         );
-      });
-      console.log("Organization/render/currentProjects/this.state.org.projects:",this.state.org.projects);
+      }.bind(this));
 
-      var currentProjects = this.state.org.projects.map(function (project, index) {
+      var currentProjects = this.state.org.projects.filter(function (project) {
+        return moment(project.end_date).diff(today) > 0;
+      }).map(function (project, index) {
         return (
           <li className="collection-item avatar" key={index} onClick={this.handleClick}>
             <img src={project.images[0] || "./images/FEATURE-Leaf-300_tcm18-150961.jpg"} className="circlex"/>
@@ -73,15 +76,17 @@ var Organization = exports.Organization = React.createClass({
 
             <div className="row">
               <div className="col s6 space-above">
-                <p><strong>Start Date:</strong></p><br/><p>{project.start_date}</p></div>
+                <p><strong>Start Date:</strong></p><br/><p>{moment(project.start_date).format('MMMM D, YYYY')}</p></div>
               <div className="col s6 space-above">
-                <p><strong>End Date:</strong></p><br/><p>{project.end_date}</p></div>
+                <p><strong>End Date:</strong></p><br/><p>{moment(project.end_date).format('MMMM D, YYYY')}</p></div>
             </div>
           </li>
         );
       }.bind(this));
 
-      var pastProject = this.state.org.projects.map(function (project, index) {
+      var pastProjects = this.state.org.projects.filter(function (project) {
+        return moment(project.end_date).diff(today) < 0;
+      }).map(function (project, index) {
         return (
           <li className="collection-item avatar" key={index} onClick={this.handleClick}>
             <img src={project.images[0] || "./images/FEATURE-Leaf-300_tcm18-150961.jpg"} className="circlex"/>
@@ -90,9 +95,9 @@ var Organization = exports.Organization = React.createClass({
 
             <div className="row">
               <div className="col s6 space-above">
-                <p><strong>Start Date:</strong></p><br/><p>{project.start_date}</p></div>
+                <p><strong>Start Date:</strong></p><br/><p>{moment(project.start_date).format('MMMM D, YYYY')}</p></div>
               <div className="col s6 space-above">
-                <p><strong>End Date:</strong></p><br/><p>{project.end_date}</p></div>
+                <p><strong>End Date:</strong></p><br/><p>{moment(project.end_date).format('MMMM D, YYYY')}</p></div>
             </div>
           </li>
         );
@@ -157,18 +162,19 @@ var Organization = exports.Organization = React.createClass({
                   <i className="medium material-icons space-above">assignment_late</i>
                   <h2>Our Current Projects:</h2>
                   <ul className="collection">
-                    {currentProjects}
+                    {currentProjects.length > 0 ? currentProjects : <div>No projects to display</div>}
                   </ul>
                 </div>
 
                 {/*Past Projects*/}
-                <div id="past-projects" className="col s12 center-align section scrollspy">
-                  <i className="medium material-icons space-above">assignment_turned_in</i>
-                  <h2>Our Past Projects:</h2>
-                  <ul className="collection">
-                    {pastProject}
-                  </ul>
-                </div>
+                {pastProjects.length > 0 ?
+                  (<div id="past-projects" className="col s12 center-align section scrollspy">
+                    <i className="medium material-icons space-above">assignment_turned_in</i>
+                    <h2>Our Past Projects:</h2>
+                    <ul className="collection">
+                      {pastProjects}
+                    </ul>
+                  </div>) : ""}
 
                 {/*Endorsements*/}
                 <div id="endorsements" className="col s12 center-align section scrollspy">

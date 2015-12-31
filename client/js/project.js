@@ -105,7 +105,7 @@ var Project = exports.Project = React.createClass ({
           <div className="center-align">
             <h3>{project.title}</h3>
             <div onClick={this.navToOrg}>
-              <h4>the project.org is {this.state.project._org.name}</h4>
+              <h4>Sponsored by: {this.state.project._org.name}</h4>
             </div>
           </div>
 
