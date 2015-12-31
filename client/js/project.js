@@ -22,6 +22,7 @@ var Project = exports.Project = React.createClass ({
 
   componentDidMount: function () {
     console.log('inside of project at beginning of componentDidMount');
+    console.log("inside projpage and locsto.currPojObj is ",localStorage.currentProjID);
 
     $.ajax({
         url:'/project_get/'+localStorage.currentProjID,
@@ -64,6 +65,10 @@ var Project = exports.Project = React.createClass ({
     this.props.navigateToOrganizationPage();
   },
 
+  navigateToDonationPage: function(){
+    this.props.navigateToDonationPage();
+  },
+
   render: function() {
 
     //console.log("Project/this.props.searchResults.projects: ", this.props.searchResults.projects);
@@ -92,8 +97,7 @@ var Project = exports.Project = React.createClass ({
               quantity_needed={need.quantity_needed}
               number_purchased={need.number_purchased}
               navigateToDonate={this.props.navigateToDonate}
-              project={this.state.project}
-            />
+              project={this.state.project}/>
           );
         }.bind(this));
       }
@@ -127,7 +131,7 @@ var Project = exports.Project = React.createClass ({
 
 
           <div className="row">
-            <div className="col s12 m4 push-m8">
+            <div className="col s12 m4 push-m8" onClick={this.navigateToDonationPage}>
               {needs ? needs : "No needs to display"}
             </div>
             <div className="col s12 m8 pull-m4">

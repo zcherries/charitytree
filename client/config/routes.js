@@ -8,7 +8,6 @@ import {Organization} from '../js/organization.js';
 import {Login} from '../js/login.js';
 import {Signup} from '../js/signup.js';
 import {Donate} from '../js/donate.js';
-
 //============Authenticated Routes===============/
 import {Dashboard} from '../js/dashboard.js';
 

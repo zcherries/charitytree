@@ -40,7 +40,7 @@ exports.Donate = React.createClass({
   },
 
   componentDidMount: function () {
-    $.ajax({
+        $.ajax({
       url:'/project_get/'+localStorage.currentProjID,
       method: "GET",
       success: function (data) {
@@ -65,6 +65,56 @@ exports.Donate = React.createClass({
 
   handleSubmit: function(e){
     e.preventDefault();
+    console.log("You're in the handleSubmit!");
+    // console.log('in handle and state.needslist b4 eachfcn is ', this.state.needs_list);
+
+
+    var copy = JSON.stringify(this.state.needs_list.slice());
+
+    var recipeCopy = JSON.parse(copy);
+    console.log('in handle and recipeCopy b4 eachfcn is ', recipeCopy);
+
+    var update = JSON.parse(copy);
+    update.forEach(function(need){
+      need.number_purchased = 0;
+    });
+
+    var holder = JSON.stringify(this.state.project);
+    var project = JSON.parse(holder);
+    //updating needs list in project
+    project.needs_list = update;
+
+    //update amount property in project
+    if(project.amount.current){
+      project.amount.current += this.state.donationTotal;
+    }else{
+      project.amount.current = this.state.donationTotal;
+    }
+
+
+    var readyToShip = {
+      _id: project._id,
+      amount: project.amount,
+      needs_list: project.needs_list
+    }
+
+    console.log('in handle and the project ready to be shipped is  ', readyToShip);
+
+
+
+    // $.ajax({
+    //   type: "POST",
+    //   url: url,
+    //   data: project,
+    //   success: function(data){
+    //     console.log('Post request successful');
+    //   },
+    //   error: function(err){
+    //     console.error(err.toString());
+    //   }
+    //   dataType: dataType
+    // });
+
   },
 
   render: function () {
@@ -129,10 +179,9 @@ exports.Donate = React.createClass({
 
           {/*Payment Form*/}
           <div className="container">
-            <h5>Enter your payment information:</h5>
             <div className="row">
-              <div className="input-field col s12 count">
-                <input id="cc_number" type="number" maxLength="16" className="validate"/>
+              <div className="input-field col s12">
+                <input id="cc_number" type="number" max="9999999999999999999" className="validate"/>
                 <label htmlFor="number">Card Number</label>
               </div>
             </div>
@@ -143,8 +192,8 @@ exports.Donate = React.createClass({
                     <input id="expiration" type="text" className="validate"/>
                     <label htmlFor="expiration">Expiration Date</label>
                   </div>
-                  <div className="input-field col s6 count">
-                    <input id="csc" type="number" maxLength="3" className="validate"/>
+                  <div className="input-field col s6">
+                    <input id="csc" type="number" max="999" className="validate"/>
                     <label htmlFor="csc">CSC(3-digits)</label>
                   </div>
                 </div>
@@ -156,10 +205,10 @@ exports.Donate = React.createClass({
                 </div>
               </div>
             </div>
-            <a className="waves-effect waves-light btn right"><i className="material-icons left">send</i>Submit</a>
+            <a className="waves-effect waves-light btn right-align" onClick={this.handleSubmit}><i className="material-icons left">send</i>Submit</a>
           </div>
+
         </form>
-        <div style={{height: "150px"}}></div>
       </div>
     );
   }
