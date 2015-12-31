@@ -67,7 +67,7 @@ var Organization = exports.Organization = React.createClass({
         //var handleClickInside = this.handleClick.bind(this, project);
         return (
           <li className="collection-item avatar" key={index} onClick={this.handleClick}>
-            <img src="images/yuna.jpg" className="circle"/>
+            <img src="https://c2.staticflickr.com/6/5746/23989912271_c447d58ebc_q.jpg" className="circle"/>
             <span className="title"><h5>{project.title}</h5></span>
             <div className="line-clamp line-clamp-1">{project.info}</div>
 
