@@ -8,6 +8,8 @@ import {Organization} from '../js/organization.js';
 import {Login} from '../js/login.js';
 import {Signup} from '../js/signup.js';
 import {Donate} from '../js/donate.js';
+import {Thankyou} from '../js/thankyou.js';
+
 //============Authenticated Routes===============/
 import {Dashboard} from '../js/dashboard.js';
 
@@ -60,6 +62,7 @@ exports.routes = {
         }
       ]
     },
+    
     {
       path: '/donate',
       getComponent: (location, cb) => {
@@ -86,6 +89,13 @@ exports.routes = {
       getComponent: (location, cb) => {
         require.ensure([], () => {
           cb(null, Search);
+        });
+      }
+    },
+    { path: '/thankyou',
+      getComponent: (location, cb) => {
+        require.ensure([], () => {
+          cb(null, Thankyou);
         });
       }
     },
