@@ -146,9 +146,10 @@ var ProjectBlurb = React.createClass({
   display: function() {
     return (
       <div className="col s12 m6 l4">
-        <div className="card large">
-          <div className="card-image">
-            <h5 className="black-text center">{this.props.project.title}</h5>
+        <div className="card hoverable">
+          <div className="card-image" onClick={this.setProject} style={{maxHeight: "250px", overflow: "hidden"}}>
+            <img src={"./images/FEATURE-Leaf-300_tcm18-150961.jpg"}/>
+            <span className="card-title shadow">{this.props.project.title}</span>
           </div>
           <div className="card-content" onClick={this.setProject}>
             <p className="line-clamp line-clamp-3">{"Description: " + this.props.project.info}</p>
@@ -157,9 +158,14 @@ var ProjectBlurb = React.createClass({
             <p>{"Status: " + this.props.project.status}</p>
             <p>{"Total Donors: " + this.props.project.total_donors_participating}</p>
           </div>
-          <div className="card-action center-align">
-            <a className="blue-text" onClick={this.editProject}>Update</a>
-            <a className="blue-text" onClick={this.changeDisplay}>Upload Media</a>
+          <div className="card-action center-align row">
+
+            <div className="col s12 l6 left" style={{fontSize: "10px"}}>
+              <button className="waves-effect waves-light btn-large light-blue darken-3" onClick={this.editProject}>Update</button>
+            </div>
+            <div className="col s12 l6 right" style={{fontSize: "10px"}}>
+              <button className="waves-effect waves-light btn-large light-blue darken-3" onClick={this.changeDisplay}>Upload Media</button>
+            </div>
           </div>
         </div>
       </div>

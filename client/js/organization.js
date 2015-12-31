@@ -85,7 +85,7 @@ var Organization = exports.Organization = React.createClass({
         return moment(project.end_date).diff(today) > 0;
       }).map(function (project, index) {
         return (
-          <li className="collection-item avatar" key={index} onClick={this.handleClick}>
+          <li className="collection-item avatar" key={index} onClick={this.handleClick} style={{cursor: "pointer"}}>
             <img src={project.images[0] || "./images/FEATURE-Leaf-300_tcm18-150961.jpg"} className="circlex"/>
             <span className="title"><h5>{project.title}</h5></span>
             <div className="line-clamp line-clamp-2">{project.info}</div>
@@ -104,11 +104,10 @@ var Organization = exports.Organization = React.createClass({
         return moment(project.end_date).diff(today) < 0;
       }).map(function (project, index) {
         return (
-          <li className="collection-item avatar" key={index} onClick={this.handleClick}>
+          <li className="collection-item avatar" key={index} onClick={this.handleClick} style={{cursor: "pointer"}}>
             <img src={project.images[0] || "./images/FEATURE-Leaf-300_tcm18-150961.jpg"} className="circlex"/>
             <span className="title"><h5>{project.title}</h5></span>
             <div className="line-clamp line-clamp-2">{project.info}</div>
-
             <div className="row">
               <div className="col s6 space-above">
                 <p><strong>Start Date:</strong></p><br/><p>{moment(project.start_date).format('MMMM D, YYYY')}</p></div>
