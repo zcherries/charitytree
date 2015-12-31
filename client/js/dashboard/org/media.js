@@ -26,7 +26,7 @@ exports.Media = React.createClass({
     this.setState({ editing: true });
     var $form = $('.' + e.target.className);
     var formData = new FormData($form.get(0));
-    // console.log("Form data: ", formData);
+     console.log("Form: ", $form);
     $.ajax({
       method: 'POST',
       url: $form.attr('action'),
@@ -48,28 +48,38 @@ exports.Media = React.createClass({
 
   profile_img_upload_form: function() {
     return (
-      <div className="container">
-        <form
-          className="center-align col s9"
-          onSubmit={this.upload_profile_img}
-          action="/dashboard/profile_img/upload"
-          encType="multipart/form-data"
-          accept="image/*">
-            <div className="file-field input-field">
-              <div className="btn blue">
-                <span>File</span>
-                <input type="file" />
-              </div>
-              <div className="file-path-wrapper">
-                <input className="file-path validate" type="text" />
-              </div>
-            </div>
-        </form>
-
-        <input className="row marginTop center-align btn blue col s3" type="submit" value="Upload" />
-      </div>
+      <form
+        className="profile_img_frm" //this is NECESSARY!
+        onSubmit={this.upload_profile_img}
+        action="/dashboard/profile_img/upload"
+        encType="multipart/form-data"
+        accept="image/*">
+        {/*<label htmlFor="profile_img">Choose profile image</label>*/}
+        <input className="" id="profile_img" type="file" name="profile_img" />
+        <input className="btn blue" type="submit" value="Upload Profile Image" />
+      </form>
     );
   },
+        //{/*<form
+        //  className="center-align col s9"
+        //  onSubmit={this.upload_profile_img}
+        //  action="/dashboard/profile_img/upload"
+        //  encType="multipart/form-data"
+        //  accept="image/*">
+        //  <label htmlFor="profile_img">Choose profile image</label>
+        //  <input className="file-field" id="profile_img" type="file" name="profile_img" />
+        //  <input className="btn blue" type="submit" value="Upload" />
+        //  <div className="file-field input-field file-path-wrapper">
+        //      <div className="btn blue">
+        //        <span>Select Profile Image</span>
+        //        <input className="file-path validate"  type="file" />
+        //      </div>
+        //      <div className="file-path-wrapper">
+        //        <input className="file-path validate" type="text" />
+        //      </div>
+        //    </div>
+        //  <input className="row marginTop center-align btn blue col s3" type="submit" value="Upload" />
+        //</form>*/}
 
   profile_and_banner_img: function() {
     var profile_img = (this.state.profile_img['filename'] === undefined && this.props.media.profile_img === undefined)
