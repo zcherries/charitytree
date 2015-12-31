@@ -14,12 +14,12 @@ exports.Footer = React.createClass({
               <p className="grey-text">Making Giving Personal!</p>
             </div>
             <div className="col l6 s12">
-              <h5 className="black-text thin">Development Team</h5>
+              <h5 className="black-text thin">Full-Stack Development Team</h5>
               <ul>
-                <li><p>Project Owner/Full-stack Developer: Andrew Howes</p></li>
-                <li><p>Scrum Master/Full-stack Developer: Zach Herries</p></li>
-                <li><p>Full-stack Developer: Seyi Dodo-Williams</p></li>
-                <li><p>Full-stack Developer: Marcus Milton-Ellis</p></li>
+                <li><p>Project Owner/Developer: Andrew Howes</p></li>
+                <li><p>Scrum Master/Developer: Zach Herries</p></li>
+                <li><p>Developer: Seyi Dodo-Williams</p></li>
+                <li><p>Developer: Marcus Milton-Ellis</p></li>
               </ul>
             </div>
             <div className="col l3 s12">
