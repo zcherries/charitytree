@@ -7,13 +7,22 @@ exports.Footer = React.createClass({
   render: function () {
     return (
       <footer className="page-footer grey lighten-5">
-        <div className="container">
+        <div className="container center-align">
           <div className="row">
-            <div className="col l6 s12">
+            <div className="col l3 s12">
               <h5 className="brand-logo blue-text thin accent-3">Charity Tree</h5>
               <p className="grey-text">Making Giving Personal!</p>
             </div>
-            <div className="col l4 offset-l2 s12">
+            <div className="col l6 s12">
+              <h5 className="black-text thin">Development Team</h5>
+              <ul>
+                <li><p>Project Owner/Full-stack Developer: Andrew Howes</p></li>
+                <li><p>Scrum Master/Full-stack Developer: Zach Herries</p></li>
+                <li><p>Full-stack Developer: Seyi Dodo-Williams</p></li>
+                <li><p>Full-stack Developer: Marcus Milton-Ellis</p></li>
+              </ul>
+            </div>
+            <div className="col l3 s12">
               <h5 className="black-text thin">Links</h5>
               <ul>
                 <li><Link className="waves-effect waves-light black-text thin" to="/" className="black-text text-lighten-3">Home</Link></li>
@@ -25,7 +34,7 @@ exports.Footer = React.createClass({
         </div>
         <div className="footer-copyright">
           <div className="container black-text">
-            © 2015 Charity Collective
+            <p className="left">© 2015 Charity Collective</p>
           </div>
         </div>
       </footer>
