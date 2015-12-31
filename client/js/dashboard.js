@@ -16,7 +16,7 @@ exports.Dashboard = React.createClass({
     return {
       data: {},
       userType: '',
-      view: 'profile'
+      view: 'feed'
     }
   },
   componentWillMount: function() {
@@ -173,13 +173,13 @@ var OrgDashboardMenu = React.createClass({
     return (
       <div>
         <ul id="slide-out" className="side-nav fixed waves-effect waves-light">
+          <li className="valign-wrapper"><i className="material-icons left valign">supervisor_account</i><a onClick={this.goToPage}>Feed</a></li>
           <li className="valign-wrapper"><i className="material-icons left valign">person_pin</i><a onClick={this.goToPage}>Profile</a></li>
           <li className="valign-wrapper"><i className="material-icons left valign">perm_media</i><a onClick={this.goToPage}>Projects</a></li>
           <li className="valign-wrapper"><i className="material-icons left valign">video_library</i><a onClick={this.goToPage}>Media</a></li>
-          <li className="valign-wrapper"><i className="material-icons left valign">question_answer</i><a onClick={this.goToPage}>Feed</a></li>
           <li className="valign-wrapper"><i className="material-icons left valign">stars</i><a onClick={this.goToPage}>Endorsements</a></li>
         </ul>
-        <a data-activates="slide-out" className="button-collapse"><i className="mdi-navigation-menu"/></a>
+        <a data-activates="slide-out" className="button-collapse"/>
       </div>
     )
   }
