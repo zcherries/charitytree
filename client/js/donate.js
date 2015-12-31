@@ -109,18 +109,19 @@ exports.Donate = React.createClass({
     //Post to Database for updating. When ready to test place endpoint in URL
     //this whole function runs once the send button is clicked
     $.ajax({
-      type: "POST",
-      url: url,
-      data: readyToShip,
-      success: function(data){
-        console.log('Post request successful');
-      },
-      error: function(err){
-        console.error(err.toString());
-      },
-      dataType: dataType
-    });
-
+    type: "POST",
+    url: '/dashboard/project/needs/update',
+    dataType: 'json',
+    data: readyToShip,
+    success: function(data) {
+      console.log('Post request successful');
+      feeder.emit('donation', localStorage.token, readyToShip._id, this.state.donationTotal);
+      this.props.history.pushState(null, `/thankyou`);
+    }.bind(this),
+    error: function(err){
+      console.error(err.toString());
+    }
+  });
   },
 
   render: function () {
