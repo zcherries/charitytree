@@ -125,7 +125,9 @@ app.get('/dashboard_data', function(req, res, next) {
     console.log('In session');
     if (req.session.user.type === 'organization') {
       Model.Organization.findOne({_id: req.session.user.uid}).select('-password -profile_img.data')
-        .populate('projects endorsements').exec(function(err, org) {
+        .populate('projects endorsements')
+        .lean()
+        .exec(function(err, org) {
           if (err) {throw err;}
           else {
             res.status(200).send({status: 200, results: org, userType: req.session.user.type });
@@ -133,10 +135,17 @@ app.get('/dashboard_data', function(req, res, next) {
         });
     } else if (req.session.user.type === 'donor') {
       Model.Donor.findOne({ _id: req.session.user.uid }).select('-password')
-        // .populate('sponsored_projects following endorsements')
+        .populate('sponsored_projects following endorsements')
+        .lean()
         .exec(function(err, donor) {
         if (err) { console.log(err); }
         else {
+          var keys = ['feed', 'images', 'password', 'videos', 'areas_of_focus']
+          donor.following.forEach(function(obj) {
+            keys.forEach(function(key) {
+              delete obj[key];
+            });
+          });
           res.send({ status: 200, results: donor, userType: req.session.user.type });
         }
       });
@@ -162,8 +171,13 @@ app.get('/dashboard_data/projects', function(req, res, next) {
   }
 });
 
-app.get('/dashboard_data/media/:id', function(req, res, next) {
+app.get('/dashboard_data/org/media/:id', function(req, res, next) {
   //req.params.id is the fileId of file stored in gridfs
+  var readstream = _db.gridfs.createReadStream({ _id: req.params.id });
+  readstream.pipe(res);
+});
+
+app.get('/dashboard_data/project/media/:id', function(req, res, next) {
   var readstream = _db.gridfs.createReadStream({ _id: req.params.id });
   readstream.pipe(res);
 });
@@ -212,6 +226,7 @@ app.get('/organization_get/:id', function(req, res, next) {
  var id = req.params.id;
  if (id) {
    Model.Organization.findOne({ _id: id }).select('-password -feed -profile_img.data')
+    .lean()
     .populate('projects').exec(function(err, org) {
      if (err) throw err;
      else {
@@ -238,10 +253,14 @@ app.get('/project_get/:id', function(req, res, next) {
  // console.log('Org ID: ', req.body.orgID);
  console.log("inside of server.js and req.params.id is ",req.params.id);
  var id = req.params.id;
- Model.Project.findOne({ _id: id }).populate('_org')
+ Model.Project.findOne({ _id: id }).select().populate('_org').lean()
   .exec(function(err, project) {
    if (err) throw err;
    else {
+    var keys = ['feed', 'images', 'password', 'videos', 'followers', 'profile_img'];
+    keys.forEach(function(key) {
+         delete project._org[key];
+     });
      console.log('Retrieved Project', project);
      res.status(200).send({status: 200, results: project });
    }
@@ -525,7 +544,7 @@ app.post('/dashboard/org/media/upload', multer().array('media'), function(req, r
           org.feed.push({
             user: org.name,
             message: 'uploaded a new ' + file.mimetype.slice(0, 5),
-            attachment: 'http://localhost:4000/dashboard_data/media/'+ fileId,
+            attachment: 'http://localhost:4000/dashboard_data/org/media/'+ fileId,
             attachment_type: file.mimetype.slice(0, 5),
             created_date: new Date()
           });
@@ -577,7 +596,7 @@ app.post('/dashboard/project/media/upload', multer().array('media'), function(re
                   org.feed.push({
                     user: org.name,
                     message: 'uploaded a new '+ file.mimetype.slice(0, 5) + ' for project: ' + project.title,
-                    attachment: 'http://localhost:4000/dashboard_data/media/'+ fileId,
+                    attachment: 'http://localhost:4000/dashboard_data/project/media/'+ fileId,
                     attachment_type: file.mimetype.slice(0, 5),
                     created_date: new Date()
                   });
@@ -618,6 +637,16 @@ app.post('/post_search', function(req, res, next) {
 });
 
 app.post('/dashboard/project/update', function(req, res, next) {
+  console.log("Body: ", req.body);
+  res.send('Success')
+});
+
+app.post('/dashboard/project/needs/update', function(req, res, next) {
+  console.log("Body: ", req.body);
+  res.send('Success')
+});
+
+app.post('/dashboard/donor/endorsement', function(req, res, next) {
   console.log("Body: ", req.body);
   res.send('Success')
 });

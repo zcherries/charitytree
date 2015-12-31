@@ -71,7 +71,7 @@ module.exports = function(server) {
               //   })(org.followers[i], i)
               // }
               var orgFeed = org.feed.filter(function(item) {
-                return item.created_date > time;
+                return item.created_date > time && item.user !== org.name;
               });
               client.emit('updateFeed', orgFeed);
             }
@@ -111,7 +111,10 @@ module.exports = function(server) {
               //     });
               //   })(org.followers[i], i)
               // }
-              client.emit('storeFeed', org.feed);
+              var orgFeed = org.feed.filter(function(item) {
+                return item.user !== org.name;
+              });
+              client.emit('storeFeed', orgFeed);
             }
           });
         }
