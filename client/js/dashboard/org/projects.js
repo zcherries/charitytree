@@ -148,7 +148,6 @@ var ProjectBlurb = React.createClass({
       <div className="col s12 m6 l4">
         <div className="card large">
           <div className="card-image">
-
             <h5 className="black-text center">{this.props.project.title}</h5>
           </div>
           <div className="card-content" onClick={this.setProject}>

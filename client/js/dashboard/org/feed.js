@@ -1,8 +1,10 @@
 "use strict";
 var React = require('react');
+var ReactDOM = require('react-dom');
 import { History } from 'react-router';
+// var LocalStorageMixin = require('react-localstorage');
 
-exports.DonorFeed = React.createClass({
+var OrgFeed = exports.OrgFeed = React.createClass({
   getInitialState: function() {
     return {
       feedContent: feedData
