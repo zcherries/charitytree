@@ -18,7 +18,7 @@ exports.Needs = React.createClass({
           <p>purchased: {this.props.number_purchased}</p>
         </div>
         <div className="card-action">
-          <a href="#">Buy Shoes for Kids</a>
+          <a>Donate to this need</a>
         </div>
       </div>
     );
