@@ -90,6 +90,11 @@ var Organization = exports.Organization = React.createClass({
       var currentProjects = this.state.org.projects.filter(function (project) {
         return moment(project.end_date).diff(today) > 0;
       }).map(function (project, index) {
+        console.log("cP/project:",project);
+        //if (project.image.length) {
+          //var projectImg =
+          
+        //}
         return (
           <a className="collection-item avatar black-text" key={index} onClick={this.handleClick} style={{cursor: "pointer"}}>
             <img src={"https://c2.staticflickr.com/6/5739/24077966285_c5f0d47dcf_n.jpg"} className="circlex"/>
@@ -154,7 +159,7 @@ var Organization = exports.Organization = React.createClass({
                 {/*Image 1*/}
 
                 <div className="col s12">
-                  <img className="image" src={profileImg} />
+                  <img className="responsive-img materialboxed" src={profileImg} />
                 </div>
 
                 {/*Org Description*/}

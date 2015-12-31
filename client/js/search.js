@@ -137,7 +137,7 @@ var Project = React.createClass({
 
   render: function () {
     var img = (this.props.project.images.length)
-      ? "http://localhost:4000/dashboard_data/project/media/" + this.props.project.images
+      ? "http://localhost:4000/dashboard_data/project/media/" + this.props.project.images[0]
       : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg";
 
     return (
