@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, History } from 'react-router';
 
 import { TagContainer, Tag } from './tagContainer.js';
-import { CausesInfo } from './causesInfo.js';
+import { CausesInfo } from './causesinfo.js';
 import { Needs } from './needs.js';
 var LocalStorageMixin = require('react-localstorage');
 
