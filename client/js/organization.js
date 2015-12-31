@@ -71,6 +71,13 @@ var Organization = exports.Organization = React.createClass({
     console.log('Org: ', this.state.org);
     if(this.state.org){
       var today = new Date();
+      var profileImg = (this.state.org.profile_img.filename)
+      ? "http://localhost:4000/organization/profile_img/" + this.state.org._id
+      : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg";
+
+      var secondImg = (this.state.org.images.length)
+      ? "http://localhost:4000/dashboard_data/org/media/" + this.state.org.images[0]
+      : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg";
 
       var aofs = this.state.org.areas_of_focus.map(function (aof, index) {
         return (
@@ -145,8 +152,9 @@ var Organization = exports.Organization = React.createClass({
               <div className="row">
 
                 {/*Image 1*/}
+
                 <div className="col s12">
-                  {/*<img className="image" src={this.state.org.profile_img.filename} />*/}
+                  <img className="image" src={profileImg} />
                 </div>
 
                 {/*Org Description*/}
@@ -163,7 +171,7 @@ var Organization = exports.Organization = React.createClass({
 
                 {/*Image 2*/}
                 <div className="col s12 m7 l6">
-                  <img className="responsive-img materialboxed circle" src="https://c1.staticflickr.com/5/4116/4931019303_2f386bffb7_z.jpg"/>
+                  <img className="responsive-img materialboxed circle" src={secondImg}/>
                 </div>
               </div>
 
