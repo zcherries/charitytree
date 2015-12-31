@@ -473,3 +473,14 @@ table.feed tr video {
   background-color: #999;
   text-align: center;
 }
+
+/* Dashboard - Activity */
+.orgs-following {
+  display: flex;
+  /*justify-content: space-between;*/
+}
+
+.orgs-following .org {
+  width: 300px;
+  height: 300px;
+}

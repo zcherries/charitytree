@@ -103,7 +103,7 @@ exports.Media = React.createClass({
             {this.props.media.images.map(function(file, idx) {
               return (
                 <div key={idx} className="col s12 m6 l4">
-                  <img className="materialboxed responsive-img" src={'http://localhost:4000/dashboard_data/media/'+file} />
+                  <img className="materialboxed responsive-img" src={'http://localhost:4000/dashboard_data/org/media/'+file} />
                 </div>
               );
             })}
@@ -117,7 +117,7 @@ exports.Media = React.createClass({
             return (
               <div key={idx} className="col s12 m6 l4">
                 <video className="responsive-video" controls >
-                  <source src={'http://localhost:4000/dashboard_data/media/'+file}/>
+                  <source src={'http://localhost:4000/dashboard_data/org/media/'+file}/>
                 </video>
               </div>
             );
