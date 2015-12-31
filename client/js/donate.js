@@ -64,6 +64,8 @@ exports.Donate = React.createClass({
   },
 
   handleSubmit: function(e){
+    //this whole function runs once the send button is clicked
+
     e.preventDefault();
     console.log("You're in the handleSubmit!");
     // console.log('in handle and state.needslist b4 eachfcn is ', this.state.needs_list);
@@ -71,49 +73,53 @@ exports.Donate = React.createClass({
 
     var copy = JSON.stringify(this.state.needs_list.slice());
 
+    //creating a copy of the needs list for donor reciept
     var recipeCopy = JSON.parse(copy);
     console.log('in handle and recipeCopy b4 eachfcn is ', recipeCopy);
 
+    //creating updating purchase amount in each need to 0 before sending
     var update = JSON.parse(copy);
     update.forEach(function(need){
       need.number_purchased = 0;
     });
 
+    //creating a copy of project to send back to DB
     var holder = JSON.stringify(this.state.project);
     var project = JSON.parse(holder);
-    //updating needs list in project
+
+    //putting updated needs list in project that will be sent back to DB
     project.needs_list = update;
 
-    //update amount property in project
+    //updating amount property in project that will be sent back to DB
     if(project.amount.current){
       project.amount.current += this.state.donationTotal;
     }else{
       project.amount.current = this.state.donationTotal;
     }
 
-
+    //creating Object that will be sent back to DB to update proj in DB
     var readyToShip = {
       _id: project._id,
       amount: project.amount,
       needs_list: project.needs_list
-    }
+    };
 
     console.log('in handle and the project ready to be shipped is  ', readyToShip);
 
-
-
-    // $.ajax({
-    //   type: "POST",
-    //   url: url,
-    //   data: project,
-    //   success: function(data){
-    //     console.log('Post request successful');
-    //   },
-    //   error: function(err){
-    //     console.error(err.toString());
-    //   }
-    //   dataType: dataType
-    // });
+    //Post to Database for updating. When ready to test place endpoint in URL
+    //this whole function runs once the send button is clicked
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: readyToShip,
+      success: function(data){
+        console.log('Post request successful');
+      },
+      error: function(err){
+        console.error(err.toString());
+      }
+      dataType: dataType
+    });
 
   },
 
