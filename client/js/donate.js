@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, History } from 'react-router';
 import { DonateNeeds } from './needs.js';
 exports.Donate = React.createClass({
+
   getInitialState: function () {
     return {
       project: {},
@@ -106,21 +107,22 @@ exports.Donate = React.createClass({
 
     console.log('in handle and the project ready to be shipped is  ', readyToShip);
 
-    //Post to Database for updating. When ready to test place endpoint in URL
-    //this whole function runs once the send button is clicked
+    // Post to Database for updating. When ready to test place endpoint in URL
+    // this whole function runs once the send button is clicked
     $.ajax({
       type: "POST",
-      url: url,
+      url: '/dashboard/project/needs/update',
+      dataType: 'json',
       data: readyToShip,
-      success: function(data){
+      success: function(data) {
         console.log('Post request successful');
-      },
+        feeder.emit('donation', localStorage.token, readyToShip._id, this.state.donationTotal);
+        this.props.history.pushState(null, `/thankyou`);
+      }.bind(this),
       error: function(err){
         console.error(err.toString());
-      },
-      dataType: dataType
+      }
     });
-
   },
 
   render: function () {

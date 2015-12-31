@@ -174,7 +174,7 @@ var Organization = exports.Organization = React.createClass({
 
                 {/*Additional Info*/}
                 <div className="col s12 m5 l6">
-                  <blockquote>Additional info here about what the Org Cares about. Boom and there goes the dynamite</blockquote>
+                  <blockquote>"We care about the world around us!"</blockquote>
                 </div>
 
                 {/*Image 2*/}

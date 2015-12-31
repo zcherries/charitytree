@@ -179,37 +179,34 @@ module.exports = function(server) {
     //this is a donor action
     client.on('donation', function(donorID, projectID, amount) {
       var now = new Date();
-      Model.Donor.findById(donorID, function(err, donor) {
-        if (err) throw err;
-        if (donor) {
-          donor.feed.push({
-            user: donor.name.first + " " + donor.name.last,
-            message: "donated " + amount + "to " + project.title,
-            created_date: now
-          });
-          donor.save(function(err) {
-            if (err) { console.error(err); }
-            else {
-              Model.Project.findById(projectID, function(err, project) {
+      Model.Project.findById(projectID, function(err, project) {
+      if (err) throw err;
+      if (project) {
+        Model.Donor.findById(donorID, function(err, donor) {
+          if (err) throw err;
+          if (donor) {
+            donor.feed.push({
+              user: donor.name.first + " " + donor.name.last,
+              message: "donated " + amount + "to " + project.title,
+              created_date: now
+            });
+            donor.save(function(err) {
+              Model.Organization.findById(project._org, function(err, org) {
                 if (err) throw err;
-                if (project) {
-                  Model.Organization.findById(project._org, function(err, org) {
-                    if (err) throw err;
-                    if (org) {
-                      org.feed.push({
-                        user: donor.name.first + " " + donor.name.last,
-                        message: "donated " + amount + "to " + project.title,
-                        created_date: now
-                      });
-                      org.save();
-                    }
+                if (org) {
+                  org.feed.push({
+                    user: donor.name.first + " " + donor.name.last,
+                    message: "donated " + amount + "to " + project.title,
+                    created_date: now
                   });
+                  org.save();
                 }
               });
-            }
-          });
-        }
-      });
+            });
+          }
+        });
+       }
+     });
     });
 
     //donor action
