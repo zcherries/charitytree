@@ -468,7 +468,10 @@ app.post('/dashboard/project/create', function(req, res, next) {
       newProject._org = req.session.user.uid;
       console.log('New Project:', newProject);
       Model.Project.create(newProject, function(err, project) {
-        if (err) { throw err; }
+        if (err) {
+          res.status(400).send({ status: 400, message: "Unauthorized to access dashboard" });
+          throw err;
+        }
         else {
           Model.Organization.findOne({_id: req.session.user.uid}, function(err, org) {
             if (err) { throw err; }
@@ -642,7 +645,28 @@ app.post('/dashboard/project/update', function(req, res, next) {
 
 app.post('/dashboard/project/needs/update', function(req, res, next) {
   console.log("Body: ", req.body);
-  res.send('Success')
+  Model.Project.findById(req.body._id, function(err, project) {
+    if (err) console.error(err);
+    if (project) {
+      console.log('Found project');
+      project.amount.current = req.body.amount.current;
+      req.body.needs_list.forEach(function(need) {
+        var pn = project.needs_list.id(need._id);
+        pn.quantity_needed = need.quantity_needed;
+        pn.number_participants = (pn.number_participants == null) ? 1 : pn.number_participants++;
+      });
+      project.total_donors_participating = (project.total_donors_participating == null)
+        ? 1
+        : project.total_donors_participating++;
+      project.save(function(err, updatedProject) {
+        if (err) throw err;
+        console.log('Project saved:', updatedProject);
+        res.status(201).send({status: 201, data: updatedProject });
+      });
+    } else {
+      res.status(400).send({status: 400, message: 'Could not complete request'});
+    }
+  });
 });
 
 app.post('/dashboard/donor/endorsement', function(req, res, next) {
