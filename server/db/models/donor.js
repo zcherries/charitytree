@@ -25,7 +25,12 @@ var DonorSchema = new Schema({
   sponsored_projects: [{ project: { type: ObjectId, ref: 'Project' }, donation: Number }],
   following: [{ type: ObjectId, ref: 'Organization' }],
   endorsements: [endorsementSchema],
-  feed: [{ message: String, attachment: Schema.Types.Mixed, created_date: Date }]
+  feed: [{ user: String,
+           message: String,
+           attachment: Schema.Types.Mixed,
+           attachment_type: String,
+           created_date: Date
+        }]
 });
 
 DonorSchema.pre('save', function(next) {

@@ -26,6 +26,7 @@ exports.OrgProfile = React.createClass({
       success:function(response) {
         console.log("Post Success: ", response.results);
         // this.setState({ orgInfo: response.results, editing: false });
+        feeder.emit('profile_update', response.results.username);
         this.props.update_db_state_prop({
           'about': response.results.about,
           'areas_of_focus': response.results.areas_of_focus

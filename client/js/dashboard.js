@@ -5,8 +5,10 @@ import {History} from 'react-router';
 import {OrgProfile} from './dashboard/org/profile.js';
 import {Projects} from './dashboard/org/projects.js';
 import {Media} from './dashboard/org/media.js';
+import {OrgFeed} from './dashboard/org/feed.js';
+
 import {DonorProfile} from './dashboard/donor/profile.js';
-import {Feed} from './dashboard/donor/feed.js';
+import {DonorFeed} from './dashboard/donor/feed.js';
 import {Activity} from './dashboard/donor/activity.js';
 
 exports.Dashboard = React.createClass({
@@ -82,7 +84,10 @@ exports.Dashboard = React.createClass({
         view = <Media username={this.state.data.username} media={media} update_db_state_prop={this.update_db_state_prop} />;
         break;
       case 'endorsements':
-        view = <Endorsements postData={this.postData} endorsements={this.state.data.endorsements} />;
+        view = <Endorsements endorsements={this.state.data.endorsements} />;
+        break;
+      case 'feed':
+        view = <OrgFeed user={this.state.data.name} feed={this.state.data.feed} />;
         break;
       default:
         view = <div></div>
@@ -109,7 +114,8 @@ exports.Dashboard = React.createClass({
         view = <DonorProfile update_db_state_prop={this.update_db_state_prop} donorInfo={donorInfo} />;
         break;
       case 'feed':
-        view = <Feed username={this.state.data.username} feed={this.state.data.projects} />;
+        var user = this.state.data.name.first + " " + this.state.data.name.last;
+        view = <DonorFeed user={user} feed={this.state.data.feed} />;
         break;
       case 'activity':
         view = <Activity
@@ -170,8 +176,8 @@ var OrgDashboardMenu = React.createClass({
           <li className="valign-wrapper"><i className="material-icons left valign">person_pin</i><a onClick={this.goToPage}>Profile</a></li>
           <li className="valign-wrapper"><i className="material-icons left valign">perm_media</i><a onClick={this.goToPage}>Projects</a></li>
           <li className="valign-wrapper"><i className="material-icons left valign">video_library</i><a onClick={this.goToPage}>Media</a></li>
+          <li className="valign-wrapper"><i className="material-icons left valign">supervisor_account</i><a onClick={this.goToPage}>Feed</a></li>
           <li className="valign-wrapper"><i className="material-icons left valign">stars</i><a onClick={this.goToPage}>Endorsements</a></li>
-          <li className="valign-wrapper"><i className="material-icons left valign">supervisor_account</i><a onClick={this.goToPage}>Find Donors</a></li>
         </ul>
         <a data-activates="slide-out" className="button-collapse"><i className="mdi-navigation-menu"/></a>
       </div>
