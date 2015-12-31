@@ -95,14 +95,50 @@ exports.Home = React.createClass({
 
         <div className="section grey lighten-4">
           <p className="grey-text text-darken-3 lighten-3" />
-          <div className="container">
+
             <div className="row center-align">
-              <h1 className="left-align"> What can YOU give?! </h1>
-              <div className="col s6">
-                <i className="material-icons large center">toc</i>
-                <h4>Featured Projects!</h4>
-                <h6>list ones here</h6>
+              <h2 className="center-align condensed light"> Featured Projects</h2>
               </div>
+                <div className="row">
+                  <div className="col s12 m4 l4">
+                    <div className="grid" >
+                      <figure className="effect-sadie">
+                        <img className="responsive-img" src="https://c1.staticflickr.com/9/8082/8380083742_098a5616b9_c.jpg" alt="img02"/>
+                        <figcaption>
+                          <p>Community development in Oman</p>
+                          <a>View more</a>
+                        </figcaption>
+                      </figure>
+                    </div>
+                  </div>
+
+                  <div className="col s12 m4 l4">
+                  <div className="grid" >
+                    <figure className="effect-sadie">
+                      <img className="responsive-img" src="https://c2.staticflickr.com/2/1702/23992532261_b252ff181b_c.jpg" alt="img02"/>
+                      <figcaption>
+                      {/*<h2>Rooftop <span>Wilshire</span></h2>*/}
+                        <p> Help build a new school in Uganda</p>
+                        <a>View more</a>
+                      </figcaption>
+                    </figure>
+                  </div>
+                  </div>
+
+                  <div className="col s12 m4 l4">
+                  <div className="grid">
+                    <figure className="effect-sadie">
+                      <img className="responsive-img" src="https://c1.staticflickr.com/3/2894/10570090394_be3bdc88c2_c.jpg" alt="img02"/>
+                      <figcaption>
+                        {/*<h2> Standard <span>Hotel</span></h2>*/}
+                        <p>Developing food sources in South Sudan<br /> </p>
+                        <a>View more</a>
+                      </figcaption>
+                    </figure>
+                  </div>
+
+
+
               {/*<div className="row">
                 <div className="col s12 m2 l2">
                   <div className="center-align pinned" style={{maxWidth: "16%", zIndex: "100"}}>
