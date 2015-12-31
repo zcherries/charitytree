@@ -1,6 +1,8 @@
 "use strict";
 var React = require('react');
 import { History } from 'react-router';
+import moment from 'moment';
+moment().format();
 
 exports.OrgFeed = React.createClass({
   getInitialState: function() {
@@ -16,38 +18,41 @@ exports.OrgFeed = React.createClass({
 
   render: function() {
     return (
-      <div className="container">
-        <h5>Feed</h5>
-        <table className="feed">
+      <div className="container center-align">
+        <h3>Feed</h3>
+        <div>
             {this.state.feedContent.map(function(item, idx) {
               var attachment = '';
               if (item.attachment_type === 'image') {
-                attachment = <img src={item.attachment} />;
-                $('.feed-attachment').addClass('img')
-              }
-              else if (item.attachment_type === 'video') {
-                attachment = <video src={item.attachment} controls />;
-                $('.feed-attachment').addClass('vid')
+                attachment = <img className="materialboxed responsive-img" src={item.attachment} />;
+                $('.feed-attachment').addClass('img');
+              } else if (item.attachment_type === 'video') {
+                attachment = <video className="responsive-video" src={item.attachment} controls />;
+                $('.feed-attachment').addClass('vid');
               }
 
               return (
-                <tbody key={idx}>
-                  <tr className="feed-row">
-                    <td className="feed-username">
-                      <strong>{item.user === this.props.user ? "You" : item.user}</strong>
-                    </td>
-                    <td className="feed-date">{item.created_date}</td>
-                  </tr>
-                  <tr>
-                    <td className="feed-message" colSpan="2">{item.message}</td>
-                  </tr>
-                  <tr>
-                    <td className="feed-attachment" colSpan="2">{attachment}</td>
-                  </tr>
-                </tbody>
+                <ul className="collection with-header left-align" key={idx}>
+                  <li className="collection-header">
+                    <div className="row">
+                      <div className="col s12">
+                        <h4>{item.user === this.props.user ? "You" : item.user}</h4>
+                      </div>
+                      <div className="col s8">
+                        <p>{item.message}</p>
+                      </div>
+                      <div className="col s4">
+                        <p><strong>{moment(item.created_date).format('MMMM D, YYYY - hh:mm A')}</strong></p>
+                      </div>
+                    </div>
+                  </li>
+                  <li className="collection-item">
+                    <div>{attachment}</div>
+                  </li>
+                </ul>
               )
             }.bind(this))}
-        </table>
+        </div>
       </div>
     )
   }

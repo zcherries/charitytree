@@ -24,7 +24,7 @@ exports.Activity = React.createClass({
   defaultPage: function() {
     console.log('Following: ', this.props.following);
     return (
-      <div>
+      <div className="container">
         <div>
           <h5>Total Amount Donated</h5>
         </div>
