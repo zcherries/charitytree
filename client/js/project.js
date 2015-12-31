@@ -70,7 +70,6 @@ exports.Project = React.createClass ({
   },
 
   render: function() {
-
     //console.log("Project/this.props.searchResults.projects: ", this.props.searchResults.projects);
     // var project = this.props.searchResults.projects.filter(function(project){
     //   if(project._id === this.props.projectId) {
@@ -83,6 +82,10 @@ exports.Project = React.createClass ({
       // var org = JSON.parse(localStorage.getItem('currOrgObj'));
 
       var needs;
+      console.log(this.state.project)
+      var img = (this.state.project.images.length)
+      ? "http://localhost:4000/dashboard_data/project/media/" + this.state.project.images
+      : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg";
 
       console.log("Project/render/project.needs_list:",project.needs_list);
       if (project.needs_list.length > 0) {
@@ -115,7 +118,7 @@ exports.Project = React.createClass ({
 
           <div className="row">
             <div className="col s12 m8">
-              <img className="responsive-img materialboxed" style={{margin: "auto"}} src="http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg" />
+              <img className="responsive-img materialboxed" style={{margin: "auto"}} src={img} />
             </div>
             <div className="col s12 m4">
               <h3>Goal: ${project.amount.goal}</h3>
