@@ -47,7 +47,8 @@ exports.Media = React.createClass({
   },
 
   profile_img_upload_form: function() {
-    return ( <div className="container">
+    return (
+      <div className="container">
         <form
           className="center-align col s9"
           onSubmit={this.upload_profile_img}
@@ -66,7 +67,7 @@ exports.Media = React.createClass({
         </form>
 
         <input className="row marginTop center-align btn blue col s3" type="submit" value="Upload" />
-    </div>
+      </div>
     );
   },
 

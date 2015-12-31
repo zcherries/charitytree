@@ -1,5 +1,7 @@
 "use strict";
 var React = require('react');
+import moment from 'moment';
+moment().format();
 
 import {ProjectCreate} from './projectCreate.js'
 import {ProjectEdit} from './edit_project.js'
@@ -144,15 +146,16 @@ var ProjectBlurb = React.createClass({
   display: function() {
     return (
       <div className="col s12 m6 l4">
-        <div className="card small">
+        <div className="card large">
           <div className="card-image">
 
             <h5 className="black-text center">{this.props.project.title}</h5>
           </div>
           <div className="card-content" onClick={this.setProject}>
-            <p>{"Description: " + this.props.project.info}</p>
+            <p className="line-clamp line-clamp-3">{"Description: " + this.props.project.info}</p>
+            <p>{"Created: " + moment(this.props.project.created_date).format('MMMM D, YYYY')}</p>
+            <p>{"End Date: " + moment(this.props.project.end_date).format('MMMM D, YYYY')}</p>
             <p>{"Status: " + this.props.project.status}</p>
-            <p>{"Created: " + this.props.project.created_date}</p>
             <p>{"Total Donors: " + this.props.project.total_donors_participating}</p>
           </div>
           <div className="card-action center-align">
