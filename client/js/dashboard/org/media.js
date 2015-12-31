@@ -26,7 +26,6 @@ exports.Media = React.createClass({
     this.setState({ editing: true });
     var $form = $('.' + e.target.className);
     var formData = new FormData($form.get(0));
-     console.log("Form: ", $form);
     $.ajax({
       method: 'POST',
       url: $form.attr('action'),
@@ -49,7 +48,7 @@ exports.Media = React.createClass({
   profile_img_upload_form: function() {
     return (
       <form
-        className="profile_img_frm" //this is NECESSARY!
+        className="profile_img_frm"
         onSubmit={this.upload_profile_img}
         action="/dashboard/profile_img/upload"
         encType="multipart/form-data"
