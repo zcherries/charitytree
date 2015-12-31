@@ -146,7 +146,7 @@ var ProjectBlurb = React.createClass({
   display: function() {
     var obj = this.state.project || this.props.project;
     var img = (obj.images)
-      ? "http://localhost:4000/dashboard_data/project/media/" + obj.images[0]
+      ? "http://54.213.164.135/dashboard_data/project/media/" + obj.images[0]
       : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg";
 
     return (
