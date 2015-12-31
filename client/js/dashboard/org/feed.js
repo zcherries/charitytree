@@ -16,7 +16,7 @@ exports.OrgFeed = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div className="container">
         <h5>Feed</h5>
         <table className="feed">
             {this.state.feedContent.map(function(item, idx) {
