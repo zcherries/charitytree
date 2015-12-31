@@ -10,7 +10,7 @@ var LocalStorageMixin = require('react-localstorage');
 //var IntlMixin       = ReactIntl.IntlMixin;
 //var FormattedNumber = ReactIntl.FormattedNumber;
 
-var Project = exports.Project = React.createClass ({
+exports.Project = React.createClass ({
   displayName: 'Project',
   mixins: [ History,LocalStorageMixin ],
 
@@ -65,8 +65,8 @@ var Project = exports.Project = React.createClass ({
     this.props.navigateToOrganizationPage();
   },
 
-  navigateToDonationPage: function(){
-    this.props.navigateToDonationPage();
+  navigateToDonate: function(){
+    this.props.navigateToDonate();
   },
 
   render: function() {
@@ -131,7 +131,7 @@ var Project = exports.Project = React.createClass ({
 
 
           <div className="row">
-            <div className="col s12 m4 push-m8" onClick={this.navigateToDonationPage}>
+            <div className="col s12 m4 push-m8" onClick={this.navigateToDonate}>
               {needs ? needs : "No needs to display"}
             </div>
             <div className="col s12 m8 pull-m4">

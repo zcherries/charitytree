@@ -20,6 +20,7 @@ exports.Home = React.createClass({
   componentDidMount: function () {
     $('.parallax').parallax();
     $(".button-collapse").sideNav();
+    localStorage.clear();
   },
 
   render: function () {
@@ -39,7 +40,7 @@ exports.Home = React.createClass({
         </div>
 
         <div className="section white">
-          <p className="grey-text text-darken-3 lighten-3" />
+          <p className="grey-text text-darken-3 lighten-3"/>
           <div className="container">
             <div className="center-align">
               <h4> Search for a cause or Organization </h4>
@@ -53,8 +54,9 @@ exports.Home = React.createClass({
                     placeholder="Search..."
                     value={this.props.searchText}
                     onChange={this.updateInput}
-                    required />
-                  {this.props.searchText ? <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
+                    required/>
+                  {this.props.searchText ?
+                    <i className="material-icons black-text" onClick={this.clearInput}>close</i> : "" }
                 </div>
               </form>
             </div>
@@ -66,7 +68,8 @@ exports.Home = React.createClass({
               <div className="col s4">
                 <i className="material-icons large center blue-text accent-3">favorite</i>
                 <h4 className="condensed light">Find Organizations you can trust!</h4>
-                <h6 className="condensed light">Each organization on Charity tree is vetted and required to show you where your money is spent!</h6>
+                <h6 className="condensed light">Each organization on Charity tree is vetted and required to show you
+                  where your money is spent!</h6>
               </div>
               <div className="col s4">
                 <i className="material-icons large center blue-text accent-3 condensed light">toc</i>
@@ -76,7 +79,8 @@ exports.Home = React.createClass({
               <div className="col s4">
                 <i className="material-icons large center blue-text accent-3 condensed light">supervisor_account</i>
                 <h4 className="condensed light">Contribute in a meaningful way!</h4>
-                <h6 className="condensed light">See what your donation does through updates, pictures, video, documentation and more! No more wondering if your donation made a real change!</h6>
+                <h6 className="condensed light">See what your donation does through updates, pictures, video,
+                  documentation and more! No more wondering if your donation made a real change!</h6>
               </div>
 
             </div>
@@ -94,60 +98,51 @@ exports.Home = React.createClass({
         </div>
 
         <div className="section grey lighten-4">
-          <p className="grey-text text-darken-3 lighten-3" />
+          <p className="grey-text text-darken-3 lighten-3"/>
 
-            <div className="row center-align">
-              <h2 className="center-align condensed light"> Featured Projects</h2>
+          <div className="row center-align">
+            <h2 className="center-align condensed light"> Featured Projects</h2>
+          </div>
+          <div className="row">
+            <div className="col s12 m4 l4">
+              <div className="grid">
+                <figure className="effect-sadie">
+                  <img className="responsive-img" src="https://c1.staticflickr.com/9/8082/8380083742_098a5616b9_c.jpg"
+                       alt="img02"/>
+                  <figcaption>
+                    <p>Community development in Oman</p>
+                    <a>View more</a>
+                  </figcaption>
+                </figure>
               </div>
-                <div className="row">
-                  <div className="col s12 m4 l4">
-                    <div className="grid" >
-                      <figure className="effect-sadie">
-                        <img className="responsive-img" src="https://c1.staticflickr.com/9/8082/8380083742_098a5616b9_c.jpg" alt="img02"/>
-                        <figcaption>
-                          <p>Community development in Oman</p>
-                          <a>View more</a>
-                        </figcaption>
-                      </figure>
-                    </div>
-                  </div>
+            </div>
 
-                  <div className="col s12 m4 l4">
-                  <div className="grid" >
-                    <figure className="effect-sadie">
-                      <img className="responsive-img" src="https://c2.staticflickr.com/2/1702/23992532261_b252ff181b_c.jpg" alt="img02"/>
-                      <figcaption>
-                      {/*<h2>Rooftop <span>Wilshire</span></h2>*/}
-                        <p> Help build a new school in Uganda</p>
-                        <a>View more</a>
-                      </figcaption>
-                    </figure>
-                  </div>
-                  </div>
+            <div className="col s12 m4 l4">
+              <div className="grid">
+                <figure className="effect-sadie">
+                  <img className="responsive-img" src="https://c2.staticflickr.com/2/1702/23992532261_b252ff181b_c.jpg"
+                       alt="img02"/>
+                  <figcaption>
+                    {/*<h2>Rooftop <span>Wilshire</span></h2>*/}
+                    <p> Help build a new school in Uganda</p>
+                    <a>View more</a>
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
 
-                  <div className="col s12 m4 l4">
-                  <div className="grid">
-                    <figure className="effect-sadie">
-                      <img className="responsive-img" src="https://c1.staticflickr.com/3/2894/10570090394_be3bdc88c2_c.jpg" alt="img02"/>
-                      <figcaption>
-                        {/*<h2> Standard <span>Hotel</span></h2>*/}
-                        <p>Developing food sources in South Sudan<br /> </p>
-                        <a>View more</a>
-                      </figcaption>
-                    </figure>
-                  </div>
-
-
-
-              {/*<div className="row">
-                <div className="col s12 m2 l2">
-                  <div className="center-align pinned" style={{maxWidth: "16%", zIndex: "100"}}>
-                    <img className="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png" />
-                    <img className="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png" />
-                    <img className="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png" />
-                  </div>
-                  </div>
-                </div>*/}
+            <div className="col s12 m4 l4">
+              <div className="grid">
+                <figure className="effect-sadie">
+                  <img className="responsive-img" src="https://c1.staticflickr.com/3/2894/10570090394_be3bdc88c2_c.jpg"
+                       alt="img02"/>
+                  <figcaption>
+                    {/*<h2> Standard <span>Hotel</span></h2>*/}
+                    <p>Developing food sources in South Sudan<br /></p>
+                    <a>View more</a>
+                  </figcaption>
+                </figure>
+              </div>
             </div>
           </div>
         </div>
