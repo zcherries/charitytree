@@ -18,7 +18,7 @@ exports.Activity = React.createClass({
   },
 
   endorsePage: function() {
-    return <Endorsement org={this.state.org_to_endorse} />
+    return <Endorsement donor={this.props.donor} org={this.state.org_to_endorse} />
   },
 
   defaultPage: function() {
@@ -103,12 +103,12 @@ var Endorsement = exports.Endorsements = React.createClass({
   },
 
   updateTitle: function(e) {
-    console.log(e.target.value)
+    // console.log(e.target.value)
     this.setState({ title: e.target.value });
   },
 
   updateReview: function(e) {
-    console.log(e.target.value)
+    // console.log(e.target.value)
     this.setState({ review: e.target.value });
   },
 
@@ -117,8 +117,9 @@ var Endorsement = exports.Endorsements = React.createClass({
     var endorsement = {
       title: this.state.title,
       review: this.state.review,
+      review_date: new Date(),
       org: this.props.org,
-      review_date: new Date()
+      author: this.props.donor
     };
 
     console.log('Endorsement: ', endorsement);
@@ -127,11 +128,12 @@ var Endorsement = exports.Endorsements = React.createClass({
       url: '/dashboard/donor/endorsement',
       data: endorsement,
       success: function(response) {
-        feeder.emit('endorsment')
-      },
+        console.log('Success')
+        feeder.emit('endorsement', endorsement.author, endorsement.org);
+      }.bind(this),
       error: function(xhr, status, response) {
         console.log("Error:", xhr, status)
-      }
+      }.bind(this)
     });
   },
 

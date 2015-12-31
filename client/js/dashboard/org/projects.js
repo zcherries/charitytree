@@ -144,11 +144,16 @@ var ProjectBlurb = React.createClass({
   },
 
   display: function() {
+    var obj = this.state.project || this.props.project;
+    var img = (obj.images)
+      ? "http://localhost:4000/dashboard_data/project/media/" + obj.images[0]
+      : "./images/FEATURE-Leaf-300_tcm18-150961.jpg";
+
     return (
       <div className="col s12 m6 l4">
         <div className="card hoverable">
           <div className="card-image" onClick={this.setProject} style={{maxHeight: "250px", overflow: "hidden"}}>
-            <img src={"./images/FEATURE-Leaf-300_tcm18-150961.jpg"}/>
+            <img src={img} />
             <span className="card-title shadow">{this.props.project.title}</span>
           </div>
           <div className="card-content" onClick={this.setProject}>

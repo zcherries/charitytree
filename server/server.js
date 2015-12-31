@@ -135,7 +135,7 @@ app.get('/dashboard_data', function(req, res, next) {
         });
     } else if (req.session.user.type === 'donor') {
       Model.Donor.findOne({ _id: req.session.user.uid }).select('-password')
-        .populate('sponsored_projects following endorsements')
+        .populate('sponsored_projects following')
         .lean()
         .exec(function(err, donor) {
         if (err) { console.log(err); }
@@ -209,15 +209,19 @@ app.get('/image', function(req, res) {
 
 app.get('/get_orgs', function(req, res, next) {
   // Controller.Organization.retrieve(req, res, next,{username: 'goodguys'});
-  Model.Organization.findOne({username: 'goodguys'}, function(err, org) {
-    if (err) throw err;
-    else {
-      org.followers = [];
-      org.save(function(err, updatedOrg) {
-        res.send(updatedOrg);
-      })
-    }
-  })
+  // Model.Donor.findOne({username: 'jjohnson'}, function(err, donor) {
+  //   if (err) throw err;
+  //   else {
+  //     var i = donor.endorsements.length;;
+  //     while (i--) {
+  //       var endorsement = donor.endorsements[i];
+  //       endorsement.remove();
+  //     }
+  //     donor.save(function(err, updatedDonor) {
+  //       res.send(updatedDonor);
+  //     });
+  //   }
+  // })
 });
 
 app.get('/organization_get/:id', function(req, res, next) {
@@ -261,7 +265,6 @@ app.get('/project_get/:id', function(req, res, next) {
     keys.forEach(function(key) {
          delete project._org[key];
      });
-     console.log('Retrieved Project', project);
      res.status(200).send({status: 200, results: project });
    }
  });
@@ -613,20 +616,16 @@ app.post('/dashboard/project/media/upload', multer().array('media'), function(re
 
 app.post('/post_search', function(req, res, next) {
   var aofs = req.body.aofs.map(function (aof) {
-    // return '(\\b' + aof + '\\b)';
-    // return capitalizeFirstLetter(aof);
-    return new RegExp('^' + aof.toLowerCase() + '/i');
+    return new RegExp('\\b' + aof.toLowerCase() + '\\b', 'i');
   });
-  // aofs.join('|');
-  console.log("Aofs: ", aofs);
-  Model.Organization.find({areas_of_focus: {$in: req.body.aofs}})
+  Model.Organization.find({areas_of_focus: {$in: aofs}})
     .select('-password -feed -profile_img.data')
     .exec(function (err, orgs) {
       if (err) {
         console.error(err);
         res.status(400).send('Could not retrieve data');
       } else {
-        Model.Project.find({areas_of_focus: {$in: req.body.aofs}}, function (err, projects) {
+        Model.Project.find({areas_of_focus: {$in: aofs}}, function (err, projects) {
           if (err) throw err;
           else {
             res.status(201).send({ status: 201, results: {orgs: orgs, projects: projects} });
@@ -647,8 +646,33 @@ app.post('/dashboard/project/needs/update', function(req, res, next) {
 });
 
 app.post('/dashboard/donor/endorsement', function(req, res, next) {
-  console.log("Body: ", req.body);
-  res.send('Success')
+  Model.Endorsement.findOne(req.body.title, function(err, found) {
+    if (err) console.error(err);
+    if (!found) {
+      Model.Endorsement.create(req.body, function(err, endorsement) {
+        if (err) console.error(err);
+        if (endorsement) {
+          Model.Organization.findById(endorsement.org, function(err, org) {
+            if (err) console.error(err);
+            if (org) {
+              org.endorsements.push(endorsement._id);
+              org.save();
+            }
+          });
+          Model.Donor.findById(endorsement.author, function(err, donor) {
+            if (err) console.error(err);
+            if (donor) {
+              donor.endorsements.push(endorsement._id);
+              donor.save();
+            }
+          });
+          res.status(201).send({status: 201, results: req.session.user.uid});
+        }
+      });
+    } else {
+      res.status(400).send({status: 400, message: 'Endorsement already exists'});
+    }
+  });
 });
 //app.get('/', function(req, res) {
 //  console.log("Get Index Page");

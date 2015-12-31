@@ -136,12 +136,15 @@ var Project = React.createClass({
   },
 
   render: function () {
+    var img = (this.props.project.images.length)
+      ? "http://localhost:4000/dashboard_data/project/media/" + this.props.project.images
+      : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg";
 
     return (
     <div className="col s12 m6 l4" onClick={this.setProject}>
       <div className="card hoverable">
         <div className="card-image">
-          <img className="responsive-img" src="http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg"/>
+          <img className="responsive-img" src={img} />
             <span className="card-title shadow">
               {this.props.title}
             </span>

@@ -6,6 +6,7 @@ import {OrgProfile} from './dashboard/org/profile.js';
 import {Projects} from './dashboard/org/projects.js';
 import {Media} from './dashboard/org/media.js';
 import {OrgFeed} from './dashboard/org/feed.js';
+import {Endorsement} from './dashboard/org/endorsement.js';
 
 import {DonorProfile} from './dashboard/donor/profile.js';
 import {DonorFeed} from './dashboard/donor/feed.js';
@@ -84,7 +85,7 @@ exports.Dashboard = React.createClass({
         view = <Media username={this.state.data.username} media={media} update_db_state_prop={this.update_db_state_prop} />;
         break;
       case 'endorsements':
-        view = <Endorsements endorsements={this.state.data.endorsements} />;
+        view = <Endorsement endorsements={this.state.data.endorsements} />;
         break;
       case 'feed':
         view = <OrgFeed user={this.state.data.name} feed={this.state.data.feed} />;
@@ -119,12 +120,13 @@ exports.Dashboard = React.createClass({
         break;
       case 'activity':
         view = <Activity
+          donor={this.state.data._id}
           update_db_state_prop={this.update_db_state_prop}
           sponsorships={this.state.data.sponsored_projects}
           following={this.state.data.following}
           endorsements={this.state.data.endorsements} />;
         break;
-      case 'endorsements':
+      case 'endorsement':
         view = <Endorsements />;
         break;
       default:
