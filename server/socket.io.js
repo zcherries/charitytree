@@ -187,7 +187,7 @@ module.exports = function(server) {
           if (donor) {
             donor.feed.push({
               user: donor.name.first + " " + donor.name.last,
-              message: "donated " + amount + "to " + project.title,
+              message: "Donated $" + amount + " to " + project.title,
               created_date: now
             });
             donor.save(function(err) {
@@ -196,7 +196,7 @@ module.exports = function(server) {
                 if (org) {
                   org.feed.push({
                     user: donor.name.first + " " + donor.name.last,
-                    message: "donated " + amount + "to " + project.title,
+                    message: "Donated $" + amount + " to " + project.title,
                     created_date: now
                   });
                   org.save();
@@ -211,7 +211,7 @@ module.exports = function(server) {
 
     //donor action
     client.on('endorsement', function(donorID, orgID) {
-      console.log('Doing')
+      console.log('Doing');
       var now = new Date();
       Model.Donor.findById(donorID, function(err, donor) {
         if (err) throw err;
