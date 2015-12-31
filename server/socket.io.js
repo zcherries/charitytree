@@ -214,6 +214,7 @@ module.exports = function(server) {
 
     //donor action
     client.on('endorsement', function(donorID, orgID) {
+      console.log('Doing')
       var now = new Date();
       Model.Donor.findById(donorID, function(err, donor) {
         if (err) throw err;
@@ -233,6 +234,7 @@ module.exports = function(server) {
                   created_date: now
                 });
                 org.save();
+                console.log('Saved endorsement')
               });
             }
           });

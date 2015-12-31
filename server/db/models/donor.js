@@ -2,13 +2,13 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema, ObjectId = Schema.Types.ObjectId;
 
-var endorsementSchema = new Schema({
-  title: { type: String, trim: true },
-  review: { type: String, trim: true },
-  rating: Number,
-  review_date: Date,
-  org: { type: ObjectId, ref: 'Organization' }
-});
+// var endorsementSchema = new Schema({
+//   title: { type: String, trim: true },
+//   review: { type: String, trim: true },
+//   rating: Number,
+//   review_date: Date,
+//   org: { type: ObjectId, ref: 'Organization' }
+// });
 
 var DonorSchema = new Schema({
   name: {
@@ -24,7 +24,7 @@ var DonorSchema = new Schema({
   areas_of_focus: [String],
   sponsored_projects: [{ project: { type: ObjectId, ref: 'Project' }, donation: Number }],
   following: [{ type: ObjectId, ref: 'Organization' }],
-  endorsements: [endorsementSchema],
+  endorsements: [{ type: ObjectId, ref: 'Endorsement' }],
   feed: [{ user: String,
            message: String,
            attachment: Schema.Types.Mixed,

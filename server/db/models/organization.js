@@ -19,7 +19,7 @@ var OrganizationSchema = new Schema({
   images: [ObjectId],
   videos: [ObjectId],
   projects: [{ type: ObjectId, ref: 'Project' }],
-  endorsements: [{ type: ObjectId, ref: 'Donor' }],
+  endorsements: [{ type: ObjectId, ref: 'Endorsement' }],
   followers: [{ type: ObjectId, ref: 'Donor' }],
   feed: [{ user: String,
            message: String,
