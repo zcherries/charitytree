@@ -5,8 +5,12 @@ exports.Activity = React.createClass({
   getInitialState: function() {
     return {
       action: '',
-      org_to_endorse: ''
+      org_to_endorse: '',
     }
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    this.setState({ action: 'display' });
   },
 
   endorse: function(org) {
@@ -18,6 +22,7 @@ exports.Activity = React.createClass({
   },
 
   defaultPage: function() {
+    console.log('Following: ', this.props.following);
     return (
       <div>
         <div>
@@ -33,10 +38,10 @@ exports.Activity = React.createClass({
         </div>
         <div>
           <h5>Following</h5>
-          <ul>
+          <ul className="orgs-following">
             {this.props.following.map(function(org, idx) {
-              return <li key={idx}><OrgBlurb org={org} endorse={this.endorse}/></li>
-            })}
+              return <li key={idx} className="org"><OrgBlurb org={org} endorse={this.endorse}/></li>
+            }.bind(this))}
           </ul>
         </div>
       </div>
@@ -98,14 +103,17 @@ var Endorsement = exports.Endorsements = React.createClass({
   },
 
   updateTitle: function(e) {
+    console.log(e.target.value)
     this.setState({ title: e.target.value });
   },
 
   updateReview: function(e) {
+    console.log(e.target.value)
     this.setState({ review: e.target.value });
   },
 
-  submitEndorsement: function() {
+  submitEndorsement: function(e) {
+    e.preventDefault();
     var endorsement = {
       title: this.state.title,
       review: this.state.review,
@@ -114,26 +122,29 @@ var Endorsement = exports.Endorsements = React.createClass({
     };
 
     console.log('Endorsement: ', endorsement);
-    // $.ajax({
-    //   method: 'POST',
-    //   url: '/dashboard/donor/endorsement',
-    //   data: endorsement,
-    //   success: function(response) {
-    //
-    //   },
-    //   error: function() {
-    //
-    //   }
-    // });
+    $.ajax({
+      method: 'POST',
+      url: '/dashboard/donor/endorsement',
+      data: endorsement,
+      success: function(response) {
+        feeder.emit('endorsment')
+      },
+      error: function(xhr, status, response) {
+        console.log("Error:", xhr, status)
+      }
+    });
   },
 
   render: function() {
     return (
       <div>
-        <form className="">
-          <input id="title" name="title" required onChange={this.updateTitle} />
-          <textarea className="" onChange={this.updateReview} required/>
-          <button className="btn blue" onClick={this.submitEndorsement}>Submit</button>
+        <form className="frm-endorsement" onSubmit={this.submitEndorsement}>
+          <label htmlFor="review-title">Title</label><br />
+          <input id="review-title" name="review-title" onChange={this.updateTitle} required />
+          <br />
+          <label htmlFor="review">Review</label>
+          <textarea className="" id="review" onChange={this.updateReview} required />
+          <input type="submit" value="Submit" className="btn blue" />
         </form>
       </div>
     )
