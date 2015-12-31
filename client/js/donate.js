@@ -40,7 +40,7 @@ exports.Donate = React.createClass({
   },
 
   componentDidMount: function () {
-    $.ajax({
+        $.ajax({
       url:'/project_get/'+localStorage.currentProjID,
       method: "GET",
       success: function (data) {
@@ -65,6 +65,56 @@ exports.Donate = React.createClass({
 
   handleSubmit: function(e){
     e.preventDefault();
+    console.log("You're in the handleSubmit!");
+    // console.log('in handle and state.needslist b4 eachfcn is ', this.state.needs_list);
+
+
+    var copy = JSON.stringify(this.state.needs_list.slice());
+
+    var recipeCopy = JSON.parse(copy);
+    console.log('in handle and recipeCopy b4 eachfcn is ', recipeCopy);
+
+    var update = JSON.parse(copy);
+    update.forEach(function(need){
+      need.number_purchased = 0;
+    });
+
+    var holder = JSON.stringify(this.state.project);
+    var project = JSON.parse(holder);
+    //updating needs list in project
+    project.needs_list = update;
+
+    //update amount property in project
+    if(project.amount.current){
+      project.amount.current += this.state.donationTotal;
+    }else{
+      project.amount.current = this.state.donationTotal;
+    }
+
+
+    var readyToShip = {
+      _id: project._id,
+      amount: project.amount,
+      needs_list: project.needs_list
+    }
+
+    console.log('in handle and the project ready to be shipped is  ', readyToShip);
+
+
+
+    // $.ajax({
+    //   type: "POST",
+    //   url: url,
+    //   data: project,
+    //   success: function(data){
+    //     console.log('Post request successful');
+    //   },
+    //   error: function(err){
+    //     console.error(err.toString());
+    //   }
+    //   dataType: dataType
+    // });
+
   },
 
   render: function () {
@@ -148,7 +198,7 @@ exports.Donate = React.createClass({
                 </div>
               </div>
             </div>
-            <a className="waves-effect waves-light btn right-align"><i className="material-icons left">send</i>Submit</a>
+            <a className="waves-effect waves-light btn right-align" onClick={this.handleSubmit}><i className="material-icons left">send</i>Submit</a>
           </div>
 
         </form>

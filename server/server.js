@@ -415,6 +415,7 @@ app.post('/dashboard/profile', function(req, res, next) {
 });
 
 app.post('/dashboard/project/create', function(req, res, next) {
+  console.log('in server projcreate and req.body is ', req.body);
   if (req.session && req.session.user) {
       var newProject = req.body.projectData;
       newProject._org = req.session.user.uid;
