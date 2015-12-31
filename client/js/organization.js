@@ -71,7 +71,6 @@ var Organization = exports.Organization = React.createClass({
     console.log('Org: ', this.state.org);
     if(this.state.org){
       var today = new Date();
-      moment(this.state.org.projects[0].end_date).diff(today);
 
       var aofs = this.state.org.areas_of_focus.map(function (aof, index) {
         return (
@@ -86,7 +85,7 @@ var Organization = exports.Organization = React.createClass({
       }).map(function (project, index) {
         return (
           <a className="collection-item avatar black-text" key={index} onClick={this.handleClick} style={{cursor: "pointer"}}>
-            <img src={project.images[0] || "https://c2.staticflickr.com/6/5746/23989912271_c447d58ebc_q.jpg"} className="circlex"/>
+            <img src={"https://c2.staticflickr.com/6/5746/23989912271_c447d58ebc_q.jpg"} className="circlex"/>
             <span className="title"><h5>{project.title}</h5></span>
             <div className="line-clamp line-clamp-2">{project.info}</div>
 
