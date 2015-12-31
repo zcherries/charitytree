@@ -117,7 +117,7 @@ exports.Donate = React.createClass({
       },
       error: function(err){
         console.error(err.toString());
-      }
+      },
       dataType: dataType
     });
 
