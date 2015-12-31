@@ -85,7 +85,7 @@ var Organization = exports.Organization = React.createClass({
       }).map(function (project, index) {
         return (
           <a className="collection-item avatar black-text" key={index} onClick={this.handleClick} style={{cursor: "pointer"}}>
-            <img src={"https://c2.staticflickr.com/6/5746/23989912271_c447d58ebc_q.jpg"} className="circlex"/>
+            <img src={"https://c2.staticflickr.com/6/5739/24077966285_c5f0d47dcf_n.jpg"} className="circlex"/>
             <span className="title"><h5>{project.title}</h5></span>
             <div className="line-clamp line-clamp-3 container">{project.info}</div>
 

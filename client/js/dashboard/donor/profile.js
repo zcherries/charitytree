@@ -69,20 +69,22 @@ exports.DonorProfile = React.createClass({
     var donorInfo = Object.keys(this.state.donorInfo).length ? this.state.donorInfo : this.props.donorInfo;
     console.log(donorInfo.areas_of_focus.join("; "));
     return (
-      <div className="float-left">
-        <h5>About</h5>
-          <h3>{donorInfo.name.first + ' ' + donorInfo.name.last}</h3>
-          <h6>{'@'+donorInfo.username}</h6>
-          <p>{donorInfo.email}</p>
-        <h5>Areas of Focus</h5>
-          <ul>
-            {donorInfo.areas_of_focus.map(function(aof, idx) {
-              return (
-                <li key={idx}><i className="tiny material-icons">label</i>{aof}</li>
-              );
-            })}
-          </ul>
-        <button className="waves-effect waves-light btn blue"onClick={this.editPage}>Edit</button>
+      <div className="container">
+        <div className="float-left">
+          <h5>About</h5>
+            <h3>{donorInfo.name.first + ' ' + donorInfo.name.last}</h3>
+            <h6>{'@'+donorInfo.username}</h6>
+            <p>{donorInfo.email}</p>
+          <h5>Areas of Focus</h5>
+            <ul>
+              {donorInfo.areas_of_focus.map(function(aof, idx) {
+                return (
+                  <li key={idx}><i className="tiny material-icons">label</i>{aof}</li>
+                );
+              })}
+            </ul>
+          <button className="waves-effect waves-light btn blue"onClick={this.editPage}>Edit</button>
+        </div>
       </div>
     )
   },
@@ -96,28 +98,28 @@ exports.DonorProfile = React.createClass({
             <form id="profileEdit" className="col s12" onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="input-field col s6">
-                  <label htmlFor="first_name">First Name</label>
+                  <label htmlFor="first_name"></label>
                   <input type="text" id="first_name" name="first_name" ref="first_name" defaultValue={donorInfo.name.first} required />
                 </div>
               </div>
 
               <div className="row">
                 <div className="input-field col s6">
-                  <label htmlFor="last_name">Last Name</label>
+                  <label htmlFor="last_name"></label>
                   <input type="text" id="last_name" name="last_name" ref="last_name"defaultValue={donorInfo.name.last} required />
                 </div>
               </div>
 
               <div className="row">
                 <div className="input-field col s6">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email"></label>
                   <input className="validate" type="email" id="email" name="email" ref="email" defaultValue={donorInfo.email} required />
                 </div>
               </div>
 
               <div className="row">
                 <div className="input-field col s12">
-                  <label htmlFor="aofs">Areas of Focus</label>
+                  <label htmlFor="aofs"></label>
                   <textarea id="aofs" className="materialize-textarea" ref="aofs" defaultValue={donorInfo.areas_of_focus.join("; ")}/>
                 </div>
               </div>
