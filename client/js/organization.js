@@ -1,9 +1,9 @@
 "use strict";
 import React from 'react';
 import { History } from 'react-router';
+var LocalStorageMixin = require('react-localstorage');
 import moment from 'moment';
 moment().format();
-var LocalStorageMixin = require('react-localstorage');
 
 var Organization = exports.Organization = React.createClass({
   displayName: 'Organization',
@@ -85,7 +85,7 @@ var Organization = exports.Organization = React.createClass({
         return moment(project.end_date).diff(today) > 0;
       }).map(function (project, index) {
         return (
-          <li className="collection-item avatar" key={index} onClick={this.handleClick} style={{cursor: "pointer"}}>
+          <a className="collection-item avatar black-text" key={index} onClick={this.handleClick} style={{cursor: "pointer"}}>
             <img src={project.images[0] || "https://c2.staticflickr.com/6/5746/23989912271_c447d58ebc_q.jpg"} className="circlex"/>
             <span className="title"><h5>{project.title}</h5></span>
             <div className="line-clamp line-clamp-2">{project.info}</div>
@@ -96,7 +96,7 @@ var Organization = exports.Organization = React.createClass({
               <div className="col s6 space-above">
                 <p><strong>End Date:</strong></p><br/><p>{moment(project.end_date).format('MMMM D, YYYY')}</p></div>
             </div>
-          </li>
+          </a>
         );
       }.bind(this));
 
@@ -104,7 +104,7 @@ var Organization = exports.Organization = React.createClass({
         return moment(project.end_date).diff(today) < 0;
       }).map(function (project, index) {
         return (
-          <li className="collection-item avatar" key={index} onClick={this.handleClick} style={{cursor: "pointer"}}>
+          <a className="collection-item avatar black-text" key={index} onClick={this.handleClick} style={{cursor: "pointer"}}>
             <img src={project.images[0] || "./images/FEATURE-Leaf-300_tcm18-150961.jpg"} className="circlex"/>
             <span className="title"><h5>{project.title}</h5></span>
             <div className="line-clamp line-clamp-2">{project.info}</div>
@@ -114,7 +114,7 @@ var Organization = exports.Organization = React.createClass({
               <div className="col s6 space-above">
                 <p><strong>End Date:</strong></p><br/><p>{moment(project.end_date).format('MMMM D, YYYY')}</p></div>
             </div>
-          </li>
+          </a>
         );
       }.bind(this));
 
@@ -180,9 +180,9 @@ var Organization = exports.Organization = React.createClass({
                 <div id="current-projects" className="col s12 center-align section scrollspy">
                   <i className="medium material-icons space-above">assignment_late</i>
                   <h2>Our Current Projects:</h2>
-                  <ul className="collection">
+                  <div className="collection">
                     {currentProjects.length > 0 ? currentProjects : <div>No projects to display</div>}
-                  </ul>
+                  </div>
                 </div>
 
                 {/*Past Projects*/}
@@ -190,9 +190,9 @@ var Organization = exports.Organization = React.createClass({
                   (<div id="past-projects" className="col s12 center-align section scrollspy">
                     <i className="medium material-icons space-above">assignment_turned_in</i>
                     <h2>Our Past Projects:</h2>
-                    <ul className="collection">
+                    <div className="collection">
                       {pastProjects}
-                    </ul>
+                    </div>
                   </div>) : ""}
 
                 {/*Endorsements*/}
@@ -209,15 +209,17 @@ var Organization = exports.Organization = React.createClass({
             <div className="col hide-on-small-only m2 l1">
               <ScrollSpyListItems
                 address={this.state.org.address}
+                hasPastProjects={pastProjects.length > 0}
+                hasCurrentProjects={currentProjects.length > 0}
               />
             </div>
           </div>
         </div>
       );
     } else {
-      return(
+      return (
         <div>nothing to display</div>
-        )
+      );
     }
   }
 });
@@ -246,16 +248,28 @@ var ScrollSpyListItems = React.createClass({
                 Areas of Focus
               </a>
             </li>
-            <li>
-              <a href="#current-projects">
-                Current Projects
-              </a>
-            </li>
-            <li>
-              <a href="#past-projects">
-                Past Projects
-              </a>
-            </li>
+            {
+              this.props.hasCurrentProjects ? (
+                <li>
+                  <a href="#current-projects">
+                    Current Projects
+                  </a>
+                </li>
+              ) : (
+               ""
+              )
+            }
+            {
+              this.props.hasPastProjects ? (
+                <li>
+                  <a href="#past-projects">
+                    Past Projects
+                  </a>
+                </li>
+              ) : (
+                ""
+              )
+            }
             <li>
               <a href="#endorsements">
                 Endorsements
