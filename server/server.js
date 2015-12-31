@@ -257,7 +257,7 @@ app.get('/project_get/:id', function(req, res, next) {
   .exec(function(err, project) {
    if (err) throw err;
    else {
-    var keys = ['feed', 'images', 'password', 'videos', 'followers', 'profile_img'];
+    var keys = ['feed', 'password', 'followers', 'profile_img'];
     keys.forEach(function(key) {
          delete project._org[key];
      });
