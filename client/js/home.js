@@ -92,9 +92,14 @@ exports.Home = React.createClass({
             <img src="https://c1.staticflickr.com/5/4073/4931587174_a40ebdf2f5_b.jpg"/>
           </div>
           <div className="caption left-align shadow">
-            <h3 className="condensed light grey-text text-lighten-3 shadow">Real change, inspiring results!</h3>
-            <h5 className="valign left-align light grey-text text-lighten-3 shadow">Be a part of something great</h5>
-          </div>
+          <div className="row">
+            <div className="col s5">
+              <h3 className="condensed light grey-text text-lighten-3 shadow">Real change, inspiring results!</h3>
+
+              <h5 className="valign left-align light grey-text text-lighten-3 shadow">Be a part of something great</h5>
+           </div>
+           </div>
+         </div>
         </div>
 
         <div className="section grey lighten-4">
@@ -143,6 +148,43 @@ exports.Home = React.createClass({
                   </figcaption>
                 </figure>
               </div>
+                <div className="row">
+                  <div className="col s12 m4 l4">
+                    <div className="grid" >
+                      <figure className="effect-sadie">
+                        <img className="responsive-img" src="https://c1.staticflickr.com/9/8082/8380083742_098a5616b9_c.jpg" alt="img02"/>
+                        <figcaption>
+                          <p>Community development in Oman</p>
+                          <a>View more</a>
+                        </figcaption>
+                      </figure>
+                    </div>
+                  </div>
+
+                  <div className="col s12 m4 l4">
+                  <div className="grid" >
+                    <figure className="effect-sadie">
+                      <img className="responsive-img" src="https://c2.staticflickr.com/2/1702/23992532261_b252ff181b_c.jpg" alt="img02"/>
+                      <figcaption>
+                      {/*<h2>Rooftop <span>Wilshire</span></h2>*/}
+                        <p> Help build a new school in Uganda</p>
+                        <a>View more</a>
+                      </figcaption>
+                    </figure>
+                  </div>
+                  </div>
+
+                  <div className="col s12 m4 l4">
+                  <div className="grid">
+                    <figure className="effect-sadie">
+                      <img className="responsive-img" src="https://c1.staticflickr.com/3/2894/10570090394_be3bdc88c2_c.jpg" alt="img02"/>
+                      <figcaption>
+                        {/*<h2> Standard <span>Hotel</span></h2>*/}
+                        <p>Developing food sources in South Sudan<br /> </p>
+                        <a>View more</a>
+                      </figcaption>
+                    </figure>
+                  </div>
             </div>
           </div>
         </div>
