@@ -148,7 +148,7 @@ var ProjectBlurb = React.createClass({
       <div className="col s12 m6 l4">
         <div className="card hoverable">
           <div className="card-image" onClick={this.setProject} style={{maxHeight: "250px", overflow: "hidden"}}>
-            <img src={"./images/FEATURE-Leaf-300_tcm18-150961.jpg"}/>
+            <img src={"https://c2.staticflickr.com/6/5739/24077966285_c5f0d47dcf_n.jpg"}/>
             <span className="card-title shadow">{this.props.project.title}</span>
           </div>
           <div className="card-content" onClick={this.setProject}>

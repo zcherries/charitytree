@@ -14,7 +14,7 @@ exports.Signup = React.createClass({
 
   showOrgSignupForm: function() {
     return (
-      <div className="div-signup-form center-align">
+      <div className="div-signup-form">
         <form id="signupForm" className="col s12" onSubmit={this.signup}>
           <div className="row">
             <div className="input-field col s6">

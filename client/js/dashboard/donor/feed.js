@@ -16,38 +16,40 @@ exports.DonorFeed = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <h5>Feed</h5>
-        <table className="feed">
-            {this.state.feedContent.map(function(item, idx) {
-              var attachment = '';
-              if (item.attachment_type === 'image') {
-                attachment = <img src={item.attachment} />
-                $('.feed-attachment').addClass('img')
-              }
-              else if (item.attachment_type === 'video') {
-                attachment = <video src={item.attachment} controls />
-                $('.feed-attachment').addClass('vid')
-              }
+      <div className="container">
+        <h4 className="center">Feed</h4>
+        <div>
+          <table className="feed">
+              {this.state.feedContent.map(function(item, idx) {
+                var attachment = '';
+                if (item.attachment_type === 'image') {
+                  attachment = <img src={item.attachment} />
+                  $('.feed-attachment').addClass('img')
+                }
+                else if (item.attachment_type === 'video') {
+                  attachment = <video src={item.attachment} controls />
+                  $('.feed-attachment').addClass('vid')
+                }
 
-              return (
-                <tbody key={idx}>
-                  <tr className="feed-row">
-                    <td className="feed-username">
-                      <strong>{item.user === this.props.user ? "You" : item.user}</strong>
-                    </td>
-                    <td className="feed-date">{item.created_date}</td>
-                  </tr>
-                  <tr>
-                    <td className="feed-message" colSpan="2">{item.message}</td>
-                  </tr>
-                  <tr>
-                    <td className="feed-attachment" colSpan="2">{attachment}</td>
-                  </tr>
-                </tbody>
-              )
-            }.bind(this))}
-        </table>
+                return (
+                  <tbody key={idx}>
+                    <tr className="feed-row">
+                      <td className="feed-username">
+                        <strong>{item.user === this.props.user ? "You" : item.user}</strong>
+                      </td>
+                      <td className="feed-date">{item.created_date}</td>
+                    </tr>
+                    <tr>
+                      <td className="feed-message" colSpan="2">{item.message}</td>
+                    </tr>
+                    <tr>
+                      <td className="feed-attachment" colSpan="2">{attachment}</td>
+                    </tr>
+                  </tbody>
+                )
+              }.bind(this))}
+          </table>
+        </div>
       </div>
     )
   }

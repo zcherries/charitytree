@@ -86,7 +86,7 @@ var Organization = React.createClass({
         </div>
 
         <div className="card-content">
-          <div className="line-clamp line-clamp-5">
+          <div className="line-clamp line-clamp-5 condensed light">
             {this.props.org.about}
           </div>
         </div>
@@ -148,7 +148,7 @@ var Project = React.createClass({
         </div>
 
         <div className="card-content">
-          <div className="line-clamp line-clamp-5">
+          <div className="line-clamp line-clamp-5 condensed light">
             {this.props.info}
           </div>
         </div>

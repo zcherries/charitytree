@@ -19,7 +19,7 @@ var OrgFeed = exports.OrgFeed = React.createClass({
   render: function() {
     return (
       <div className="container">
-        <h5>Feed</h5>
+        <h4 className="center">Feed</h4>
         <table className="feed">
             {this.state.feedContent.map(function(item, idx) {
               var attachment = '';

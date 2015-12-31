@@ -88,9 +88,14 @@ exports.Home = React.createClass({
             <img src="https://c1.staticflickr.com/5/4073/4931587174_a40ebdf2f5_b.jpg"/>
           </div>
           <div className="caption left-align shadow">
-            <h3 className="condensed light grey-text text-lighten-3 shadow">Real change, inspiring results!</h3>
-            <h5 className="valign left-align light grey-text text-lighten-3 shadow">Be a part of something great</h5>
-          </div>
+          <div className="row">
+            <div className="col s5">
+              <h3 className="condensed light grey-text text-lighten-3 shadow">Real change, inspiring results!</h3>
+
+              <h5 className="valign left-align light grey-text text-lighten-3 shadow">Be a part of something great</h5>
+           </div>
+           </div>
+         </div>
         </div>
 
         <div className="section grey lighten-4">
@@ -136,7 +141,6 @@ exports.Home = React.createClass({
                       </figcaption>
                     </figure>
                   </div>
-
 
 
               {/*<div className="row">

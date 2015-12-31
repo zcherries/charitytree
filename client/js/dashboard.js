@@ -195,12 +195,12 @@ var DonorDashboardMenu = React.createClass({
     return (
       <div>
         <ul id="slide-out" className="side-nav fixed waves-effect waves-light">
-          <li className="valign-wrapper"><i className="material-icons left valign">person_pin</i><a onClick={this.goToPage}>Profile</a></li>
           <li className="valign-wrapper"><i className="material-icons left valign">question_answer</i><a onClick={this.goToPage}>Feed</a></li>
+          <li className="valign-wrapper"><i className="material-icons left valign">person_pin</i><a onClick={this.goToPage}>Profile</a></li>
           <li className="valign-wrapper"><i className="material-icons left valign">video_library</i><a onClick={this.goToPage}>Activity</a></li>
           <li className="valign-wrapper"><i className="material-icons left valign">stars</i><a onClick={this.goToPage}>Endorsements</a></li>
         </ul>
-        <a data-activates="slide-out" className="button-collapse"><i className="mdi-navigation-menu medium"/></a>
+        <a data-activates="slide-out" className="button-collapse"></a>
       </div>
     )
   }
