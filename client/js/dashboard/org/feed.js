@@ -33,18 +33,18 @@ var OrgFeed = exports.OrgFeed = React.createClass({
               }
 
               return (
-                <tbody>
-                  <tr key={idx} className="feed-row">
+                <tbody key={idx}>
+                  <tr className="feed-row">
                     <td className="feed-username">
-                      <strong>{item.hasOwnProperty('user') ? item.user : "You"}</strong>
+                      <strong>{item.user === this.props.user ? "You" : item.user}</strong>
                     </td>
                     <td className="feed-date">{item.created_date}</td>
                   </tr>
                   <tr>
-                    <td className="feed-message" colspan="2">{item.message}</td>
+                    <td className="feed-message" colSpan="2">{item.message}</td>
                   </tr>
                   <tr>
-                    <td className="feed-attachment" colspan="2">{attachment}</td>
+                    <td className="feed-attachment" colSpan="2">{attachment}</td>
                   </tr>
                 </tbody>
               )

@@ -36,7 +36,7 @@ var DonorFeed = exports.DonorFeed = React.createClass({
                 <tbody key={idx}>
                   <tr className="feed-row">
                     <td className="feed-username">
-                      <strong>{this.props.username !== item.user ? item.user : "You"}</strong>
+                      <strong>{item.user === this.props.user ? "You" : item.user}</strong>
                     </td>
                     <td className="feed-date">{item.created_date}</td>
                   </tr>

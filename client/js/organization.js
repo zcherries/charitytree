@@ -19,7 +19,8 @@ var Organization = exports.Organization = React.createClass({
 
   getInitialState: function(){
     return {
-      org: null
+      org: null,
+      following: false
     };
   },
 
@@ -51,20 +52,22 @@ var Organization = exports.Organization = React.createClass({
   followOrg: function(e) {
     e.preventDefault();
     var org = this.state.org._id || this.props.currentOrganization._id;
-    feeder.emit('follow', localStorage.token, org);
-    
-    // $.ajax({
-    //   method: 'POST',
-    //   url: '/organization/follow/' + org,
-    //   success: function(response) {
-    //   }.bind(this),
-    //   error: function(xhr, status) {
-    //     console.log("Error:", xhr, status)
-    //   }.bind(this)
-    // });
+    // feeder.emit('follow', localStorage.token, org);
+    $.ajax({
+      method: 'POST',
+      url: '/organization/follow/' + org,
+      success: function(response) {
+        this.setState({ following: true });
+      }.bind(this),
+      error: function(xhr, status) {
+        console.log("Error:", xhr, status);
+      }.bind(this)
+    });
   },
 
   render: function () {
+    console.log('Token: ', localStorage.token);
+    console.log('Org: ', this.state.org);
     if(this.state.org){
       {console.log('inside render of orgpage and this.state.org is', this.state.org);}
 
@@ -115,7 +118,11 @@ var Organization = exports.Organization = React.createClass({
         <div className="row">
           {/*Follow Button*/}
           <div className="col s2 push-s10 pinned" style={{top: "110px", zIndex: "1"}}>
-            <a className="btn-floating btn-large btn tooltipped waves-effect waves-light light-blue darken-3" onClick={this.followOrg} data-position="left" data-delay="50" data-tooltip="Follow Organization"><i className="material-icons">group_add</i></a>
+            {
+              !localStorage.token || this.state.org.followers.indexOf(localStorage.token) === -1
+              ? <a className="btn-floating btn-large btn tooltipped waves-effect waves-light light-blue darken-3" onClick={this.followOrg} data-position="left" data-delay="50" data-tooltip="Follow Organization"><i className="material-icons">group_add</i></a>
+              : <span className="btn blue">Following</span>
+            }
           </div>
 
           <div className="col s12 m10 l11">

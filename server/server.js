@@ -210,13 +210,15 @@ app.get('/organization_get/:id', function(req, res, next) {
  // console.log('Org ID: ', req.body.orgID);
  console.log("inside of server.js and req.params.id is ",req.params.id);
  var id = req.params.id;
- Model.Organization.findOne({ _id: id }).select('-password -feed -profile_img.data')
-  .populate('projects').exec(function(err, org) {
-   if (err) throw err;
-   else {
-     res.status(200).send({status: 200, results: org });
-   }
- });
+ if (id) {
+   Model.Organization.findOne({ _id: id }).select('-password -feed -profile_img.data')
+    .populate('projects').exec(function(err, org) {
+     if (err) throw err;
+     else {
+       res.status(200).send({status: 200, results: org });
+     }
+   });
+ }
 });
 
 app.get('/organization/profile_img/:id', function(req, res, next) {
@@ -359,35 +361,52 @@ app.post('/logout_post', function(req, res, next) {
 
 app.post('/organization/follow/:id', function(req, res, next) {
   console.log('In Server Follow: ' + req.params.id);
-  Model.Organization.findById(req.params.id, function(err, org) {
-    if (err) { console.error(err); }
-    if (org) {
-      Model.Donor.findById(req.session.user.uid, function(err, donor) {
-        if (err) { console.error(err); }
-        if (donor) {
-          org.followers.push(req.session.user.uid);
-          org.save(function(err) {
-            if (err) { console.error(err); }
-            donor.following.push(org._id);
-            donor.save(function() {
-              res.status(201).send({status: 201, message: 'Success'});
+  var now = new Date();
+  if (req.session && req.session.user && req.params.id) {
+    Model.Organization.findById(req.params.id, function(err, org) {
+      if (err) { console.error(err); }
+      if (org) {
+        Model.Donor.findById(req.session.user.uid, function(err, donor) {
+          if (err) { console.error(err); }
+          if (donor) {
+            org.followers.push(req.session.user.uid);
+            org.feed.push({
+              user: donor.name.first + " " + donor.name.last,
+              message: "started following you",
+              created_date: now
             });
-          });
-        }
-      });
-    }
-  });
+            org.save(function(err) {
+              if (err) { console.error(err); }
+              donor.following.push(org._id);
+              donor.feed.push({
+                user: donor.name.first + " " + donor.name.last,
+                message: 'started following ' + org.name,
+                created_date: now
+              });
+              donor.save(function() {
+                res.status(201).send({status: 201, message: 'Success'});
+              });
+            });
+          }
+        });
+      }
+    });
+  } else {
+    res.status(400).send({status: 400, message: 'Could not complete the operation'});
+  }
 });
 
 app.post('/dashboard/profile', function(req, res, next) {
   if (req.session && req.session.user) {
     if (req.session.user.type === 'organization') {
-      Model.Organization.findById(req.session.user.uid, 'name username about areas_of_focus', function(err, org) {
+      Model.Organization.findById(req.session.user.uid)
+        .select('name username about areas_of_focus')
+        .exec(function(err, org) {
         if (err) throw err;
         if (org) {
+          console.log(org)
           org.about = req.body.about;
           org.areas_of_focus = req.body.areas_of_focus;
-          org.feed.push({ user: updatedOrg.name, message: 'updated their profile', attachment: '', created_date: new Date() });
           org.save(function(err, updatedOrg) {
             if (err) throw err;
             else {

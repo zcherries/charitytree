@@ -33,6 +33,7 @@ var DonorProfile = exports.DonorProfile = React.createClass({
       data: formData,
       success: function(response) {
         console.log("Post Success: ", response.results);
+        feeder.emit('profile_update', response.results.username);
         // this.setState({ donorInfo: response.results, editing: false });
         this.props.update_db_state_prop({
           'name': response.results.name,

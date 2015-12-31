@@ -91,7 +91,7 @@ var Dashboard = exports.Dashboard = React.createClass({
         view = <Endorsements endorsements={this.state.data.endorsements} />;
         break;
       case 'feed':
-        view = <OrgFeed feed={this.state.data.feed} />;
+        view = <OrgFeed user={this.state.data.name} feed={this.state.data.feed} />;
         break;
       default:
         view = <div></div>
@@ -118,7 +118,8 @@ var Dashboard = exports.Dashboard = React.createClass({
         view = <DonorProfile update_db_state_prop={this.update_db_state_prop} donorInfo={donorInfo} />;
         break;
       case 'feed':
-        view = <DonorFeed username={this.state.data.username} />;
+        var user = this.state.data.name.first + " " + this.state.data.name.last;
+        view = <DonorFeed user={user} feed={this.state.data.feed} />;
         break;
       case 'activity':
         view = <Activity
@@ -179,8 +180,8 @@ var OrgDashboardMenu = React.createClass({
           <li className="valign-wrapper"><i className="material-icons left valign">person_pin</i><a onClick={this.goToPage}>Profile</a></li>
           <li className="valign-wrapper"><i className="material-icons left valign">perm_media</i><a onClick={this.goToPage}>Projects</a></li>
           <li className="valign-wrapper"><i className="material-icons left valign">video_library</i><a onClick={this.goToPage}>Media</a></li>
-          <li className="valign-wrapper"><i className="material-icons left valign">stars</i><a onClick={this.goToPage}>Endorsements</a></li>
           <li className="valign-wrapper"><i className="material-icons left valign">supervisor_account</i><a onClick={this.goToPage}>Feed</a></li>
+          <li className="valign-wrapper"><i className="material-icons left valign">stars</i><a onClick={this.goToPage}>Endorsements</a></li>
         </ul>
         <a data-activates="slide-out" className="button-collapse"><i className="mdi-navigation-menu"/></a>
       </div>

@@ -144,8 +144,7 @@ var ProjectBlurb = React.createClass({
       <div className="col s12 m6 l4">
         <div className="card medium">
           <div className="card-image">
-            <img src={""}/>
-            <span className="card-title">{this.props.project.title}</span>
+            <span>{this.props.project.title}</span>
           </div>
           <div className="card-content" onClick={this.setProject}>
             <p>{"Description: " + this.props.project.info}</p>

@@ -58,18 +58,22 @@ module.exports = function(server) {
           Model.Organization.findById(clients[client.id], function(err, org) {
             if (err) throw err;
             if (org) {
-              for (var i = 0; i < org.followers.length; i++) {
-                (function(donorID, idx) {
-                  Model.Donor.findById(donorID, function(err, donor) {
-                    feed_sources[idx] = donor.feed.filter(function(item) {
-                      return item.created_date > time;
-                    });
-                    if (feed_sources.length === org.followers.length) {
-                      client.emit('updateFeed', flatten(feed_sources));
-                    }
-                  });
-                })(org.followers[i], i)
-              }
+              // for (var i = 0; i < org.followers.length; i++) {
+              //   (function(donorID, idx) {
+              //     Model.Donor.findById(donorID, function(err, donor) {
+              //       feed_sources[idx] = donor.feed.filter(function(item) {
+              //         return item.created_date > time;
+              //       });
+              //       if (feed_sources.length === org.followers.length) {
+              //         client.emit('updateFeed', flatten(feed_sources));
+              //       }
+              //     });
+              //   })(org.followers[i], i)
+              // }
+              var orgFeed = org.feed.filter(function(item) {
+                return item.created_date > time;
+              });
+              client.emit('updateFeed', orgFeed);
             }
           });
         }
@@ -97,16 +101,17 @@ module.exports = function(server) {
           Model.Organization.findById(token, function(err, org) {
             if (err) throw err;
             if (org) {
-              for (var i = 0; i < org.followers.length; i++) {
-                (function(donorID, idx) {
-                  Model.Donor.findById(donorID, function(err, donor) {
-                    feed_sources[idx] = donor.feed;
-                    if (feed_sources.length === org.followers.length) {
-                      client.emit('storeFeed', flatten(feed_sources));
-                    }
-                  });
-                })(org.followers[i], i)
-              }
+              // for (var i = 0; i < org.followers.length; i++) {
+              //   (function(donorID, idx) {
+              //     Model.Donor.findById(donorID, function(err, donor) {
+              //       feed_sources[idx] = donor.feed;
+              //       if (feed_sources.length === org.followers.length) {
+              //         client.emit('storeFeed', flatten(feed_sources));
+              //       }
+              //     });
+              //   })(org.followers[i], i)
+              // }
+              client.emit('storeFeed', org.feed);
             }
           });
         }
@@ -147,6 +152,7 @@ module.exports = function(server) {
                   });
                   donor.following.push(orgID);
                   donor.feed.push({
+                    user: donor.name.first + " " + donor.name.last,
                     message: 'started following ' + org.name,
                     created_date: now
                   });
@@ -174,6 +180,7 @@ module.exports = function(server) {
         if (err) throw err;
         if (donor) {
           donor.feed.push({
+            user: donor.name.first + " " + donor.name.last,
             message: "donated " + amount + "to " + project.title,
             created_date: now
           });
@@ -208,22 +215,53 @@ module.exports = function(server) {
       Model.Donor.findById(donorID, function(err, donor) {
         if (err) throw err;
         if (donor) {
-          donor.feed.push({
-            message: 'endorsed' + org.name,
-            created_date: now
-          });
-          donor.save(function(err) {
-            Model.Organization.findById(orgID, function(err, org) {
-              if (err) throw err;
-              if (org) {
+          Model.Organization.findById(orgID, function(err, org) {
+            if (err) throw err;
+            if (org) {
+              donor.feed.push({
+                user: donor.name.first + " " + donor.name.last,
+                message: 'endorsed' + org.name,
+                created_date: now
+              });
+              donor.save(function() {
                 org.feed.push({
                   user: donor.name.first + " " + donor.name.last,
                   message: "endorsed you",
                   created_date: now
                 });
                 org.save();
-              }
-            });
+              });
+            }
+          });
+        }
+      });
+    });
+
+    //donor or org action
+    client.on('profile_update', function(username) {
+      Model.Donor.findOne({ username: username }, function(err, donor) {
+        if (err) { throw err; }
+        if (donor) {
+          donor.feed.push({
+            user: donor.name.first + " " + donor.name.last,
+            message: 'updated profile information',
+            attachment: '',
+            created_date: new Date()
+          });
+          donor.save();
+        }
+        else {
+          Model.Organization.findOne({ username: username }, function(err, org) {
+            if (err) throw err;
+            if (org) {
+              org.feed.push({
+                user: org.name,
+                message: 'updated profile information',
+                attachment: '',
+                created_date: new Date()
+              });
+              org.save();
+            }
           });
         }
       });
