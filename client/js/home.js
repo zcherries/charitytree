@@ -65,18 +65,18 @@ exports.Home = React.createClass({
 
               <h1 className="center-align condensed light"> Make Giving Personal! </h1>
 
-              <div className="col s4">
+              <div className="col s12 m4">
                 <i className="material-icons large center blue-text accent-3">favorite</i>
                 <h4 className="condensed light">Find Organizations you can trust!</h4>
                 <h6 className="condensed light">Each organization on Charity tree is vetted and required to show you
                   where your money is spent!</h6>
               </div>
-              <div className="col s4">
+              <div className="col s12 m4">
                 <i className="material-icons large center blue-text accent-3 condensed light">toc</i>
                 <h4 className="condensed light">Be a part of a project!</h4>
                 <h6 className="condensed light">Donate to specific needs on projects locally and around the world! </h6>
               </div>
-              <div className="col s4">
+              <div className="col s12 m4">
                 <i className="material-icons large center blue-text accent-3 condensed light">supervisor_account</i>
                 <h4 className="condensed light">Contribute in a meaningful way!</h4>
                 <h6 className="condensed light">See what your donation does through updates, pictures, video,
