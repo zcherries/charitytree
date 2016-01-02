@@ -1,4 +1,4 @@
-var feeder = io('http://localhost:4000/feed');
+var feeder = io('http://54.213.164.135/feed');
 
 var feedData = [], i;
 

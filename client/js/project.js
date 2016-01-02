@@ -84,7 +84,7 @@ exports.Project = React.createClass ({
       var needs;
       console.log(this.state.project)
       var img = (this.state.project.images.length)
-      ? "http://localhost:4000/dashboard_data/project/media/" + this.state.project.images
+      ? "http://54.213.164.135/dashboard_data/project/media/" + this.state.project.images
       : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg";
 
       console.log("Project/render/project.needs_list:",project.needs_list);
