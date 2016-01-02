@@ -145,7 +145,7 @@ var ProjectBlurb = React.createClass({
 
   display: function() {
     var obj = this.state.project || this.props.project;
-    var img = (obj.images)
+    var img = (obj.images && obj.images.length)
       ? "http://localhost:4000/dashboard_data/project/media/" + obj.images[0]
       : "./images/FEATURE-Leaf-300_tcm18-150961.jpg";
 

@@ -32,9 +32,6 @@ exports.Dashboard = React.createClass({
   getData: function() {
     $.ajax({
       method: 'GET',
-      beforeSend: function(request) {
-        request.setRequestHeader("Authority", localStorage.token);
-      },
       url: '/dashboard_data',
       success: function(response) {
         console.log("Response data: ", response);
