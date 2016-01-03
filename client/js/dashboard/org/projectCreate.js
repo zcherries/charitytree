@@ -114,7 +114,7 @@ exports.ProjectCreate = React.createClass({
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 5, // Creates a dropdown of 15 years to control year
-      //closeOnSelect: true,
+      // closeOnSelect: true,
       onStart: function () {
         console.log('Hello there :)')
       },
@@ -152,7 +152,7 @@ exports.ProjectCreate = React.createClass({
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 5, // Creates a dropdown of 15 years to control year
-      
+
       onSet: function (e) {
         var startDate = new Date(e.select);
         var startDateText = startDate.toDateString();
@@ -218,7 +218,7 @@ exports.ProjectCreate = React.createClass({
               <div className="row">
                 {/*Start Date*/}
                 <div className="input-field col s12 m6">
-                  <input id="start_date" type="date" className="datepicker" onClick={this.updateStartDate} />
+                  <input id="start_date" type="date" className="datePicker" onClick={this.updateStartDate} />
                   <label htmlFor="start_date">Project Start Date</label>
                 </div>
                 {/*End Date*/}

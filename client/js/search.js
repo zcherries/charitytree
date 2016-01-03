@@ -4,6 +4,14 @@ import { Link, History } from 'react-router';
 import { TagContainer, Tag } from './tagContainer.js';
 
 exports.Search = React.createClass({
+  componentWillMount: function() {
+    console.log('CWM fired');
+  },
+
+  componentDidMount: function() {
+    console.log('CDM fired');
+  },
+
   render: function () {
     return (
       <div>
@@ -136,7 +144,8 @@ var Project = React.createClass({
   },
 
   render: function () {
-    var img = (this.props.project.images.length)
+    console.log('Project:', this.props.project)
+    var img = (this.props.project.images && this.props.project.images.length)
       ? "http://localhost:4000/dashboard_data/project/media/" + this.props.project.images
       : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg";
 

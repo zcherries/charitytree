@@ -29,6 +29,26 @@ exports.Dashboard = React.createClass({
     this.getData();
   },
 
+  navigateToDashboard: function () {
+    this.props.history.pushState(null, `/dashboard`);
+  },
+
+  logout: function () {
+    $.ajax({
+      type: 'POST',
+      url: '/logout_post',
+      success: function () {
+        feeder.emit('disconnect');
+        localStorage.clear();
+        this.props.history.pushState(null, `/login`);
+        // window.location.href = 'http://localhost:4000';
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.log("Error posting to: " + xhr, status, err.toString());
+      }.bind(this)
+    });
+  },
+
   getData: function() {
     $.ajax({
       method: 'GET',
@@ -36,13 +56,21 @@ exports.Dashboard = React.createClass({
       success: function(response) {
         console.log("Response data: ", response);
         feeder.emit('getFeed', response.results._id);
-        this.setState({ data: response.results, userType: response.userType, view: this.state.view });
+        this.setState({
+          data: response.results,
+          userType: response.userType,
+          view: this.state.view
+        });
+
         $(".dropdown-button").dropdown({
           hover: true,
           belowOrigin: true
         });
       }.bind(this),
-      error: function(xhr, status, error){
+      error: function(xhr, status, error) {
+        if (xhr.status === 401) { //user's session expired
+          this.logout();
+        }
         if (xhr.readyState == 0 || xhr.status == 0) {
           console.log('Not really an error');
           return;

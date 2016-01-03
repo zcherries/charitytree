@@ -50,6 +50,18 @@ app.use(session({
   cookie: { maxAge: 3600000 }
 }));
 
+// app.use(function(req, res, next) {
+//   // if now() is after `req.session.cookie.expires`
+//   var now = new Date();
+//   if (now > req.session.cookie.expires) {
+//     //regenerate the session
+//     req.session.regenerate(function(err) {
+//       console.log('Session was regenerated');
+//     });
+//   }
+//   next();
+// });
+
 // var util = require('util');
 // var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
 // var log_stdout = process.stdout;
@@ -64,11 +76,12 @@ app.get('/dashboard_data', function(req, res, next) {
   if (req.session && req.session.user) {
     console.log('In session');
     if (req.session.user.type === 'organization') {
-      Model.Organization.findOne({_id: req.session.user.uid}).select('-password -profile_img.data')
+      Model.Organization.findOne({_id: req.session.user.uid})
+        .select('-password -profile_img.data')
         .populate('projects endorsements')
         .lean()
         .exec(function(err, org) {
-          if (err) {throw err;}
+          if (err) { handleError(req, res, err, 500, 'Could not complete operation.'); }
           else {
             res.status(200).send({status: 200, results: org, userType: req.session.user.type });
           }
@@ -78,7 +91,7 @@ app.get('/dashboard_data', function(req, res, next) {
         .populate('sponsored_projects following')
         .lean()
         .exec(function(err, donor) {
-        if (err) { console.log(err); }
+        if (err) { handleError(req, res, err, 500, 'Could not complete operation.'); }
         else {
           var keys = ['feed', 'images', 'password', 'videos', 'areas_of_focus']
           donor.following.forEach(function(obj) {
@@ -92,8 +105,6 @@ app.get('/dashboard_data', function(req, res, next) {
     }
   } else {
     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
-    // console.log('Redirecting...')
-    // res.redirect(301, '/logout');
   }
 });
 
@@ -101,8 +112,11 @@ app.get('/dashboard_data/projects', function(req, res, next) {
   if (req.session && req.session.user) {
     if (req.session.user.type === 'organization') {
       Model.Organization.findOne({ _id: req.session.user.uid })
-      .select('projects -_id').populate('projects').exec(function(err, projects) {
-        if (err) throw err;
+      .select('projects -_id')
+      .populate('projects')
+      .lean()
+      .exec(function(err, projects) {
+        if (err) handleError(req, res, err, 500, 'Could not complete operation.');
         else { res.status(200).send({ status: 200, results: projects }); }
       });
     }
@@ -113,13 +127,21 @@ app.get('/dashboard_data/projects', function(req, res, next) {
 
 app.get('/dashboard_data/org/media/:id', function(req, res, next) {
   //req.params.id is the fileId of file stored in gridfs
-  var readstream = _db.gridfs.createReadStream({ _id: req.params.id });
-  readstream.pipe(res);
+  if (req.params.id) {
+    var readstream = _db.gridfs.createReadStream({ _id: req.params.id });
+    readstream.pipe(res);
+  } else {
+    res.status(404).send({status: 404, message: "Resource not found"});
+  }
 });
 
 app.get('/dashboard_data/project/media/:id', function(req, res, next) {
-  var readstream = _db.gridfs.createReadStream({ _id: req.params.id });
-  readstream.pipe(res);
+  if (req.params.id) {
+    var readstream = _db.gridfs.createReadStream({ _id: req.params.id });
+    readstream.pipe(res);
+  } else {
+    res.status(404).send({status: 404, message: "Resource not found"});
+  }
 });
 
 app.get('/image', function(req, res) {
@@ -152,59 +174,78 @@ app.get('/get_orgs', function(req, res, next) {
 });
 
 app.get('/organization_get/:id', function(req, res, next) {
- // console.log('Org ID: ', req.body.orgID);
- console.log("inside of server.js and req.params.id is ",req.params.id);
- var id = req.params.id;
- if (id) {
-   Model.Organization.findOne({ _id: id }).select('-password -feed -profile_img.data')
+ if (req.params.id !== 'undefined') {
+   Model.Organization.findOne({ _id: req.params.id })
+    .select('-password -feed -profile_img.data')
+    .populate('projects endorsements')
     .lean()
-    .populate('projects').exec(function(err, org) {
-     if (err) throw err;
+    .exec(function(err, org) {
+     if (err) handleError(req, res, err, 500, 'Could not complete operation.');
      else {
        res.status(200).send({status: 200, results: org });
      }
    });
+ } else {
+   res.status(404).send({status: 404, message: "Resource not found" });
  }
 });
 
 app.get('/organization/profile_img/:id', function(req, res, next) {
-  Model.Organization.findById(req.params.id, function (err, org) {
-    if (err) throw err;
-    else {
-      if (org) {
-        streamifier.createReadStream(org.profile_img.data).pipe(res);
-      } else {
-        res.status(400).send({status: 400, message: "Error"})
+  if (req.params.id !== 'undefined') {
+    Model.Organization.findById(req.params.id, function (err, org) {
+      if (err) handleError(req, res, err, 500, 'Could not complete operation.');
+      else {
+        if (org) {
+          streamifier.createReadStream(org.profile_img.data).pipe(res);
+        } else {
+          res.status(404).send({status: 404, message: "Resource not found"});
+        }
       }
-    }
-  });
+    });
+  } else {
+    res.status(404).send({status: 404, message: "Resource not found"});
+  }
 });
 
 app.get('/project_get/:id', function(req, res, next) {
- // console.log('Org ID: ', req.body.orgID);
- console.log("inside of server.js and req.params.id is ",req.params.id);
- var id = req.params.id;
- Model.Project.findOne({ _id: id }).select().populate('_org').lean()
-  .exec(function(err, project) {
-   if (err) throw err;
-   else {
-    var keys = ['feed', 'password', 'followers', 'profile_img'];
-    keys.forEach(function(key) {
-         delete project._org[key];
-     });
-     res.status(200).send({status: 200, results: project });
-   }
- });
+  if (req.params.id !== 'undefined') {
+    Model.Project.findOne({ _id: req.params.id })
+     .populate('_org').lean()
+     .exec(function(err, project) {
+      if (err) {
+        handleError(req, res, err, 500, 'Could not complete operation.');
+      }
+      else {
+        if (project) {
+          if (project['_org']) {
+            var keys = ['feed', 'password', 'followers', 'profile_img'];
+            keys.forEach(function(key) {
+                if (key in project['_org'])
+                  delete project['_org'][key];
+             });
+          }
+          res.status(200).send({status: 200, results: project });
+        } else {
+          res.status(404).send({status: 404, message: 'Resource not found' });
+        }
+      }
+    });
+  } else {
+    res.status(404).send({status: 404, message: "Resource not found"});
+  }
 });
 
 app.get('/dashboard_data/profile_img/:user/:filename', function(req, res, next) {
-  console.log(req.params);
-  Model.Organization.findOne({ username: req.params.user }, function(err, org) {
-    if (err) { console.error(err); res.status(400).send('Could not retrieve data'); }
-    else {
-      streamifier.createReadStream(org.profile_img.data).pipe(res);
-    }
-  });
+  if (req.params.user !== 'undefined' && req.params.filename !== 'undefined') {
+    Model.Organization.findOne({ username: req.params.user }, function(err, org) {
+      if (err) { console.error(err); res.status(400).send('Could not retrieve data'); }
+      else {
+        streamifier.createReadStream(org.profile_img.data).pipe(res);
+      }
+    });
+  } else {
+    res.status(404).send({status: 404, message: "Resource not found"});
+  }
 });
 //================================== POST ===================================//
 app.post('/signup_post', function(req, res, next) {
@@ -347,7 +388,6 @@ app.post('/logout_post', function(req, res, next) {
 });
 
 app.post('/organization/follow/:id', function(req, res, next) {
-  console.log('In Server Follow: ' + req.params.id);
   var now = new Date();
   if (req.session && req.session.user && req.params.id) {
     Model.Organization.findById(req.params.id, function(err, org) {
@@ -379,7 +419,7 @@ app.post('/organization/follow/:id', function(req, res, next) {
       }
     });
   } else {
-    res.status(400).send({status: 400, message: 'Could not complete the operation'});
+    res.status(401).send({status: 401, message: 'Please log in'});
   }
 });
 
@@ -417,9 +457,6 @@ app.post('/dashboard/profile', function(req, res, next) {
           });
         }
       });
-      // Controller.Donor.update(req, res, next, { _id: req.session.user.uid },
-      //   { name: req.body.name, email: req.body.email, areas_of_focus: req.body.areas_of_focus },
-      //   'name username email areas_of_focus');
     }
   } else {
     res.status(401).send({ status: 401, message: "Unauthorized to access dashboard" });
@@ -586,15 +623,22 @@ app.post('/post_search', function(req, res, next) {
   var aofs = req.body.aofs.map(function (aof) {
     return new RegExp('\\b' + aof.toLowerCase() + '\\b', 'i');
   });
-  Model.Organization.find({areas_of_focus: {$all: aofs}})
-    .select('-password -feed -profile_img.data')
+  Model.Organization.find({ $or: [
+    { areas_of_focus: {$all: aofs} },
+    { name: {$in: aofs} },
+    { username: {$in: aofs} }
+    ]}).select('-password -feed -profile_img.data')
+    .lean()
     .exec(function (err, orgs) {
-      if (err) {
-        console.error(err);
-        res.status(400).send('Could not retrieve data');
-      } else {
-        Model.Project.find({areas_of_focus: {$all: aofs}}, function (err, projects) {
-          if (err) throw err;
+      if (err) { handleError(req, res, err, 500, 'Could not complete operation'); }
+      else {
+        Model.Project.find({ $or: [
+          { areas_of_focus: {$all: aofs} },
+          { title: {$in: aofs} }
+          ]})
+          .lean()
+          .exec(function (err, projects) {
+          if (err) { handleError(req, res, err, 500, 'Could not complete operation'); }
           else {
             res.status(201).send({ status: 201, results: {orgs: orgs, projects: projects} });
           }
@@ -636,20 +680,20 @@ app.post('/dashboard/project/needs/update', function(req, res, next) {
 
 app.post('/dashboard/donor/endorsement', function(req, res, next) {
   Model.Endorsement.findOne(req.body.title, function(err, found) {
-    if (err) console.error(err);
+    if (err) { handleError(req, res, err, 500, 'Could not complete operation'); }
     if (!found) {
       Model.Endorsement.create(req.body, function(err, endorsement) {
-        if (err) console.error(err);
+        if (err) { handleError(req, res, err, 500, 'Could not complete operation'); }
         if (endorsement) {
           Model.Organization.findById(endorsement.org, function(err, org) {
-            if (err) console.error(err);
+            if (err) { handleError(req, res, err, 500, 'Could not complete operation'); }
             if (org) {
               org.endorsements.push(endorsement._id);
               org.save();
             }
           });
           Model.Donor.findById(endorsement.author, function(err, donor) {
-            if (err) console.error(err);
+            if (err) { handleError(req, res, err, 500, 'Could not complete operation'); }
             if (donor) {
               donor.endorsements.push(endorsement._id);
               donor.save();
@@ -682,3 +726,8 @@ app.get('*', function (req, res, next){
   // res.sendFile(path.resolve(__dirname, './../client', 'index.html'));
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
+
+var handleError = function(req, res, err, statusCode, msg) {
+  console.log("Error: ", err);
+  res.status(statusCode).send({status: statusCode, message: msg});
+}

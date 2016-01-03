@@ -7,8 +7,8 @@ var EndorsementSchema = new Schema({
   review: { type: String, trim: true },
   rating: Number,
   review_date: Date,
-  org: { type: ObjectId, ref: 'Organization' },
-  author: { type: ObjectId, ref: 'Donor' }
+  org: String,
+  author: String
 });
 
 var Endorsement = mongoose.model('Endorsement', EndorsementSchema);

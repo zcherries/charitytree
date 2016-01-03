@@ -29,7 +29,6 @@ exports.Project = React.createClass ({
         method: "GET",
         success: function (data) {
           console.log("on success in projdid with params.id and res.data is ", data.results);
-
           this.setState({
             project: data.results
           });
@@ -78,10 +77,9 @@ exports.Project = React.createClass ({
     //   }
     // }.bind(this));
     // project = project[0];
-    if(this.state.project) {
+    if (this.state.project) {
       var project = this.state.project;
       // var org = JSON.parse(localStorage.getItem('currOrgObj'));
-
       var needs;
 
       console.log("Project/render/project.needs_list:",project.needs_list);
@@ -165,7 +163,7 @@ exports.Project = React.createClass ({
       );
     } else {
       return(
-        <div>Nothing to display</div>
+        <div></div>
       );
     }
   }
