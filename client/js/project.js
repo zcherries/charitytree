@@ -29,6 +29,7 @@ exports.Project = React.createClass ({
         method: "GET",
         success: function (data) {
           console.log("on success in projdid with params.id and res.data is ", data.results);
+
           this.setState({
             project: data.results
           });
@@ -76,13 +77,14 @@ exports.Project = React.createClass ({
     //   }
     // }.bind(this));
     // project = project[0];
-    if (this.state.project) {
+    if(this.state.project) {
       var project = this.state.project;
       // var org = JSON.parse(localStorage.getItem('currOrgObj'));
+
       var needs;
       console.log(this.state.project)
       var img = (this.state.project.images.length)
-      ? "http://localhost:4000/dashboard_data/project/media/" + this.state.project.images
+      ? "/dashboard_data/project/media/" + this.state.project.images
       : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg";
 
       console.log("Project/render/project.needs_list:",project.needs_list);
