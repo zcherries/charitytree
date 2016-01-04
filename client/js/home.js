@@ -20,7 +20,7 @@ exports.Home = React.createClass({
   componentDidMount: function () {
     $('.parallax').parallax();
     $(".button-collapse").sideNav();
-    localStorage.clear();
+    localStorage.removeItem('App');
   },
 
   render: function () {
