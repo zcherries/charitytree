@@ -21,7 +21,8 @@ var Organization = exports.Organization = React.createClass({
   getInitialState: function(){
     return {
       org: null,
-      following: false
+      following: false,
+      followError: ''
     };
   },
 
@@ -31,7 +32,8 @@ var Organization = exports.Organization = React.createClass({
         method: "GET",
         success: function (data) {
           this.setState({
-            org: data.results
+            org: data.results,
+            followError: ''
           });
 
           //Initialize Materialize Components
@@ -41,34 +43,38 @@ var Organization = exports.Organization = React.createClass({
 
         }.bind(this),
         error: function (xhr, status, err) {
+          if (xhr.status === 400) {
+            this.props.history.pushState(null, `/search`);
+          }
+          if (xhr.status === 500) {
+            this.setState({ errorMsg: "Error. Please try again later." });
+          }
           console.error(xhr, status, err.toString());
         }.bind(this)
       });
   },
 
-  componentWillMount: function() {
-    console.log('CWM fires: ', this.props.currentOrganization);
-  },
-
   followOrg: function(e) {
     e.preventDefault();
     var org = this.state.org._id || this.props.currentOrganization._id;
-    // feeder.emit('follow', localStorage.token, org);
     $.ajax({
       method: 'POST',
       url: '/organization/follow/' + org,
       success: function(response) {
         this.setState({ following: true });
       }.bind(this),
-      error: function(xhr, status) {
-        console.log("Error:", xhr, status);
+      error: function(xhr, status, err) {
+        if (xhr.status === 401) {
+          this.setState({ followError: "Please log in" });
+        }
+        if (xhr.status === 500) {
+          this.setState({ followError: "Error. Please try again later." });
+        }
       }.bind(this)
     });
   },
 
   render: function () {
-    console.log('Token: ', localStorage.token);
-    console.log('Org: ', this.state.org);
     if(this.state.org){
       var today = new Date();
       var profileImg = (this.state.org.profile_img.filename)
@@ -132,6 +138,21 @@ var Organization = exports.Organization = React.createClass({
         );
       }.bind(this));
 
+      var endorsements = this.state.org.endorsements.map(function(endorsement) {
+        return (
+          <tbody>
+            <tr>
+              <td>{endorsement.title}</td>
+              <td>{endorsement.review_date}</td>
+              <td>{endorsement.author}</td>
+            </tr>
+            <tr>
+              <td>{endorsement.review}</td>
+            </tr>
+          </tbody>
+        )
+      });
+
       return (
         <div className="container">
           {/*Header*/}
@@ -150,10 +171,12 @@ var Organization = exports.Organization = React.createClass({
             {/*Follow Button*/}
             <div className="col s2 push-s10 pinned" style={{top: "110px", zIndex: "1"}}>
               {
-                !localStorage.token || this.state.org.followers.indexOf(localStorage.token) === -1
-                  ? <a className="btn-floating btn-large btn tooltipped waves-effect waves-light light-blue darken-3" onClick={this.followOrg} data-position="left" data-delay="50" data-tooltip="Follow Organization"><i className="material-icons">group_add</i></a>
-                  : <span className="btn blue">Following</span>
+                !this.state.following &&
+                 this.state.org.followers.indexOf(localStorage.token) === -1
+                 ? <a className="btn-floating btn-large btn tooltipped waves-effect waves-light light-blue darken-3" onClick={this.followOrg} data-position="left" data-delay="50" data-tooltip="Follow Organization"><i className="material-icons">group_add</i></a>
+                 : <span className="btn blue">Following</span>
               }
+              {this.state.followError ? <span style={{marginLeft: '10px', color: 'red'}}>{this.state.followError}</span> : ''}
             </div>
 
             <div className="col s12 m10 l11">
@@ -168,7 +191,7 @@ var Organization = exports.Organization = React.createClass({
                 {/*Org Description*/}
                 <div id="description" className="col s12 m10 push-m1 center-align section scrollspy flow-text">
                   <i className="medium material-icons space-above">description</i>
-                  <h5> Description</h5>
+                  <h5>Description</h5>
                   <p>{this.state.org.about}</p>
                 </div>
 
@@ -187,14 +210,14 @@ var Organization = exports.Organization = React.createClass({
                 {/*Areas of Focus*/}
                 <div id="aofs" className="col s12 m10 push-m1 pull-m1 center-align section scrollspy">
                   <i className="medium material-icons space-above">location_searching</i>
-                  <h4> Areas of focus:</h4>
+                  <h4>Areas of focus</h4>
                   {aofs}
                 </div>
 
                 {/*Current Project*/}
                 <div id="current-projects" className="col s12 center-align section scrollspy">
                   <i className="medium material-icons space-above">assignment_late</i>
-                  <h2>Our Current Projects:</h2>
+                  <h2>Our Current Projects</h2>
                   <div className="collection">
                     {currentProjects.length > 0 ? currentProjects : <div>No projects to display</div>}
                   </div>
@@ -204,7 +227,7 @@ var Organization = exports.Organization = React.createClass({
                 {pastProjects.length > 0 ?
                   (<div id="past-projects" className="col s12 center-align section scrollspy">
                     <i className="medium material-icons space-above">assignment_turned_in</i>
-                    <h2>Our Past Projects:</h2>
+                    <h2>Our Past Projects</h2>
                     <div className="collection">
                       {pastProjects}
                     </div>
@@ -213,8 +236,12 @@ var Organization = exports.Organization = React.createClass({
                 {/*Endorsements*/}
                 <div id="endorsements" className="col s12 center-align section scrollspy">
                   <i className="medium material-icons space-above">verified_user</i>
-                  <h2>Endorsements:</h2>
-                  <div className="left-align">Various Endorsements</div>
+                  <h2>Endorsements</h2>
+                  <div className="left-align">
+                    <table>
+                      {endorsements}
+                    </table>
+                  </div>
                 </div>
 
               </div>
@@ -233,7 +260,7 @@ var Organization = exports.Organization = React.createClass({
       );
     } else {
       return (
-        <div>nothing to display</div>
+        <div></div>
       );
     }
   }

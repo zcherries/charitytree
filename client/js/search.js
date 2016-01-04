@@ -4,6 +4,14 @@ import { Link, History } from 'react-router';
 import { TagContainer, Tag } from './tagContainer.js';
 
 exports.Search = React.createClass({
+  componentWillMount: function() {
+    console.log('CWM fired');
+  },
+
+  componentDidMount: function() {
+    console.log('CDM fired');
+  },
+
   render: function () {
     return (
       <div>
