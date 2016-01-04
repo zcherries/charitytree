@@ -510,10 +510,14 @@ app.post('/dashboard/profile_img/upload', multer().single('profile_img'), functi
         user: org.name,
         message: 'changed profile image',
 <<<<<<< HEAD
+<<<<<<< HEAD
         attachment: 'http://54.213.164.135/organization/profile_img/'+ org._id,
 =======
         attachment: '/organization/profile_img/'+ org._id,
 >>>>>>> charitycollective/dev
+=======
+        attachment: 'http://localhost:4000/organization/profile_img/'+ org._id,
+>>>>>>> parent of 367c720... Merge remote-tracking branch 'charitycollective/master' into refineDesign
         attachment_type: 'image',
         created_date: new Date()
       });
@@ -560,10 +564,14 @@ app.post('/dashboard/org/media/upload', multer().array('media'), function(req, r
             user: org.name,
             message: 'uploaded a new ' + file.mimetype.slice(0, 5),
 <<<<<<< HEAD
+<<<<<<< HEAD
             attachment: 'http://54.213.164.135/dashboard_data/org/media/'+ fileId,
 =======
             attachment: '/dashboard_data/org/media/'+ fileId,
 >>>>>>> charitycollective/dev
+=======
+            attachment: 'http://localhost:4000/dashboard_data/org/media/'+ fileId,
+>>>>>>> parent of 367c720... Merge remote-tracking branch 'charitycollective/master' into refineDesign
             attachment_type: file.mimetype.slice(0, 5),
             created_date: new Date()
           });
@@ -617,10 +625,14 @@ app.post('/dashboard/project/media/upload', multer().array('media'), function(re
                     user: org.name,
                     message: 'uploaded a new '+ file.mimetype.slice(0, 5) + ' for project: ' + project.title,
 <<<<<<< HEAD
+<<<<<<< HEAD
                     attachment: 'http://54.213.164.135/dashboard_data/project/media/'+ fileId,
 =======
                     attachment: 'dashboard_data/project/media/'+ fileId,
 >>>>>>> charitycollective/dev
+=======
+                    attachment: 'http://localhost:4000/dashboard_data/project/media/'+ fileId,
+>>>>>>> parent of 367c720... Merge remote-tracking branch 'charitycollective/master' into refineDesign
                     attachment_type: file.mimetype.slice(0, 5),
                     created_date: new Date()
                   });
