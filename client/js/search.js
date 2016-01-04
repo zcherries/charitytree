@@ -82,16 +82,9 @@ var Organization = React.createClass({
   },
 
   render: function () {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    var img = (this.props.org.profile_img) ? "http://54.213.164.135/organization/profile_img/" + this.props.org._id
-=======
-    var img = (this.props.org.profile_img) ? "/organization/profile_img/" + this.props.org._id
->>>>>>> charitycollective/dev
-=======
-    var img = (this.props.org.profile_img) ? "http://localhost:4000/organization/profile_img/" + this.props.org._id
->>>>>>> parent of 367c720... Merge remote-tracking branch 'charitycollective/master' into refineDesign
-        : "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg";
+    var img = (this.props.org.profile_img)
+      ? "/organization/profile_img/" + this.props.org._id
+      : "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg";
     return (
       <div className="cardx hoverable" onClick={this.setOrganization}>
         <div className="card-image ">
