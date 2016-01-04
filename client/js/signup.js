@@ -3,12 +3,24 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 import { History } from 'react-router';
 
-import { Link } from 'react-router';
-
 exports.Signup = React.createClass({
   getInitialState: function() {
     return {
-      error: false
+      userType: '',
+      errorMsg: ''
+    }
+  },
+
+  componentWillMount: function() {
+    console.log('CWM fired');
+    if (!this.props.userType)
+      this.setState({ userType: localStorage.getItem('ct_userType') });
+  },
+
+  componentDidMount: function() {
+    console.log('CDM fired');
+    if (this.props.userType) {
+      localStorage.setItem("ct_userType", this.props.userType);
     }
   },
 
@@ -43,7 +55,7 @@ exports.Signup = React.createClass({
               <input type="password" id="pwd2" name="pwd2" ref="pwd2" required />
             </div>
           </div>
-
+          {this.state.errorMsg ? <p style={signupError}>{this.state.errorMsg}</p> : ''}
           <div className="row">
             <input className="waves-effect waves-light btn blue" type="submit" value="Submit" />
           </div>
@@ -97,7 +109,7 @@ exports.Signup = React.createClass({
               <input type="password" id="pwd2" name="pwd2" ref="pwd2" required />
             </div>
           </div>
-
+          {this.state.errorMsg ? <p style={signupError}>{this.state.errorMsg}</p> : ''}
           <div className="row">
             <input className="waves-effect waves-light btn blue" type="submit" value="Submit" />
           </div>
@@ -120,24 +132,26 @@ exports.Signup = React.createClass({
     //   e.preventDefault();
     // })
     if (ReactDOM.findDOMNode(this.refs.pwd).value !== ReactDOM.findDOMNode(this.refs.pwd2).value) {
-      alert("Passwords didn't match.");
+      this.setState({ errorMsg: 'Passwords did not match' });
       return;
     }
+
     var formData = {};
-    if (this.props.userType === 'Organization') {
+    var userType = this.state.userType ? this.state.userType : this.props.userType;
+    if (userType === 'Organization') {
       formData.org_name = ReactDOM.findDOMNode(this.refs.org_name).value;
       formData.username = ReactDOM.findDOMNode(this.refs.username).value;
       formData.pwd = ReactDOM.findDOMNode(this.refs.pwd).value;
-      formData.userType = this.props.userType;
+      formData.userType = userType;
     }
 
-    if (this.props.userType === 'Donor') {
+    if (userType === 'Donor') {
       formData.first_name = ReactDOM.findDOMNode(this.refs.first_name).value;
       formData.last_name = ReactDOM.findDOMNode(this.refs.last_name).value;
       formData.email = ReactDOM.findDOMNode(this.refs.email).value;
       formData.username = ReactDOM.findDOMNode(this.refs.username).value;
       formData.pwd = ReactDOM.findDOMNode(this.refs.pwd).value;
-      formData.userType = this.props.userType;
+      formData.userType = userType;
     }
 
     $.ajax({
@@ -152,7 +166,12 @@ exports.Signup = React.createClass({
         // window.location.href = "http://127.0.0.1:4000/dashboard"
       }.bind(this),
       error: function(xhr, status, err) {
-        console.log("Error posting to: " + xhr, status, err.toString());
+        if (xhr.status === 401) {
+          this.setState({ errorMsg: "Username is already taken" });
+        }
+        if (xhr.status === 500) {
+          this.setState({ errorMsg: "Signup Error. Please try again later." });
+        }
       }.bind(this)
     });
 
@@ -162,10 +181,18 @@ exports.Signup = React.createClass({
   },
 
   render: function() {
-    if (this.props.userType === 'Organization') {
+    var userType = this.state.userType ? this.state.userType : this.props.userType;
+    if (userType === 'Organization') {
       return this.showOrgSignupForm();
-    } else if (this.props.userType === 'Donor') {
+    } else if (userType === 'Donor') {
       return this.showDonorSignupForm();
     }
+    return <div></div>
   }
 });
+
+/* Inline Styles */
+var signupError = {
+  fontWeight: 'bold',
+  color: 'red'
+}

@@ -124,12 +124,6 @@ module.exports = function(server) {
     //this is an organization or donor action
     client.on('disconnect', function() {
       console.log('Client has been disconnected');
-      // clients.forEach(function(cl, idx) {
-      //   if (cl['client_id'] === client.id) {
-      //     clients.splice(idx, 1);
-      //     console.log('Client with id: ' + client.id  + ' has logged out');
-      //   }
-      // })
       delete clients[client.id];
       console.log('Client with id: ' + client.id  + ' has logged out');
       client.emit('stopPolling');
@@ -268,64 +262,8 @@ module.exports = function(server) {
         }
       });
     });
-
-    //this is an org action
-    client.on('project update', function(orgID, projectID) {
-      var now = new Date();
-      //find all donors sponsoring this projectID and all donors following this Org
-      Model.Organization.findById(orgID, function(err, org) {
-        if (err) throw err;
-        if (org) {
-          Model.Project.findById(projectID, function(err, project) {
-            if (err) throw err;
-            if (project) {
-              var donorIDs = union(org.followers, project.sponsors);
-              donorIDs.forEach(function(donorID) {
-                Model.Donor.findById(donorID, function(err, donor) {
-                  //update donor feed
-                  donor.feed.push({ message: 'Project: ' + project.title + 'has been updated', created_date: now });
-                  donor.save(function(err) {
-                    if (err) throw err;
-                    clients.forEach(function(cl) {
-                      if (cl['user'] === donor._id) { //if client is connected
-                        feed.to(client[0]).emit('storeFeed', donor.feed);
-                      }
-                    });
-                  });
-                });
-              });
-            }
-          });
-        }
-      });
-    });
-
-    feed.on('org_update', function(orgID, data) {
-      Model.Organization.findById(orgID, function(err, org) {
-        if (err) throw err;
-        if (org) {
-          org.followers.forEach(function(follower) {
-            Model.Donor.findById(follower, function(err, donor) {
-              //update donor feed
-              donor.feed.push({ message: data.message, created_date: new Date() });
-              donor.save(function(err) {
-                if (err) throw err;
-                console.log('Org has updated its about');
-                clients.forEach(function(cl) {
-                  // client.emit('action', data);
-                  console.log('Org has updated an image');
-                  if (cl['user'] === donor._id) { //if client is connected
-                    feed.to(client[0]).emit('storeFeed', donor.feed);
-                  }
-                });
-              });
-            });
-          });
-        }
-      });
-    });
+      
   });
 
   return feed;
-
 };
