@@ -82,7 +82,11 @@ var Organization = React.createClass({
   },
 
   render: function () {
+<<<<<<< HEAD
     var img = (this.props.org.profile_img) ? "http://54.213.164.135/organization/profile_img/" + this.props.org._id
+=======
+    var img = (this.props.org.profile_img) ? "/organization/profile_img/" + this.props.org._id
+>>>>>>> charitycollective/dev
         : "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg";
     return (
       <div className="cardx hoverable" onClick={this.setOrganization}>
@@ -144,8 +148,14 @@ var Project = React.createClass({
   },
 
   render: function () {
+<<<<<<< HEAD
     var img = (this.props.project.images.length)
       ? "http://54.213.164.135/dashboard_data/project/media/" + this.props.project.images[0]
+=======
+    // console.log('Project:', this.props.project)
+    var img = (this.props.project.images && this.props.project.images.length)
+      ? "/dashboard_data/project/media/" + this.props.project.images[0]
+>>>>>>> charitycollective/dev
       : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg";
 
     return (
