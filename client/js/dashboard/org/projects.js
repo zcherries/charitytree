@@ -140,12 +140,12 @@ var ProjectBlurb = React.createClass({
   changeDisplay: function(e) {
     e.preventDefault();
     this.setState({ display: false });
-    $('.box__input').addClass('size-to-fit');
+    // $('.box__input').addClass('size-to-fit');
   },
 
   display: function() {
     var obj = this.state.project || this.props.project;
-    var img = (obj.images)
+    var img = (obj.images && obj.images.length)
       ? "http://localhost:4000/dashboard_data/project/media/" + obj.images[0]
       : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg";
 
