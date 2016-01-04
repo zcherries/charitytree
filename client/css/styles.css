@@ -360,6 +360,10 @@ a.blue-card:hover {
 }
 
 /* Media Upload */
+/*.box {
+  width: 400px;
+  height: 400px;
+}*/
 .box__dragndrop,
 .box__uploading,
 .box__success,
@@ -368,8 +372,8 @@ a.blue-card:hover {
 }
 
 .box__file {
-  width: 10.1px;
-	height: 5.1px;
+  width: 0.1px;
+	height: 0.1px;
 	opacity: 0;
 	overflow: hidden;
 	position: absolute;
@@ -377,14 +381,15 @@ a.blue-card:hover {
 }
 
 .box__file + label {
-    font-size: 1.25em;
-    font-weight: 700;
-    color: white;
-    background-color: #6495ED;
-    opacity: 0.5;
-    display: inline-block;
-    cursor: pointer;
-    padding: 100px;
+  font-size: 1.25em;
+  font-weight: 700;
+  color: white;
+  background-color: #6495ED;
+  opacity: 0.5;
+  display: inline-block;
+  width: 50%;
+  cursor: pointer;
+  padding: 100px;
 }
 
 .box__file:focus + label,
@@ -415,19 +420,19 @@ a.blue-card:hover {
   background-color: grey;
 }
 
-.box.is-uploading .box__input {
+/*.box.is-uploading .box__input {
   visibility: hidden;
-}
-.box.is-uploading .box__uploading {
+}*/
+/*.box.is-uploading .box__uploading {
   display: block;
-}
+}*/
 
 div.card:hover .project-options {
   display: block;
 }
 
 .project-blurb .box__input label {
-  height: 364px;
+  /*height: 364px;*/
 }
 
 /* Dashboard - Donor Activity */

@@ -105,7 +105,7 @@ exports.Dashboard = React.createClass({
         var media = {
           profile_img: this.state.data.profile_img,
           images: this.state.data.images,
-          videos: this.state.data.videos
+          videos: this.state.data.videos,
         };
         view = <Media username={this.state.data.username} media={media} update_db_state_prop={this.update_db_state_prop} />;
         break;
@@ -167,11 +167,11 @@ exports.Dashboard = React.createClass({
 
   update_db_state_prop: function(changes) {
     var state = this.state.data;
-    console.log('State before update: ', state);
+    // console.log('State before update: ', state);
     for (var prop in changes) {
       state[prop] = changes[prop];
     }
-    console.log('State after update: ', state);
+    // console.log('State after update: ', state);
     this.setState({ data: state });
   },
 

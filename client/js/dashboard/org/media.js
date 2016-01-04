@@ -5,15 +5,21 @@ import {MediaUpload} from '../media_upload.js'
 
 exports.Media = React.createClass({
   componentWillReceiveProps: function(nextProps) {
-    console.log("CWRP is firing", nextProps);
-    if (nextProps.media.profile_img) {
-      this.setState({ profile_img: nextProps.media.profile_img })
+    // console.log("CWRP is firing", nextProps);
+    var state = this.state.media;
+    for (var prop in nextProps.media) {
+      state[prop] = nextProps.media[prop]
     }
+    this.setState({ media: state })
   },
 
   getInitialState: function() {
     return {
-      profile_img: {}
+      media: {
+        profile_img: {},
+        images: [],
+        videos: []
+      }
     }
   },
 
@@ -48,31 +54,41 @@ exports.Media = React.createClass({
 
   profile_img_upload_form: function() {
     return (
-      <div className="container">
-        <form
-          className="center-align col s9"
-          onSubmit={this.upload_profile_img}
-          action="/dashboard/profile_img/upload"
-          encType="multipart/form-data"
-          accept="image/*">
-            <div className="file-field input-field">
-              <div className="btn blue">
-                <span>File</span>
-                <input type="file" />
-              </div>
-              <div className="file-path-wrapper">
-                <input className="file-path validate" type="text" />
-              </div>
-            </div>
-        </form>
-
-        <input className="row marginTop center-align btn blue col s3" type="submit" value="Upload" />
-      </div>
+      <form
+        className="profile_img_frm"
+        onSubmit={this.upload_profile_img}
+        action="/dashboard/profile_img/upload"
+        encType="multipart/form-data"
+        accept="image/*">
+        {/*<label htmlFor="profile_img">Choose profile image</label>*/}
+        <input className="" id="profile_img" type="file" name="profile_img" />
+        <input className="btn blue" type="submit" value="Upload Profile Image" />
+      </form>
     );
   },
+        //{/*<form
+        //  className="center-align col s9"
+        //  onSubmit={this.upload_profile_img}
+        //  action="/dashboard/profile_img/upload"
+        //  encType="multipart/form-data"
+        //  accept="image/*">
+        //  <label htmlFor="profile_img">Choose profile image</label>
+        //  <input className="file-field" id="profile_img" type="file" name="profile_img" />
+        //  <input className="btn blue" type="submit" value="Upload" />
+        //  <div className="file-field input-field file-path-wrapper">
+        //      <div className="btn blue">
+        //        <span>Select Profile Image</span>
+        //        <input className="file-path validate"  type="file" />
+        //      </div>
+        //      <div className="file-path-wrapper">
+        //        <input className="file-path validate" type="text" />
+        //      </div>
+        //    </div>
+        //  <input className="row marginTop center-align btn blue col s3" type="submit" value="Upload" />
+        //</form>*/}
 
   profile_and_banner_img: function() {
-    var profile_img = (this.state.profile_img['filename'] === undefined && this.props.media.profile_img === undefined)
+    var profile_img = (this.state.media.profile_img['filename'] === undefined && this.props.media.profile_img === undefined)
       ? "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg"
       : (this.state.username) ? 'http://localhost:4000/dashboard_data/profile_img/'+ this.props.username + '/' + this.state.profile_img.filename
       : 'http://localhost:4000/dashboard_data/profile_img/'+ this.props.username + '/' + this.props.media.profile_img.filename;
@@ -127,7 +143,10 @@ exports.Media = React.createClass({
 
         <div className="row center-align">
           <h4>Upload Picture or Video</h4>
-          <MediaUpload action={"/dashboard/org/media/upload"} />
+          <MediaUpload
+            action={"/dashboard/org/media/upload"}
+            update_db_state_prop={this.props.update_db_state_prop}
+          />
         </div>
       </div>
     )

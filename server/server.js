@@ -522,10 +522,7 @@ app.post('/dashboard/profile_img/upload', multer().single('profile_img'), functi
 });
 
 app.post('/dashboard/org/media/upload', multer().array('media'), function(req, res, next) {
-  console.log("Files: ", req.files);
-  //  console.log("Body: ", req.body);
   req.files.forEach(function(file) {
-    console.log(file);
     //generate an object id
     var fileId = _db.types.ObjectId();
     var writeStream = _db.gridfs.createWriteStream({
@@ -542,9 +539,11 @@ app.post('/dashboard/org/media/upload', multer().array('media'), function(req, r
 
     streamifier.createReadStream(file.buffer).pipe(writeStream);
     writeStream.on('close', function() {
-      console.log("File write was successful");
+      // console.log("File write was successful");
       //store fileId in media property of organization
-      Model.Organization.findById({ _id: req.session.user.uid }, function(err, org) {
+      Model.Organization.findById({ _id: req.session.user.uid })
+       .select('images videos feed')
+       .exec(function(err, org) {
         if (err) { throw err; }
         else {
           if (file.mimetype.slice(0, 6) === 'image/') { org.images.push(fileId); }
@@ -559,7 +558,8 @@ app.post('/dashboard/org/media/upload', multer().array('media'), function(req, r
           org.save(function(err, updatedOrg) {
             if (err) { throw err; }
             else {
-              res.status(201).send({ status: 201, message: "Media upload successful." });
+              res.status(201).send({ status: 201,
+                results: {images: updatedOrg.images, videos: updatedOrg.videos}});
             }
           });
         }

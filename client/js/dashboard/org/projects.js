@@ -140,7 +140,7 @@ var ProjectBlurb = React.createClass({
   changeDisplay: function(e) {
     e.preventDefault();
     this.setState({ display: false });
-    $('.box__input').addClass('size-to-fit');
+    // $('.box__input').addClass('size-to-fit');
   },
 
   display: function() {
