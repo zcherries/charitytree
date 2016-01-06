@@ -7,11 +7,11 @@ feeder.on('storeFeed', function(arrFeed) {
   feedData = arrFeed || [];
   i = setInterval(function() {
     feeder.emit('feed_updates', new Date())
-  }, 10000)
+  }, 10000);
 });
 
 feeder.on('updateFeed', function(arrFeed) {
-  console.log('Being called');
+  console.log('updateFeed being called');
   if (arrFeed.length) {
     console.log('Got new updates');
     feedData = feedData.concat(arrFeed);

@@ -4,6 +4,14 @@ import { Link, History } from 'react-router';
 import { TagContainer, Tag } from './tagContainer.js';
 
 exports.Search = React.createClass({
+  componentWillMount: function() {
+    console.log('CWM fired');
+  },
+
+  componentDidMount: function() {
+    console.log('CDM fired');
+  },
+
   render: function () {
     return (
       <div>
@@ -74,7 +82,7 @@ var Organization = React.createClass({
   },
 
   render: function () {
-    var img = (this.props.org.profile_img) ? "http://54.213.164.135/organization/profile_img/" + this.props.org._id
+    var img = (this.props.org.profile_img) ? "/organization/profile_img/" + this.props.org._id
         : "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg";
     return (
       <div className="cardx hoverable" onClick={this.setOrganization}>
@@ -136,8 +144,8 @@ var Project = React.createClass({
   },
 
   render: function () {
-    var img = (this.props.project.images.length)
-      ? "http://54.213.164.135/dashboard_data/project/media/" + this.props.project.images[0]
+    var img = (this.props.project.images && this.props.project.images.length)
+      ? "/dashboard_data/project/media/" + this.props.project.images[0]
       : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg";
 
     return (

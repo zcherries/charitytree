@@ -23,10 +23,10 @@ exports.ProjectCreate = React.createClass({
         active: "active"
       }],
       total_donors_participating: 0,
-      updates: [],
       status: "In Progress",
       is_complete: false,
-      endDateText: ""
+      endDateText: "",
+      startDateText: ""
     }
   },
 
@@ -42,36 +42,28 @@ exports.ProjectCreate = React.createClass({
     var needs = this.state.needs_list;
     needs[need.arrIndex].title = need.title;
 
-    this.setState({
-      needs_list: needs
-    });
+    this.setState({ needs_list: needs });
   },
 
   updateNeedDescription: function (need) {
     var needs = this.state.needs_list;
     needs[need.arrIndex].description = need.description;
 
-    this.setState({
-      needs_list: needs
-    });
+    this.setState({ needs_list: needs });
   },
 
   updateNeedCost: function (need) {
     var needs = this.state.needs_list;
     needs[need.arrIndex].cost = need.cost;
 
-    this.setState({
-      needs_list: needs
-    });
+    this.setState({ needs_list: needs });
   },
 
   updateNeedQuantity: function (need) {
     var needs = this.state.needs_list;
     needs[need.arrIndex].quantity_needed = need.quantity_needed;
 
-    this.setState({
-      needs_list: needs
-    });
+    this.setState({ needs_list: needs });
   },
 
   addNeed: function () {
@@ -91,9 +83,7 @@ exports.ProjectCreate = React.createClass({
         quantity_needed: null,
         active: "active"
       });
-      this.setState({
-        needs_list: needs
-      });
+      this.setState({ needs_list: needs });
     } else {
       Materialize.toast('Oops please fill in all fields', 2000, 'rounded'); // 'rounded' is the class I'm applying to the toast
     }
@@ -111,16 +101,12 @@ exports.ProjectCreate = React.createClass({
         aof.splice(aof.indexOf(e.target.value), 1);
       }
     }
-    this.setState({
-      areas_of_focus: aof
-    });
+    this.setState({ areas_of_focus: aof });
   },
 
   updateTitle: function (e) {
     console.log("ProjectCreate/updateTitle/e.target.value:",e.target.value);
-    this.setState({
-      title: e.target.value
-    })
+    this.setState({ title: e.target.value });
   },
 
   updateEndDate: function () {
@@ -128,7 +114,7 @@ exports.ProjectCreate = React.createClass({
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 5, // Creates a dropdown of 15 years to control year
-      //closeOnSelect: true,
+      // closeOnSelect: true,
       onStart: function () {
         console.log('Hello there :)')
       },
@@ -161,25 +147,46 @@ exports.ProjectCreate = React.createClass({
     //console.log("ProjectCreate/updateEndDate/endDate:",endDate[0]);
   },
 
+  updateStartDate: function () {
+    var self = this;
+    $('.datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 5, // Creates a dropdown of 15 years to control year
+
+      onSet: function (e) {
+        var startDate = new Date(e.select);
+        var startDateText = startDate.toDateString();
+
+        self.setState({
+          start_date: startDate,
+          startDateText: startDateText
+        });
+      }
+    });
+  },
+
   updateGoalAmount: function (e) {
     console.log("ProjectCreate/updateGoalAmound/e.target.value:",e.target.value);
-    this.setState({
-      amount: {goal: e.target.value}
-    })
+    this.setState({ amount: { goal: e.target.value } })
   },
 
   updateInfo: function (e) {
     console.log("ProjectCreate/updateInfo/e.target.value:",e.target.value);
-    this.setState({
-      info: e.target.value
-    })
+    this.setState({ info: e.target.value });
   },
 
   submitForm: function () {
+    var projectData = this.state;
+    projectData.needs_list.forEach(function(need) {
+      delete need['active'];
+    });
+    delete projectData['startDateText'];
+    delete projectData['endDateText'];
+
     $.ajax({
       url: "/dashboard/project/create",
       method: "POST",
-      data: {projectData: this.state},
+      data: { projectData: projectData },
       success: function (response) {
         console.log(response);
         this.props.submitHandler(); //from projects component
@@ -209,10 +216,15 @@ exports.ProjectCreate = React.createClass({
                 </div>
               </div>
               <div className="row">
+                {/*Start Date*/}
+                <div className="input-field col s12 m6">
+                  <input id="start_date" type="date" className="datePicker" onClick={this.updateStartDate} />
+                  <label htmlFor="start_date">Project Start Date</label>
+                </div>
                 {/*End Date*/}
-                <div className="input-field col s12">
-                  <input id="end_date" type="date" className="datepicker" value={this.props.endDateText} onClick={this.updateEndDate} />
-                  <label className={this.props.endDateText ? "active" : ""} htmlFor="end_date">Projected End Date</label>
+                <div className="input-field col s12 m6">
+                  <input id="end_date" type="date" className="datepicker" onClick={this.updateEndDate} />
+                  <label htmlFor="end_date">Projected End Date</label>
                 </div>
               </div>
               <div className="row">
@@ -236,7 +248,7 @@ exports.ProjectCreate = React.createClass({
             updateNeedCost={this.updateNeedCost}
             updateNeedQuantity={this.updateNeedQuantity}
           />
-          <a className="waves-effect waves-light btn float right" onClick={this.submitForm}><i className="material-icons right">label_outline</i>Next Step</a>
+          <a className="waves-effect waves-light btn float right" onClick={this.submitForm}><i className="material-icons right">label_outline</i>Submit</a>
         </div>
       </div>
     );

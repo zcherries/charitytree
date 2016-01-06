@@ -7,7 +7,8 @@ exports.Login = React.createClass({
   getInitialState: function () {
     return {
       username: '',
-      pwd: ''
+      pwd: '',
+      errorMsg: ''
     }
   },
 
@@ -29,15 +30,20 @@ exports.Login = React.createClass({
       type: 'POST',
       url: '/login_post',
       data: this.state,
-      success: function (response) {
-        console.log(response);
+      success: function(response) {
+        // console.log(response);
         localStorage.token = response.token;
         // feeder.emit('getFeed', response.token)
         this.props.isLoggedIn();
         this.navigateToDashboard();
       }.bind(this),
-      error: function (xhr, status, err) {
-        console.log("Error posting to: " + xhr, status, err.toString());
+      error: function(xhr, status, response) {
+        if (xhr.status === 401) {
+          this.setState({ errorMsg: "Invalid username/password combination" });
+        }
+        if (xhr.status === 500) {
+          this.setState({ errorMsg: "Login Error. Please try again later." });
+        }
       }.bind(this)
     });
   },
@@ -67,9 +73,7 @@ exports.Login = React.createClass({
                   <input type="password" id="pwd" name="pwd" required onChange={this.pwdChange}/>
                 </div>
                 <button className="waves-effect waves-light btn blue" type="submit">Submit</button>
-                {this.state.error && (
-                  <p>Bad login information</p>
-                )}
+                {this.state.errorMsg ? <p className="login-error" style={loginError}>{this.state.errorMsg}</p> : ''}
               </form>
             </fieldset>
           </div>
@@ -99,3 +103,10 @@ exports.Login = React.createClass({
     )
   }
 });
+
+/* Inline Styles */
+var loginError = {
+  textAlign: 'center',
+  fontWeight: 'bold',
+  color: 'red'
+}

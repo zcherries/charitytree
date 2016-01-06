@@ -5,15 +5,21 @@ import {MediaUpload} from '../media_upload.js'
 
 exports.Media = React.createClass({
   componentWillReceiveProps: function(nextProps) {
-    console.log("CWRP is firing", nextProps);
-    if (nextProps.media.profile_img) {
-      this.setState({ profile_img: nextProps.media.profile_img })
+    // console.log("CWRP is firing", nextProps);
+    var state = this.state.media;
+    for (var prop in nextProps.media) {
+      state[prop] = nextProps.media[prop]
     }
+    this.setState({ media: state })
   },
 
   getInitialState: function() {
     return {
-      profile_img: {}
+      media: {
+        profile_img: {},
+        images: [],
+        videos: []
+      }
     }
   },
 
@@ -81,10 +87,12 @@ exports.Media = React.createClass({
         //</form>*/}
 
   profile_and_banner_img: function() {
-    var profile_img = (this.state.profile_img['filename'] === undefined && this.props.media.profile_img === undefined)
+    var profile_img = (this.state.media.profile_img['filename'] === undefined && this.props.media.profile_img === undefined)
       ? "http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg"
-      : (this.state.username) ? 'http://54.213.164.135/dashboard_data/profile_img/'+ this.props.username + '/' + this.state.profile_img.filename
-      : 'http://54.213.164.135/dashboard_data/profile_img/'+ this.props.username + '/' + this.props.media.profile_img.filename;
+      : (this.state.username)
+      ? '/dashboard_data/profile_img/'+ this.props.username + '/' + this.state.profile_img.filename
+      : '/dashboard_data/profile_img/'+ this.props.username + '/' + this.props.media.profile_img.filename;
+
     return (
       <div className="row">
         <div className="col s12 center-align">
@@ -112,7 +120,7 @@ exports.Media = React.createClass({
             {this.props.media.images.map(function(file, idx) {
               return (
                 <div key={idx} className="col s12 m6 l4">
-                  <img className="materialboxed responsive-img" src={'http://54.213.164.135/dashboard_data/org/media/'+file} />
+                  <img className="materialboxed responsive-img" src={'/dashboard_data/org/media/'+file} />
                 </div>
               );
             })}
@@ -126,7 +134,7 @@ exports.Media = React.createClass({
             return (
               <div key={idx} className="col s12 m6 l4">
                 <video className="responsive-video" controls >
-                  <source src={'http://54.213.164.135/dashboard_data/org/media/'+file}/>
+                  <source src={'/dashboard_data/org/media/'+file}/>
                 </video>
               </div>
             );
@@ -136,7 +144,10 @@ exports.Media = React.createClass({
 
         <div className="row center-align">
           <h4>Upload Picture or Video</h4>
-          <MediaUpload action={"/dashboard/org/media/upload"} />
+          <MediaUpload
+            action={"/dashboard/org/media/upload"}
+            update_db_state_prop={this.props.update_db_state_prop}
+          />
         </div>
       </div>
     )

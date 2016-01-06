@@ -3,6 +3,7 @@ var React = require('react');
 
 exports.MediaUpload = React.createClass({
   componentDidMount: function() {
+    var self = this;
     var isAdvancedUpload = function() {
       var div = document.createElement('div');
       return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div))
@@ -44,10 +45,11 @@ exports.MediaUpload = React.createClass({
 
     $form.on('submit', function(e) {
       e.preventDefault();
-      console.log('Clicked Upload');
-      if ($form.hasClass('is-uploading')) return false;
-
-      $form.addClass('is-uploading').removeClass('is-error');
+      // console.log('Clicked Upload');
+      if ($form.hasClass('is-uploading')) {
+        $label.html('<span><strong>Uploading...</strong></span>');
+        return false;
+      }
 
       if (isAdvancedUpload) {
         ajaxModern(e); // ajax for modern browsers
@@ -61,12 +63,12 @@ exports.MediaUpload = React.createClass({
 
       if (droppedFiles) {
         console.log('Dropped Files Exist');
+        $form.addClass('is-uploading').removeClass('is-error');
         $.each( droppedFiles, function(i, file) {
           ajaxData.append( $input.attr('name'), file );
           // sendFile(file);
         });
       }
-      console.log('AJAX Data: ', ajaxData);
       $.ajax({
         url: $form.attr('action'),
         type: $form.attr('method'),
@@ -77,17 +79,19 @@ exports.MediaUpload = React.createClass({
         processData: false,
         complete: function() {
           $form.removeClass('is-uploading');
-          $form[0].reset();
-          // var frm = document.getElementById('loginForm');
-          // frm.reset();
-          return false;
         },
         success: function(response) {
-          $form.addClass( response.status == 201 ? 'is-success' : 'is-error' );
-          $input.val("");
+          $form.addClass( response.status === 201 ? 'is-success' : 'is-error' );
+          $input.val(""); //remove file from input field
+          //update label
+          $label.html('<strong>Choose a file</strong><span className="box__dragndrop"> or drag it here</span>')
+          // console.log('Results:', response.results)
+          if ('update_db_state_prop' in self.props) {
+            self.props.update_db_state_prop(response.results);
+          }
         },
         error: function() {
-          // Log the error, show an alert, whatever works for you
+          //log error
         }
       });
     };
@@ -117,7 +121,7 @@ exports.MediaUpload = React.createClass({
         <button className="box__button btn blue" type="submit">Upload</button>
         <div className="box__input project-card">
           <input className="box__file" type="file" name="media" id="file" accept="image/*,video/*" data-multiple-caption="{count} files selected" multiple />
-          <label htmlFor="file"><strong>Choose a file</strong><span className="box__dragndrop"> or drag it here</span>.</label>
+          <label htmlFor="file"><strong>Choose a file</strong><span className="box__dragndrop"> or drag it here</span></label>
           {/*For uploading media to a project*/}
           <input name="project" type="hidden" defaultValue={this.props.project} />
         </div>

@@ -70,21 +70,13 @@ exports.Project = React.createClass ({
   },
 
   render: function() {
-    //console.log("Project/this.props.searchResults.projects: ", this.props.searchResults.projects);
-    // var project = this.props.searchResults.projects.filter(function(project){
-    //   if(project._id === this.props.projectId) {
-    //     return project;
-    //   }
-    // }.bind(this));
-    // project = project[0];
     if(this.state.project) {
       var project = this.state.project;
-      // var org = JSON.parse(localStorage.getItem('currOrgObj'));
 
       var needs;
-      console.log(this.state.project)
+      console.log(this.state.project);
       var img = (this.state.project.images.length)
-      ? "http://54.213.164.135/dashboard_data/project/media/" + this.state.project.images
+      ? "/dashboard_data/project/media/" + this.state.project.images
       : "http://worldofgoodethiopia.org/yahoo_site_admin/assets/images/30050052.182123348_std.jpg";
 
       console.log("Project/render/project.needs_list:",project.needs_list);
@@ -168,7 +160,7 @@ exports.Project = React.createClass ({
       );
     } else {
       return(
-        <div>Nothing to display</div>
+        <div></div>
       );
     }
   }

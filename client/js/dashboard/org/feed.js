@@ -11,28 +11,26 @@ exports.OrgFeed = React.createClass({
     }
   },
 
-  componentWillMount: function () {
-    console.log('Feed Component is Mounting');
-    this.setState({feedContent: feedData});
+  componentDidMount: function () {
+    // console.log('Feed Component is Mounting');
+    // this.setState({feedContent: feedData});
   },
 
   render: function () {
     var feedContent = (this.state.feedContent.length)
       ? this.state.feedContent
       : this.props.feed;
-
+    // var feedContent = this.state.feedContent;
     return (
       <div className="container center-align">
         <h3>Feed</h3>
         <div className="row">
-          {feedContent.reverse().map(function (item, idx) {
+          {feedContent.map(function (item, idx) {
             var attachment = '';
             if (item.attachment_type === 'image') {
               attachment = <img className="materialboxed responsive-img" src={item.attachment}/>;
-              $('.feed-attachment').addClass('img');
             } else if (item.attachment_type === 'video') {
               attachment = <video className="responsive-video" src={item.attachment} controls/>;
-              $('.feed-attachment').addClass('vid');
             }
 
             return (
@@ -51,9 +49,9 @@ exports.OrgFeed = React.createClass({
                       </div>
                     </div>
                   </li>
-                  <li className="collection-item">
-                    <div>{attachment}</div>
-                  </li>
+                  {attachment
+                    ? <li className="collection-item"><div>{attachment}</div></li>
+                    : ''}
                 </ul>
               </div>
             )
