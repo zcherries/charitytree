@@ -161,23 +161,6 @@ app.get('/image', function(req, res) {
   }
 });
 
-app.get('/get_orgs', function(req, res, next) {
-  // Controller.Organization.retrieve(req, res, next,{username: 'goodguys'});
-  // Model.Donor.findOne({username: 'jjohnson'}, function(err, donor) {
-  //   if (err) throw err;
-  //   else {
-  //     var i = donor.endorsements.length;;
-  //     while (i--) {
-  //       var endorsement = donor.endorsements[i];
-  //       endorsement.remove();
-  //     }
-  //     donor.save(function(err, updatedDonor) {
-  //       res.send(updatedDonor);
-  //     });
-  //   }
-  // })
-});
-
 app.get('/organization_get/:id', function(req, res, next) {
  if (req.params.id !== 'undefined') {
    Model.Organization.findOne({ _id: req.params.id })
@@ -471,9 +454,9 @@ app.post('/dashboard/project/create', function(req, res, next) {
   console.log('in server projcreate and req.body is ', req.body);
   if (req.session && req.session.user) {
       var newProject = req.body.projectData;
-      console.log('New Project: ', newProject)
+      console.log('New Project: ', newProject);
       newProject._org = req.session.user.uid;
-      res.status(201).send('Success')
+      res.status(201).send('Success');
       // Model.Project.create(newProject, function(err, project) {
       //   if (err) {
       //     res.status(500).send({ status: 500, message: "Could not complete operation." });
@@ -711,27 +694,14 @@ app.post('/dashboard/donor/endorsement', function(req, res, next) {
     }
   });
 });
-//app.get('/', function(req, res) {
-//  console.log("Get Index Page");
-//  res.sendFile(path.join(__dirname, '../client', 'index.html'));
-//});
-
-// app.get('*', function (req, res) { // This wildcard method handles all requests
-//     Router.run(routes, req.path, function (Handler, state) {
-//         var element = React.createElement(Handler);
-//         var html = React.renderToString(element);
-//         res.render('main', { content: html });
-//     });
-// });
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
 
 app.get('*', function (req, res, next){
-  // res.sendFile(path.resolve(__dirname, './../client', 'index.html'));
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
 var handleError = function(req, res, err, statusCode, msg) {
   console.log("Error: ", err);
   res.status(statusCode).send({status: statusCode, message: msg});
-}
+};

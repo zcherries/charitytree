@@ -25,7 +25,7 @@ exports.Navbar = React.createClass({
       success: function () {
         feeder.emit('disconnect');
         localStorage.clear();
-        window.location.href = 'http://localhost:4000';
+        window.location.href = 'http://54.213.164.135';
       }.bind(this),
       error: function (xhr, status, err) {
         console.log("Error posting to: " + xhr, status, err.toString());
