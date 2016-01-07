@@ -161,23 +161,6 @@ app.get('/image', function(req, res) {
   }
 });
 
-app.get('/get_orgs', function(req, res, next) {
-  // Controller.Organization.retrieve(req, res, next,{username: 'goodguys'});
-  // Model.Donor.findOne({username: 'jjohnson'}, function(err, donor) {
-  //   if (err) throw err;
-  //   else {
-  //     var i = donor.endorsements.length;;
-  //     while (i--) {
-  //       var endorsement = donor.endorsements[i];
-  //       endorsement.remove();
-  //     }
-  //     donor.save(function(err, updatedDonor) {
-  //       res.send(updatedDonor);
-  //     });
-  //   }
-  // })
-});
-
 app.get('/organization_get/:id', function(req, res, next) {
  if (req.params.id !== 'undefined') {
    Model.Organization.findOne({ _id: req.params.id })
@@ -471,9 +454,9 @@ app.post('/dashboard/project/create', function(req, res, next) {
   console.log('in server projcreate and req.body is ', req.body);
   if (req.session && req.session.user) {
       var newProject = req.body.projectData;
-      console.log('New Project: ', newProject)
+      console.log('New Project: ', newProject);
       newProject._org = req.session.user.uid;
-      res.status(201).send('Success')
+      res.status(201).send('Success');
       // Model.Project.create(newProject, function(err, project) {
       //   if (err) {
       //     res.status(500).send({ status: 500, message: "Could not complete operation." });
@@ -509,15 +492,7 @@ app.post('/dashboard/profile_img/upload', multer().single('profile_img'), functi
       org.feed.push({
         user: org.name,
         message: 'changed profile image',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        attachment: 'http://54.213.164.135/organization/profile_img/'+ org._id,
-=======
         attachment: '/organization/profile_img/'+ org._id,
->>>>>>> charitycollective/dev
-=======
-        attachment: 'http://localhost:4000/organization/profile_img/'+ org._id,
->>>>>>> parent of 367c720... Merge remote-tracking branch 'charitycollective/master' into refineDesign
         attachment_type: 'image',
         created_date: new Date()
       });
@@ -563,15 +538,7 @@ app.post('/dashboard/org/media/upload', multer().array('media'), function(req, r
           org.feed.push({
             user: org.name,
             message: 'uploaded a new ' + file.mimetype.slice(0, 5),
-<<<<<<< HEAD
-<<<<<<< HEAD
-            attachment: 'http://54.213.164.135/dashboard_data/org/media/'+ fileId,
-=======
             attachment: '/dashboard_data/org/media/'+ fileId,
->>>>>>> charitycollective/dev
-=======
-            attachment: 'http://localhost:4000/dashboard_data/org/media/'+ fileId,
->>>>>>> parent of 367c720... Merge remote-tracking branch 'charitycollective/master' into refineDesign
             attachment_type: file.mimetype.slice(0, 5),
             created_date: new Date()
           });
@@ -624,15 +591,7 @@ app.post('/dashboard/project/media/upload', multer().array('media'), function(re
                   org.feed.push({
                     user: org.name,
                     message: 'uploaded a new '+ file.mimetype.slice(0, 5) + ' for project: ' + project.title,
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    attachment: 'http://54.213.164.135/dashboard_data/project/media/'+ fileId,
-=======
                     attachment: 'dashboard_data/project/media/'+ fileId,
->>>>>>> charitycollective/dev
-=======
-                    attachment: 'http://localhost:4000/dashboard_data/project/media/'+ fileId,
->>>>>>> parent of 367c720... Merge remote-tracking branch 'charitycollective/master' into refineDesign
                     attachment_type: file.mimetype.slice(0, 5),
                     created_date: new Date()
                   });
@@ -735,27 +694,14 @@ app.post('/dashboard/donor/endorsement', function(req, res, next) {
     }
   });
 });
-//app.get('/', function(req, res) {
-//  console.log("Get Index Page");
-//  res.sendFile(path.join(__dirname, '../client', 'index.html'));
-//});
-
-// app.get('*', function (req, res) { // This wildcard method handles all requests
-//     Router.run(routes, req.path, function (Handler, state) {
-//         var element = React.createElement(Handler);
-//         var html = React.renderToString(element);
-//         res.render('main', { content: html });
-//     });
-// });
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
 
 app.get('*', function (req, res, next){
-  // res.sendFile(path.resolve(__dirname, './../client', 'index.html'));
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
 var handleError = function(req, res, err, statusCode, msg) {
   console.log("Error: ", err);
   res.status(statusCode).send({status: statusCode, message: msg});
-}
+};
